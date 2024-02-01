@@ -36,6 +36,15 @@
 
 <br/>
 
+# 🤼 팀원 소개 🤼
+
+|<strong> BE 개발자 & 리더 </strong>|<strong> BE 개발자 & 리마인더 </strong>|<strong> FE 개발자 & UX/UI </strong>|<strong> FE 개발자 & 기획 </strong>|
+|:----:|:-----:|:----:|:-----:|
+|<img src="https://github.com/softeerbootcamp-3rd/Team4-HansalChai/assets/37495809/1d4ed9c6-04f1-41e2-b456-a5819c9ff01a" width="200" height="200"/>|<img src="https://avatars.githubusercontent.com/u/68904755?v=4" width="200" height="200"/>|<img src="https://avatars.githubusercontent.com/u/100525337?v=4" width="200" height="200"/>|<img src="https://github.com/softeerbootcamp-3rd/Team4-HansalChai/assets/37495809/c65d5a73-1dfc-4119-b68c-2fd9912395b3" width="200" height="200"/>|
+|<strong> 🦥 이윤수 </strong>|<strong> 🐰 윤지애 </strong>|<strong> 🐻 주시현 </strong>|<strong> 🐼 이진걸 </strong>|
+|<strong> [sjmjys954646](https://github.com/sjmjys954646) </strong>|<strong> [jiaeYoon](https://github.com/jiaeYoon) </strong>|<strong> [sean2337](https://github.com/sean2337) </strong>|<strong> [Pransinia](https://github.com/Pransinia) </strong>|
+
+<br/>
 
 # 📃 프로젝트 문서 링크 모음 📃
 
