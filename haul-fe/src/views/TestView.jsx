@@ -1,5 +1,7 @@
+import styled from "styled-components";
+
 const TestView = () => {
-  return <>TestView</>;
+  return <>Test</>;
 };
 
 export default TestView;
