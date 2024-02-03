@@ -1,0 +1,24 @@
+/*Font 적용*/
+@font-face {
+  font-family: "Pretendard-bold";
+  src: url("./Pretendard-Bold.woff") format("woff");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Pretendard-semibold";
+  src: url("./Pretendard-SemiBold.woff") format("woff");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Pretendard-medium";
+  src: url("./Pretendard-Medium.woff") format("woff");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Pretendard-regular";
+  src: url("./Pretendard-Regular.woff") format("woff");
+  font-weight: 400;
+}
