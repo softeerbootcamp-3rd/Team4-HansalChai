@@ -43,6 +43,11 @@ const IconBlueBox = styled.div`
   background-color: ${(props) => props.theme.colors.lightBlue};
 `;
 
+const RouteMapBox = styled.div`
+  width: "100%";
+  height: "227px";
+`;
+
 const DetailInfo = ({
   srcCoordinate,
   srcName,
@@ -61,7 +66,11 @@ const DetailInfo = ({
       <Margin height="8px" />
       <UnderBar />
       <Margin height="8px" />
-      <RouteMap origin={srcCoordinate} destination={dstCoordinate} />
+
+      <RouteMapBox>
+        <RouteMap origin={srcCoordinate} destination={dstCoordinate} />
+      </RouteMapBox>
+
       <Margin height="8px" />
 
       <InfoBox>
