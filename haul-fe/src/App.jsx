@@ -1,7 +1,7 @@
 import Router from "./routes/Router.jsx";
 import GlobalStyle from "./styles/GlobalStyle.jsx";
 import { ThemeProvider } from "styled-components";
-import theme from "./assets/theme/Theme.jsx";
+import theme from "./styles/theme/Theme.jsx";
 import "./assets/fonts/fonts.css";
 import MobileLayout from "./components/MobileLayout.jsx";
 
