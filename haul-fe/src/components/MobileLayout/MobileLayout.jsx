@@ -16,7 +16,8 @@ const Mobile = styled.div`
   position: relative;
   width: 360px;
   height: 100vh;
-  margin: 0 auto;
+  margin: 0px auto;
+  padding: 0px 20px;
   display: flex;
   flex-direction: column;
   background-color: ${(props) =>
