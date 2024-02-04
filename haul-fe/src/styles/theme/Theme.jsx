@@ -8,10 +8,14 @@ const colors = {
   darkGray: "#4D4D4D",
   gray: "#717171",
   lightGray: "#E0DEDE",
+  lightBlue: "#2368F7",
   alertRed: "#D83B3B",
+  grayBoxBorder: "rgba(0, 0, 0, 0.1)",
+  grayBoxBackground: "rgba(0, 0, 0, 0.02)",
   successGreen: "#0D9276",
   inputGray: "rgba(0, 0, 0, 0.04)",
   inputGrayDark: "rgba(0, 0, 0, 0.06)",
+  grayText: "rgba(16, 16, 16, 0.5)",
 };
 
 const font = {
@@ -83,12 +87,22 @@ const flex = {
         justify-content: center;
         align-items: center;
       `,
-  flexCenterColumn: `
+  flexColumn: `
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
       `,
+  flexColumnBetween: `
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    `,
+  flexRow: `
+        display: flex;
+      `,
+  flexRowAlignCenter: `
+      display: flex;
+      align-items:center;
+    `,
   flexBetween: `
     display: flex;
     justify-content: space-between;
