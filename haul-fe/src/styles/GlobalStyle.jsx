@@ -35,6 +35,12 @@ const GlobalStyle = createGlobalStyle`
       background: white;
     }
   }
+
+  button {
+    border: none;
+    outline: none;
+    background: none;
+  }
 `;
 
 export default GlobalStyle;
