@@ -11,6 +11,7 @@ const colors = {
   lightGray: "#E0DEDE",
   alertRed: "#D83B3B",
   successGreen: "#0D9276",
+  unselectedGray: "#ADADAD",
 };
 
 const font = {

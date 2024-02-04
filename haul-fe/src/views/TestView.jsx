@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import BottomButton from "../components/BottomButton";
-import Header from "../components/Header";
+import BottomButton from "../components/BottomButton.jsx";
+import Header from "../components/Header.jsx";
+import NavigationBar from "../components/NavigationBar.jsx";
 
 const TestView = () => {
   return (
@@ -26,6 +27,7 @@ const TestView = () => {
       <Header home={true} back={true}>
         TrueTrue
       </Header>
+      <NavigationBar selected={"more"}></NavigationBar>
       Test
     </>
   );
