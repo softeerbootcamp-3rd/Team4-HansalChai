@@ -5,13 +5,13 @@ import {
   DirectionsRenderer,
 } from "@react-google-maps/api";
 
+const apiKey = import.meta.env.VITE_MAP_KEY;
+
 const containerStyle = {
   width: "100%",
   height: "227px",
   borderRadius: "10px",
 };
-
-const apiKey = import.meta.env.VITE_MAP_KEY;
 
 const RouteMap = ({ origin, destination }) => {
   const [directions, setDirections] = useState(null);
