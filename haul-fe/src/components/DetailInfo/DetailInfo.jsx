@@ -90,9 +90,9 @@ const DetailInfo = ({
         <UnderBar />
         <Margin height="16px" />
 
-        <Flex kind="flexBetween">
+        <Flex kind="flexBetweenAlignCenter">
           <Flex kind="flexColumn">
-            <Flex kind="flexBetween">
+            <Flex kind="flexBetweenAlignCenter">
               <IconBlueBox>
                 <AiOutlineDollarCircle style={{ width: 16, color: "white" }} />
               </IconBlueBox>
@@ -102,7 +102,7 @@ const DetailInfo = ({
               </Typography>
             </Flex>
             <Margin height="8px" />
-            <Flex kind="flexBetween">
+            <Flex kind="flexBetweenAlignCenter">
               <Typography font="bold24">{fee}</Typography>
               <Typography font="regular14" color="grayText">
                 만원

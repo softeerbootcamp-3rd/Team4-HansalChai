@@ -103,7 +103,7 @@ const flex = {
       display: flex;
       align-items:center;
     `,
-  flexBetween: `
+  flexBetweenAlignCenter: `
     display: flex;
     justify-content: space-between;
     align-items: center;
