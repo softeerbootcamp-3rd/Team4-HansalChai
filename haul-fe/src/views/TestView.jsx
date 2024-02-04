@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import BottomButton from "../components/BottomButton";
+import Header from "../components/Header";
 
 const TestView = () => {
   return (
@@ -13,6 +14,18 @@ const TestView = () => {
       <BottomButton id="disabledButton" role="main" disabled={true}>
         DisableTest
       </BottomButton>
+      <Header home={false} back={false}>
+        FalseFalse
+      </Header>
+      <Header home={true} back={false}>
+        TrueFalse
+      </Header>
+      <Header home={false} back={true}>
+        FalseTrue
+      </Header>
+      <Header home={true} back={true}>
+        TrueTrue
+      </Header>
       Test
     </>
   );
