@@ -10,6 +10,8 @@ const colors = {
   lightGray: "#E0DEDE",
   alertRed: "#D83B3B",
   successGreen: "#0D9276",
+  inputGray: "rgba(0, 0, 0, 0.04)",
+  inputGrayDark: "rgba(0, 0, 0, 0.06)",
 };
 
 const font = {
