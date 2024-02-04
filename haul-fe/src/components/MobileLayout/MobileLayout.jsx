@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import theme from "../styles/theme/Theme";
+import theme from "../../styles/theme/Theme";
 
 const Background = styled.div`
   width: 100%;
   height: auto;
   display: flex;
-  background-color: ${theme.colors.realBlack};
+  background-color: ${(props) => props.theme.colors.realBlack};
   overflow-x: hidden;
   overflow-y: hidden;
   justify-content: center;
@@ -21,7 +21,7 @@ const Mobile = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${(props) =>
-    props.color ? props.theme.colors[props.color] : theme.colors.white};
+    props.color ? props.theme.colors[props.color] : props.theme.colors.white};
 `;
 
 const MobileLayout = ({ children, color }) => {

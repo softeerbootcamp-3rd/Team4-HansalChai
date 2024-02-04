@@ -3,7 +3,7 @@ import GlobalStyle from "./styles/GlobalStyle.jsx";
 import { ThemeProvider } from "styled-components";
 import theme from "./styles/theme/Theme.jsx";
 import "./assets/fonts/fonts.css";
-import MobileLayout from "./components/MobileLayout.jsx";
+import MobileLayout from "./components/MobileLayout/MobileLayout.jsx";
 
 function App() {
   return (
