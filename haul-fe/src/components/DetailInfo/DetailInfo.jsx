@@ -43,10 +43,16 @@ const IconBlueBox = styled.div`
   background-color: ${(props) => props.theme.colors.lightBlue};
 `;
 
-const DetailInfo = () => {
-  const origin = { lat: 37.4239627802915, lng: -122.0829089197085 };
-  const destination = { lat: 37.4212648197085, lng: -122.0856068802915 };
-
+const DetailInfo = ({
+  srcCoordinate,
+  srcName,
+  srcAddress,
+  dstCoordinate,
+  dstName,
+  dstAddress,
+  fee,
+  time,
+}) => {
   return (
     <DetailInfoBox>
       <Typography font="semiBold16">
@@ -55,7 +61,7 @@ const DetailInfo = () => {
       <Margin height="8px" />
       <UnderBar />
       <Margin height="8px" />
-      <RouteMap origin={origin} destination={destination} />
+      <RouteMap origin={srcCoordinate} destination={dstCoordinate} />
       <Margin height="8px" />
 
       <InfoBox>
@@ -64,22 +70,18 @@ const DetailInfo = () => {
           <Flex kind="flexColumnBetween">
             <PlaceInfo>
               <Typography font="medium10" color="grayText">
-                강남구 애니타워
+                {srcName}
               </Typography>
               <Margin height="4px" />
-              <Typography font="semiBold12">
-                서울특별시 강남구 강남대로 지하396{" "}
-              </Typography>
+              <Typography font="semiBold12">{srcAddress}</Typography>
             </PlaceInfo>
 
             <PlaceInfo>
               <Typography font="medium10" color="grayText">
-                강남구 애니타워
+                {dstName}
               </Typography>
               <Margin height="4px" />
-              <Typography font="semiBold12">
-                서울특별시 강남구 강남대로 지하396{" "}
-              </Typography>
+              <Typography font="semiBold12">{dstAddress}</Typography>
             </PlaceInfo>
           </Flex>
         </Flex>
@@ -101,7 +103,7 @@ const DetailInfo = () => {
             </Flex>
             <Margin height="8px" />
             <Flex kind="flexBetween">
-              <Typography font="bold24">15</Typography>
+              <Typography font="bold24">{fee}</Typography>
               <Typography font="regular14" color="grayText">
                 만원
               </Typography>
@@ -120,7 +122,7 @@ const DetailInfo = () => {
             </Flex>
             <Margin height="8px" />
             <Flex kind="flexRowAlignCenter">
-              <Typography font="bold24">04</Typography>
+              <Typography font="bold24">{time}</Typography>
               <Margin width="6px" height="100%" />
               <Typography font="regular14" color="grayText">
                 시간
