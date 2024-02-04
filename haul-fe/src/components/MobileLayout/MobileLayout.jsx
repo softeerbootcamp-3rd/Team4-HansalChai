@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import theme from "../../styles/theme/Theme";
 
 const Background = styled.div`
   width: 100%;
