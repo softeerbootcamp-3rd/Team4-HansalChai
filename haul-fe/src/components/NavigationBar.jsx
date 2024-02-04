@@ -85,20 +85,22 @@ const ItemFrame = styled.div`
 const NavigationBar = ({ selected = "reserv", children }) => {
   return (
     <NavigationBarFrame>
-      <ItemFrame selected={selected === "more"} id="navigator__more">
-        <SelectedCircle selected={selected === "more"} />
-        <MoreSvg selected={selected === "more"} />
-        더보기
+      <ItemFrame selected={selected === "check"} id="navigator__check">
+        <SelectedCircle selected={selected === "check"} />
+        <CheckSvg selected={selected === "check"} />
+        예약 확인
       </ItemFrame>
+
       <ItemFrame selected={selected === "reserv"} id="navigator__reserv">
         <SelectedCircle selected={selected === "reserv"} />
         <TruckSvg selected={selected === "reserv"} />
         용달 신청
       </ItemFrame>
-      <ItemFrame selected={selected === "check"} id="navigator__check">
-        <SelectedCircle selected={selected === "check"} />
-        <CheckSvg selected={selected === "check"} />
-        예약 확인
+
+      <ItemFrame selected={selected === "more"} id="navigator__more">
+        <SelectedCircle selected={selected === "more"} />
+        <MoreSvg selected={selected === "more"} />
+        더보기
       </ItemFrame>
     </NavigationBarFrame>
   );
