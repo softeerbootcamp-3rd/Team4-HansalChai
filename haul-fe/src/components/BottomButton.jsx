@@ -23,9 +23,14 @@ const ButtonStyle = styled.button`
   }
 `;
 
-const BottomButton = ({ role, disabled = false, children }) => {
+const BottomButton = ({
+  role,
+  disabled = false,
+  onClick = undefined,
+  children,
+}) => {
   return (
-    <ButtonStyle role={role} disabled={disabled}>
+    <ButtonStyle role={role} onClick={onClick} disabled={disabled}>
       {children}
     </ButtonStyle>
   );
