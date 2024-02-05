@@ -2,7 +2,7 @@ import styled from "styled-components";
 import theme from "../styles/theme/Theme";
 
 const ButtonStyle = styled.button`
-  width: calc(100% - 40px);
+  width: 100%;
   height: 48px;
   left: 20px;
   background-color: ${(props) =>
@@ -17,6 +17,7 @@ const ButtonStyle = styled.button`
   }
   &:disabled {
     background-color: ${theme.colors.disabledColor};
+    color: ${theme.colors.white};
     &:hover {
       opacity: 1;
     }

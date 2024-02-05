@@ -39,8 +39,8 @@ const CarCardImage = styled.img`
   position: absolute;
   width: 120%;
   height: 120%;
-  left: calc(-10%);
-  top: calc(-5%);
+  left: -10%;
+  top: -5%;
   border-radius: 10px;
   background: url(${(props) => CarTypeImage[props.type]});
 `;
