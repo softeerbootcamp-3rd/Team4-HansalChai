@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import theme from "../styles/theme/Theme.jsx";
+import theme from "../../styles/theme/Theme.jsx";
 import { CgChevronLeft } from "react-icons/cg";
-import Margin from "./Margin/Margin.jsx";
-import Home from "../assets/svgs/Home.svg";
+import Margin from "../Margin/Margin.jsx";
+import Home from "../../assets/svgs/Home.svg";
 
 const HeaderFrame = styled.div`
   width: 100%;

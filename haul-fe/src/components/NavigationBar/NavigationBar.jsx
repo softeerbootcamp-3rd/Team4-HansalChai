@@ -1,15 +1,15 @@
 import styled from "styled-components";
-import theme from "../styles/theme/Theme.jsx";
-import TruckSvg from "../assets/svgs/Truck.svg";
-import TruckSelectedSvg from "../assets/svgs/Truck_Selected.svg";
+import theme from "../../styles/theme/Theme.jsx";
+import TruckSvg from "../../assets/svgs/Truck.Svg";
+import TruckSelectedSvg from "../../assets/svgs/Truck_Selected.svg";
 import {
   AiOutlineCarryOut as CheckSvg,
   AiOutlineMenu as MoreSvg,
 } from "react-icons/ai";
-import SelectedCircleSelectedSvg from "../assets/svgs/SelectedCircle_Selected.svg";
-import SelectedCircleSvg from "../assets/svgs/SelectedCircle.svg";
+import SelectedCircleSelectedSvg from "../../assets/svgs/SelectedCircle_Selected.svg";
+import SelectedCircleSvg from "../../assets/svgs/SelectedCircle.svg";
 import { useNavigate } from "react-router-dom";
-import Typography from "./Typhography/Typhography.jsx";
+import Typography from "../Typhography/Typhography.jsx";
 
 const NavigationBarFrame = styled.div`
   position: fixed;
@@ -18,7 +18,7 @@ const NavigationBarFrame = styled.div`
   height: 83px;
   bottom: 0;
   left: 50%;
-  transform: translateX(-50%);S
+  transform: translateX(-50%);
   padding: 6px 0 21px;
   cursor: default;
   ${theme.flex.flexBetweenCenter};
