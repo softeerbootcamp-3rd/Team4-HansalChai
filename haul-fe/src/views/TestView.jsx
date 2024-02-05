@@ -3,6 +3,7 @@ import BottomButton from "../components/BottomButton.jsx";
 import Header from "../components/Header.jsx";
 import NavigationBar from "../components/NavigationBar.jsx";
 import CarInfoBox from "../components/CarInfoBox.jsx";
+import Toast from "../components/Toast/Toast.jsx";
 
 const TestView = () => {
   return (
@@ -35,6 +36,16 @@ const TestView = () => {
         capacity={"1톤"}
         volumn={"10 X 15 X 3 M"}
       ></CarInfoBox>
+      <Toast top={200} type={"error"}>
+        에러!
+      </Toast>
+      <Toast top={200} type={"warning"}>
+        경고!
+      </Toast>
+      <Toast top={200} type={"success"}>
+        성공!
+      </Toast>
+      <Toast type={"info"}>정보!</Toast>
       Test
     </>
   );
