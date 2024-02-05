@@ -12,6 +12,9 @@ const colors = {
   alertRed: "#D83B3B",
   successGreen: "#0D9276",
   unselectedGray: "#ADADAD",
+  cardBackground: "#00000005",
+  cardBorder: "#00000019",
+  carBackground: "#0000000A",
 };
 
 const font = {
