@@ -41,6 +41,10 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
     background: none;
   }
+  
+  img{
+    border: none;
+  }
 `;
 
 export default GlobalStyle;

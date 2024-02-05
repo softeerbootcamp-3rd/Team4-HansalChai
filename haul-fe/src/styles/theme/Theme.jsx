@@ -21,6 +21,7 @@ const colors = {
   inputGray: "rgba(0, 0, 0, 0.04)",
   inputGrayDark: "rgba(0, 0, 0, 0.06)",
   grayText: "rgba(16, 16, 16, 0.5)",
+  selectCircle: "#596FB7",
 };
 
 const font = {
@@ -109,6 +110,11 @@ const flex = {
       align-items:center;
     `,
   flexBetweenAlignCenter: `
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    `,
+  flexBetweenCenter: `
     display: flex;
     justify-content: space-between;
     align-items: center;
