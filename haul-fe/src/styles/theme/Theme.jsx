@@ -3,6 +3,7 @@ const colors = {
   black: "#1B1313",
   mainColor: "#000B49",
   subColor: "#446EDA",
+  disabledColor: "#D8D9DA",
   accentColor: "#F3EDC8",
   realBlack: `#000000`,
   darkGray: "#4D4D4D",
@@ -13,9 +14,14 @@ const colors = {
   grayBoxBorder: "rgba(0, 0, 0, 0.1)",
   grayBoxBackground: "rgba(0, 0, 0, 0.02)",
   successGreen: "#0D9276",
+  unselectedGray: "#ADADAD",
+  cardBackground: "#00000005",
+  cardBorder: "#00000019",
+  carBackground: "#0000000A",
   inputGray: "rgba(0, 0, 0, 0.04)",
   inputGrayDark: "rgba(0, 0, 0, 0.06)",
   grayText: "rgba(16, 16, 16, 0.5)",
+  selectCircle: "#596FB7",
 };
 
 const font = {
@@ -91,6 +97,12 @@ const flex = {
         display: flex;
         flex-direction: column;
       `,
+  flexColumnCenter: `
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `,
   flexColumnBetween: `
       display: flex;
       flex-direction: column;
@@ -107,6 +119,16 @@ const flex = {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    `,
+  flexBetweenCenter: `
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    `,
+
+  flexBetween: `
+    display: flex;
+    justify-content: space-between;
     `,
 };
 

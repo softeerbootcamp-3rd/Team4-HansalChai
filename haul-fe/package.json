@@ -28,7 +28,6 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "vite": "^5.0.8",
-    "vite-plugin-pwa": "^0.17.5",
-    "vite-plugin-svg-react": "^1.0.3"
+    "vite-plugin-pwa": "^0.17.5"
   }
 }
