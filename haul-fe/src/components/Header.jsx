@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import theme from "../styles/theme/Theme";
-import { CgChevronLeft, CgHome } from "react-icons/cg";
+import theme from "../styles/theme/Theme.jsx";
+import { CgChevronLeft } from "react-icons/cg";
+import Margin from "./Margin/Margin.jsx";
+import Home from "../assets/svgs/Home.svg";
 
 const HeaderFrame = styled.div`
   width: 100%;
   height: 36px;
   ${theme.flex.flexBetween};
-  gap: 4px;
-  padding: 0 20px;
   font-family: "bold";
   font-size: 24px;
 `;
@@ -17,13 +17,25 @@ const LeftHeaderFrame = styled.div`
   gap: 4px;
 `;
 
+const HomeImg = styled.img`
+  width: 20px;
+  height: 20px;
+`;
+
 const Header = ({ home = false, back = true, children }) => {
   return (
     <HeaderFrame>
       <LeftHeaderFrame>
-        {back ? <CgChevronLeft /> : ""} {children}
+        {back ? (
+          <>
+            <CgChevronLeft /> <Margin width="4px" />
+          </>
+        ) : (
+          <></>
+        )}
+        {children}
       </LeftHeaderFrame>
-      {home ? <CgHome /> : ""}
+      {home ? <HomeImg src={Home} /> : ""}
     </HeaderFrame>
   );
 };

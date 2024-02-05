@@ -47,7 +47,7 @@ const TestView = () => {
       <Header home={true} back={true}>
         TrueTrue
       </Header>
-      <NavigationBar selected={"reserv"}></NavigationBar>
+      <NavigationBar selected={"more"}></NavigationBar>
       <CarInfoBox
         phase={"before"}
         type={"포터2"}
