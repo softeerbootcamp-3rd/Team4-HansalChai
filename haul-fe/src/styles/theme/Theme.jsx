@@ -23,6 +23,10 @@ const font = {
         font-family: 'bold';
         font-size: 36px;
       `,
+  bold32: `
+        font-family: 'bold';
+        font-size: 32px;
+      `,
   bold24: `
         font-family: 'bold';
         font-size: 24px;
