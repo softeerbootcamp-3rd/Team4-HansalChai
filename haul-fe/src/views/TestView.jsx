@@ -52,6 +52,7 @@ const TestView = () => {
         phase={"before"}
         type={"포터2"}
         capacity={"1톤"}
+        quantity={2}
         volumn={"10 X 15 X 3 M"}
       ></CarInfoBox>
       <Toast top={200} type={"error"}>

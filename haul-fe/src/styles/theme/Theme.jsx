@@ -97,6 +97,12 @@ const flex = {
         display: flex;
         flex-direction: column;
       `,
+  flexColumnCenter: `
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `,
   flexColumnBetween: `
       display: flex;
       flex-direction: column;
@@ -118,6 +124,11 @@ const flex = {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    `,
+
+  flexBetween: `
+    display: flex;
+    justify-content: space-between;
     `,
 };
 

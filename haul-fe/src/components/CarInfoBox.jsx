@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import theme from "../styles/theme/Theme.jsx";
 import Porter from "../assets/pngs/porter.png";
+import Typography from "./Typhography/Typhography.jsx";
+import Margin from "./Margin/Margin.jsx";
+import UnderBar from "./UnderBar/UnderBar.jsx";
 
 const CarTypeImage = {
   포터2: Porter,
@@ -14,26 +17,12 @@ const CarInfoDescription = {
 
 const CarInfoFrame = styled.div`
   width: 100%;
-  ${theme.flex.flexCenterColumn};
+  ${theme.flex.flexColumn};
+  align-items: left;
   background-color: ${theme.colors.cardBackground};
   border-radius: 10px;
   border: 1px solid ${theme.colors.cardBorder};
-  gap: 8px;
   padding: 15px;
-`;
-
-const CarInfoTitle = styled.h2`
-  font-family: "Bold";
-  font-size: 16px;
-  width: 100%;
-  align-text: left;
-  color: ${theme.colors.black};
-`;
-
-const Bar = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: ${theme.colors.cardBackground};
 `;
 
 const CarCard = styled.div`
@@ -55,44 +44,59 @@ const CarCardImage = styled.img`
   border-radius: 10px;
   background: url(${(props) => CarTypeImage[props.type]});
 `;
+const QuantityBox = styled.div`
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  width: 30px;
+  height: 30px;
+`;
 
 const DescriptionTextArea = styled.div`
   width: 100%;
   ${theme.flex.flexBetween};
 `;
 
-const DescriptionSubTitle = styled.p`
-  font-family: "semiBold";
-  font-size: 16px;
-  color: ${theme.colors.black};
-`;
-
-const DescriptionContent = styled.p`
-  font-family: "regular";
-  font-size: 16px;
-  color: ${theme.colors.black};
-`;
-
-const CarInfoBox = ({ phase, type, capacity, volumn, children }) => {
+const CarInfoBox = ({
+  phase,
+  type,
+  capacity,
+  volumn,
+  quantity = 1,
+  children,
+}) => {
   return (
     <CarInfoFrame>
-      <CarInfoTitle>{CarInfoDescription[phase]}</CarInfoTitle>
-      <Bar />
+      <Typography font={"semiBold16"}>{CarInfoDescription[phase]}</Typography>
+      <Margin height="8px" />
+      <UnderBar />
+      <Margin height="8px" />
       <CarCard>
+        <QuantityBox>
+          {quantity !== 1 ? (
+            <Typography font={"semiBold20"}>{"x" + quantity}</Typography>
+          ) : (
+            ""
+          )}
+        </QuantityBox>
         <CarCardImage type={type} />
       </CarCard>
+      <Margin height="8px" />
       <DescriptionTextArea>
-        <DescriptionSubTitle>차종</DescriptionSubTitle>
-        <DescriptionContent>{type}</DescriptionContent>
+        <Typography font={"semiBold16"}>차종</Typography>
+        <Typography font={"medium16"}>{type}</Typography>
       </DescriptionTextArea>
-      <Bar />
+      <Margin height="8px" />
+      <UnderBar />
+      <Margin height="8px" />
       <DescriptionTextArea>
-        <DescriptionSubTitle>적재량</DescriptionSubTitle>
-        <DescriptionContent>{capacity}</DescriptionContent>
+        <Typography font={"semiBold16"}>적재량</Typography>
+        <Typography font={"medium16"}>{capacity}</Typography>
       </DescriptionTextArea>
+      <Margin height="8px" />
       <DescriptionTextArea>
-        <DescriptionSubTitle>최대 너비,길이,높이</DescriptionSubTitle>
-        <DescriptionContent>{volumn}</DescriptionContent>
+        <Typography font={"semiBold16"}>최대 너비,길이,높이</Typography>
+        <Typography font={"medium16"}>{volumn}</Typography>
       </DescriptionTextArea>
     </CarInfoFrame>
   );
