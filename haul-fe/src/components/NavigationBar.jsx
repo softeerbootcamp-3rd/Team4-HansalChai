@@ -9,6 +9,7 @@ import {
 import SelectedCircleSelectedSvg from "../assets/svgs/SelectedCircle_Selected.svg";
 import SelectedCircleSvg from "../assets/svgs/SelectedCircle.svg";
 import { useNavigate } from "react-router-dom";
+import Typography from "./Typhography/Typhography.jsx";
 
 const NavigationBarFrame = styled.div`
   position: fixed;
@@ -58,10 +59,10 @@ const SelectedCircleImg = styled.img`
 const NavigationBar = ({ selected = "reserv" }) => {
   let navigator = useNavigate();
   const clickCheck = () => {
-    navigator("/check");
+    navigator("/reservationList");
   };
   const clickReserv = () => {
-    navigator("/reserv");
+    navigator("/choiceTransport");
   };
   const clickMore = () => {
     navigator("/more");
@@ -70,11 +71,6 @@ const NavigationBar = ({ selected = "reserv" }) => {
   return (
     <NavigationBarFrame>
       <ItemFrame
-        fill={
-          selected === "check"
-            ? theme.colors.mainColor
-            : theme.colors.unselectedGray
-        }
         id="navigator__check"
         className="navBarItem"
         onClick={() => {
@@ -95,15 +91,14 @@ const NavigationBar = ({ selected = "reserv" }) => {
           }
           size={42}
         />
-        예약 확인
+        <Typography
+          color={selected === "check" ? "mainColor" : "unselectedGray"}
+        >
+          예약 확인
+        </Typography>
       </ItemFrame>
 
       <ItemFrame
-        fill={
-          selected === "reserv"
-            ? theme.colors.mainColor
-            : theme.colors.unselectedGray
-        }
         id="navigator__reserv"
         className="navBarItem"
         onClick={() => {
@@ -126,14 +121,13 @@ const NavigationBar = ({ selected = "reserv" }) => {
               : theme.colors.unselectedGray
           }
         />
-        용달 신청
+        <Typography
+          color={selected === "reserv" ? "mainColor" : "unselectedGray"}
+        >
+          용달 신청
+        </Typography>
       </ItemFrame>
       <ItemFrame
-        fill={
-          selected === "more"
-            ? theme.colors.mainColor
-            : theme.colors.unselectedGray
-        }
         id="navigator__more"
         className="navBarItem"
         onClick={() => {
@@ -154,7 +148,11 @@ const NavigationBar = ({ selected = "reserv" }) => {
           }
           size={42}
         />
-        더보기
+        <Typography
+          color={selected === "more" ? "mainColor" : "unselectedGray"}
+        >
+          더보기
+        </Typography>
       </ItemFrame>
     </NavigationBarFrame>
   );
