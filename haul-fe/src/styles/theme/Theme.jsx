@@ -28,66 +28,82 @@ const font = {
   bold36: `
         font-family: 'bold';
         font-size: 36px;
+        line-height: 36px;
       `,
   bold32: `
         font-family: 'bold';
         font-size: 32px;
+        line-height: 32px;
       `,
   bold24: `
         font-family: 'bold';
         font-size: 24px;
+        line-height: 24px;
       `,
   bold20: `
       font-family: 'bold';
       font-size: 20px;
+      line-height: 20px;
     `,
   bold16: `
       font-family: 'bold';
       font-size: 16px;
+      line-height: 16px;
     `,
   bold14: `
     font-family: 'bold';
     font-size: 14px;
+    line-height: 14px;
   `,
   bold12: `
     font-family: 'bold';
     font-size: 12px;
+    line-height: 12px;
   `,
   semiBold20: `
     font-family: 'semiBold';
     font-size: 20px;
+    line-height: 20px;
   `,
   semiBold16: `
     font-family: 'semiBold';
     font-size: 16px;
+    line-height: 16px;
   `,
   semiBold12: `
     font-family: 'semiBold';
     font-size: 12px;
+    line-height: 12px;
   `,
   medium16: `
     font-family: 'medium';
     font-size: 16px;
+    line-height: 16px;
   `,
   medium12: `
     font-family: 'medium';
     font-size: 12px;
+    line-height: 12px;
   `,
   medium10: `
     font-family: 'medium';
     font-size: 10px;
+    line-height: 10px;
   `,
   regular16: `
     font-family: 'regular';
     font-size: 16px;
+    line-height: 16px;
   `,
   regular14: `
     font-family: 'regular';
     font-size: 14px;
+    line-height: 14px;
   `,
   regular12: `
     font-family: 'regular';
     font-size: 12px;
+    line-height: 12px;
   `,
 };
 
