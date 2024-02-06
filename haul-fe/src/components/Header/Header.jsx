@@ -1,19 +1,19 @@
 import styled from "styled-components";
 import { CgChevronLeft } from "react-icons/cg";
-import Margin from "./Margin/Margin.jsx";
-import Home from "../assets/svgs/Home.svg";
+import Margin from "../Margin/Margin.jsx";
+import Home from "../../assets/svgs/Home.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const HeaderFrame = styled.div`
   width: 100%;
   height: 36px;
-  ${(props) => props.theme.flex.flexBetween};
+  ${({ theme }) => theme.flex.flexBetween};
   font-family: "bold";
   font-size: 24px;
 `;
 
 const LeftHeaderFrame = styled.div`
-  ${(props) => props.theme.flex.flexCenter};
+  ${({ theme }) => theme.flex.flexCenter};
   gap: 4px;
 `;
 
