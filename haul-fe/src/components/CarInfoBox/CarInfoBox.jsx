@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Porter from "../assets/pngs/porter.png";
-import Typography from "./Typhography/Typhography.jsx";
-import Margin from "./Margin/Margin.jsx";
-import UnderBar from "./UnderBar/UnderBar.jsx";
+import Porter from "../../assets/pngs/porter.png";
+import Typography from "../Typhography/Typhography.jsx";
+import Margin from "../Margin/Margin.jsx";
+import UnderBar from "../UnderBar/UnderBar.jsx";
 
 const CarTypeImage = {
   포터2: Porter,

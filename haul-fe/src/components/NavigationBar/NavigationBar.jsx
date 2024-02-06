@@ -1,14 +1,14 @@
 import styled from "styled-components";
-import TruckSvg from "../assets/svgs/Truck.svg";
-import TruckSelectedSvg from "../assets/svgs/Truck_Selected.svg";
+import TruckSvg from "../../assets/svgs/Truck.svg";
+import TruckSelectedSvg from "../../assets/svgs/Truck_Selected.svg";
 import {
   AiOutlineCarryOut as CheckSvg,
   AiOutlineMenu as MoreSvg,
 } from "react-icons/ai";
-import SelectedCircleSelectedSvg from "../assets/svgs/SelectedCircle_Selected.svg";
-import SelectedCircleSvg from "../assets/svgs/SelectedCircle.svg";
+import SelectedCircleSelectedSvg from "../../assets/svgs/SelectedCircle_Selected.svg";
+import SelectedCircleSvg from "../../assets/svgs/SelectedCircle.svg";
 import { useNavigate } from "react-router-dom";
-import Typography from "./Typhography/Typhography.jsx";
+import Typography from "../Typhography/Typhography.jsx";
 
 const NavigationBarFrame = styled.div`
   position: fixed;

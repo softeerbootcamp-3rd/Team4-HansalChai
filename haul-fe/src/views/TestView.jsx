@@ -6,11 +6,10 @@ import Input from "../components/Input/Input";
 import DetailInfo from "../components/DetailInfo/DetailInfo";
 import { useRef } from "react";
 
-import BottomButton from "../components/BottomButton.jsx";
-import Header from "../components/Header.jsx";
-import NavigationBar from "../components/NavigationBar.jsx";
-import CarInfoBox from "../components/CarInfoBox.jsx";
-import Toast from "../components/Toast/Toast.jsx";
+import BottomButton from "../components/Button/BottomButton.jsx";
+import Header from "../components/Header/Header.jsx";
+import NavigationBar from "../components/NavigationBar/NavigationBar.jsx";
+import CarInfoBox from "../components/CarInfoBox/CarInfoBox.jsx";
 
 const Box = styled.div`
   background-color: ${(props) => props.theme.colors.subColor};
@@ -55,16 +54,6 @@ const TestView = () => {
         quantity={2}
         volumn={"10 X 15 X 3 M"}
       ></CarInfoBox>
-      <Toast top={200} type={"error"}>
-        에러!
-      </Toast>
-      <Toast top={200} type={"warning"}>
-        경고!
-      </Toast>
-      <Toast top={200} type={"success"}>
-        성공!
-      </Toast>
-      <Toast type={"info"}>정보!</Toast>
       Test
     </>
   );

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { MaxDeviceWidth } from "../../data/GlobalVariable";
 
 const Background = styled.div`
   width: 100%;
@@ -14,7 +15,7 @@ const Mobile = styled.div`
   overflow-x: hidden;
   overflow-y: hidden;
   position: relative;
-  width: 360px;
+  width: ${MaxDeviceWidth};
   height: 100vh;
   margin: 0px auto;
   padding: 0px 20px;
