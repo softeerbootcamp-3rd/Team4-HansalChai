@@ -80,7 +80,13 @@ const Login = () => {
       />
 
       <FixedCenterBox bottom="30px">
-        <BottomButton role="main" disabled={isButtonDisabled}>
+        <BottomButton
+          role="main"
+          disabled={isButtonDisabled}
+          onClick={() => {
+            navigate("/haulRequest/choiceTransport");
+          }}
+        >
           로그인하기
         </BottomButton>
         <Margin height="10px" />
