@@ -14,14 +14,14 @@ const InputSection = styled.input`
   border: 1px solid #e1e1e1;
 `;
 
-const Input = ({ size, placeholder, inputValue }) => {
+//useRef의 value를 받기로 약속됨.
+const Input = ({ type, size, placeholder, onChange }) => {
   return (
     <InputSection
+      type={type}
       size={size}
       placeholder={placeholder}
-      onChange={({ target: { value } }) => {
-        inputValue.current = value;
-      }}
+      onChange={onChange}
     />
   );
 };
