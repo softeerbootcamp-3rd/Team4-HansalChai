@@ -13,6 +13,6 @@ const ToastRootFrame = styled.div`
   justify-content: center;
 `;
 
-const ToastRoot = () => <ToastRootFrame id="toast__root">{""}</ToastRootFrame>;
+const ToastRoot = () => <ToastRootFrame id="toast__root"></ToastRootFrame>;
 
 export default ToastRoot;

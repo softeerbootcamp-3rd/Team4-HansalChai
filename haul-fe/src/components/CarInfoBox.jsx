@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import theme from "../styles/theme/Theme.jsx";
 import Porter from "../assets/pngs/porter.png";
 import Typography from "./Typhography/Typhography.jsx";
 import Margin from "./Margin/Margin.jsx";
@@ -17,16 +16,16 @@ const CarInfoDescription = {
 
 const CarInfoFrame = styled.div`
   width: 100%;
-  ${theme.flex.flexColumn};
+  ${({ theme }) => theme.flex.flexColumn};
   align-items: left;
-  background-color: ${theme.colors.cardBackground};
+  background-color: ${({ theme }) => theme.colors.cardBackground};
   border-radius: 10px;
-  border: 1px solid ${theme.colors.cardBorder};
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
   padding: 15px;
 `;
 
 const CarCard = styled.div`
-  background-color: ${theme.colors.carBackground};
+  background-color: ${({ theme }) => theme.colors.carBackground};
   border-radius: 10px;
   width: 100%;
   height: 170px;
@@ -54,7 +53,7 @@ const QuantityBox = styled.div`
 
 const DescriptionTextArea = styled.div`
   width: 100%;
-  ${theme.flex.flexBetween};
+  ${({ theme }) => theme.flex.flexBetween};
 `;
 
 const CarInfoBox = ({

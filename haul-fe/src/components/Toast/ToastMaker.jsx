@@ -1,4 +1,6 @@
 import ReactDOM from "react-dom/client";
+// toRender 함수로 jsx를 미리 만들어 render 메소드를 통해 toastRoot로 넣는 방식으로 구현되어
+// props를 통한 theme 전파를 사용할 수 없음
 import theme from "../../styles/theme/Theme.jsx";
 import styled from "styled-components";
 import Toast from "./Toast.jsx";

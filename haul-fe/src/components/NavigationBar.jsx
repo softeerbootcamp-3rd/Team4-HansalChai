@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import theme from "../styles/theme/Theme.jsx";
 import TruckSvg from "../assets/svgs/Truck.svg";
 import TruckSelectedSvg from "../assets/svgs/Truck_Selected.svg";
 import {
@@ -21,8 +20,8 @@ const NavigationBarFrame = styled.div`
   transform: translateX(-50%);S
   padding: 6px 0 21px;
   cursor: default;
-  ${theme.flex.flexBetweenCenter};
-  background-color: ${theme.colors.white};
+  ${({ theme }) => theme.flex.flexBetweenCenter};
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 16px 16px 0 0;
   box-shadow: 0px 1px 11px 0px rgba(0, 0, 0, 0.15);
   font-family: "semiBold";
@@ -31,28 +30,33 @@ const NavigationBarFrame = styled.div`
 
 const ItemFrame = styled.div`
   height: 45px;
-  ${theme.flex.flexColumnBetween};
+  ${({ theme }) => theme.flex.flexColumnBetween};
   justify-content: space-around;
   align-items: center;
   gap: 4px;
   flex-grow: 1;
   color: ${(props) =>
-    props.selected ? theme.colors.mainColor : theme.colors.unselectedGray};
+    props.selected
+      ? props.theme.colors.mainColor
+      : props.theme.colors.unselectedGray};
 `;
 
 const TruckImg = styled.img`
   width: 42px;
   height: 23px;
   border: none;
-  fill: ${(props) => props.fill};
+  fill: ${(props) => props.theme.colors[props.fill]};
   color: red;
+`;
+
+const IconFrame = styled.div`
+  color: ${(props) => props.theme.colors[props.fill]};
 `;
 
 const SelectedCircleImg = styled.img`
   width: 6px;
   height: 6px;
-  background-image: url();
-  fill: ${(props) => props.fill};
+  fill: ${(props) => props.theme.colors[props.fill]};
   color: red;
 `;
 
@@ -81,16 +85,11 @@ const NavigationBar = ({ selected = "reserv" }) => {
           src={
             selected === "check" ? SelectedCircleSelectedSvg : SelectedCircleSvg
           }
-          fill={selected === "check" ? theme.colors.selectCircle : "none"}
+          fill={selected === "check" ? "selectCircle" : "none"}
         />
-        <CheckSvg
-          fill={
-            selected === "check"
-              ? theme.colors.mainColor
-              : theme.colors.unselectedGray
-          }
-          size={42}
-        />
+        <IconFrame fill={selected === "check" ? "mainColor" : "unselectedGray"}>
+          <CheckSvg size={27} />
+        </IconFrame>
         <Typography
           color={selected === "check" ? "mainColor" : "unselectedGray"}
         >
@@ -111,15 +110,11 @@ const NavigationBar = ({ selected = "reserv" }) => {
               ? SelectedCircleSelectedSvg
               : SelectedCircleSvg
           }
-          fill={selected === "reserv" ? theme.colors.selectCircle : "none"}
+          fill={selected === "reserv" ? "selectCircle" : "none"}
         />
         <TruckImg
           src={selected === "reserv" ? TruckSelectedSvg : TruckSvg}
-          fill={
-            selected === "reserv"
-              ? theme.colors.mainColor
-              : theme.colors.unselectedGray
-          }
+          fill={selected === "reserv" ? "mainColor" : "unselectedGray"}
         />
         <Typography
           color={selected === "reserv" ? "mainColor" : "unselectedGray"}
@@ -138,16 +133,11 @@ const NavigationBar = ({ selected = "reserv" }) => {
           src={
             selected === "more" ? SelectedCircleSelectedSvg : SelectedCircleSvg
           }
-          fill={selected === "more" ? theme.colors.selectCircle : "none"}
+          fill={selected === "more" ? "selectCircle" : "none"}
         />
-        <MoreSvg
-          fill={
-            selected === "more"
-              ? theme.colors.mainColor
-              : theme.colors.unselectedGray
-          }
-          size={42}
-        />
+        <IconFrame fill={selected === "more" ? "mainColor" : "unselectedGray"}>
+          <MoreSvg size={28} />
+        </IconFrame>
         <Typography
           color={selected === "more" ? "mainColor" : "unselectedGray"}
         >

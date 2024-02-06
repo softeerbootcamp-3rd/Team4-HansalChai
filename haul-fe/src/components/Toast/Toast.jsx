@@ -1,4 +1,6 @@
 import styled from "styled-components";
+// ToastMaker에서 props를 통한 theme 전파를 사용할 수 없어
+// Toast에서도 props로 theme을 받을 수 없음
 import theme from "../../styles/theme/Theme.jsx";
 import {
   CgCloseO as ErrorSvg,
@@ -32,14 +34,14 @@ const ToastFrame = styled.div`
   width: calc(100% - 40px);
   top: ${(props) => props.top};
 
-  background-color: ${(props) => typeBackground[props.type]};
+  background-color: ${({ type }) => typeBackground[type]};
   border-radius: 10px;
   padding: 4px;
   font-family: "bold";
   font-size: 12px;
   text-align: center;
   color: ${theme.colors.realBlack};
-  border: 3px solid ${(props) => typeColor[props.type]};
+  border: 3px solid ${({ type }) => typeColor[type]};
 
   ${theme.flex.flexCenter};
 `;
