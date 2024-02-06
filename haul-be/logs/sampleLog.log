@@ -1,0 +1,28 @@
+INFO  24-02-06 18:45:29[background-preinit] [Version:21] - HV000001: Hibernate Validator 8.0.1.Final
+INFO  24-02-06 18:45:29[main] [HaulApplication:50] - Starting HaulApplication using Java 17.0.9 with PID 60267 (/Users/admin/Desktop/project/Team4-HansalChai/haul-be/build/classes/java/main started by admin in /Users/admin/Desktop/project/Team4-HansalChai/haul-be)
+INFO  24-02-06 18:45:29[main] [HaulApplication:654] - No active profile set, falling back to 1 default profile: "default"
+INFO  24-02-06 18:45:29[main] [RepositoryConfigurationDelegate:139] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+INFO  24-02-06 18:45:29[main] [RepositoryConfigurationDelegate:208] - Finished Spring Data repository scanning in 6 ms. Found 0 JPA repository interfaces.
+INFO  24-02-06 18:45:29[main] [TomcatWebServer:109] - Tomcat initialized with port 8080 (http)
+INFO  24-02-06 18:45:29[main] [Http11NioProtocol:173] - Initializing ProtocolHandler ["http-nio-8080"]
+INFO  24-02-06 18:45:29[main] [StandardService:173] - Starting service [Tomcat]
+INFO  24-02-06 18:45:29[main] [StandardEngine:173] - Starting Servlet engine: [Apache Tomcat/10.1.18]
+INFO  24-02-06 18:45:29[main] [[/]:173] - Initializing Spring embedded WebApplicationContext
+INFO  24-02-06 18:45:29[main] [ServletWebServerApplicationContext:296] - Root WebApplicationContext: initialization completed in 626 ms
+INFO  24-02-06 18:45:29[main] [HikariDataSource:110] - HikariPool-1 - Starting...
+INFO  24-02-06 18:45:29[main] [HikariPool:565] - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:haul user=SA
+INFO  24-02-06 18:45:29[main] [HikariDataSource:123] - HikariPool-1 - Start completed.
+INFO  24-02-06 18:45:29[main] [H2ConsoleAutoConfiguration:88] - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:haul'
+INFO  24-02-06 18:45:29[main] [LogHelper:31] - HHH000204: Processing PersistenceUnitInfo [name: default]
+INFO  24-02-06 18:45:29[main] [Version:44] - HHH000412: Hibernate ORM core version 6.4.1.Final
+INFO  24-02-06 18:45:29[main] [RegionFactoryInitiator:50] - HHH000026: Second-level cache disabled
+INFO  24-02-06 18:45:30[main] [SpringPersistenceUnitInfo:87] - No LoadTimeWeaver setup: ignoring JPA class transformer
+INFO  24-02-06 18:45:30[main] [JtaPlatformInitiator:58] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+INFO  24-02-06 18:45:30[main] [LocalContainerEntityManagerFactoryBean:437] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+WARN  24-02-06 18:45:30[main] [JpaBaseConfiguration$JpaWebConfiguration:232] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+INFO  24-02-06 18:45:30[main] [Http11NioProtocol:173] - Starting ProtocolHandler ["http-nio-8080"]
+INFO  24-02-06 18:45:30[main] [TomcatWebServer:241] - Tomcat started on port 8080 (http) with context path ''
+INFO  24-02-06 18:45:30[main] [HaulApplication:56] - Started HaulApplication in 1.685 seconds (process running for 2.019)
+INFO  24-02-06 18:45:30[SpringApplicationShutdownHook] [LocalContainerEntityManagerFactoryBean:650] - Closing JPA EntityManagerFactory for persistence unit 'default'
+INFO  24-02-06 18:45:30[SpringApplicationShutdownHook] [HikariDataSource:350] - HikariPool-1 - Shutdown initiated...
+INFO  24-02-06 18:45:30[SpringApplicationShutdownHook] [HikariDataSource:352] - HikariPool-1 - Shutdown completed.

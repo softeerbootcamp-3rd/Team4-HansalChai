@@ -1,7 +1,7 @@
 package com.hansalchai.haul.common.handler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,12 +13,10 @@ import com.hansalchai.haul.common.utils.ApiResponse;
 import com.hansalchai.haul.common.utils.ErrorCode;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+	private static final Logger logger = Logger.getLogger(GlobalExceptionHandler.class.getName());
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(GeneralException.class)
@@ -38,6 +36,7 @@ public class GlobalExceptionHandler {
 	}
 
 	private void logInfo(HttpServletRequest request, HttpStatus status, String message) {
-		logger.info("{} {} : {} - {}", request.getMethod(), request.getRequestURI(), status, message);
+		String logMessage = String.format("%s %s : %s - %s", request.getMethod(), request.getRequestURI(), status, message);
+		logger.info(logMessage);
 	}
 }
