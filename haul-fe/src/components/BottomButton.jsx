@@ -6,7 +6,9 @@ const ButtonStyle = styled.button`
   height: 48px;
   left: 20px;
   background-color: ${(props) =>
-    props.role === "main" ? theme.colors.mainColor : theme.colors.subColor};
+    props.role === "main"
+      ? theme.colors.mainColor
+      : theme.colors.subButtonBackground};
   color: ${(props) =>
     props.role === "main" ? theme.colors.white : theme.colors.mainColor};
   font-family: "bold";

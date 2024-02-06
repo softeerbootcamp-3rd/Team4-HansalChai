@@ -26,6 +26,7 @@ const colors = {
   errorBackground: "#d83b3b19",
   warningBackground: "#f3edc819",
   infoBackground: "#e0dede19",
+  subButtonBackground: "#000b4935",
 };
 
 const font = {
