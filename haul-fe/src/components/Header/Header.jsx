@@ -1,19 +1,19 @@
 import styled from "styled-components";
-import theme from "../../styles/theme/Theme.jsx";
 import { CgChevronLeft } from "react-icons/cg";
 import Margin from "../Margin/Margin.jsx";
 import Home from "../../assets/svgs/Home.svg";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const HeaderFrame = styled.div`
   width: 100%;
   height: 36px;
-  ${theme.flex.flexBetween};
+  ${({ theme }) => theme.flex.flexBetween};
   font-family: "bold";
   font-size: 24px;
 `;
 
 const LeftHeaderFrame = styled.div`
-  ${theme.flex.flexCenter};
+  ${({ theme }) => theme.flex.flexCenter};
   gap: 4px;
 `;
 
@@ -23,19 +23,29 @@ const HomeImg = styled.img`
 `;
 
 const Header = ({ home = false, back = true, children }) => {
+  const navigator = useNavigate();
+  const { pathname } = useLocation();
+
+  const clickBack = () => {
+    navigator(-1);
+  };
+  const clickHome = () => {
+    const path = "/" + pathname.slice(1).split("/")[0];
+    navigator(path);
+  };
+
   return (
     <HeaderFrame>
       <LeftHeaderFrame>
-        {back ? (
+        {back && (
           <>
-            <CgChevronLeft /> <Margin width="4px" />
+            <CgChevronLeft onClick={clickBack} />
+            <Margin width="4px" />
           </>
-        ) : (
-          <></>
         )}
         {children}
       </LeftHeaderFrame>
-      {home ? <HomeImg src={Home} /> : ""}
+      {home && <HomeImg src={Home} onClick={clickHome} />}
     </HeaderFrame>
   );
 };
