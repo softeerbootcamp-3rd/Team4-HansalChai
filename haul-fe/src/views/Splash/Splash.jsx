@@ -50,6 +50,7 @@ const AnimatedBox = styled.div`
 
 const Splash = () => {
   const animationDuration = 3.5 * 1000;
+  const delayTime = 500;
   const initialText = "YOUR NEED";
   const navigate = useNavigate();
   const [animatedText, setAnimatedText] = useState("");
@@ -62,13 +63,13 @@ const Splash = () => {
             setAnimatedText(initialText.substring(0, i));
           }, i * 250);
         }
-      }, 500);
+      }, delayTime);
     };
     animateText();
 
     setTimeout(() => {
       navigate("/login");
-    }, animationDuration + 500);
+    }, animationDuration + delayTime);
   }, []);
 
   return (
