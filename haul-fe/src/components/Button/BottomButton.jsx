@@ -1,23 +1,27 @@
 import styled from "styled-components";
-import theme from "../../styles/theme/Theme";
 
 const ButtonStyle = styled.button`
   width: 100%;
   height: 48px;
   left: 20px;
   background-color: ${(props) =>
-    props.role === "main" ? theme.colors.mainColor : theme.colors.subColor};
+    props.role === "main"
+      ? props.theme.colors.mainColor
+      : props.theme.colors.subButtonBackground};
   color: ${(props) =>
-    props.role === "main" ? theme.colors.white : theme.colors.mainColor};
+    props.role === "main"
+      ? props.theme.colors.white
+      : props.theme.colors.mainColor};
   font-family: "bold";
+  font-size: 16px;
   text-align: center;
   border-radius: 10px;
   &:hover {
     opacity: 0.9;
   }
   &:disabled {
-    background-color: ${theme.colors.disabledColor};
-    color: ${theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.disabledColor};
+    color: ${({ theme }) => theme.colors.white};
     &:hover {
       opacity: 1;
     }

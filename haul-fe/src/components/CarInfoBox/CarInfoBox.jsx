@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import theme from "../../styles/theme/Theme.jsx";
 import Porter from "../../assets/pngs/porter.png";
 import Typography from "../Typhography/Typhography.jsx";
 import Margin from "../Margin/Margin.jsx";
@@ -17,16 +16,16 @@ const CarInfoDescription = {
 
 const CarInfoFrame = styled.div`
   width: 100%;
-  ${theme.flex.flexColumn};
+  ${({ theme }) => theme.flex.flexColumn};
   align-items: left;
-  background-color: ${theme.colors.cardBackground};
+  background-color: ${({ theme }) => theme.colors.cardBackground};
   border-radius: 10px;
-  border: 1px solid ${theme.colors.cardBorder};
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
   padding: 15px;
 `;
 
 const CarCard = styled.div`
-  background-color: ${theme.colors.carBackground};
+  background-color: ${({ theme }) => theme.colors.carBackground};
   border-radius: 10px;
   width: 100%;
   height: 170px;
@@ -36,13 +35,11 @@ const CarCard = styled.div`
 `;
 
 const CarCardImage = styled.img`
-  position: absolute;
-  width: 120%;
-  height: 120%;
-  left: -10%;
-  top: -5%;
+  width: 100%;
+  height: auto;
   border-radius: 10px;
-  background: url(${(props) => CarTypeImage[props.type]});
+  background-repeat: no-repeat;
+  object-fit: cover;
 `;
 const QuantityBox = styled.div`
   position: absolute;
@@ -54,7 +51,7 @@ const QuantityBox = styled.div`
 
 const DescriptionTextArea = styled.div`
   width: 100%;
-  ${theme.flex.flexBetween};
+  ${({ theme }) => theme.flex.flexBetween};
 `;
 
 const CarInfoBox = ({
@@ -79,7 +76,7 @@ const CarInfoBox = ({
             ""
           )}
         </QuantityBox>
-        <CarCardImage type={type} />
+        <CarCardImage type={type} src={CarTypeImage[type]} />
       </CarCard>
       <Margin height="8px" />
       <DescriptionTextArea>
