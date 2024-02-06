@@ -22,6 +22,10 @@ const colors = {
   inputGrayDark: "rgba(0, 0, 0, 0.06)",
   grayText: "rgba(16, 16, 16, 0.5)",
   selectCircle: "#596FB7",
+  successBackground: "#0d927519",
+  errorBackground: "#d83b3b19",
+  warningBackground: "#f3edc819",
+  infoBackground: "#e0dede19",
 };
 
 const font = {

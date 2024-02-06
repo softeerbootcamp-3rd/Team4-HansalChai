@@ -15,27 +15,24 @@ const typeColor = {
 };
 
 const typeBackground = {
-  success: (13, 146, 117, 0.1),
-  error: (216, 59, 59, 0.1),
-  warning: (243, 237, 200, 0.1),
-  info: (224, 222, 222, 0.1),
+  success: theme.colors.successBackground,
+  error: theme.colors.errorBackground,
+  warning: theme.colors.warningBackground,
+  info: theme.colors.infoBackground,
 };
 
 const typeSvg = {
-  success: <SuccessSvg />,
-  error: <ErrorSvg />,
-  warning: <WarningSvg />,
-  info: <InfoSvg />,
+  success: <SuccessSvg color={typeColor.success} />,
+  error: <ErrorSvg color={typeColor.error} />,
+  warning: <WarningSvg color={typeColor.warning} />,
+  info: <InfoSvg color={typeColor.info} />,
 };
 
 const ToastFrame = styled.div`
-  position: absolute;
   width: calc(100% - 40px);
-  top: calc(${(props) => (props.top ? props.top : "100% - 15%")});
-  left: 20px;
   top: ${(props) => props.top};
 
-  background-color: rgba(${(props) => typeBackground[props.type]});
+  background-color: ${(props) => typeBackground[props.type]};
   border-radius: 10px;
   padding: 4px;
   font-family: "bold";
@@ -59,29 +56,13 @@ const ToastText = styled.div`
   flex-grow: 1;
 `;
 
-const Toast = ({ top, type, children = "" }) => {
+const Toast = ({ type, children }) => {
   return (
-    <ToastFrame top={top} type={type}>
+    <ToastFrame type={type}>
       {typeSvg[type]}
       <ToastText>{children}</ToastText>
     </ToastFrame>
   );
-};
-
-/*
-    type: "success" | "error" | "warning" | "info"
-*/
-
-const ToastMaker = ({ top, type, children }) => {
-  let index = 0;
-  let toast = (
-    <Toast id={"toast" + index} top={top} type={type}>
-      {children}
-    </Toast>
-  );
-  setTimeout(() => {
-    window["toast" + index].remove();
-  }, 3000);
 };
 
 export default Toast;
