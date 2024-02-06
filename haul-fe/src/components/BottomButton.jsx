@@ -12,6 +12,7 @@ const ButtonStyle = styled.button`
   color: ${(props) =>
     props.role === "main" ? theme.colors.white : theme.colors.mainColor};
   font-family: "bold";
+  font-size: 16px;
   text-align: center;
   border-radius: 10px;
   &:hover {
