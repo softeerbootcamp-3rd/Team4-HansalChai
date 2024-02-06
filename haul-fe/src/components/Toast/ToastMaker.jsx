@@ -13,6 +13,8 @@ const ToastListFrame = styled.div`
   left: 0;
   z-index: 100;
   ${theme.flex.flexColumnCenter};
+  gap: 4px;
+  transition: all 0.5s;
 `;
 
 let index = 0;
@@ -23,9 +25,13 @@ const toRender = () => {
   return (
     <>
       <ToastListFrame>
-        {toastList.map((toast, index) => {
+        {toastList.map((toast) => {
           return (
-            <Toast type={toast.type} key={"toast" + index} id={"toast" + index}>
+            <Toast
+              type={toast.type}
+              key={"toast" + toast.index}
+              id={"toast" + toast.index}
+            >
               {toast.children}
             </Toast>
           );

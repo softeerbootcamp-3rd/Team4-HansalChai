@@ -24,8 +24,12 @@ const colors = {
   selectCircle: "#596FB7",
   successBackground: "#0d927519",
   errorBackground: "#d83b3b19",
-  warningBackground: "#f3edc819",
+  warningBackground: "#e6be0019",
   infoBackground: "#e0dede19",
+  successColor: "#0d9276",
+  errorColor: "#d83b3b",
+  warningColor: "#e6be00",
+  infoColor: "#afafaf",
   subButtonBackground: "#000b4935",
 };
 
