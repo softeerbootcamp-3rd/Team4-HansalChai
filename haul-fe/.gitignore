@@ -5,10 +5,10 @@ logs
 
 /dist/
 /.cache/
-/dev-dist/
+dev-dist/
 .env
 
-vite.config.js
+/vite.config.js
 
 .idea/
 .vscode/
