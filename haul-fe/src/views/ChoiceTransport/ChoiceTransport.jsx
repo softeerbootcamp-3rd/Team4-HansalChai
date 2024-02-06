@@ -10,37 +10,6 @@ import Transport4 from "../../assets/svgs/Transport4.svg";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import Flex from "../../components/Flex/Flex";
 
-const transportTypeArr = [
-  {
-    transportType: "일반 용달",
-    transportPlusInfo: "중고거래, 물품 운송",
-    maxLoad: 10,
-    boxColor: "#d9c7e7",
-    img: Transport1,
-  },
-  {
-    transportType: "용달 이사",
-    transportPlusInfo: "원룸이사, 1인 가구 이사",
-    maxLoad: 1,
-    boxColor: "#FF9A62",
-    img: Transport2,
-  },
-  {
-    transportType: "미니 용달",
-    transportPlusInfo: "소규모 운송, 물품 3개 이하",
-    maxLoad: 1,
-    boxColor: "#85C7EE",
-    img: Transport3,
-  },
-  {
-    transportType: "비지니스 운송",
-    transportPlusInfo: "거래처 납부, 기업 운송",
-    maxLoad: 10,
-    boxColor: "#FBC02D",
-    img: Transport4,
-  },
-];
-
 const ImgBox = styled.img`
   width: 140px;
 `;
@@ -57,6 +26,37 @@ const TransportBox = styled.div`
 `;
 
 const ChoiceTransport = () => {
+  const transportTypeArr = [
+    {
+      transportType: "일반 용달",
+      transportPlusInfo: "중고거래, 물품 운송",
+      maxLoad: 10,
+      boxColor: "#d9c7e7",
+      img: Transport1,
+    },
+    {
+      transportType: "용달 이사",
+      transportPlusInfo: "원룸이사, 1인 가구 이사",
+      maxLoad: 1,
+      boxColor: "#FF9A62",
+      img: Transport2,
+    },
+    {
+      transportType: "미니 용달",
+      transportPlusInfo: "소규모 운송, 물품 3개 이하",
+      maxLoad: 1,
+      boxColor: "#F6D776",
+      img: Transport3,
+    },
+    {
+      transportType: "비지니스 운송",
+      transportPlusInfo: "거래처 납부, 기업 운송",
+      maxLoad: 10,
+      boxColor: "#85C7EE",
+      img: Transport4,
+    },
+  ];
+
   return (
     <MobileLayout>
       <Margin height="10px" />
@@ -66,15 +66,29 @@ const ChoiceTransport = () => {
       <Margin height="24px" />
       <Typography font="bold24">운송의 종류를 선택해주세요.</Typography>
       <Margin height="24px" />
-      {transportTypeArr.map((transportType, idx) => (
-        <div key={idx}>
-          <TransportBox boxColor={transportType.boxColor}>
-            <Flex></Flex>
-            <ImgBox src={transportType.img} />
-          </TransportBox>
-          <Margin height="20px" />
-        </div>
-      ))}
+      {transportTypeArr.map(
+        ({ transportType, transportPlusInfo, maxLoad, boxColor, img }, idx) => (
+          <div key={idx}>
+            <TransportBox boxColor={boxColor}>
+              <Flex
+                kind="flexColumnBetween"
+                style={{ paddingTop: "32px", paddingBottom: "25px" }}
+              >
+                <Typography font="bold24">{transportType}</Typography>
+                <Flex>
+                  <Typography font="bold16" color="white">
+                    {transportPlusInfo}
+                  </Typography>
+                  <Margin height="4px" />
+                  <Typography font="bold16">최대 {maxLoad}톤</Typography>
+                </Flex>
+              </Flex>
+              <ImgBox src={img} />
+            </TransportBox>
+            <Margin height="20px" />
+          </div>
+        )
+      )}
       <NavigationBar />
     </MobileLayout>
   );
