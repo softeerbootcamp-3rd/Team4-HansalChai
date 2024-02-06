@@ -44,7 +44,6 @@ const GlobalStyle = createGlobalStyle`
   
   img {
     border: none;
-
     background-repeat: no-repeat;
   }
 `;

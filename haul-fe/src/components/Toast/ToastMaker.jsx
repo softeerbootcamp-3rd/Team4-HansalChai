@@ -14,7 +14,6 @@ const ToastListFrame = styled.div`
   z-index: 100;
   ${theme.flex.flexColumnCenter};
   gap: 4px;
-  transition: all 0.5s;
 `;
 
 let index = 0;
