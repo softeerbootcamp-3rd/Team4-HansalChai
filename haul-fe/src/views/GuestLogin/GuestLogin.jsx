@@ -61,6 +61,7 @@ const GuestLogin = () => {
         </BottomButton>
         <Margin height="10px" />
       </FixedCenterBox>
+      <Margin height="100px" />
     </MobileLayout>
   );
 };

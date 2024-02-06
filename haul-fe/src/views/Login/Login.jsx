@@ -94,6 +94,7 @@ const Login = () => {
           비회원으로 접속하기
         </BottomButton>
       </FixedCenterBox>
+      <Margin height="200px" />
     </MobileLayout>
   );
 };
