@@ -3,6 +3,7 @@ package com.hansalchai.haul.common.utils;
 import static org.springframework.http.HttpStatus.*;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +12,8 @@ import lombok.Getter;
 public enum ErrorCode {
 	/* 400 BAD REQUEST */
 	// general
-	NO_ID(BAD_REQUEST, "40001", "존재하지 않는 id 입니다");
+	NO_ID(BAD_REQUEST, "40001", "존재하지 않는 id 입니다"),
+	MethodArgumentNotValidException(BAD_REQUEST,"20002002","MethodArgumentNotValidException");
 
 	private final HttpStatus status;
 	private final String code;
