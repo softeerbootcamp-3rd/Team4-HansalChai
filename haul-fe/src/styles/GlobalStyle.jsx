@@ -42,8 +42,10 @@ const GlobalStyle = createGlobalStyle`
     background: none;
   }
   
-  img{
+  img {
     border: none;
+
+    background-repeat: no-repeat;
   }
 `;
 

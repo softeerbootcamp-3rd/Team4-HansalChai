@@ -35,13 +35,11 @@ const CarCard = styled.div`
 `;
 
 const CarCardImage = styled.img`
-  position: absolute;
-  width: 120%;
-  height: 120%;
-  left: -10%;
-  top: -5%;
+  width: 100%;
+  height: auto;
   border-radius: 10px;
-  background: url(${(props) => CarTypeImage[props.type]});
+  background-repeat: no-repeat;
+  object-fit: cover;
 `;
 const QuantityBox = styled.div`
   position: absolute;
@@ -78,7 +76,7 @@ const CarInfoBox = ({
             ""
           )}
         </QuantityBox>
-        <CarCardImage type={type} />
+        <CarCardImage type={type} src={CarTypeImage[type]} />
       </CarCard>
       <Margin height="8px" />
       <DescriptionTextArea>
