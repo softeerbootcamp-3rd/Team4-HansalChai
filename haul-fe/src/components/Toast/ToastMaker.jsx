@@ -41,6 +41,8 @@ const toRender = () => {
 };
 
 const ToastMaker = ({ type, children }) => {
+  const TOAST_TIME = 3000;
+
   if (!toastRootDom) {
     toastRootDom = document.getElementById("toast__root");
     toastRoot = ReactDOM.createRoot(toastRootDom);
@@ -51,7 +53,7 @@ const ToastMaker = ({ type, children }) => {
   setTimeout(() => {
     toastList.shift();
     toastRoot.render(toRender());
-  }, 3000);
+  }, TOAST_TIME);
 
   toastRoot.render(toRender());
 };

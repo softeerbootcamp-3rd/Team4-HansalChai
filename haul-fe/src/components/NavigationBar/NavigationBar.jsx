@@ -17,7 +17,7 @@ const NavigationBarFrame = styled.div`
   height: 83px;
   bottom: 0;
   left: 50%;
-  transform: translateX(-50%);S
+  transform: translateX(-50%);
   padding: 6px 0 21px;
   cursor: default;
   ${({ theme }) => theme.flex.flexBetweenCenter};

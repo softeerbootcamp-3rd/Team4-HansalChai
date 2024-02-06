@@ -37,16 +37,15 @@ const Header = ({ home = false, back = true, children }) => {
   return (
     <HeaderFrame>
       <LeftHeaderFrame>
-        {back ? (
+        {back && (
           <>
-            <CgChevronLeft onClick={clickBack} /> <Margin width="4px" />
+            <CgChevronLeft onClick={clickBack} />
+            <Margin width="4px" />
           </>
-        ) : (
-          <></>
         )}
         {children}
       </LeftHeaderFrame>
-      {home ? <HomeImg src={Home} onClick={clickHome} /> : ""}
+      {home && <HomeImg src={Home} onClick={clickHome} />}
     </HeaderFrame>
   );
 };
