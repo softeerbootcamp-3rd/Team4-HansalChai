@@ -8,6 +8,8 @@ logs
 /dev-dist/
 .env
 
+vite.config.js
+
 .idea/
 .vscode/
 
