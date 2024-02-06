@@ -26,10 +26,14 @@ const Login = () => {
     <MobileLayout>
       <Margin height="40px" />
       <Flex kind="flexCenter">
-        <Typography font="bold32">HAUL YOUR NEED</Typography>
+        <Typography font="bold32">
+          {" "}
+          HAUL YOUR NEED<span style={{ color: "#596FB7" }}>.</span>
+        </Typography>
       </Flex>
       <Margin height="83px" />
       <Typography font="bold24">로그인 하기</Typography>
+
       <Margin height="10px" />
       <GoSignUpBtn
         onClick={() => {
@@ -80,7 +84,13 @@ const Login = () => {
           로그인하기
         </BottomButton>
         <Margin height="10px" />
-        <BottomButton role="sub" disabled={false}>
+        <BottomButton
+          role="sub"
+          disabled={false}
+          onClick={() => {
+            navigate("/guestLogin");
+          }}
+        >
           비회원으로 접속하기
         </BottomButton>
       </FixedCenterBox>
