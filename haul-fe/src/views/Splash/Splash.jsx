@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import MobileLayout from "../../components/MobileLayout/MobileLayout";
-import Typography from "../../components/Typhography/Typhography";
+import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
+import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
+import Typography from "../../components/Typhography/Typhography.jsx";
 import Loading from "../../assets/gifs/Loading.gif";
 import HaulCar from "../../assets/svgs/HaulCar.svg";
-import { useNavigate } from "react-router-dom";
-import { UrlMap } from "../../data/GlobalVariable";
+import { UrlMap } from "../../data/GlobalVariable.js";
 
 const SplashBox = styled.div`
   width: 100%;
