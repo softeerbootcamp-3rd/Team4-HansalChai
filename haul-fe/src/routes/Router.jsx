@@ -1,17 +1,18 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import TestView from "../views/TestView";
-import Splash from "../views/Splash/Splash";
-import Login from "../views/Login/Login";
-import GuestLogin from "../views/GuestLogin/GuestLogin";
-import SignUP from "../views/SignUp/SignUp";
-import More from "../views/More/More";
-import Terms from "../views/Terms/Terms";
-import UserInfo from "../views/UserInfo/UserInfo";
-import ChoiceTransport from "../views/ChoiceTransport/ChoiceTransport";
-import ChoiceDate from "../views/ChoiceDate/ChoiceDate";
+import TestView from "../views/TestView.jsx";
+import Splash from "../views/Splash/Splash.jsx";
+import Login from "../views/Login/Login.jsx";
+import GuestLogin from "../views/GuestLogin/GuestLogin.jsx";
+import SignUP from "../views/SignUp/SignUp.jsx";
+import More from "../views/More/More.jsx";
+import Terms from "../views/Terms/Terms.jsx";
+import UserInfo from "../views/UserInfo/UserInfo.jsx";
+import ChoiceTransport from "../views/ChoiceTransport/ChoiceTransport.jsx";
+import ChoiceDate from "../views/ChoiceDate/ChoiceDate.jsx";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import Contract from "../views/Contract/Contract";
+import Contract from "../views/Contract/Contract.jsx";
+import Check from "../views/Check/Check.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -47,6 +48,9 @@ const Router = () => (
       <Route path="/request" element={<Outlet />}>
         <Route path="type" element={<ChoiceTransport />} />
         <Route path="date" element={<ChoiceDate />} />
+      </Route>
+      <Route path="/check" element={<Outlet />}>
+        <Route path="list" element={<Check />} />
       </Route>
     </Routes>
   </BrowserRouter>
