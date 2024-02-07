@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,11 +41,13 @@ public class Transport extends BaseTime {
 	@Column(length = 10)
 	private String type;
 
+	@PositiveOrZero(message = "운송 요금은 음수 일 수 없다.")
 	@NotNull(message = "운송비용은 null일 수 없다.")
 	private int fee;
 
+	@PositiveOrZero(message = "운송이동시간은 음수 일 수 없다.")
 	@NotNull(message = "운송이동시간은 null일 수 없다.")
-	private int requiredTime;
+	private double requiredTime;
 
 	@NotNull(message = "운송상태는 null일 수 없다.")
 	@Convert(converter = TransportStatusConverter.class)
