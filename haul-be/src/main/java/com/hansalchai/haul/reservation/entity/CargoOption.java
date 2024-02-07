@@ -13,7 +13,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +30,7 @@ public class CargoOption extends BaseTime {
 	private int cargoOptionId;
 
 	@OneToOne(fetch = FetchType.LAZY)
+	@Column(nullable = false)
 	private Reservation reservation;
 
 	@Column(nullable = false)
@@ -40,7 +40,7 @@ public class CargoOption extends BaseTime {
 	private boolean isFrozen;
 
 	@Column(nullable = false)
-	private boolean	isFurniture;
+	private boolean isFurniture;
 
 	@Column(nullable = false)
 	private boolean isLiftRequired;

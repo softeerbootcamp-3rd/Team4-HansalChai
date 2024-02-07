@@ -11,6 +11,7 @@ import com.hansalchai.haul.customer.entity.Customer;
 import com.hansalchai.haul.driver.entity.Driver;
 
 import jakarta.annotation.Nullable;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -35,33 +36,31 @@ public class Reservation extends BaseTime {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int reservationId;
 
-	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
+	@Column(nullable = false)
 	private Customer customer;
 
-	@Nullable
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Driver driver;
 
-	@NotNull(message = "예약번호는 Null 일 수 없다.")
+	@Column(nullable = false)
 	private String number;
 
-	@NotNull(message = "예약한 날짜는 Null 일 수 없다.")
+	@Column(nullable = false)
 	private LocalDate date;
 
-	@NotNull(message = "예약한 시간은 Null 일 수 없다.")
+	@Column(nullable = false)
 	private LocalTime time;
 
-	@NotNull(message = "예약에서 차 대수는 Null 일 수 없다.")
 	@Max(value = 10)
+	@Column(nullable = false)
 	private int count;
 
-	@NotNull(message = "예약에서 거리는 Null 일 수 없다.")
+	@Column(nullable = false)
 	private double distance;
 
 	public Reservation(Customer customer, @Nullable Driver driver, String number, LocalDate date, LocalTime time,
-		int count,
-		double distance) {
+		int count, double distance) {
 		this.customer = customer;
 		this.driver = driver;
 		this.number = number;

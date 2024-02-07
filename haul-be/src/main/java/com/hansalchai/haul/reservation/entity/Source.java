@@ -33,6 +33,7 @@ public class Source extends BaseTime {
 	private int sourceId;
 
 	@OneToOne(fetch = FetchType.LAZY)
+	@Column(nullable = false)
 	private Reservation reservation;
 
 	@Column(length = 100, nullable = false)

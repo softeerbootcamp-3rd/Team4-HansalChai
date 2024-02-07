@@ -37,19 +37,17 @@ public class Transport extends BaseTime {
 	@OneToOne(fetch = FetchType.LAZY)
 	private Reservation reservation;
 
-	@NotNull(message = "운송종류는 null일 수 없다.")
-	@Column(length = 10)
+	@Column(length = 10, nullable = false)
 	private String type;
 
 	@PositiveOrZero(message = "운송 요금은 음수 일 수 없다.")
-	@NotNull(message = "운송비용은 null일 수 없다.")
+	@Column(nullable = false)
 	private int fee;
 
 	@PositiveOrZero(message = "운송이동시간은 음수 일 수 없다.")
-	@NotNull(message = "운송이동시간은 null일 수 없다.")
+	@Column(nullable = false)
 	private double requiredTime;
 
-	@NotNull(message = "운송상태는 null일 수 없다.")
 	@Convert(converter = TransportStatusConverter.class)
 	@Column(name = "state")
 	private TransportStatus state = TransportStatus.NOT_STARTED;

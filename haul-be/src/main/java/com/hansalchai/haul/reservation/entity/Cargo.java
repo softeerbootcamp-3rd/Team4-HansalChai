@@ -34,12 +34,15 @@ public class Cargo extends BaseTime {
 	@OneToOne(fetch = FetchType.LAZY)
 	private Reservation reservation;
 
+	@Max(value = 1000, message = "화물 가로는 10m를 넘을 수 없다.")
 	@Column(nullable = false)
 	private int width;
 
+	@Max(value = 1000, message = "화물 세로는 10m를 넘을 수 없다.")
 	@Column(nullable = false)
 	private int length;
 
+	@Max(value = 1000, message = "화물 높이는 10m를 넘을 수 없다.")
 	@Column(nullable = false)
 	private int height;
 
