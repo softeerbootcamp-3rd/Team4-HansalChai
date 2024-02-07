@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
 import Header from "../../components/Header/Header.jsx";
 import Typography from "../../components/Typhography/Typhography.jsx";
+import Typography_Span from "../../components/Typhography/Typhography_Span.jsx";
 import Margin from "../../components/Margin/Margin.jsx";
 import styled from "styled-components";
 import Transport1 from "../../assets/svgs/Transport1.svg";
@@ -74,9 +75,7 @@ const ChoiceTransport = () => {
       <Margin height="10px" />
       <Header back={false}>
         HAUL
-        <span style={{ color: (props) => props.theme.colors.mainColor }}>
-          .
-        </span>
+        <Typography_Span color="subColor">.</Typography_Span>
       </Header>
       <Margin height="24px" />
       <Typography font="bold24">운송의 종류를 선택해주세요.</Typography>

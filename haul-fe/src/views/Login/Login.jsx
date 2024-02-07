@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import styled from "styled-components";
 import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
 import Typography from "../../components/Typhography/Typhography.jsx";
+import Typography_Span from "../../components/Typhography/Typhography_Span.jsx";
 import Flex from "../../components/Flex/Flex.jsx";
 import Margin from "../../components/Margin/Margin.jsx";
 import Input from "../../components/Input/Input.jsx";
@@ -37,9 +38,7 @@ const Login = () => {
       <Flex kind="flexCenter">
         <Typography font="bold32">
           HAUL YOUR NEED
-          <span style={{ color: (props) => props.theme.colors.mainColor }}>
-            .
-          </span>
+          <Typography_Span color="subColor">.</Typography_Span>
         </Typography>
       </Flex>
       <Margin height="83px" />
@@ -56,8 +55,9 @@ const Login = () => {
         <FaArrowRight
           style={{
             fontSize: "14px",
-            color: (props) => props.theme.colors.mainColor,
+            color: "#446EDA",
             marginLeft: "3px",
+            marginTop: "1px",
           }}
         />
       </GoSignUpBtn>
