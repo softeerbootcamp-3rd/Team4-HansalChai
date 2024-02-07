@@ -1,1 +1,1 @@
-export const MaxDeviceWidth = "360px";
+export const MaxDeviceWidth = "400px";
