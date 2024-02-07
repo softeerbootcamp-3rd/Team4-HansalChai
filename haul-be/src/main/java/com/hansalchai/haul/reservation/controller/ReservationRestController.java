@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hansalchai.haul.common.utils.ApiResponse;
 import com.hansalchai.haul.common.utils.SuccessCode;
 import com.hansalchai.haul.reservation.dto.ReservationRequest;
+import com.hansalchai.haul.reservation.dto.ReservationResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,9 @@ public class ReservationRestController {
 
 	@PostMapping("/reservations")
 	public ResponseEntity<?> customerReservation(
-		@Valid @RequestBody ReservationRequest.Reservation reservation
+		@Valid @RequestBody ReservationRequest.CreateReservationDTO request
 	) {
-		ReservationResponse.Reservation response = reservationService.createReservation(reservation);
+		ReservationResponse.ReservationRecommendationDTO response = reservationService.createReservation(request);
 
 		return ResponseEntity.ok(ApiResponse.success(SuccessCode.GET_SUCCESS, response));
 	}
