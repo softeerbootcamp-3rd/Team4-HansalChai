@@ -20,5 +20,5 @@ import lombok.Getter;
 public class Reservation extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int reservation_id;
+	private int reservationId;
 }
