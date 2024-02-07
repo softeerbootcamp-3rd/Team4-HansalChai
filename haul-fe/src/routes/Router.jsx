@@ -11,6 +11,7 @@ import ChoiceTransport from "../views/ChoiceTransport/ChoiceTransport";
 import ChoiceDate from "../views/ChoiceDate/ChoiceDate";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import Contract from "../views/Contract/Contract";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -30,11 +31,20 @@ const Router = () => (
       <Route path="/signUp" element={<SignUP />} />
       <Route path="/more" element={<Outlet />}>
         <Route path="" element={<More />} />
-        <Route path="terms" element={<Terms />} />
+        <Route path="terms" element={<Outlet />}>
+          <Route path="" element={<Terms />} />
+          <Route path="services" element={<Contract type={"services"} />} />
+          <Route path="privacy" element={<Contract type={"privacy"} />} />
+          <Route
+            path="transportation"
+            element={<Contract type={"transportation"} />}
+          />
+          <Route path="location" element={<Contract type={"location"} />} />
+        </Route>
         <Route path="user-info" element={<UserInfo />} />
       </Route>
       <Route path="/Test" element={<TestView />} />
-      <Route path="/request" element=<Outlet />>
+      <Route path="/request" element={<Outlet />}>
         <Route path="type" element={<ChoiceTransport />} />
         <Route path="date" element={<ChoiceDate />} />
       </Route>
