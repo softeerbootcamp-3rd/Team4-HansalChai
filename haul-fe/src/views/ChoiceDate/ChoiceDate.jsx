@@ -4,7 +4,7 @@ import Margin from "../../components/Margin/Margin.jsx";
 import Typography from "../../components/Typhography/Typhography.jsx";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { reservationStore } from "../../\bstore/reservationStore.jsx";
+import { reservationStore } from "../../store/reservationStore.jsx";
 import { isEmptyString } from "../../utils/helper.js";
 import Calendar from "./components/Calendar.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";

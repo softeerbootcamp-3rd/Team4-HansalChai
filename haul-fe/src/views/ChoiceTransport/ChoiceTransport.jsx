@@ -10,7 +10,7 @@ import Transport4 from "../../assets/svgs/Transport4.svg";
 import NavigationBar from "../../components/NavigationBar/NavigationBar.jsx";
 import Flex from "../../components/Flex/Flex.jsx";
 import { useContext } from "react";
-import { reservationStore } from "../../\bstore/reservationStore.jsx";
+import { reservationStore } from "../../store/reservationStore.jsx";
 import { useNavigate } from "react-router-dom";
 
 const ImgBox = styled.img`
