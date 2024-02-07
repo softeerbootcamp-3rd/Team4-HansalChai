@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { reservationStore } from "../../store/reservationStore.jsx";
+import { useNavigate } from "react-router-dom";
 import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
 import Header from "../../components/Header/Header.jsx";
 import Typography from "../../components/Typhography/Typhography.jsx";
@@ -9,9 +12,6 @@ import Transport3 from "../../assets/svgs/Transport3.svg";
 import Transport4 from "../../assets/svgs/Transport4.svg";
 import NavigationBar from "../../components/NavigationBar/NavigationBar.jsx";
 import Flex from "../../components/Flex/Flex.jsx";
-import { useContext } from "react";
-import { reservationStore } from "../../store/reservationStore.jsx";
-import { useNavigate } from "react-router-dom";
 import { UrlMap } from "../../data/GlobalVariable.js";
 
 const ImgBox = styled.img`
@@ -21,11 +21,11 @@ const ImgBox = styled.img`
 const TransportBox = styled.div`
   width: 100%;
   height: 144px;
+  margin-bottom: 20px;
   border-radius: 6px;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
   background-color: ${(props) => props.boxeachcolor};
-  display: flex;
-  justify-content: space-between;
+  ${(props) => props.theme.flex.flexBetween};
   padding: 0 20px;
   cursor: pointer;
 `;
@@ -73,7 +73,10 @@ const ChoiceTransport = () => {
     <MobileLayout>
       <Margin height="10px" />
       <Header back={false}>
-        HAUL<span style={{ color: "#596FB7" }}>.</span>
+        HAUL
+        <span style={{ color: (props) => props.theme.colors.mainColor }}>
+          .
+        </span>
       </Header>
       <Margin height="24px" />
       <Typography font="bold24">운송의 종류를 선택해주세요.</Typography>
@@ -83,30 +86,28 @@ const ChoiceTransport = () => {
           { transportType, transportPlusInfo, maxLoad, boxEachColor, img },
           idx
         ) => (
-          <div key={idx}>
-            <TransportBox
-              boxeachcolor={boxEachColor}
-              onClick={() => {
-                ChoiceLogic(transportType);
-              }}
+          <TransportBox
+            key={idx}
+            boxeachcolor={boxEachColor}
+            onClick={() => {
+              ChoiceLogic(transportType);
+            }}
+          >
+            <Flex
+              kind="flexColumnBetween"
+              style={{ paddingTop: "32px", paddingBottom: "25px" }}
             >
-              <Flex
-                kind="flexColumnBetween"
-                style={{ paddingTop: "32px", paddingBottom: "25px" }}
-              >
-                <Typography font="bold24">{transportType}</Typography>
-                <Flex>
-                  <Typography font="semiBold16" color="white">
-                    {transportPlusInfo}
-                  </Typography>
-                  <Margin height="5px" />
-                  <Typography font="bold16">최대 {maxLoad}톤</Typography>
-                </Flex>
+              <Typography font="bold24">{transportType}</Typography>
+              <Flex>
+                <Typography font="semiBold16" color="white">
+                  {transportPlusInfo}
+                </Typography>
+                <Margin height="5px" />
+                <Typography font="bold16">최대 {maxLoad}톤</Typography>
               </Flex>
-              <ImgBox src={img} />
-            </TransportBox>
-            <Margin height="20px" />
-          </div>
+            </Flex>
+            <ImgBox src={img} />
+          </TransportBox>
         )
       )}
       <Margin height="90px" />
