@@ -10,7 +10,7 @@ import Transport4 from "../../assets/svgs/Transport4.svg";
 import NavigationBar from "../../components/NavigationBar/NavigationBar.jsx";
 import Flex from "../../components/Flex/Flex.jsx";
 import { useContext } from "react";
-import { store } from "../../\bstore/store.jsx";
+import { reservationStore } from "../../\bstore/reservationStore.jsx";
 import { useNavigate } from "react-router-dom";
 
 const ImgBox = styled.img`
@@ -59,7 +59,8 @@ const ChoiceTransport = () => {
       img: Transport4,
     },
   ];
-  const { setTransportType } = useContext(store);
+  const { setTransportType } = useContext(reservationStore);
+
   const navigation = useNavigate();
   const ChoiceLogic = (transportType) => {
     setTransportType(transportType);
