@@ -79,6 +79,11 @@ const font = {
     font-size: 16px;
     line-height: 16px;
   `,
+  semiBold14: `
+  font-family: 'semiBold';
+  font-size: 14px;
+  line-height: 14px;
+`,
   semiBold12: `
     font-family: 'semiBold';
     font-size: 12px;

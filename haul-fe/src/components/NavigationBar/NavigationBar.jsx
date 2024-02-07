@@ -9,11 +9,12 @@ import SelectedCircleSelectedSvg from "../../assets/svgs/SelectedCircle_Selected
 import SelectedCircleSvg from "../../assets/svgs/SelectedCircle.svg";
 import { useNavigate } from "react-router-dom";
 import Typography from "../Typhography/Typhography.jsx";
+import { MaxDeviceWidth } from "../../data/GlobalVariable.js";
 
 const NavigationBarFrame = styled.div`
   position: fixed;
   width: 100%;
-  max-width: 360px;
+  max-width: ${MaxDeviceWidth};
   height: 83px;
   bottom: 0;
   left: 50%;
