@@ -10,6 +10,7 @@ import com.hansalchai.haul.common.utils.ApiResponse;
 import com.hansalchai.haul.common.utils.SuccessCode;
 import com.hansalchai.haul.reservation.dto.ReservationRequest;
 import com.hansalchai.haul.reservation.dto.ReservationResponse;
+import com.hansalchai.haul.reservation.service.ReservationService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

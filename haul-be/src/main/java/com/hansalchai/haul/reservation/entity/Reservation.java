@@ -6,6 +6,9 @@ import org.hibernate.annotations.SQLRestriction;
 import com.hansalchai.haul.common.utils.BaseTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
@@ -15,5 +18,7 @@ import lombok.Getter;
 @SQLDelete(sql = "UPDATE reservation SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
 @Table(name = "reservation")
 public class Reservation extends BaseTime {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int reservation_id;
 }
