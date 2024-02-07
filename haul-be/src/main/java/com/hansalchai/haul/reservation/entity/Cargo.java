@@ -5,6 +5,7 @@ import org.hibernate.annotations.SQLRestriction;
 
 import com.hansalchai.haul.common.utils.BaseTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -33,19 +34,16 @@ public class Cargo extends BaseTime {
 	@OneToOne(fetch = FetchType.LAZY)
 	private Reservation reservation;
 
-	@NotNull(message = "화물 가로는 Null 일 수 없다.")
-	@Max(value = 1000, message = "화물 가로는 10m를 넘을 수 없다.")
+	@Column(nullable = false)
 	private int width;
 
-	@NotNull(message = "화물 세로는 Null 일 수 없다.")
-	@Max(value = 1000, message = "화물 세로는 10m를 넘을 수 없다.")
+	@Column(nullable = false)
 	private int length;
 
-	@NotNull(message = "화물 높이는 Null 일 수 없다.")
-	@Max(value = 1000, message = "화물 높이는 10m를 넘을 수 없다.")
+	@Column(nullable = false)
 	private int height;
 
-	@NotNull(message = "화물 무게는 Null 일 수 없다.")
+	@Column(nullable = false)
 	private int weight;
 
 	@Builder

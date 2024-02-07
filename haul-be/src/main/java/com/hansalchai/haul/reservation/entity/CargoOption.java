@@ -5,6 +5,7 @@ import org.hibernate.annotations.SQLRestriction;
 
 import com.hansalchai.haul.common.utils.BaseTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -32,16 +33,16 @@ public class CargoOption extends BaseTime {
 	@OneToOne(fetch = FetchType.LAZY)
 	private Reservation reservation;
 
-	@NotNull(message = "냉장여부는 Null 일 수 없다.")
+	@Column(nullable = false)
 	private boolean isRefrigerated;
 
-	@NotNull(message = "냉동여부는 Null 일 수 없다.")
+	@Column(nullable = false)
 	private boolean isFrozen;
 
-	@NotNull(message = "가구여부는 Null 일 수 없다.")
+	@Column(nullable = false)
 	private boolean	isFurniture;
 
-	@NotNull(message = "리프트필요여부는 Null 일 수 없다.")
+	@Column(nullable = false)
 	private boolean isLiftRequired;
 
 	@Builder

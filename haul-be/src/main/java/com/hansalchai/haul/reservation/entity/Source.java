@@ -35,29 +35,22 @@ public class Source extends BaseTime {
 	@OneToOne(fetch = FetchType.LAZY)
 	private Reservation reservation;
 
-	@NotNull(message = "출발지 이름은 Null 일 수 없다.")
-	@Column(length = 100)
+	@Column(length = 100, nullable = false)
 	private String name;
 
-	@NotNull(message = "출발지 주소는 Null 일 수 없다.")
-	@Column(length = 100)
+	@Column(length = 100, nullable = false)
 	private String address;
 
-	@NotNull(message = "출발지 세부주소는 Null 일 수 없다.")
-	@Column(length = 100)
+	@Column(length = 100, nullable = false)
 	private String detailAddress;
 
-	//TODO : 음수테스트하기
-	@NotNull(message = "출발지 위도는 Null 일 수 없다.")
-	@Column(precision = 4, scale = 7)
+	@Column(precision = 4, scale = 7, nullable = false)
 	private BigDecimal latitude;
 
-	@NotNull(message = "출발지 경도는 Null 일 수 없다.")
-	@Column(precision = 4, scale = 7)
+	@Column(precision = 4, scale = 7, nullable = false)
 	private BigDecimal longitude;
 
-	@NotNull(message = "출발지 전화번호는 Null 일 수 없다.")
-	@Column(length = 15)
+	@Column(length = 15, nullable = false)
 	private String tel;
 
 	@Builder
