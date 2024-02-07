@@ -1,10 +1,12 @@
-package com.hansalchai.haul.reservation.entity;
+package com.hansalchai.haul.car.entity;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import com.hansalchai.haul.common.utils.BaseTime;
+import com.hansalchai.haul.reservation.entity.Reservation;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,7 +17,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,37 +24,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @SQLRestriction("is_deleted = FALSE")
-@SQLDelete(sql = "UPDATE cargo SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
-@Table(name = "cargo")
-public class Cargo extends BaseTime {
+@SQLDelete(sql = "UPDATE car SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
+@Table(name = "car")
+public class Car extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int cargoId;
+	private int carId;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	private Reservation reservation;
+	@Column(nullable = false)
+	private String type;
 
-	@Max(value = 1000, message = "화물 가로는 10m를 넘을 수 없다.")
+	@Column(nullable = false)
+	private String model;
+
+	@Nullable
+	private String photo;
+
+	@Max(value = 10000, message = "자동차 가로는 100m를 넘을 수 없다.")
 	@Column(nullable = false)
 	private int width;
 
-	@Max(value = 1000, message = "화물 세로는 10m를 넘을 수 없다.")
+	@Max(value = 10000, message = "자동차 세로는 100m를 넘을 수 없다.")
 	@Column(nullable = false)
 	private int length;
 
-	@Max(value = 1000, message = "화물 높이는 10m를 넘을 수 없다.")
+	@Max(value = 10000, message = "자동차 높이는 100m를 넘을 수 없다.")
 	@Column(nullable = false)
 	private int height;
 
 	@Column(nullable = false)
 	private int weight;
-
-	@Builder
-	public Cargo(Reservation reservation, int width, int length, int height, int weight) {
-		this.reservation = reservation;
-		this.width = width;
-		this.length = length;
-		this.height = height;
-		this.weight = weight;
-	}
 }

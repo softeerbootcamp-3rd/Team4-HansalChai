@@ -30,7 +30,6 @@ public class CargoOption extends BaseTime {
 	private int cargoOptionId;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@Column(nullable = false)
 	private Reservation reservation;
 
 	@Column(nullable = false)

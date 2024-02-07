@@ -33,7 +33,6 @@ public class Destination extends BaseTime {
 	private int destinationId;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@Column(nullable = false)
 	private Reservation reservation;
 
 	@Column(length = 100, nullable = false)

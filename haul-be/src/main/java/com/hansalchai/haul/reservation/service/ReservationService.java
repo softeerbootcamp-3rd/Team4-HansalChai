@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class ReservationService{
-
 	/*
 	1. 예약 dto에서 받아온 데이터로
 	2. 트럭을 선택

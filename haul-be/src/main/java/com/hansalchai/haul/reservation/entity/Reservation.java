@@ -37,7 +37,6 @@ public class Reservation extends BaseTime {
 	private int reservationId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@Column(nullable = false)
 	private Customer customer;
 
 	@ManyToOne(fetch = FetchType.LAZY)
