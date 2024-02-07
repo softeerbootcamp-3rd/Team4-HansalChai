@@ -15,6 +15,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -46,4 +47,13 @@ public class Cargo extends BaseTime {
 
 	@NotNull(message = "화물 무게는 Null 일 수 없다.")
 	private int weight;
+
+	@Builder
+	public Cargo(Reservation reservation, int width, int length, int height, int weight) {
+		this.reservation = reservation;
+		this.width = width;
+		this.length = length;
+		this.height = height;
+		this.weight = weight;
+	}
 }

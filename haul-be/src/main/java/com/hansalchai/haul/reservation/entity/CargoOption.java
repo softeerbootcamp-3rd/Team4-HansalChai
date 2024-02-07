@@ -14,6 +14,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -42,4 +43,14 @@ public class CargoOption extends BaseTime {
 
 	@NotNull(message = "리프트필요여부는 Null 일 수 없다.")
 	private boolean isLiftRequired;
+
+	@Builder
+	public CargoOption(Reservation reservation, boolean isRefrigerated, boolean isFrozen, boolean isFurniture,
+		boolean isLiftRequired) {
+		this.reservation = reservation;
+		this.isRefrigerated = isRefrigerated;
+		this.isFrozen = isFrozen;
+		this.isFurniture = isFurniture;
+		this.isLiftRequired = isLiftRequired;
+	}
 }
