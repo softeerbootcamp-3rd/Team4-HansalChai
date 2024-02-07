@@ -6,9 +6,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const HeaderFrame = styled.div`
   width: 100%;
-  height: 36px;
   ${({ theme }) => theme.flex.flexBetween};
-  font-family: "bold";
+  align-items: center;
+  font-family: "semiBold";
   font-size: 24px;
 `;
 
