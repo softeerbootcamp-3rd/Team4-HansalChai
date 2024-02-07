@@ -27,6 +27,7 @@ const TransportBox = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0 20px;
+  cursor: pointer;
 `;
 
 const ChoiceTransport = () => {
