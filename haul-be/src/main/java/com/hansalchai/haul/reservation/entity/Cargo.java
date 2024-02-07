@@ -3,7 +3,8 @@ package com.hansalchai.haul.reservation.entity;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
-import jakarta.persistence.Column;
+import com.hansalchai.haul.common.utils.BaseTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +14,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @SQLRestriction("is_deleted = FALSE")
 @SQLDelete(sql = "UPDATE cargo SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
 @Table(name = "cargo")
-public class Cargo {
+public class Cargo extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int cargoId;
