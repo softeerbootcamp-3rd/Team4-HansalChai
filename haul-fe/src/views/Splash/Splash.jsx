@@ -5,6 +5,7 @@ import styled, { keyframes } from "styled-components";
 import Loading from "../../assets/gifs/Loading.gif";
 import HaulCar from "../../assets/svgs/HaulCar.svg";
 import { useNavigate } from "react-router-dom";
+import { UrlMap } from "../../data/GlobalVariable";
 
 const SplashBox = styled.div`
   width: 100%;
@@ -68,7 +69,7 @@ const Splash = () => {
     animateText();
 
     setTimeout(() => {
-      navigate("/login");
+      navigate(UrlMap.loginPageUrl);
     }, animationDuration + delayTime);
   }, []);
 

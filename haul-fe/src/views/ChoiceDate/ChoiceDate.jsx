@@ -9,6 +9,7 @@ import { isEmptyString } from "../../utils/helper.js";
 import Calendar from "./components/Calendar.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../components/Button/BottomButton.jsx";
+import { UrlMap } from "../../data/GlobalVariable.js";
 
 const ChoiceDate = () => {
   const [selectedDay, setSelectedDay] = useState(new Date());
@@ -52,7 +53,7 @@ const ChoiceDate = () => {
           disabled={!selectedDay}
           onClick={() => {
             setReservationDate(DateFormChange(selectedDay));
-            navigation("/haulRequest/choiceTime");
+            navigation(UrlMap.choiceTimePageUrl);
           }}
         >
           선택 완료

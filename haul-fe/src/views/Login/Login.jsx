@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { useRef, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { UrlMap } from "../../data/GlobalVariable";
 
 const GoSignUpBtn = styled.button`
   width: auto;
@@ -37,7 +38,7 @@ const Login = () => {
       <Margin height="10px" />
       <GoSignUpBtn
         onClick={() => {
-          navigate("/signUp");
+          navigate(UrlMap.signUpPageUrl);
         }}
       >
         <Typography font="bold16" color="subColor">
@@ -84,7 +85,7 @@ const Login = () => {
           role="main"
           disabled={isButtonDisabled}
           onClick={() => {
-            navigate("/haulRequest/choiceTransport");
+            navigate(UrlMap.choiceTranportTypeUrl);
           }}
         >
           로그인하기

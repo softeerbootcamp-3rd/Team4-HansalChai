@@ -12,6 +12,7 @@ import Flex from "../../components/Flex/Flex.jsx";
 import { useContext } from "react";
 import { reservationStore } from "../../store/reservationStore.jsx";
 import { useNavigate } from "react-router-dom";
+import { UrlMap } from "../../data/GlobalVariable.js";
 
 const ImgBox = styled.img`
   width: 140px;
@@ -64,7 +65,7 @@ const ChoiceTransport = () => {
   const navigation = useNavigate();
   const ChoiceLogic = (transportType) => {
     setTransportType(transportType);
-    navigation("/haulRequest/choiceDate");
+    navigation(UrlMap.choiceDatePageUrl);
   };
 
   return (
