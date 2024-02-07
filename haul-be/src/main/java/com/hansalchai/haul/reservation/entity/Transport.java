@@ -1,13 +1,14 @@
 package com.hansalchai.haul.reservation.entity;
 
-import java.math.BigDecimal;
-
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import com.hansalchai.haul.common.utils.BaseTime;
+import com.hansalchai.haul.common.utils.TransportStatusConverter;
+import com.hansalchai.haul.reservation.constants.TransportStatus;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,9 +17,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @SQLRestriction("is_deleted = FALSE")
 @SQLDelete(sql = "UPDATE transport SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
@@ -42,7 +47,16 @@ public class Transport extends BaseTime {
 	private int requiredTime;
 
 	@NotNull(message = "운송상태는 null일 수 없다.")
-	@Column(length = 10)
-	private String status;
+	@Convert(converter = TransportStatusConverter.class)
+	@Column(name = "state")
+	private TransportStatus state = TransportStatus.NOT_STARTED;
+
+	@Builder
+	public Transport(Reservation reservation, String type, int fee, int requiredTime) {
+		this.reservation = reservation;
+		this.type = type;
+		this.fee = fee;
+		this.requiredTime = requiredTime;
+	}
 }
 
