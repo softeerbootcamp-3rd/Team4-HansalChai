@@ -26,6 +26,7 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     outline: none;
     background: white;
+    min-width: 0;
     :focus {
     outline: none;
     }
