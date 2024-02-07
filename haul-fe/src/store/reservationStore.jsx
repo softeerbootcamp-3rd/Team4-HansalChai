@@ -24,11 +24,11 @@ const ReservationStoreProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const setTransportType = (transportType) => {
-    dispatch({ type: "SET_TRANSPORTTYPE", payload: { transportType } });
+    dispatch({ type: "SET_TRANSPORT_TYPE", payload: { transportType } });
   };
 
   const setReservationDate = (reservationDate) => {
-    dispatch({ type: "SET_RESERVATIONDATE", payload: { reservationDate } });
+    dispatch({ type: "SET_RESERVATION_DATE", payload: { reservationDate } });
   };
 
   return (
@@ -42,12 +42,12 @@ const ReservationStoreProvider = ({ children }) => {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "SET_TRANSPORTTYPE":
+    case "SET_TRANSPORT_TYPE":
       return {
         ...state,
         transportType: action.payload.transportType,
       };
-    case "SET_RESERVATIONDATE":
+    case "SET_RESERVATION_DATE":
       return {
         ...state,
         reservationDate: action.payload.reservationDate,
