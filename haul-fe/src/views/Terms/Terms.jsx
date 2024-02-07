@@ -16,23 +16,23 @@ const ListItem = styled.div`
   ${({ theme }) => theme.flex.flexBetweenAlignCenter};
 `;
 
-const ServiceInfo = () => {
+const Terms = () => {
   const navigate = useNavigate();
 
   const clickTermsOfService = () => {
-    navigate("/more/serviceInfo/termsOfService");
+    navigate("/more/terms/services");
   };
 
   const clickPrivacyPolicy = () => {
-    navigate("/more/serviceInfo/privacyPolicy");
+    navigate("/more/terms/privacy");
   };
 
   const clickTransportationContract = () => {
-    navigate("/more/serviceInfo/transportationContract");
+    navigate("/more/terms/transportation");
   };
 
   const clickTermsOfLocationInfo = () => {
-    navigate("/more/serviceInfo/termsOfLocationInfo");
+    navigate("/more/terms/location");
   };
 
   return (
@@ -43,28 +43,25 @@ const ServiceInfo = () => {
       </Header>
       <Margin height="32px" />
       <Flex kind="flexColumn">
-        <ListItem id={"more__terms-of-service"} onClick={clickTermsOfService}>
+        <ListItem id={"more__service"} onClick={clickTermsOfService}>
           <Typography font={"medium16"}>이용약관</Typography>
           <ArrowIcon />
         </ListItem>
         <UnderBar />
-        <ListItem id={"more__privacy-policy"} onClick={clickPrivacyPolicy}>
+        <ListItem id={"more__privacy"} onClick={clickPrivacyPolicy}>
           <Typography font={"medium16"}>개인정보 처리방침</Typography>
           <ArrowIcon />
         </ListItem>
         <UnderBar />
         <ListItem
-          id={"more__transportation-contract"}
+          id={"more__transportation"}
           onClick={clickTransportationContract}
         >
           <Typography font={"medium16"}>화물자동차 운송주선약관</Typography>
           <ArrowIcon />
         </ListItem>
         <UnderBar />
-        <ListItem
-          id={"more__terms-of-location-info"}
-          onClick={clickTermsOfLocationInfo}
-        >
+        <ListItem id={"more__location"} onClick={clickTermsOfLocationInfo}>
           <Typography font={"medium16"}>위치기반서비스 이용약관</Typography>
           <ArrowIcon />
         </ListItem>
@@ -75,4 +72,4 @@ const ServiceInfo = () => {
   );
 };
 
-export default ServiceInfo;
+export default Terms;

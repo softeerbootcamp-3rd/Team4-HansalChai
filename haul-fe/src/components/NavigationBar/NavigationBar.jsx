@@ -64,10 +64,10 @@ const SelectedCircleImg = styled.img`
 const NavigationBar = ({ selected = "reserv" }) => {
   let navigator = useNavigate();
   const clickCheck = () => {
-    navigator("/reservationList");
+    navigator("/check/list");
   };
   const clickReserv = () => {
-    navigator("/choiceTransport");
+    navigator("/request/type");
   };
   const clickMore = () => {
     navigator("/more");

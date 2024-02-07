@@ -20,15 +20,15 @@ const More = () => {
   const navigate = useNavigate();
 
   const clickUserInfo = () => {
-    navigate("/more/userInfo");
+    navigate("/more/user-info");
   };
 
   const clickUserPayment = () => {
-    navigate("/more/userPayment");
+    navigate("/more/user-payments");
   };
 
   const clickTerms = () => {
-    navigate("/more/serviceInfo");
+    navigate("/more/terms");
   };
 
   return (
