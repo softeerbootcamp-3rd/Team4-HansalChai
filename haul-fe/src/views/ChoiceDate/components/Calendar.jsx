@@ -190,7 +190,7 @@ const Calendar = ({
             ))}
           </tr>
         </thead>
-        <Margin height="8px" />
+        <tr style={{ height: "8px" }} />
         <tbody>
           {calendarRows.map((row, i) => (
             <tr key={i}>{row}</tr>
