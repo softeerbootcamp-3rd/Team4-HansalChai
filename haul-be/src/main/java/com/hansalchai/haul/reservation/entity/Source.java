@@ -21,8 +21,8 @@ import lombok.Getter;
 @Getter
 @Entity
 @SQLRestriction("is_deleted = FALSE")
-@SQLDelete(sql = "UPDATE reservation SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
-@Table(name = "reservation")
+@SQLDelete(sql = "UPDATE source SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
+@Table(name = "source")
 public class Source extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
