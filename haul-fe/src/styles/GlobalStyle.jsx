@@ -61,6 +61,13 @@ const GlobalStyle = createGlobalStyle`
   border-radius: 100%;
   margin-right: 0.1rem;
   } 
+
+  select{
+    -o-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
 `;
 
 export default GlobalStyle;

@@ -9,6 +9,7 @@ import Terms from "../views/Terms/Terms.jsx";
 import UserInfo from "../views/UserInfo/UserInfo.jsx";
 import ChoiceTransport from "../views/ChoiceTransport/ChoiceTransport.jsx";
 import ChoiceDate from "../views/ChoiceDate/ChoiceDate.jsx";
+import ChoiceTime from "../views/ChoiceTime/ChoiceTime";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Contract from "../views/Contract/Contract.jsx";
@@ -50,6 +51,7 @@ const Router = () => (
       <Route path="/request" element={<Outlet />}>
         <Route path="type" element={<ChoiceTransport />} />
         <Route path="date" element={<ChoiceDate />} />
+        <Route path="time" element={<ChoiceTime />} />
       </Route>
       <Route path="/check" element={<Outlet />}>
         <Route path="list" element={<Check />} />

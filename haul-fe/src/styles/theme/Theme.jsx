@@ -144,9 +144,20 @@ const flex = {
       flex-direction: column;
       justify-content: space-between;
     `,
+  flexColumnAroundAlignCenter: `
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+  `,
   flexRow: `
         display: flex;
       `,
+  flexRowCenter: `
+    display: flex;
+    justify-content: center;
+  `,
+
   flexRowAlignCenter: `
       display: flex;
       align-items:center;
@@ -161,7 +172,6 @@ const flex = {
     justify-content: space-between;
     align-items: center;
     `,
-
   flexBetween: `
     display: flex;
     justify-content: space-between;

@@ -23,6 +23,10 @@ const reservationStore = createContext(initialState);
 const ReservationStoreProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const setInitialState = () => {
+    dispatch({ type: "SET_INITIAL_STATE" });
+  };
+
   const setTransportType = (transportType) => {
     dispatch({ type: "SET_TRANSPORT_TYPE", payload: { transportType } });
   };
@@ -33,7 +37,7 @@ const ReservationStoreProvider = ({ children }) => {
 
   return (
     <reservationStore.Provider
-      value={{ state, setTransportType, setReservationDate }}
+      value={{ state, setInitialState, setTransportType, setReservationDate }}
     >
       {children}
     </reservationStore.Provider>
@@ -42,6 +46,10 @@ const ReservationStoreProvider = ({ children }) => {
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "SET_INITIAL_STATE":
+      return {
+        ...initialState,
+      };
     case "SET_TRANSPORT_TYPE":
       return {
         ...state,

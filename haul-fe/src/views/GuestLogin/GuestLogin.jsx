@@ -1,29 +1,42 @@
-import MobileLayout from "../../components/MobileLayout/MobileLayout";
-import Margin from "../../components/Margin/Margin";
-import Typography from "../../components/Typhography/Typhography";
-import Flex from "../../components/Flex/Flex";
-import Input from "../../components/Input/Input";
-import FixedCenterBox from "../../components/FixedBox/FixedCenterBox";
-import BottomButton from "../../components/Button/BottomButton";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
+import Margin from "../../components/Margin/Margin.jsx";
+import Typography from "../../components/Typhography/Typhography.jsx";
+import Typography_Span from "../../components/Typhography/Typhography_Span.jsx";
+import Flex from "../../components/Flex/Flex.jsx";
+import Input from "../../components/Input/Input.jsx";
+import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
+import BottomButton from "../../components/Button/BottomButton.jsx";
+import { UrlMap } from "../../data/GlobalVariable";
 
 const GuestLogin = () => {
+  const navigate = useNavigate();
+
   const name = useRef("");
   const tel = useRef("");
   const [isButtonDisabled, setButtonDisabled] = useState(true);
+
+  function checkLoginAbled() {
+    let checkIsButtonDisabled = !(name.current && tel.current);
+    if (checkIsButtonDisabled !== isButtonDisabled) {
+      setButtonDisabled(checkIsButtonDisabled);
+    }
+  }
+
   return (
     <MobileLayout>
       <Margin height="40px" />
       <Flex kind="flexCenter">
         <Typography font="bold32">
-          HAUL YOUR NEED<span style={{ color: "#596FB7" }}>.</span>
+          HAUL YOUR NEED
+          <Typography_Span color="subColor">.</Typography_Span>
         </Typography>
       </Flex>
       <Margin height="83px" />
       <Typography font="bold24" color="subColor">
         비회원 로그인
       </Typography>
-
       <Margin height="36px" />
       <Typography font="semiBold20">이름</Typography>
       <Margin height="10px" />
@@ -33,10 +46,7 @@ const GuestLogin = () => {
         placeholder="Your Name"
         onChange={({ target: { value } }) => {
           name.current = value;
-          let checkIsButtonDisabled = !(name.current && tel.current);
-          if (checkIsButtonDisabled !== isButtonDisabled) {
-            setButtonDisabled(checkIsButtonDisabled);
-          }
+          checkLoginAbled();
         }}
       />
       <Margin height="20px" />
@@ -48,15 +58,17 @@ const GuestLogin = () => {
         placeholder="Phone Number"
         onChange={({ target: { value } }) => {
           tel.current = value;
-          let checkIsButtonDisabled = !(name.current && tel.current);
-          if (checkIsButtonDisabled !== isButtonDisabled) {
-            setButtonDisabled(checkIsButtonDisabled);
-          }
+          checkLoginAbled();
         }}
       />
-
       <FixedCenterBox bottom="30px">
-        <BottomButton role="main" disabled={isButtonDisabled}>
+        <BottomButton
+          role="main"
+          disabled={isButtonDisabled}
+          onClick={() => {
+            navigate(UrlMap.choiceTranportTypeUrl);
+          }}
+        >
           정보 입력 완료
         </BottomButton>
         <Margin height="10px" />
