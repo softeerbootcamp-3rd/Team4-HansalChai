@@ -80,6 +80,7 @@ public class CargoFeeTable {
 		processRange(list, costArray, costAddArray, startEnd, carTotal, 31, 10);
 
 		IntStream.range(0, keyArray.length).forEach(i -> feeTable.put(keyArray[i], list.get(i)));
+		//test용 테이블 생성 확인용 코드 나중에 제거하기
 		test = list;
 	}
 
