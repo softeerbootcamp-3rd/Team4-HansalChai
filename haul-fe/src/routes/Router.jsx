@@ -13,6 +13,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Contract from "../views/Contract/Contract.jsx";
 import Check from "../views/Check/Check.jsx";
+import UserPayments from "../views/UserPayments/UserPayments.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -43,6 +44,7 @@ const Router = () => (
           <Route path="location" element={<Contract type={"location"} />} />
         </Route>
         <Route path="user-info" element={<UserInfo />} />
+        <Route path="user-payments" element={<UserPayments />} />
       </Route>
       <Route path="/Test" element={<TestView />} />
       <Route path="/request" element={<Outlet />}>
