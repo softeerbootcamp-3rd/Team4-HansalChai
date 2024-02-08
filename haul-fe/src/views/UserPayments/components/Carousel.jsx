@@ -100,10 +100,10 @@ const CarouselImg = styled.img`
   height: fit-content;
 `;
 
-const Carousel = ({ carouselList, setSelectedItem }) => {
+const Carousel = ({ carouselList, setSelectedIndex }) => {
   //현재 위치를 나타내는 인덱스와 이미지 리스트를 관리
-  const [currIndex, setCurrIndex] = useState(carouselList.length);
-  const [currList, setCurrList] = useState();
+  const [currentIndex, setCurrentIndex] = useState(carouselList.length);
+  const [currentCarouselList, setCurrentCarouselList] = useState();
 
   //touch 이벤트 처리를 위한 ref(값을 유지해야 함)
   const touchStartXRef = useRef();
@@ -115,10 +115,10 @@ const Carousel = ({ carouselList, setSelectedItem }) => {
   //이미지 이동 함수 - 이미지 인덱스가 바뀌면 바뀐 인덱스의 이미지로 이동
   useEffect(() => {
     if (carouselRef.current !== null) {
-      carouselRef.current.style.transform = `translateX(-${currIndex}00%)`;
+      carouselRef.current.style.transform = `translateX(-${currentIndex}00%)`;
     }
-    setSelectedItem?.(() => (currIndex % carouselList.length) + 1);
-  }, [currIndex]);
+    setSelectedIndex?.(() => (currentIndex % carouselList.length) + 1);
+  }, [currentIndex]);
 
   //캐러셀 리스트가 변경되면 시작과 끝에 이미지를 추가하여 무한 슬라이드 구현
   useEffect(() => {
@@ -127,7 +127,7 @@ const Carousel = ({ carouselList, setSelectedItem }) => {
       //const endData = carouselList[carouselList.length - 1];
       const newList = [...carouselList, ...carouselList, ...carouselList];
 
-      setCurrList(newList);
+      setCurrentCarouselList(newList);
     }
   }, [carouselList]);
 
@@ -135,7 +135,7 @@ const Carousel = ({ carouselList, setSelectedItem }) => {
   //(무한 슬라이드 구현에서 복제된 슬라이드 -> 실제 슬라이드로 바로 이동)
   const moveToNthSlide = (index) => {
     setTimeout(() => {
-      setCurrIndex(index);
+      setCurrentIndex(index);
       if (carouselRef.current !== null) {
         carouselRef.current.style.transition = "";
       }
@@ -144,7 +144,7 @@ const Carousel = ({ carouselList, setSelectedItem }) => {
 
   //화살표 클릭 이벤트 처리 - 이전, 다음 이미지로 이동
   const handleSwipe = (direction) => {
-    const newIndex = currIndex + direction;
+    const newIndex = currentIndex + direction;
 
     if (newIndex === carouselList.length + 1) {
       moveToNthSlide(1);
@@ -152,7 +152,7 @@ const Carousel = ({ carouselList, setSelectedItem }) => {
       moveToNthSlide(carouselList.length);
     }
 
-    setCurrIndex((prev) => prev + direction);
+    setCurrentIndex((prev) => prev + direction);
     if (carouselRef.current !== null) {
       carouselRef.current.style.transition = "all 0.5s ease-in-out";
     }
@@ -166,11 +166,11 @@ const Carousel = ({ carouselList, setSelectedItem }) => {
 
   //터치 이동 이벤트 처리 - 터치 중 손가락 움직임에 따라 이미지 이동
   const handleTouchMove = (e) => {
-    const currTouchX = e.nativeEvent.changedTouches[0].clientX;
+    const currentTouchX = e.nativeEvent.changedTouches[0].clientX;
 
     if (carouselRef.current !== null) {
-      carouselRef.current.style.transform = `translateX(calc(-${currIndex}00% - ${
-        (touchStartXRef.current - currTouchX) * 0.1 || 0
+      carouselRef.current.style.transform = `translateX(calc(-${currentIndex}00% - ${
+        (touchStartXRef.current - currentTouchX) * 0.1 || 0
       }px))`;
     }
   };
@@ -204,7 +204,7 @@ const Carousel = ({ carouselList, setSelectedItem }) => {
           </CarouselBtn>
 
           <RefedCarouselList id={"carouselList"} ref={carouselRef}>
-            {currList?.map((image, idx) => {
+            {currentCarouselList?.map((image, idx) => {
               return (
                 <CarouselItem key={`carouselItem${idx}`} id={"carouselItem"}>
                   <CarouselImg
@@ -235,10 +235,11 @@ const Carousel = ({ carouselList, setSelectedItem }) => {
               name="carousel"
               id={`radio${idx}`}
               value={idx + 1}
-              checked={idx === currIndex % carouselList.length}
-              onChange={() =>
-                handleSwipe(idx - (currIndex % carouselList.length))
-              }
+              checked={idx === currentIndex % carouselList.length}
+              onChange={() => {
+                console.log(idx - (currentIndex % carouselList.length));
+                handleSwipe(idx - (currentIndex % carouselList.length));
+              }}
             />
           );
         })}
