@@ -1,11 +1,12 @@
-import MobileLayout from "../../components/MobileLayout/MobileLayout";
-import Header from "../../components/Header/Header";
-import Margin from "../../components/Margin/Margin";
-import BottomButton from "../../components/Button/BottomButton";
-import FixedCenterBox from "../../components/FixedBox/FixedCenterBox";
-import Input from "../../components/Input/Input";
-import Typography from "../../components/Typhography/Typhography";
 import { useRef, useState } from "react";
+import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
+import Header from "../../components/Header/Header.jsx";
+import Margin from "../../components/Margin/Margin.jsx";
+import BottomButton from "../../components/Button/BottomButton.jsx";
+import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
+import Input from "../../components/Input/Input.jsx";
+import Typography from "../../components/Typhography/Typhography.jsx";
+import { checkEmail } from "../../utils/helper.js";
 import {
   IoIosCheckmarkCircleOutline,
   IoIosCloseCircleOutline,
@@ -19,7 +20,7 @@ const SignUP = () => {
   const [isButtonDisabled, setButtonDisabled] = useState(true);
   const [isSamePassword, setSamePassword] = useState(false);
   const [isEmailForm, setEmailForm] = useState(false);
-  console.log("signup");
+
   const checkSame = () => {
     let checkIsButtonDisabled = !(
       name.current &&
@@ -30,11 +31,6 @@ const SignUP = () => {
     if (checkIsButtonDisabled !== isButtonDisabled) {
       setButtonDisabled(checkIsButtonDisabled);
     }
-  };
-
-  const checkEmail = (email) => {
-    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/;
-    return emailRegex.test(email);
   };
 
   return (

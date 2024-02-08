@@ -3,6 +3,58 @@ import styled from "styled-components";
 import Margin from "../../../components/Margin/Margin";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
+const CalendarContainer = styled.div`
+  width: calc(100%-40px);
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+`;
+
+const CalendarNav = styled.div`
+  ${(props) => props.theme.flex.flexBetweenCenter};
+  padding: 0 14px;
+  margin-bottom: 20px;
+  ${(props) => props.theme.font.bold16};
+`;
+
+const CalendarButton = styled.button`
+  background-color: #f8f8f8;
+  border: none;
+  color: ${(props) => props.theme.colors.black};
+  font-size: 20px;
+  cursor: pointer;
+  padding-top: 1px;
+`;
+
+const CalendarTable = styled.table`
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+  ${(props) => props.theme.font.semiBold14};
+`;
+
+const CalendarCell = styled.td`
+  padding: 14px 0;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  ${(props) => props.theme.font.semiBold12};
+  &.prevMonthDay,
+  &.nextMonthDay {
+    color: #bbb;
+  }
+  &.prevDay {
+    color: #ddd;
+  }
+  &.futureDay {
+    color: #333;
+  }
+  &.choiceDay {
+    background-color: #333;
+    color: #fff;
+  }
+`;
+
 const Calendar = ({
   selectedDay,
   setSelectedDay,
@@ -60,7 +112,7 @@ const Calendar = ({
 
   //
   const buildCalendarDays = () => {
-    // 이번달 처음 일수를 구함.
+    // 이번달 처음 일수를 구함
     const curMonthStartDate = new Date(
       currentMonth.getFullYear(),
       currentMonth.getMonth(),
@@ -85,7 +137,7 @@ const Calendar = ({
       1
     );
 
-    // 이전달의 값을 넣어둠.
+    // 이전달의 값을 넣어둠
     const days = Array.from({ length: curMonthStartDate }, (_, i) => {
       return new Date(
         currentMonth.getFullYear(),
@@ -124,14 +176,14 @@ const Calendar = ({
       if (day.getMonth() < currentMonth.getMonth()) {
         return (
           <CalendarCell key={i} className="prevMonthDay">
-            {isPrevMonth ? day.getDate() : ""}
+            {isPrevMonth && day.getDate()}
           </CalendarCell>
         );
       }
       if (day.getMonth() > currentMonth.getMonth()) {
         return (
           <CalendarCell key={i} className="nextMonthDay">
-            {isNextMonth ? day.getDate() : ""}
+            {isNextMonth && day.getDate()}
           </CalendarCell>
         );
       }
@@ -190,7 +242,7 @@ const Calendar = ({
             ))}
           </tr>
         </thead>
-        <Margin height="8px" />
+        <tr style={{ height: "8px" }} />
         <tbody>
           {calendarRows.map((row, i) => (
             <tr key={i}>{row}</tr>
@@ -200,63 +252,5 @@ const Calendar = ({
     </CalendarContainer>
   );
 };
-
-const CalendarContainer = styled.div`
-  width: calc(100%-40px);
-  background-color: #f8f8f8;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-`;
-
-const CalendarNav = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 14px;
-  margin-bottom: 20px;
-  ${(props) => props.theme.font.bold16};
-`;
-
-const CalendarButton = styled.button`
-  background-color: #f8f8f8;
-  border: none;
-  color: ${(props) => props.theme.colors.black};
-  font-size: 20px;
-  cursor: pointer;
-  padding-top: 1px;
-`;
-
-const CalendarTable = styled.table`
-  width: 100%;
-  text-align: center;
-  border-collapse: collapse;
-  ${(props) => props.theme.font.semiBold14};
-`;
-
-const CalendarCell = styled.td`
-  padding: 14px 0;
-  border-bottom: 1px solid #ddd;
-  cursor: pointer;
-  ${(props) => props.theme.font.semiBold12};
-
-  &.prevMonthDay,
-  &.nextMonthDay {
-    color: #bbb;
-  }
-
-  &.prevDay {
-    color: #ddd;
-  }
-
-  &.futureDay {
-    color: #333;
-  }
-
-  &.choiceDay {
-    background-color: #333;
-    color: #fff;
-  }
-`;
 
 export default Calendar;

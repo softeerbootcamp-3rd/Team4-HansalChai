@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
-import MobileLayout from "../../components/MobileLayout/MobileLayout";
-import Typography from "../../components/Typhography/Typhography";
+import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
+import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
+import Typography from "../../components/Typhography/Typhography.jsx";
 import Loading from "../../assets/gifs/Loading.gif";
 import HaulCar from "../../assets/svgs/HaulCar.svg";
-import { useNavigate } from "react-router-dom";
+import { UrlMap } from "../../data/GlobalVariable.js";
 
 const SplashBox = styled.div`
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
+  ${(props) => props.theme.flex.flexColumnAroundAlignCenter};
 `;
 
 const LoadingImg = styled.img`
@@ -33,10 +31,10 @@ const moveRightAnimation = keyframes`
 
 const LogoImg = styled.img`
   width: 100px;
-  animation: ${moveRightAnimation} 3.5s ease-in-out forwards;
   position: absolute;
   top: 50px;
   left: 50%;
+  animation: ${moveRightAnimation} 3.5s ease-in-out forwards;
   transform: translateX(-80%);
 `;
 
@@ -44,8 +42,7 @@ const AnimatedBox = styled.div`
   width: 100%;
   height: auto;
   position: relative;
-  display: flex;
-  justify-content: center;
+  ${(props) => props.theme.flex.flexRowCenter};
 `;
 
 const Splash = () => {
@@ -55,20 +52,20 @@ const Splash = () => {
   const navigate = useNavigate();
   const [animatedText, setAnimatedText] = useState("");
 
-  useEffect(() => {
-    const animateText = () => {
-      setTimeout(() => {
-        for (let i = 0; i <= initialText.length; i++) {
-          setTimeout(() => {
-            setAnimatedText(initialText.substring(0, i));
-          }, i * 250);
-        }
-      }, delayTime);
-    };
-    animateText();
-
+  const animateText = () => {
     setTimeout(() => {
-      navigate("/login");
+      for (let i = 0; i <= initialText.length; i++) {
+        setTimeout(() => {
+          setAnimatedText(initialText.substring(0, i));
+        }, i * 250);
+      }
+    }, delayTime);
+  };
+
+  useEffect(() => {
+    animateText();
+    setTimeout(() => {
+      navigate(UrlMap.loginPageUrl);
     }, animationDuration + delayTime);
   }, []);
 
