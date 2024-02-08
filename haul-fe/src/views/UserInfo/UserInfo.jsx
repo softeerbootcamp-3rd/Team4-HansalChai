@@ -98,7 +98,7 @@ const UserInfo = () => {
       <Header home={true} back={true}>
         <Typography font={"semiBold24"}>더보기</Typography>
       </Header>
-      <Margin height="22px" />
+      <Margin height="32px" />
       {isEdit ? (
         <>
           <Flex kind="flexColumn">
