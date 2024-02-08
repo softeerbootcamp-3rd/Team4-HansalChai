@@ -28,6 +28,6 @@ class CargoFeeTableTest {
 	@Test
 	@DisplayName("사용자가 무게와 거리를 입력하면 정상적으로 요금을 불러온다.")
 	void FindCostTest(){
-		System.out.println(Arrays.toString(CargoFeeTable.findCost(1100, 499)));
+		System.out.println(Arrays.toString(CargoFeeTable.findCost(6000, 400)));
 	}
 }

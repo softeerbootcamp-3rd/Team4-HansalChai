@@ -22,11 +22,10 @@ public class ReservationRestController {
 	private final ReservationService reservationService;
 
 	@PostMapping("/reservations")
-	public ResponseEntity<?> customerReservation(
+	public ResponseEntity<ApiResponse<ReservationResponse.ReservationRecommendationDTO>> customerReservation(
 		@Valid @RequestBody ReservationRequest.CreateReservationDTO request
 	) {
 		ReservationResponse.ReservationRecommendationDTO response = reservationService.createReservation(request);
-
 		return ResponseEntity.ok(ApiResponse.success(SuccessCode.GET_SUCCESS, response));
 	}
 }

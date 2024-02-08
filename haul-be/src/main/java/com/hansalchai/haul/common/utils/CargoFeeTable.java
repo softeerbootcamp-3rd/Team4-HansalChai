@@ -22,9 +22,9 @@ public class CargoFeeTable {
 	private static final Map<Integer, List<int[]> > feeTable = new HashMap<>();
 	public static List<List<int[]>> test = null;
 	// 0.5, 1, 5, 8, 15T
-	private static final int[] keyArray = {500, 1000, 5000, 8000, 15000};
+	private static final int[] truckLoadWeightArray = {500, 1000, 5000, 8000, 15000};
 	// 각 Ton별 초기 가격
-	private static final int[] costArray = {25000, 45000, 110000, 160000, 210000};
+	private static final int[] truckCostArray = {25000, 45000, 110000, 160000, 210000};
 	// 가격 증가량
 	private static final int[] costAddArray = {1000, 1000, 3000, 3000, 4000};
 
@@ -44,7 +44,7 @@ public class CargoFeeTable {
 
 	private static void initializeFeeTable() {
 
-		int carTotal = keyArray.length;
+		int carTotal = truckLoadWeightArray.length;
 
 		List<List<int[]>> list = IntStream.range(0, 5)
 			.mapToObj(i -> new ArrayList<int[]>())
@@ -53,33 +53,33 @@ public class CargoFeeTable {
 		StartEnd startEnd = new StartEnd(1, 2);
 
 		//1 ~ 30
-		processRange(list, costArray, costAddArray, startEnd, carTotal, 14, 2);
+		processRange(list, truckCostArray, costAddArray, startEnd, carTotal, 14, 2);
 		costAddArray[0] += 1000;
 		costAddArray[1] += 1000;
 		// 31 ~ 50
-		processRange(list, costArray, costAddArray, startEnd, carTotal, 10, 2);
+		processRange(list, truckCostArray, costAddArray, startEnd, carTotal, 10, 2);
 		costAddArray[0] += 3000;
 		costAddArray[1] += 3000;
 		costAddArray[2] += 3000;
 		costAddArray[3] += 3000;
 		costAddArray[4] += 4000;
 		// 50 ~ 100
-		processRange(list, costArray, costAddArray, startEnd, carTotal, 10, 5);
+		processRange(list, truckCostArray, costAddArray, startEnd, carTotal, 10, 5);
 		costAddArray[0] += 2000;
 		costAddArray[1] += 2000;
 		costAddArray[2] += 4000;
 		costAddArray[3] += 4000;
 		costAddArray[4] += 4000;
 		// 100 ~ 200
-		processRange(list, costArray, costAddArray, startEnd, carTotal, 10, 10);
+		processRange(list, truckCostArray, costAddArray, startEnd, carTotal, 10, 10);
 		costAddArray[0] += 3000;
 		costAddArray[1] += 3000;
 		costAddArray[2] += 5000;
 		costAddArray[3] += 5000;
 		costAddArray[4] += 5000;
-		processRange(list, costArray, costAddArray, startEnd, carTotal, 31, 10);
+		processRange(list, truckCostArray, costAddArray, startEnd, carTotal, 31, 10);
 
-		IntStream.range(0, keyArray.length).forEach(i -> feeTable.put(keyArray[i], list.get(i)));
+		IntStream.range(0, truckLoadWeightArray.length).forEach(i -> feeTable.put(truckLoadWeightArray[i], list.get(i)));
 		//test용 테이블 생성 확인용 코드 나중에 제거하기
 		test = list;
 	}
@@ -96,18 +96,10 @@ public class CargoFeeTable {
 		});
 	}
 
-	public static int findWhichTruck(int weight){
-		for(int i = keyArray.length-1; i >= 0; i--){
-			if(keyArray[i] <= weight)
-				return keyArray[i+1];
-		}
-		return keyArray[0];
-	}
-
 	public static int[] findCost(int weight, int distance) {
 		//몇kg 몇대 가격
 		int[] ret = new int[]{0, 0, Integer.MAX_VALUE};
-		for(int truckWeight : keyArray){
+		for(int truckWeight : truckLoadWeightArray){
 			List<int[]> list = feeTable.get(truckWeight);
 			int hi = list.size() - 1;
 			int lo = 0;

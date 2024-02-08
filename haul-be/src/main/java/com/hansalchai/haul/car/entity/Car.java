@@ -2,6 +2,7 @@ package com.hansalchai.haul.car.entity;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.validator.constraints.Range;
 
 import com.hansalchai.haul.car.constants.CarCategory;
 import com.hansalchai.haul.common.utils.BaseTime;
@@ -32,7 +33,7 @@ import lombok.NoArgsConstructor;
 public class Car extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int carId;
+	private long carId;
 
 	@Column(nullable = false)
 	private String type;
@@ -43,18 +44,19 @@ public class Car extends BaseTime {
 	@Nullable
 	private String photo;
 
-	@Max(value = 10000, message = "자동차 가로는 100m를 넘을 수 없다.")
+	@Range(min = 0, max = 10000, message = "자동차 가로는 100m를 넘을 수 없다.")
 	@Column(nullable = false)
 	private int width;
 
-	@Max(value = 10000, message = "자동차 세로는 100m를 넘을 수 없다.")
+	@Range(min = 0, max = 10000, message = "자동차 세로는 100m를 넘을 수 없다.")
 	@Column(nullable = false)
 	private int length;
 
-	@Max(value = 10000, message = "자동차 높이는 100m를 넘을 수 없다.")
+	@Range(min = 0, max = 10000, message = "자동차 높이는 100m를 넘을 수 없다.")
 	@Column(nullable = false)
 	private int height;
 
+	@Range(min = 0, max = 50000, message = "자동차 허용 무게는 50T를 넘을 수 없다.")
 	@Column(nullable = false)
 	private int weight;
 

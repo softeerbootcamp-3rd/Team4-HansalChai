@@ -5,6 +5,7 @@ import java.time.LocalTime;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.validator.constraints.Range;
 
 import com.hansalchai.haul.common.utils.BaseTime;
 import com.hansalchai.haul.customer.entity.Customer;
@@ -19,7 +20,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Max;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,7 +34,7 @@ import lombok.NoArgsConstructor;
 public class Reservation extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int reservationId;
+	private long reservationId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Customer customer;
@@ -66,7 +66,7 @@ public class Reservation extends BaseTime {
 	@Column(nullable = false)
 	private LocalTime time;
 
-	@Max(value = 10)
+	@Range(min = 0, max = 10)
 	@Column(nullable = false)
 	private int count;
 

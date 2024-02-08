@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 public class Destination extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int destinationId;
+	private long destinationId;
 
 	@Column(length = 100, nullable = false)
 	private String name;

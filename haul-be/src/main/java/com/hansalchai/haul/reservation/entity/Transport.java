@@ -11,11 +11,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AccessLevel;
@@ -32,10 +30,7 @@ import lombok.NoArgsConstructor;
 public class Transport extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int transportId;
-
-	@OneToOne(fetch = FetchType.LAZY)
-	private Reservation reservation;
+	private long transportId;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
@@ -50,7 +45,7 @@ public class Transport extends BaseTime {
 	private double requiredTime;
 
 	@Enumerated(EnumType.STRING)
-	private TransportStatus state = TransportStatus.NOT_STARTED;
+	private TransportStatus transportStatus = TransportStatus.NOT_STARTED;
 
 	@Builder
 	public Transport(TransportType type, int fee, int requiredTime) {
