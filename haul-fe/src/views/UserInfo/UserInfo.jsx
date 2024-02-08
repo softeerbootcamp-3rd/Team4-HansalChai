@@ -88,8 +88,6 @@ const UserInfo = () => {
       name: userRef.current,
       email: emailRef.current,
     });
-    console.log(userInfo);
-    console.log(passwordRef.current);
   };
 
   return (
@@ -111,9 +109,9 @@ const UserInfo = () => {
                 defaultValue={userInfo.name}
                 onBlur={(e) => {
                   const newUserName = e.target.value;
-                  if (newUserName.trim().length === 0)
-                    console.log("이름을 적어주세요");
-                  else userRef.current = newUserName;
+                  if (newUserName.trim().length !== 0)
+                    userRef.current = newUserName;
+                  //TODO: "이름을 적어주세요" 를 참일 때 띄우기
                 }}
               />
             </ListItem>
@@ -127,9 +125,9 @@ const UserInfo = () => {
                 defaultValue={userInfo.email}
                 onBlur={(e) => {
                   const newUserEmail = e.target.value;
-                  if (newUserEmail.trim().length === 0)
-                    console.log("이메일을 적어주세요");
-                  else emailRef.current = newUserEmail;
+                  if (newUserEmail.trim().length !== 0)
+                    emailRef.current = newUserEmail;
+                  //TODO: "이메일을 적어주세요" 를 참일 때 띄우기
                 }}
               />
             </ListItem>
@@ -144,8 +142,9 @@ const UserInfo = () => {
                 onBlur={(e) => {
                   passwordRef.current = e.target.value;
                   const report = checkPassword(passwordRef.current);
-                  if (!report.result) console.log(report.message);
-                  else passwordPassedRef.current = passwordRef.current;
+                  if (report.result)
+                    passwordPassedRef.current = passwordRef.current;
+                  //TODO: result가 실패일 시 report.message 에 담긴 내용 띄우기
                 }}
               />
             </ListItem>
@@ -159,9 +158,9 @@ const UserInfo = () => {
                 id={"passwordConfirm"}
                 onBlur={(e) => {
                   passwordConfirmRef.current = e.target.value;
-                  if (passwordRef.current !== passwordConfirmRef.current)
-                    console.log("비밀번호가 일치하지 않습니다.");
-                  else passwordPassedConfirmRef.current = passwordRef.current;
+                  if (passwordRef.current === passwordConfirmRef.current)
+                    passwordPassedConfirmRef.current = passwordRef.current;
+                  //TODO: 거짓일 시 "비밀번호가 일치하지 않습니다." 띄우기
                 }}
               />
             </ListItem>

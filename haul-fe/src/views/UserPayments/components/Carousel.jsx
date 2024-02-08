@@ -237,7 +237,6 @@ const Carousel = ({ carouselList, setSelectedIndex }) => {
               value={idx + 1}
               checked={idx === currentIndex % carouselList.length}
               onChange={() => {
-                console.log(idx - (currentIndex % carouselList.length));
                 handleSwipe(idx - (currentIndex % carouselList.length));
               }}
             />
