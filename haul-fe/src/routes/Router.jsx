@@ -23,7 +23,6 @@ const Router = () => (
     <ScrollToTop />
     <Routes>
       <Route path="/" element={<Splash />} />
-
       <Route path="/login" element={<Login />} />
       <Route path="/guestLogin" element={<GuestLogin />} />
       <Route path="/signUp" element={<SignUP />} />
