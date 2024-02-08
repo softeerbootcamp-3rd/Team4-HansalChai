@@ -103,19 +103,27 @@ public class CargoFeeTable {
 		return keyArray[0];
 	}
 
-	public static int findCost(int weight, int distance) {
-		int truckKey = findWhichTruck(weight);
-		List<int[]> list = feeTable.get(truckKey);
-		int max = list.size();
-		int min = 0;
-		while (min < max) {
-			int mid = (min + max) / 2;
-			if (distance > list.get(mid)[0]) {
-				min = mid + 1;
-			} else {
-				max = mid;
+	public static int[] findCost(int weight, int distance) {
+		//몇kg 몇대 가격
+		int[] ret = new int[]{0, 0, Integer.MAX_VALUE};
+		for(int truckWeight : keyArray){
+			List<int[]> list = feeTable.get(truckWeight);
+			int hi = list.size() - 1;
+			int lo = 0;
+			while (lo < hi) {
+				int mid = (lo + hi) / 2;
+				if (distance > list.get(mid)[0]) {
+					lo = mid + 1;
+				} else {
+					hi = mid;
+				}
 			}
+
+			int num = (weight + truckWeight - 1) / truckWeight;
+			int cost = list.get(lo)[2];
+			if(num * cost < ret[2])
+				ret = new int[]{ truckWeight, num,num*cost };
 		}
-		return list.get(min)[2];
+		return ret;
 	}
 }
