@@ -4,19 +4,18 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import com.hansalchai.haul.common.utils.BaseTime;
-import com.hansalchai.haul.common.utils.TransportStatusConverter;
 import com.hansalchai.haul.reservation.constants.TransportStatus;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -48,7 +47,7 @@ public class Transport extends BaseTime {
 	@Column(nullable = false)
 	private double requiredTime;
 
-	@Convert(converter = TransportStatusConverter.class)
+	@Enumerated(EnumType.STRING)
 	@Column(name = "state")
 	private TransportStatus state = TransportStatus.NOT_STARTED;
 
