@@ -94,7 +94,7 @@ const UserInfo = () => {
 
   return (
     <MobileLayout>
-      <Margin height="70px" />
+      <Margin height="10px" />
       <Header home={true} back={true}>
         <Typography font={"semiBold24"}>더보기</Typography>
       </Header>

@@ -148,7 +148,7 @@ const Check = () => {
 
   return (
     <MobileLayout>
-      <Margin height="70px" />
+      <Margin height="10px" />
       <Header home={false} back={false}>
         <Typography font={"semiBold24"}>예약 확인</Typography>
       </Header>
