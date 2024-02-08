@@ -31,6 +31,8 @@ const colors = {
   warningColor: "#e6be00",
   infoColor: "#afafaf",
   subButtonBackground: "#000b4935",
+  upperTextColor: "#10101080",
+  radioUnchecked: "#89939e33",
 };
 
 const font = {

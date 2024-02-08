@@ -9,7 +9,7 @@ import SelectedCircleSelectedSvg from "../../assets/svgs/SelectedCircle_Selected
 import SelectedCircleSvg from "../../assets/svgs/SelectedCircle.svg";
 import { useNavigate } from "react-router-dom";
 import Typography from "../Typhography/Typhography.jsx";
-import { MaxDeviceWidth } from "../../data/GlobalVariable.js";
+import { MaxDeviceWidth, UrlMap } from "../../data/GlobalVariable.js";
 
 const NavigationBarFrame = styled.div`
   position: fixed;
@@ -64,13 +64,13 @@ const SelectedCircleImg = styled.img`
 const NavigationBar = ({ selected = "reserv" }) => {
   let navigator = useNavigate();
   const clickCheck = () => {
-    navigator("/reservationList");
+    navigator(UrlMap.checkReservationPageUrl);
   };
   const clickReserv = () => {
-    navigator("/choiceTransport");
+    navigator(UrlMap.choiceTranportTypeUrl);
   };
   const clickMore = () => {
-    navigator("/more");
+    navigator(UrlMap.morePageUrl);
   };
 
   return (
@@ -86,7 +86,6 @@ const NavigationBar = ({ selected = "reserv" }) => {
           src={
             selected === "check" ? SelectedCircleSelectedSvg : SelectedCircleSvg
           }
-          fill={selected === "check" ? "selectCircle" : "none"}
         />
         <IconFrame fill={selected === "check" ? "mainColor" : "unselectedGray"}>
           <CheckSvg size={27} />
@@ -111,7 +110,6 @@ const NavigationBar = ({ selected = "reserv" }) => {
               ? SelectedCircleSelectedSvg
               : SelectedCircleSvg
           }
-          fill={selected === "reserv" ? "selectCircle" : "none"}
         />
         <TruckImg
           src={selected === "reserv" ? TruckSelectedSvg : TruckSvg}
@@ -134,7 +132,6 @@ const NavigationBar = ({ selected = "reserv" }) => {
           src={
             selected === "more" ? SelectedCircleSelectedSvg : SelectedCircleSvg
           }
-          fill={selected === "more" ? "selectCircle" : "none"}
         />
         <IconFrame fill={selected === "more" ? "mainColor" : "unselectedGray"}>
           <MoreSvg size={28} />

@@ -7,4 +7,6 @@ export const UrlMap = {
   choiceTranportTypeUrl: "/request/type",
   choiceDatePageUrl: "/request/date",
   choiceTimePageUrl: "/request/time",
+  morePageUrl: "/more",
+  checkReservationPageUrl: "/check/list",
 };
