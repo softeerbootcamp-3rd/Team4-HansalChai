@@ -10,6 +10,11 @@ const GlobalStyle = createGlobalStyle`
       background-color: white;
       font-family: "regular";
   }
+  
+  html{
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
 
   * {
     box-sizing: border-box;
@@ -47,6 +52,15 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     background-repeat: no-repeat;
   }
+
+  input[type='radio'],
+  input[type='radio']:checked {
+  appearance: none;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 100%;
+  margin-right: 0.1rem;
+  } 
 `;
 
 export default GlobalStyle;
