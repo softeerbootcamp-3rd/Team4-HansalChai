@@ -1,16 +1,27 @@
-import {
-  TouchEventHandler,
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 
 import {
   IoIosArrowBack as BackIcon,
   IoIosArrowForward as ForwardIcon,
 } from "react-icons/io";
 import styled from "styled-components";
+
+const RadioContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  & input[type="radio"] {
+    background-color: ${({ theme }) => theme.colors.radioUnchecked};
+    width: 10px;
+    height: 10px;
+    &:checked {
+      width: 10px;
+      height: 10px;
+      background-color: ${({ theme }) => theme.colors.mainColor};
+    }
+  }
+`;
 
 const Container = styled.div`
   display: flex;
@@ -31,7 +42,7 @@ const CarouselWrapper = styled.div`
       z-index: 1;
       display: block;
       padding: 8px 6px;
-      background-color: #10101080;
+      background-color: ${({ theme }) => theme.colors.carBackground};
       border-radius: 10px;
     }
   }
@@ -69,7 +80,7 @@ const CarouselItem = styled.li`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 350px;
+  height: fit-content;
   padding: 10px 0 15px;
   overflow: hidden;
   border-right: 2px solid colors.$WHITE;
@@ -89,9 +100,9 @@ const CarouselImg = styled.img`
   height: fit-content;
 `;
 
-const Carousel = ({ carouselList }) => {
+const Carousel = ({ carouselList, setSelectedItem }) => {
   //현재 위치를 나타내는 인덱스와 이미지 리스트를 관리
-  const [currIndex, setCurrIndex] = useState(1);
+  const [currIndex, setCurrIndex] = useState(carouselList.length);
   const [currList, setCurrList] = useState();
 
   //touch 이벤트 처리를 위한 ref(값을 유지해야 함)
@@ -106,14 +117,15 @@ const Carousel = ({ carouselList }) => {
     if (carouselRef.current !== null) {
       carouselRef.current.style.transform = `translateX(-${currIndex}00%)`;
     }
+    setSelectedItem?.(() => (currIndex % carouselList.length) + 1);
   }, [currIndex]);
 
   //캐러셀 리스트가 변경되면 시작과 끝에 이미지를 추가하여 무한 슬라이드 구현
   useEffect(() => {
     if (carouselList.length !== 0) {
-      const startData = carouselList[0];
-      const endData = carouselList[carouselList.length - 1];
-      const newList = [endData, ...carouselList, startData];
+      //const startData = carouselList[0];
+      //const endData = carouselList[carouselList.length - 1];
+      const newList = [...carouselList, ...carouselList, ...carouselList];
 
       setCurrList(newList);
     }
@@ -158,7 +170,7 @@ const Carousel = ({ carouselList }) => {
 
     if (carouselRef.current !== null) {
       carouselRef.current.style.transform = `translateX(calc(-${currIndex}00% - ${
-        (touchStartXRef.current - currTouchX) * 2 || 0
+        (touchStartXRef.current - currTouchX) * 0.1 || 0
       }px))`;
     }
   };
@@ -167,48 +179,71 @@ const Carousel = ({ carouselList }) => {
   const handleTouchEnd = (e) => {
     touchEndXRef.current = e.nativeEvent.changedTouches[0].clientX;
 
-    if (touchStartXRef.current >= touchEndXRef.current) {
+    if (touchStartXRef.current > touchEndXRef.current) {
       handleSwipe(1);
-    } else {
+    } else if (touchStartXRef.current < touchEndXRef.current) {
       handleSwipe(-1);
     }
   };
 
   return (
-    <Container>
-      <CarouselWrapper
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        <CarouselBtn
-          type="button"
-          className={"carousel__left-btn"}
-          id={"carouselLeftBtn"}
-          onClick={() => handleSwipe(-1)}
+    <>
+      <Container>
+        <CarouselWrapper
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
-          <BackIcon />
-        </CarouselBtn>
+          <CarouselBtn
+            type="button"
+            className={"carousel__left-btn"}
+            id={"carouselLeftBtn"}
+            onClick={() => handleSwipe(-1)}
+          >
+            <BackIcon />
+          </CarouselBtn>
 
-        <RefedCarouselList id={"carouselList"} ref={carouselRef}>
-          {currList?.map((image, idx) => {
-            return (
-              <CarouselItem key={`carouselItem${idx}`} id={"carouselItem"}>
-                <CarouselImg src={image} alt="carousel-img" />
-              </CarouselItem>
-            );
-          })}
-        </RefedCarouselList>
-        <CarouselBtn
-          type="button"
-          className={"carousel__right-btn"}
-          id={"carouselRightBtn"}
-          onClick={() => handleSwipe(1)}
-        >
-          <ForwardIcon />
-        </CarouselBtn>
-      </CarouselWrapper>
-    </Container>
+          <RefedCarouselList id={"carouselList"} ref={carouselRef}>
+            {currList?.map((image, idx) => {
+              return (
+                <CarouselItem key={`carouselItem${idx}`} id={"carouselItem"}>
+                  <CarouselImg
+                    src={image}
+                    alt="carousel-img"
+                    draggable={false}
+                  />
+                </CarouselItem>
+              );
+            })}
+          </RefedCarouselList>
+          <CarouselBtn
+            type="button"
+            className={"carousel__right-btn"}
+            id={"carouselRightBtn"}
+            onClick={() => handleSwipe(1)}
+          >
+            <ForwardIcon />
+          </CarouselBtn>
+        </CarouselWrapper>
+      </Container>
+      <RadioContainer>
+        {carouselList?.map((_, idx) => {
+          return (
+            <input
+              key={`radio${idx}`}
+              type="radio"
+              name="carousel"
+              id={`radio${idx}`}
+              value={idx + 1}
+              checked={idx === currIndex % carouselList.length}
+              onChange={() =>
+                handleSwipe(idx - (currIndex % carouselList.length))
+              }
+            />
+          );
+        })}
+      </RadioContainer>
+    </>
   );
 };
 
