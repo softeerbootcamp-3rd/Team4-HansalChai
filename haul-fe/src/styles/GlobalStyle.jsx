@@ -46,8 +46,9 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     background-repeat: no-repeat;
   }
-  
+
   select{
+    -o-appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
