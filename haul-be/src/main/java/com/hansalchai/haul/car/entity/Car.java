@@ -3,12 +3,15 @@ package com.hansalchai.haul.car.entity;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import com.hansalchai.haul.car.constants.CarCategory;
 import com.hansalchai.haul.common.utils.BaseTime;
 import com.hansalchai.haul.reservation.entity.Reservation;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -54,4 +57,20 @@ public class Car extends BaseTime {
 
 	@Column(nullable = false)
 	private int weight;
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private CarCategory category;
+
+	public Car(String type, String model, @Nullable String photo, int width, int length, int height, int weight,
+		CarCategory category) {
+		this.type = type;
+		this.model = model;
+		this.photo = photo;
+		this.width = width;
+		this.length = length;
+		this.height = height;
+		this.weight = weight;
+		this.category = category;
+	}
 }

@@ -5,6 +5,7 @@ import org.hibernate.annotations.SQLRestriction;
 
 import com.hansalchai.haul.common.utils.BaseTime;
 import com.hansalchai.haul.reservation.constants.TransportStatus;
+import com.hansalchai.haul.reservation.constants.TransportType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,8 +37,9 @@ public class Transport extends BaseTime {
 	@OneToOne(fetch = FetchType.LAZY)
 	private Reservation reservation;
 
-	@Column(length = 10, nullable = false)
-	private String type;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private TransportType type;
 
 	@PositiveOrZero(message = "운송 요금은 음수 일 수 없다.")
 	@Column(nullable = false)
@@ -48,11 +50,10 @@ public class Transport extends BaseTime {
 	private double requiredTime;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "state")
 	private TransportStatus state = TransportStatus.NOT_STARTED;
 
 	@Builder
-	public Transport(Reservation reservation, String type, int fee, int requiredTime) {
+	public Transport(Reservation reservation, TransportType type, int fee, int requiredTime) {
 		this.reservation = reservation;
 		this.type = type;
 		this.fee = fee;
