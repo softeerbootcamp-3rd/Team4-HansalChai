@@ -12,26 +12,29 @@ import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
 //TODO: 비밀번호 상세 규칙 통일할 것!!!!!!
 //TODO: 상세 규칙 정하고 정규식 바꾼 후 util로 보낼 것!!!!!!!
 const checkPassword = (password) => {
-  if (password.length === password.trim().length)
+  if (password.length !== password.trim().length)
     return { result: false, message: "비밀번호는 공백을 포함할 수 없습니다" };
   if (password.length < 8)
     return { result: false, message: "비밀번호는 8자 이상이어야 합니다" };
   if (password.length > 20)
     return { result: false, message: "비밀번호는 20자 이하여야 합니다" };
-  const reg = "^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$";
+  /*
+    const reg = new RegExp(
+    "^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$"
+  );
   if (!reg.test(password)) {
     return {
       result: false,
       message: "비밀번호는 영문, 숫자, 특수문자를 포함해야 합니다",
     };
   }
+  */
   return { result: true, message: "" };
 };
 
 const ListItem = styled.div`
   width: 100%;
   height: 53px;
-  cursor: pointer;
   ${({ theme }) => theme.flex.flexBetweenAlignCenter};
 `;
 
@@ -69,6 +72,8 @@ const UserInfo = () => {
   const emailRef = useRef(userInfo.email);
   const passwordRef = useRef("");
   const passwordConfirmRef = useRef("");
+  const passwordPassedRef = useRef("");
+  const passwordPassedConfirmRef = useRef("");
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -137,8 +142,10 @@ const UserInfo = () => {
                 placeholder="●●●●●●"
                 id={"password"}
                 onBlur={(e) => {
-                  const report = checkPassword(e.target.value);
+                  passwordRef.current = e.target.value;
+                  const report = checkPassword(passwordRef.current);
                   if (!report.result) console.log(report.message);
+                  else passwordPassedRef.current = passwordRef.current;
                 }}
               />
             </ListItem>
@@ -151,9 +158,10 @@ const UserInfo = () => {
                 placeholder="●●●●●●"
                 id={"passwordConfirm"}
                 onBlur={(e) => {
-                  passwordRef.current = e.target.value;
+                  passwordConfirmRef.current = e.target.value;
                   if (passwordRef.current !== passwordConfirmRef.current)
                     console.log("비밀번호가 일치하지 않습니다.");
+                  else passwordPassedConfirmRef.current = passwordRef.current;
                 }}
               />
             </ListItem>
