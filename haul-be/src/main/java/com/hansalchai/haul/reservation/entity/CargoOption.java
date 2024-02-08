@@ -29,9 +29,6 @@ public class CargoOption extends BaseTime {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int cargoOptionId;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	private Reservation reservation;
-
 	@Column(nullable = false)
 	private boolean isRefrigerated;
 
@@ -45,9 +42,8 @@ public class CargoOption extends BaseTime {
 	private boolean isLiftRequired;
 
 	@Builder
-	public CargoOption(Reservation reservation, boolean isRefrigerated, boolean isFrozen, boolean isFurniture,
+	public CargoOption(boolean isRefrigerated, boolean isFrozen, boolean isFurniture,
 		boolean isLiftRequired) {
-		this.reservation = reservation;
 		this.isRefrigerated = isRefrigerated;
 		this.isFrozen = isFrozen;
 		this.isFurniture = isFurniture;

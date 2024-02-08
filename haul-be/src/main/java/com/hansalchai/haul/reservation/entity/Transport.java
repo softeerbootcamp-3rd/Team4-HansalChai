@@ -53,8 +53,7 @@ public class Transport extends BaseTime {
 	private TransportStatus state = TransportStatus.NOT_STARTED;
 
 	@Builder
-	public Transport(Reservation reservation, TransportType type, int fee, int requiredTime) {
-		this.reservation = reservation;
+	public Transport(TransportType type, int fee, int requiredTime) {
 		this.type = type;
 		this.fee = fee;
 		this.requiredTime = requiredTime;

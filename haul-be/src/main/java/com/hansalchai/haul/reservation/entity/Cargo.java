@@ -30,9 +30,6 @@ public class Cargo extends BaseTime {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int cargoId;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	private Reservation reservation;
-
 	@Max(value = 1000, message = "화물 가로는 10m를 넘을 수 없다.")
 	@Column(nullable = false)
 	private int width;
@@ -49,8 +46,7 @@ public class Cargo extends BaseTime {
 	private int weight;
 
 	@Builder
-	public Cargo(Reservation reservation, int width, int length, int height, int weight) {
-		this.reservation = reservation;
+	public Cargo(int width, int length, int height, int weight) {
 		this.width = width;
 		this.length = length;
 		this.height = height;

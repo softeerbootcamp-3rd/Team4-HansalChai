@@ -32,9 +32,6 @@ public class Destination extends BaseTime {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int destinationId;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	private Reservation reservation;
-
 	@Column(length = 100, nullable = false)
 	private String name;
 
@@ -44,19 +41,18 @@ public class Destination extends BaseTime {
 	@Column(length = 100, nullable = false)
 	private String detailAddress;
 
-	@Column(precision = 4, scale = 7, nullable = false)
+	@Column(precision = 11, scale = 7, nullable = false)
 	private BigDecimal latitude;
 
-	@Column(precision = 4, scale = 7, nullable = false)
+	@Column(precision = 11, scale = 7, nullable = false)
 	private BigDecimal longitude;
 
 	@Column(length = 15, nullable = false)
 	private String tel;
 
 	@Builder
-	public Destination(Reservation reservation, String name, String address, String detailAddress, BigDecimal latitude,
+	public Destination(String name, String address, String detailAddress, BigDecimal latitude,
 		BigDecimal longitude, String tel) {
-		this.reservation = reservation;
 		this.name = name;
 		this.address = address;
 		this.detailAddress = detailAddress;

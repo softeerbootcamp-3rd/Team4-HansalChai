@@ -32,9 +32,6 @@ public class Source extends BaseTime {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int sourceId;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	private Reservation reservation;
-
 	@Column(length = 100, nullable = false)
 	private String name;
 
@@ -54,9 +51,8 @@ public class Source extends BaseTime {
 	private String tel;
 
 	@Builder
-	public Source(Reservation reservation, String name, String address, String detailAddress, BigDecimal latitude,
+	public Source(String name, String address, String detailAddress, BigDecimal latitude,
 		BigDecimal longitude, String tel) {
-		this.reservation = reservation;
 		this.name = name;
 		this.address = address;
 		this.detailAddress = detailAddress;

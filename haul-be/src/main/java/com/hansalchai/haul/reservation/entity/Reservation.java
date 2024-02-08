@@ -10,7 +10,6 @@ import com.hansalchai.haul.common.utils.BaseTime;
 import com.hansalchai.haul.customer.entity.Customer;
 import com.hansalchai.haul.driver.entity.Driver;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,10 +17,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -42,6 +42,21 @@ public class Reservation extends BaseTime {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Driver driver;
 
+	@OneToOne(fetch = FetchType.LAZY)
+	private Cargo cargo;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	private CargoOption cargoOption;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	private Source source;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	private Destination destination;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	private Transport transport;
+
 	@Column(nullable = false)
 	private String number;
 
@@ -58,10 +73,18 @@ public class Reservation extends BaseTime {
 	@Column(nullable = false)
 	private double distance;
 
-	public Reservation(Customer customer, @Nullable Driver driver, String number, LocalDate date, LocalTime time,
-		int count, double distance) {
+
+	@Builder
+	public Reservation(Customer customer, Driver driver, Cargo cargo, CargoOption cargoOption, Source source,
+		Destination destination, Transport transport, String number, LocalDate date, LocalTime time, int count,
+		double distance) {
 		this.customer = customer;
 		this.driver = driver;
+		this.cargo = cargo;
+		this.cargoOption = cargoOption;
+		this.source = source;
+		this.destination = destination;
+		this.transport = transport;
 		this.number = number;
 		this.date = date;
 		this.time = time;
