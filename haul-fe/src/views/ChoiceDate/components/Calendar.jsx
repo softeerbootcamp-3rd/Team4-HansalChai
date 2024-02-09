@@ -208,7 +208,17 @@ const Calendar = ({
 };
 
 const CalendarContainer = styled.div`
-  ${(props) => props.theme.animation.modalAnimation};
+  width: calc(${MaxDeviceWidth});
+  height: 100vh;
+  background-color: ${(props)=>props.theme.colors.white};
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position:fixed;
+  top: 24%;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const CalendarNav = styled.div`

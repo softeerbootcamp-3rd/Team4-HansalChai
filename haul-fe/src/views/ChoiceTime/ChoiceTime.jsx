@@ -12,6 +12,7 @@ import BottomButton from "../../components/Button/BottomButton.jsx";
 import { isEmptyString } from "../../utils/helper.js";
 import { IoIosArrowDown } from "react-icons/io";
 import { UrlMap } from "../../data/GlobalVariable.js";
+import { MaxDeviceWidth } from "../../data/GlobalVariable.js";
 
 const ChoiceTime = () => {
   const navigation = useNavigate();
@@ -92,6 +93,7 @@ const ChoiceTime = () => {
       <Margin height="150px" />
       <TimePicker>
         <TimeBox>
+        <TimeEachBox>
           <IconBox style={{ marginLeft: "-6px" }}>
             <IoIosArrowDown size={"24px"} />
           </IconBox>
@@ -99,8 +101,9 @@ const ChoiceTime = () => {
             <Option value="AM">오전</Option>
             <Option value="PM">오후</Option>
           </Select>
-        </TimeBox>
-        <TimeBox>
+        </TimeEachBox>
+        <Typography font="bold24">:</Typography>
+        <TimeEachBox>
           <IconBox>
             <IoIosArrowDown size={"24px"} />
           </IconBox>
@@ -111,10 +114,9 @@ const ChoiceTime = () => {
               </Option>
             ))}
           </Select>
-
-          <Label htmlFor="hour">시</Label>
-        </TimeBox>
-        <TimeBox>
+        </TimeEachBox>
+        <Typography font="bold24">:</Typography>
+        <TimeEachBox>
           <IconBox>
             <IoIosArrowDown size={"24px"} />
           </IconBox>
@@ -126,7 +128,8 @@ const ChoiceTime = () => {
               </option>
             ))}
           </Select>
-          <Label htmlFor="minute">분</Label>
+         
+        </TimeEachBox>
         </TimeBox>
       </TimePicker>
       <FixedCenterBox bottom="20px">
@@ -149,7 +152,17 @@ const ChoiceTime = () => {
 const TimePicker = styled.div`
   display:flex;
   align-items: flex-start;
-  ${(props) => props.theme.animation.modalAnimation};
+  width: calc(${MaxDeviceWidth});
+  height: 100vh;
+  background-color: ${(props)=>props.theme.colors.white};
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position:fixed;
+  top: 24%;
+  left: 50%;
+  transform: translateX(-50%);
   padding: 0px 40px;
   padding-top: 100px;
   
@@ -157,34 +170,32 @@ const TimePicker = styled.div`
 
 const TimeBox = styled.div`
   width: 100%;
-  margin: 0 8px;
+  height: auto;
   display:flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items:center;
+`
+
+const TimeEachBox = styled.div`
+  width: auto;
   position: relative;
-  background-size: 20px;
   cursor: pointer;
 `;
 
-const Label = styled.label`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 10px;
-  ${(props) => props.theme.font.semiBold18};
-  color: ${(props) => props.theme.colors.black};
-`;
+
 
 const Select = styled.select`
-  width: 50px;
+  width: 80px;
+  height: 50px;
   border: none;
-  padding: 20 0px;
+  padding: 0 16px;
   border-radius: 4px;
   background-color: transparent;
-  ${(props) => props.theme.font.semiBold18};
+  ${(props) => props.theme.font.bold16};
   color: ${(props) => props.theme.colors.black};
+  background-color:#E0E6F8;
   text-align: center;
   text-align-last: right;
-  margin-left: 10px;
   z-index: 3;
 `;
 
@@ -194,9 +205,10 @@ const Option = styled.option`
 
 const IconBox = styled.div`
   position: absolute;
-  top: 50%;
+  top: 52%;
   transform: translateY(-50%);
-  left: 10px;
+  left: 13px;
+  z-index: 10;
 `;
 
 export default ChoiceTime;
