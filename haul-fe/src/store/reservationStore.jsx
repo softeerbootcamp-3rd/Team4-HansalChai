@@ -35,9 +35,19 @@ const ReservationStoreProvider = ({ children }) => {
     dispatch({ type: "SET_RESERVATION_DATE", payload: { reservationDate } });
   };
 
+  const setReservationTime = (reservationTime) => {
+    dispatch({ type: "SET_RESERVATION_TIME", payload: { reservationTime } });
+  };
+
   return (
     <reservationStore.Provider
-      value={{ state, setInitialState, setTransportType, setReservationDate }}
+      value={{
+        state,
+        setInitialState,
+        setTransportType,
+        setReservationDate,
+        setReservationTime,
+      }}
     >
       {children}
     </reservationStore.Provider>
@@ -59,6 +69,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         reservationDate: action.payload.reservationDate,
+      };
+    case "SET_RESERVATION_TIME":
+      return {
+        ...state,
+        reservationTime: action.payload.reservationTime,
       };
     default:
       return state;
