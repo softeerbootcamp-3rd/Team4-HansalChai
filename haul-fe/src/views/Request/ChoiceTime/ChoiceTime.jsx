@@ -1,18 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { reservationStore } from "../../store/reservationStore.jsx";
-import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
-import Margin from "../../components/Margin/Margin.jsx";
-import Header from "../../components/Header/Header.jsx";
-import Typography from "../../components/Typhography/Typhography.jsx";
-import Typography_Span from "../../components/Typhography/Typhography_Span.jsx";
-import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
-import BottomButton from "../../components/Button/BottomButton.jsx";
-import { isEmptyString } from "../../utils/helper.js";
+import { reservationStore } from "../../../store/reservationStore.jsx";
+import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
+import Margin from "../../../components/Margin/Margin.jsx";
+import Header from "../../../components/Header/Header.jsx";
+import Typography from "../../../components/Typhography/Typhography.jsx";
+import Typography_Span from "../../../components/Typhography/Typhography_Span.jsx";
+import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
+import BottomButton from "../../../components/Button/BottomButton.jsx";
+import { isEmptyString } from "../../../utils/helper.js";
 import { IoIosArrowDown } from "react-icons/io";
-import { UrlMap } from "../../data/GlobalVariable.js";
-import { MaxDeviceWidth } from "../../data/GlobalVariable.js";
+import { UrlMap } from "../../../data/GlobalVariable.js";
+import { MaxDeviceWidth } from "../../../data/GlobalVariable.js";
 
 const ChoiceTime = () => {
   const navigation = useNavigate();
@@ -77,7 +77,7 @@ const ChoiceTime = () => {
 
   return (
     <MobileLayout>
-      <Margin height="10px" />
+      <Margin height="20px" />
       <Header>
         HAUL<Typography_Span color="subColor">.</Typography_Span>
       </Header>
@@ -142,7 +142,7 @@ const ChoiceTime = () => {
             navigation(UrlMap.choiceSrcPageUrl);
           }}
         >
-          선택완료
+          선택 완료
         </BottomButton>
       </FixedCenterBox>
     </MobileLayout>

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Margin from "../../../components/Margin/Margin";
-import Typography_Span from "../../../components/Typhography/Typhography_Span";
-import Checkmark from "../../../components/CheckMark/CheckMark";
+import Margin from "../../../../components/Margin/Margin";
+import Typography_Span from "../../../../components/Typhography/Typhography_Span";
+import Checkmark from "../../../../components/CheckMark/CheckMark";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { MaxDeviceWidth } from "../../../data/GlobalVariable";
+import { MaxDeviceWidth } from "../../../../data/GlobalVariable";
 
 
 const Calendar = ({

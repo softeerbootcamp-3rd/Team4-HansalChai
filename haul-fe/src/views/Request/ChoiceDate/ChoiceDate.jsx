@@ -1,17 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { reservationStore } from "../../store/reservationStore.jsx";
-import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
-import Header from "../../components/Header/Header.jsx";
-import Margin from "../../components/Margin/Margin.jsx";
-import Typography from "../../components/Typhography/Typhography.jsx";
-import Typography_Span from "../../components/Typhography/Typhography_Span.jsx";
+import { reservationStore } from "../../../store/reservationStore.jsx";
+import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
+import Header from "../../../components/Header/Header.jsx";
+import Margin from "../../../components/Margin/Margin.jsx";
+import Typography from "../../../components/Typhography/Typhography.jsx";
+import Typography_Span from "../../../components/Typhography/Typhography_Span.jsx";
 import Calendar from "./components/Calendar.jsx";
-import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
-import BottomButton from "../../components/Button/BottomButton.jsx";
-import { isEmptyString } from "../../utils/helper.js";
-import { UrlMap } from "../../data/GlobalVariable.js";
-import { stringToDateObject } from "../../utils/helper.js";
+import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
+import BottomButton from "../../../components/Button/BottomButton.jsx";
+import { isEmptyString } from "../../../utils/helper.js";
+import { UrlMap } from "../../../data/GlobalVariable.js";
+import { stringToDateObject } from "../../../utils/helper.js";
 
 const ChoiceDate = () => {
   const navigation = useNavigate();
@@ -41,7 +41,7 @@ const ChoiceDate = () => {
 
   return (
     <MobileLayout>
-      <Margin height="10px" />
+      <Margin height="20px" />
       <Header>
         HAUL
         <Typography_Span color="subColor">.</Typography_Span>

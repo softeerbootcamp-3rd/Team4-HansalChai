@@ -1,19 +1,19 @@
 import { useContext } from "react";
-import { reservationStore } from "../../store/reservationStore.jsx";
+import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate } from "react-router-dom";
-import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
-import Header from "../../components/Header/Header.jsx";
-import Typography from "../../components/Typhography/Typhography.jsx";
-import Typography_Span from "../../components/Typhography/Typhography_Span.jsx";
-import Margin from "../../components/Margin/Margin.jsx";
+import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
+import Header from "../../../components/Header/Header.jsx";
+import Typography from "../../../components/Typhography/Typhography.jsx";
+import Typography_Span from "../../../components/Typhography/Typhography_Span.jsx";
+import Margin from "../../../components/Margin/Margin.jsx";
 import styled from "styled-components";
-import Transport1 from "../../assets/svgs/Transport1.svg";
-import Transport2 from "../../assets/svgs/Transport2.svg";
-import Transport3 from "../../assets/svgs/Transport3.svg";
-import Transport4 from "../../assets/svgs/Transport4.svg";
-import NavigationBar from "../../components/NavigationBar/NavigationBar.jsx";
-import Flex from "../../components/Flex/Flex.jsx";
-import { UrlMap } from "../../data/GlobalVariable.js";
+import Transport1 from "../../../assets/svgs/Transport1.svg";
+import Transport2 from "../../../assets/svgs/Transport2.svg";
+import Transport3 from "../../../assets/svgs/Transport3.svg";
+import Transport4 from "../../../assets/svgs/Transport4.svg";
+import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
+import Flex from "../../../components/Flex/Flex.jsx";
+import { UrlMap } from "../../../data/GlobalVariable.js";
 
 const ImgBox = styled.img`
   width: 140px;
@@ -72,7 +72,7 @@ const ChoiceTransport = () => {
 
   return (
     <MobileLayout>
-      <Margin height="10px" />
+      <Margin height="20px" />
       <Header back={false}>
         HAUL
         <Typography_Span color="subColor">.</Typography_Span>
