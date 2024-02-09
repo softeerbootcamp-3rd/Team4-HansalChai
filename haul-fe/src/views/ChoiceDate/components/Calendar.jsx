@@ -1,59 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Margin from "../../../components/Margin/Margin";
+import Typography_Span from "../../../components/Typhography/Typhography_Span";
+import Checkmark from "../../../components/CheckMark/CheckMark";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { MaxDeviceWidth } from "../../../data/GlobalVariable";
 
-const CalendarContainer = styled.div`
-  width: calc(100%-40px);
-  background-color: #f8f8f8;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-`;
-
-const CalendarNav = styled.div`
-  ${(props) => props.theme.flex.flexBetweenCenter};
-  padding: 0 14px;
-  margin-bottom: 20px;
-  ${(props) => props.theme.font.bold16};
-`;
-
-const CalendarButton = styled.button`
-  background-color: #f8f8f8;
-  border: none;
-  color: ${(props) => props.theme.colors.black};
-  font-size: 20px;
-  cursor: pointer;
-  padding-top: 1px;
-`;
-
-const CalendarTable = styled.table`
-  width: 100%;
-  text-align: center;
-  border-collapse: collapse;
-  ${(props) => props.theme.font.semiBold14};
-`;
-
-const CalendarCell = styled.td`
-  padding: 14px 0;
-  border-bottom: 1px solid #ddd;
-  cursor: pointer;
-  ${(props) => props.theme.font.semiBold12};
-  &.prevMonthDay,
-  &.nextMonthDay {
-    color: #bbb;
-  }
-  &.prevDay {
-    color: #ddd;
-  }
-  &.futureDay {
-    color: #333;
-  }
-  &.choiceDay {
-    background-color: #333;
-    color: #fff;
-  }
-`;
 
 const Calendar = ({
   selectedDay,
@@ -61,7 +13,7 @@ const Calendar = ({
   isPrevMonth,
   isNextMonth,
 }) => {
-  const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const today = new Date();
@@ -78,7 +30,7 @@ const Calendar = ({
     }
     return false;
   };
-
+  //선 색 죽이고 셀마다 높이를 크게 하고, 아래 여백 주고
   //날짜를 클릭했을때 발생
   const onClickDay = (day) => {
     if (isSameDay(day, selectedDay)) {
@@ -175,6 +127,7 @@ const Calendar = ({
     return calendarDays.map((day, i) => {
       if (day.getMonth() < currentMonth.getMonth()) {
         return (
+          
           <CalendarCell key={i} className="prevMonthDay">
             {isPrevMonth && day.getDate()}
           </CalendarCell>
@@ -199,8 +152,9 @@ const Calendar = ({
           key={i}
           className={`futureDay ${isSameDay(day, selectedDay) && "choiceDay"}`}
           onClick={() => onClickDay(day)}
+          check={isSameDay(day, selectedDay)}
         >
-          {day.getDate()}
+          {isSameDay(day, selectedDay) ? <Checkmark size="medium"/> : day.getDate()}
         </CalendarCell>
       );
     });
@@ -221,36 +175,119 @@ const Calendar = ({
   return (
     <CalendarContainer>
       <CalendarNav>
-        <span>
+        <CalendarButton onClick={prevCalendar}>
+          <IoIosArrowBack />
+        </CalendarButton>
+        <Typography_Span font="bold16" color="mainColor">
           {currentMonth.getFullYear()}년 {currentMonth.getMonth() + 1}월
-        </span>
-        <div>
-          <CalendarButton onClick={prevCalendar}>
-            <IoIosArrowBack />
-          </CalendarButton>
-          <CalendarButton onClick={nextCalendar}>
-            <IoIosArrowForward />
-          </CalendarButton>
-        </div>
+        </Typography_Span>
+        <CalendarButton onClick={nextCalendar}>
+          <IoIosArrowForward />
+        </CalendarButton>
       </CalendarNav>
       <Margin height="6px" />
       <CalendarTable>
         <thead>
-          <tr>
+          <CalendarTr>
             {daysOfWeek.map((day, i) => (
-              <th key={i}>{day}</th>
+              <DayCell key={i}>{day}</DayCell>
             ))}
-          </tr>
+          </CalendarTr>
         </thead>
         <tr style={{ height: "8px" }} />
         <tbody>
-          {calendarRows.map((row, i) => (
-            <tr key={i}>{row}</tr>
-          ))}
+        <tr style={{ height: "16px" }} />
+        {calendarRows.map((row, i) => ([
+          <GrayLine/>,
+          <CalendarTr key={`row-${i}`}>{row}</CalendarTr>
+        ]))}
         </tbody>
       </CalendarTable>
     </CalendarContainer>
   );
 };
+
+const CalendarContainer = styled.div`
+  width: calc(${MaxDeviceWidth});
+  height: 100vh;
+  background-color: ${(props)=>props.theme.colors.white};
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position:fixed;
+  top: 24%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: toast-animation 1.5s ease-in-out;
+  @keyframes toast-animation {
+    0% {
+      transform: translate(-50%,70%);
+    }
+    80%{
+      transform: translate(-50%,-2%);
+    }
+    100% {
+      transform: translate(-50%,0%);
+    }
+  }
+`;
+
+const CalendarNav = styled.div`
+  ${(props) => props.theme.flex.flexBetweenCenter};
+  padding: 0 14px;
+  margin-bottom: 20px;
+  ${(props) => props.theme.font.bold16};
+`;
+
+const CalendarButton = styled.button`
+  border: none;
+  color: ${(props) => props.theme.colors.mainColor};
+  font-size: 20px;
+  cursor: pointer;
+  padding-top: 1px;
+`;
+
+const CalendarTable = styled.table`
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+  ${(props) => props.theme.font.semiBold14};
+`;
+
+const DayCell = styled.th`
+  width: 30px;
+  ${(props) => props.theme.flex.flexCenter};
+`
+
+const CalendarCell = styled.td`
+  cursor: pointer;
+  width: 30px;
+  height: 56px;
+  ${(props) => props.theme.flex.flexCenter};
+  ${(props) => props.theme.font.semiBold14};
+  &.prevMonthDay,
+  &.nextMonthDay {
+    color: #bbb;
+  }
+  &.prevDay {
+    color: #ddd;
+  }
+  &.futureDay {
+    color: #333;
+  }
+
+`;
+
+const CalendarTr = styled.tr`
+  width: 100%;
+  ${(props) => props.theme.flex.flexBetween};
+`
+
+const GrayLine = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: #ddd;
+`
 
 export default Calendar;
