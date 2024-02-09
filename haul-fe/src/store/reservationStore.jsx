@@ -39,6 +39,11 @@ const ReservationStoreProvider = ({ children }) => {
     dispatch({ type: "SET_RESERVATION_TIME", payload: { reservationTime } });
   };
 
+  const setSrcInfo = ({srcName, srcLatitude,srcLongitude, srcDetailAddress, srcTel}) => {
+    console.log(srcName, srcLatitude,srcLongitude, srcDetailAddress, srcTel);
+    dispatch({ type: "SET_SRC_INFO", payload: { srcName, srcLatitude,srcLongitude, srcDetailAddress, srcTel } });
+  };
+
   return (
     <reservationStore.Provider
       value={{
@@ -47,6 +52,7 @@ const ReservationStoreProvider = ({ children }) => {
         setTransportType,
         setReservationDate,
         setReservationTime,
+        setSrcInfo
       }}
     >
       {children}
@@ -74,6 +80,14 @@ const reducer = (state, action) => {
       return {
         ...state,
         reservationTime: action.payload.reservationTime,
+      };
+    case "SET_SRC_INFO":
+      return {
+        ...state,
+        srcName: action.payload.srcName,
+        srcCoordinate: { srcLatitude: action.payload.srcLatitude, srcLongitude: action.payload.srcLongitude },
+        srcDetailAddress: action.payload.srcDetailAddress,
+        srcTel: action.payload.srcTel,
       };
     default:
       return state;
