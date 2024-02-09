@@ -6,6 +6,8 @@ import java.time.LocalTime;
 
 import org.hibernate.validator.constraints.Range;
 
+import com.hansalchai.haul.reservation.constants.TransportType;
+
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +19,8 @@ public class ReservationRequest {
 	@Getter
 	@Builder
 	public static class CreateReservationDTO {
+		@NotNull(message = "운송수단은 Null 일 수 없다.")
+		private TransportType transportType;
 		@NotNull(message = "예약 날짜는 Null 일 수 없다.")
 		private LocalDate date;
 		@NotNull(message = "예약 시간은 Null 일 수 없다.")
