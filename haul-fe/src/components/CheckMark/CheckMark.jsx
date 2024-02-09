@@ -37,8 +37,8 @@ const CheckmarkSVG = styled.svg`
   stroke: var(--checkmark-arrow-color);
   stroke-width: var(--checkmark-arrow-thickness);
   stroke-miterlimit: 10;
-  animation: ${fill} 0.4s ease-in-out 0.4s forwards,
-              ${scale} 0.3s ease-in-out 0.9s both;
+  animation: ${fill} 0.28s ease-in-out 0.4s forwards,
+              ${scale} 0.21s ease-in-out 0.9s both;
 `;
 
 const Circle = styled.circle`
