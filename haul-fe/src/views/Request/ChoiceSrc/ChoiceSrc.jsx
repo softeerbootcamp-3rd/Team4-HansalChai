@@ -6,18 +6,68 @@ import Typography from "../../../components/Typhography/Typhography.jsx";
 import SearchMap from "../../../components/Map/SearchMap/SearchMap.jsx";
 import Input from "../../../components/Input/Input.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
-import { useState } from "react";
-
+import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
+import { useState, useRef, useEffect, useContext } from "react";
+import { reservationStore } from "../../../store/reservationStore.jsx";
+import { isEmptyString } from "../../../utils/helper.js";
+import { useNavigate } from "react-router-dom";
+import { UrlMap } from "../../../data/GlobalVariable.js";
 
 const ChoiceSrc = () => {
+  const navigation = useNavigate();
+  const {
+    setSrcInfo,
+    state: { reservationTime },
+  } = useContext(reservationStore);
+
+  //시간 선택하지 않는 경우, 이전 페이지인 시간 선택 페이지로 이동
+  useEffect(()=>{
+    if(isEmptyString(reservationTime)){
+      navigation(UrlMap.choiceTimePageUrl);
+    }
+  },[])
+
+  function showUserTime(){
+    const [reservationHour, reservationHourMin] = reservationTime.split("-").map(v=>Number(v));
+    let showTime = "";
+    reservationHour>=12? showTime = "AM ": showTime = "PM "
+    showTime+=(reservationHour%12 + "시");
+    showTime+=(reservationHourMin+"분");
+    return showTime;
+  }
 
   const [mapInfo, setMapInfo] = useState({
     name: "",
     coordinate: { latitude: "", longitude: "" },
     detailAddress: ""
   })
+  const srcDetailAddress = useRef("");
+  const srcTel = useRef("");
+  const [submitDisabled, CheckSubmitDisabled] = useState(true);
+  
+  useEffect(()=>{
+    CheckSubmitDisabled(CheckSubmitDisabledFun())
+  },[mapInfo])
 
-    
+  //이 페이지에서 원하는 값이 다 있는지 체크
+  function CheckSubmitDisabledFun() {
+    const isMapInfoFilled = mapInfo.coordinate.latitude !== "" && mapInfo.coordinate.longitude !== "" && mapInfo.detailAddress !== "";
+    const isSrcDetailAddressFilled = srcDetailAddress.current !== "";
+    const isSrcTelFilled = srcTel.current !== "";
+    return !(isMapInfoFilled && isSrcDetailAddressFilled && isSrcTelFilled);
+  }  
+
+  function SumbitStore(){
+    setSrcInfo({srcName: mapInfo.name, 
+      srcLatitude: Number(mapInfo.coordinate.latitude), 
+      srcLongitude: Number(mapInfo.coordinate.longitude), 
+      srcDetailAddress: srcDetailAddress.current, 
+      srcTel : srcTel.current
+    })
+    navigation(UrlMap.choiceDstPageUrl);
+  }
+
+
   return <MobileLayout> 
     <Margin height="20px" />
     <Header>
@@ -26,7 +76,7 @@ const ChoiceSrc = () => {
     <Margin height="24px" />
     <Typography font="bold24">
       <Typography_Span color="subColor" style={{ marginRight: "2px" }}>
-        PM 6시30분
+        {showUserTime()}
       </Typography_Span>
       에 뵈러 갈게요.
     </Typography>
@@ -41,15 +91,24 @@ const ChoiceSrc = () => {
       상세주소
     </Typography>
     <Margin height="10px" />
-    <Input size="small" placeholder="상세주소를 입력해주세요."/>
+    <Input size="small" placeholder="상세주소를 입력해주세요."  
+      onChange={({ target: { value } }) => {
+        srcDetailAddress.current = value;
+        CheckSubmitDisabled(CheckSubmitDisabledFun())
+    }}/>
     <Margin height="20px" />
     <Typography font="bold16">
       도착하면 누구에게 연락할까요?
     </Typography>
     <Margin height="10px" />
-    <Input size="small" placeholder="도착하면 전화할 연락처를 알려주세요."/>
+    <Input size="small" placeholder="도착하면 전화할 연락처를 알려주세요."
+     onChange={({ target: { value } }) => {
+      srcTel.current = value;
+      CheckSubmitDisabled(CheckSubmitDisabledFun())
+  }}/>
     <Margin height="30px" />
-    <BottomButton role="main" disabled={false}>선택완료</BottomButton>
+    <BottomButton role="main" disabled={submitDisabled} onClick={()=>{SumbitStore()}}>선택완료</BottomButton>
+    <NavigationBar />
   </MobileLayout>;
 };
 
