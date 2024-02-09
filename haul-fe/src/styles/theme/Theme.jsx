@@ -30,7 +30,7 @@ const colors = {
   errorColor: "#d83b3b",
   warningColor: "#e6be00",
   infoColor: "#afafaf",
-  subButtonBackground: "#000b4935",
+  subButtonBackground: "#F3EDC8",
   upperTextColor: "#10101080",
   radioUnchecked: "#89939e33",
 };
