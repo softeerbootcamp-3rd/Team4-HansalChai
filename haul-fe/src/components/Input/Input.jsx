@@ -15,13 +15,15 @@ const InputSection = styled.input`
 `;
 
 //useRef의 value를 받기로 약속됨.
-const Input = ({ type, size, placeholder, onChange }) => {
+const Input = ({ type, size, placeholder, onChange, value, readOnly }) => {
   return (
     <InputSection
+      value={value}
       type={type}
       size={size}
       placeholder={placeholder}
       onChange={onChange}
+      readOnly={readOnly}
     />
   );
 };
