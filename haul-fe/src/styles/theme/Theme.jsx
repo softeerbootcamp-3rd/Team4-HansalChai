@@ -1,3 +1,5 @@
+import { MaxDeviceWidth } from "../../data/GlobalVariable";
+
 const colors = {
   white: "#ffffff",
   black: "#1B1313",
@@ -76,6 +78,11 @@ const font = {
     font-size: 20px;
     line-height: 20px;
   `,
+  semiBold18: `
+  font-family: 'semiBold';
+  font-size: 18px;
+  line-height: 18px;
+`,
   semiBold16: `
     font-family: 'semiBold';
     font-size: 16px;
@@ -178,10 +185,39 @@ const flex = {
     `,
 };
 
+const animation = {
+  modalAnimation: `
+  width: calc(${MaxDeviceWidth});
+  height: 100vh;
+  background-color: ${colors.white};
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position:fixed;
+  top: 24%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: toast-animation 1.5s ease-in-out;
+  @keyframes toast-animation {
+    0% {
+      transform: translate(-50%,70%);
+    }
+    80%{
+      transform: translate(-50%,-2%);
+    }
+    100% {
+      transform: translate(-50%,0%);
+    }
+  }
+  `
+}
+
 const theme = {
   colors,
   font,
   flex,
+  animation
 };
 
 export default theme;
