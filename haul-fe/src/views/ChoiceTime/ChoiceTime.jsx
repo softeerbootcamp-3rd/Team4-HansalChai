@@ -11,6 +11,7 @@ import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../components/Button/BottomButton.jsx";
 import { isEmptyString } from "../../utils/helper.js";
 import { IoIosArrowDown } from "react-icons/io";
+import { UrlMap } from "../../data/GlobalVariable.js";
 
 const ChoiceTime = () => {
   const navigation = useNavigate();
@@ -19,11 +20,16 @@ const ChoiceTime = () => {
   const [minute, setMinute] = useState(0);
 
   const {
-    state: { reservationDate },
+    setReservationTime,
+    state: { reservationDate, reservationTime },
   } = useContext(reservationStore);
   useEffect(() => {
+    //날짜를 선택하지 않고 이 페이지로 오게 될 경우를 대비
     if (isEmptyString(reservationDate)) {
-      navigation(-1);
+      navigation(UrlMap.choiceDatePageUrl);
+    }
+    if(!isEmptyString(reservationTime)){
+      setStateTime(reservationTime);
     }
   }, []);
 
@@ -33,6 +39,24 @@ const ChoiceTime = () => {
     const formattedMonth = month.length === 1 ? "0" + month : month;
     const formattedDay = day.length === 1 ? "0" + day : day;
     return `${year}.${formattedMonth}.${formattedDay}`;
+  }
+
+  function formatStoreTime() {
+    let pushHour = Number(hour);
+    let pushMin = Number(minute);
+    if (ampm === "PM") {
+      pushHour += 12;
+    }
+    const resultFormat = pushHour + "-" + pushMin;
+    return resultFormat;
+  }
+
+  //백엔드 형식을 위해 15-30이런식으로 저장되어있는걸 state로 변화하는 함수
+  function setStateTime(storeTimeString){
+    const[h,m] = storeTimeString.split("-").map((v)=>Number(v));
+    h<12? setAmPm("AM"):setAmPm("PM");
+    setHour(h%12);
+    setMinute(m);
   }
 
   const handleAmPmChange = (e) => {
@@ -97,16 +121,24 @@ const ChoiceTime = () => {
 
           <Select id="minute" value={minute} onChange={handleMinuteChange}>
             {minutes.map((minute) => (
-              <Option key={minute} value={minute}>
+              <option key={minute} value={minute}>
                 {minute}
-              </Option>
+              </option>
             ))}
           </Select>
           <Label htmlFor="minute">분</Label>
         </TimeBox>
       </TimePicker>
       <FixedCenterBox bottom="20px">
-        <BottomButton role="main" disabled={false}>
+        <BottomButton
+          role="main"
+          disabled={false}
+          onClick={() => {
+            console.log(formatStoreTime())
+            setReservationTime(formatStoreTime());
+            navigation(UrlMap.choiceSrcPageUrl);
+          }}
+        >
           선택완료
         </BottomButton>
       </FixedCenterBox>
@@ -115,18 +147,19 @@ const ChoiceTime = () => {
 };
 
 const TimePicker = styled.div`
-  width: 100%;
-  height: 128px;
-  border-radius: 12px;
-  box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
-  ${(props) => props.theme.flex.flexBetweenCenter};
-  padding: 40px;
+  display:flex;
+  align-items: flex-start;
+  ${(props) => props.theme.animation.modalAnimation};
+  padding: 0px 40px;
+  padding-top: 100px;
+  
 `;
 
 const TimeBox = styled.div`
-  width: auto;
+  width: 100%;
   margin: 0 8px;
-  ${(props) => props.theme.flex.flexRowAlignCenter};
+  display:flex;
+  justify-content: flex-start;
   position: relative;
   background-size: 20px;
   cursor: pointer;
@@ -136,33 +169,34 @@ const Label = styled.label`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: 0px;
-  ${(props) => props.theme.font.semiBold20};
+  right: 10px;
+  ${(props) => props.theme.font.semiBold18};
   color: ${(props) => props.theme.colors.black};
 `;
 
 const Select = styled.select`
-  width: 65px;
+  width: 50px;
   border: none;
   padding: 20 0px;
   border-radius: 4px;
   background-color: transparent;
-  ${(props) => props.theme.font.semiBold20};
+  ${(props) => props.theme.font.semiBold18};
   color: ${(props) => props.theme.colors.black};
   text-align: center;
   text-align-last: right;
-  padding-right: 18px;
   margin-left: 10px;
   z-index: 3;
 `;
 
-const Option = styled.option``;
+const Option = styled.option`
+  ${(props) => props.theme.font.semiBold18};
+`;
 
 const IconBox = styled.div`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 0;
+  left: 10px;
 `;
 
 export default ChoiceTime;

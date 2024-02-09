@@ -208,29 +208,7 @@ const Calendar = ({
 };
 
 const CalendarContainer = styled.div`
-  width: calc(${MaxDeviceWidth});
-  height: 100vh;
-  background-color: ${(props)=>props.theme.colors.white};
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  position:fixed;
-  top: 24%;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: toast-animation 1.5s ease-in-out;
-  @keyframes toast-animation {
-    0% {
-      transform: translate(-50%,70%);
-    }
-    80%{
-      transform: translate(-50%,-2%);
-    }
-    100% {
-      transform: translate(-50%,0%);
-    }
-  }
+  ${(props) => props.theme.animation.modalAnimation};
 `;
 
 const CalendarNav = styled.div`
