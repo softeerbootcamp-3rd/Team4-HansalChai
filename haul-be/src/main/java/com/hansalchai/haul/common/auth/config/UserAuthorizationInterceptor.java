@@ -29,6 +29,11 @@ public class UserAuthorizationInterceptor implements HandlerInterceptor {
 			Role role = authenticateUser.getRole();
 			String baseUrl = getBaseUrl(handler);
 
+			if (baseUrl == null) {
+				response.sendError(HttpStatus.NOT_FOUND.value(), "요청한 페이지를 찾을 수 없음");
+				return false;
+			}
+
 			// url에 대한 접근 권한 확인
 			if (hasAuthority(baseUrl, role)) {
 				return true;
