@@ -56,7 +56,7 @@ const font = {
   bold20: `
       font-family: 'bold';
       font-size: 20px;
-      line-height: 20px;
+      line-height: 24px;
     `,
   bold16: `
       font-family: 'bold';
@@ -210,14 +210,14 @@ const animation = {
       transform: translate(-50%,0%);
     }
   }
-  `
-}
+  `,
+};
 
 const theme = {
   colors,
   font,
   flex,
-  animation
+  animation,
 };
 
 export default theme;
