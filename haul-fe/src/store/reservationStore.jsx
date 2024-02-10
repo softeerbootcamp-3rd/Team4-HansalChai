@@ -5,10 +5,12 @@ const initialState = {
   reservationDate: "",
   reservationTime: "",
   srcName: "",
+  srcAddress:"",
   srcCoordinate: { srcLatitude: "", srcLongitude: "" },
   srcDetailAddress: "",
   srcTel: "",
   dstName: "",
+  dstAddress:"",
   dstCoordinate: { dstLatitude: "", dstLongitude: "" },
   dstDetailAddress: "",
   dstTel: "",
@@ -39,10 +41,14 @@ const ReservationStoreProvider = ({ children }) => {
     dispatch({ type: "SET_RESERVATION_TIME", payload: { reservationTime } });
   };
 
-  const setSrcInfo = ({srcName, srcLatitude,srcLongitude, srcDetailAddress, srcTel}) => {
-    console.log(srcName, srcLatitude,srcLongitude, srcDetailAddress, srcTel);
-    dispatch({ type: "SET_SRC_INFO", payload: { srcName, srcLatitude,srcLongitude, srcDetailAddress, srcTel } });
+  const setSrcInfo = ({srcName, srcAddress, srcLatitude,srcLongitude, srcDetailAddress, srcTel}) => {
+    dispatch({ type: "SET_SRC_INFO", payload: { srcName, srcAddress, srcLatitude,srcLongitude, srcDetailAddress, srcTel } });
   };
+
+  const setDstInfo = ({dstName, dstAddress, dstLatitude,dstLongitude, dstDetailAddress, dstTel}) => {
+    dispatch({ type: "SET_DST_INFO", payload: { dstName, dstAddress, dstLatitude,dstLongitude, dstDetailAddress, dstTel } });
+  };
+
 
   return (
     <reservationStore.Provider
@@ -52,7 +58,8 @@ const ReservationStoreProvider = ({ children }) => {
         setTransportType,
         setReservationDate,
         setReservationTime,
-        setSrcInfo
+        setSrcInfo,
+        setDstInfo
       }}
     >
       {children}
@@ -85,10 +92,21 @@ const reducer = (state, action) => {
       return {
         ...state,
         srcName: action.payload.srcName,
+        srcAddress: action.payload.srcAddress,
         srcCoordinate: { srcLatitude: action.payload.srcLatitude, srcLongitude: action.payload.srcLongitude },
         srcDetailAddress: action.payload.srcDetailAddress,
         srcTel: action.payload.srcTel,
       };
+    case "SET_DST_INFO":
+      return{
+        ...state,
+        dstName: action.payload.dstName,
+        dstAddress: action.payload.dstAddress,
+        dstCoordinate: { dstLatitude: action.payload.dstLatitude, dstLongitude: action.payload.dstLongitude },
+        dstDetailAddress: action.payload.dstDetailAddress,
+        dstTel: action.payload.dstTel,
+      }
+    
     default:
       return state;
   }
