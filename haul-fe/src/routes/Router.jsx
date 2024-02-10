@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import Contract from "../views/Contract/Contract.jsx";
 import Check from "../views/Check/Check.jsx";
 import UserPayments from "../views/UserPayments/UserPayments.jsx";
+import CheckDetail from "../views/CheckDetail/CheckDetail.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -55,6 +56,13 @@ const Router = () => (
       </Route>
       <Route path="/check" element={<Outlet />}>
         <Route path="list" element={<Check />} />
+        <Route
+          path="detail"
+          element={
+            /*TODO: 예약ID로 넘어가도록 바꿀 것*/
+            <CheckDetail driver={null} car={null} map={null} />
+          }
+        />
       </Route>
     </Routes>
   </BrowserRouter>

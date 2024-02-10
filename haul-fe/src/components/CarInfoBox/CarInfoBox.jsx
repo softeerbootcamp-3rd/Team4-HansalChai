@@ -1,17 +1,21 @@
 import styled from "styled-components";
 import Porter from "../../assets/pngs/porter.png";
+import Mighty from "../../assets/pngs/mighty.png";
 import Typography from "../Typhography/Typhography.jsx";
 import Margin from "../Margin/Margin.jsx";
 import UnderBar from "../UnderBar/UnderBar.jsx";
 
+//TODO: 차량이미지 백엔드로 넘길 것 - 지금은 mockup임
 const CarTypeImage = {
   포터2: Porter,
+  마이티3: Mighty
 };
 
 const CarInfoDescription = {
   before: "이런 차량을 제공해드릴게요.",
+  reserv: "이런 차량을 제공해드릴게요.",
   moving: "이런 차량으로 운송하고 있어요.",
-  after: "이런 차량을 제공해드렸어요.",
+  after: "이런 차량을 제공해드렸어요."
 };
 
 const CarInfoFrame = styled.div`
@@ -38,8 +42,8 @@ const CarCardImage = styled.img`
   width: 100%;
   height: auto;
   border-radius: 10px;
-  background-repeat: no-repeat;
   object-fit: cover;
+  object-position: center;
 `;
 const QuantityBox = styled.div`
   position: absolute;
@@ -54,14 +58,7 @@ const DescriptionTextArea = styled.div`
   ${({ theme }) => theme.flex.flexBetween};
 `;
 
-const CarInfoBox = ({
-  phase,
-  type,
-  capacity,
-  volumn,
-  quantity = 1,
-  children,
-}) => {
+const CarInfoBox = ({ phase, type, capacity, volumn, quantity = 1 }) => {
   return (
     <CarInfoFrame>
       <Typography font={"semiBold16"}>{CarInfoDescription[phase]}</Typography>
