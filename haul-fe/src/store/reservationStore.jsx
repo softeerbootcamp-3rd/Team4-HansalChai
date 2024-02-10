@@ -5,17 +5,26 @@ const initialState = {
   reservationDate: "",
   reservationTime: "",
   srcName: "",
-  srcCoordinate: { srcLatitude: "", srcLongitude: "" },
+  srcAddress: "",
+  srcCoordinate: { srcLatitude: 0, srcLongitude: 0 },
   srcDetailAddress: "",
   srcTel: "",
   dstName: "",
-  dstCoordinate: { dstLatitude: "", dstLongitude: "" },
+  dstAddress: "",
+  dstCoordinate: { dstLatitude: 0, dstLongitude: 0 },
   dstDetailAddress: "",
   dstTel: "",
-  cargoWeight: "",
-  cargoWidth: "",
-  cargoLength: "",
-  cargoHeight: "",
+  cargoWeight: 0,
+  cargoWidth: 0,
+  cargoLength: 0,
+  cargoHeight: 0,
+  specialNotes: [
+    { note: "냉장", selected: false },
+    { note: "냉동", selected: false },
+    { note: "탑차", selected: false },
+    { note: "가구", selected: false },
+    { note: "리프트 필요", selected: false },
+  ],
 };
 
 const reservationStore = createContext(initialState);
@@ -39,6 +48,67 @@ const ReservationStoreProvider = ({ children }) => {
     dispatch({ type: "SET_RESERVATION_TIME", payload: { reservationTime } });
   };
 
+  const setSrcInfo = ({
+    srcName,
+    srcAddress,
+    srcLatitude,
+    srcLongitude,
+    srcDetailAddress,
+    srcTel,
+  }) => {
+    dispatch({
+      type: "SET_SRC_INFO",
+      payload: {
+        srcName,
+        srcAddress,
+        srcLatitude,
+        srcLongitude,
+        srcDetailAddress,
+        srcTel,
+      },
+    });
+  };
+
+  const setDstInfo = ({
+    dstName,
+    dstAddress,
+    dstLatitude,
+    dstLongitude,
+    dstDetailAddress,
+    dstTel,
+  }) => {
+    dispatch({
+      type: "SET_DST_INFO",
+      payload: {
+        dstName,
+        dstAddress,
+        dstLatitude,
+        dstLongitude,
+        dstDetailAddress,
+        dstTel,
+      },
+    });
+  };
+
+  const setRoadInfo = ({
+    cargoWeight,
+    cargoWidth,
+    cargoLength,
+    cargoHeight,
+    specialNotes,
+  }) => {
+    dispatch({
+      type: "SET_ROAD_INFO",
+      payload: {
+        cargoWeight,
+        cargoWidth,
+        cargoLength,
+        cargoHeight,
+        specialNotes,
+      },
+    });
+  };
+
   return (
     <reservationStore.Provider
       value={{
@@ -47,6 +117,9 @@ const ReservationStoreProvider = ({ children }) => {
         setTransportType,
         setReservationDate,
         setReservationTime,
+        setSrcInfo,
+        setDstInfo,
+        setRoadInfo,
       }}
     >
       {children}
@@ -75,6 +148,40 @@ const reducer = (state, action) => {
         ...state,
         reservationTime: action.payload.reservationTime,
       };
+    case "SET_SRC_INFO":
+      return {
+        ...state,
+        srcName: action.payload.srcName,
+        srcAddress: action.payload.srcAddress,
+        srcCoordinate: {
+          srcLatitude: action.payload.srcLatitude,
+          srcLongitude: action.payload.srcLongitude,
+        },
+        srcDetailAddress: action.payload.srcDetailAddress,
+        srcTel: action.payload.srcTel,
+      };
+    case "SET_DST_INFO":
+      return {
+        ...state,
+        dstName: action.payload.dstName,
+        dstAddress: action.payload.dstAddress,
+        dstCoordinate: {
+          dstLatitude: action.payload.dstLatitude,
+          dstLongitude: action.payload.dstLongitude,
+        },
+        dstDetailAddress: action.payload.dstDetailAddress,
+        dstTel: action.payload.dstTel,
+      };
+    case "SET_ROAD_INFO":
+      return {
+        ...state,
+        cargoWeight: action.payload.cargoWeight,
+        cargoWidth: action.payload.cargoWidth,
+        cargoLength: action.payload.cargoLength,
+        cargoHeight: action.payload.cargoHeight,
+        specialNotes: action.payload.specialNotes,
+      };
+
     default:
       return state;
   }

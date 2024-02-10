@@ -9,43 +9,29 @@ import BottomButton from "../../../components/Button/BottomButton.jsx";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import { useState, useRef, useEffect, useContext } from "react";
 import { reservationStore } from "../../../store/reservationStore.jsx";
-import { isEmptyString } from "../../../utils/helper.js";
 import { useNavigate } from "react-router-dom";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 
-const ChoiceSrc = () => {
+const ChoiceDst = () => {
   const navigation = useNavigate();
   const {
-    setSrcInfo,
-    state: { reservationTime },
+    setDstInfo,
+    state: { srcName, srcAddress },
   } = useContext(reservationStore);
-
-  //시간 선택하지 않는 경우, 이전 페이지인 시간 선택 페이지로 이동
-  useEffect(() => {
-    if (isEmptyString(reservationTime)) {
-      navigation(UrlMap.choiceTimePageUrl);
-    }
-  }, []);
-
-  function showUserTime() {
-    const [reservationHour, reservationHourMin] = reservationTime
-      .split("-")
-      .map((v) => Number(v));
-    let showTime = "";
-    reservationHour >= 12 ? (showTime = "AM ") : (showTime = "PM ");
-    showTime += (reservationHour % 12) + "시";
-    showTime += reservationHourMin + "분";
-    return showTime;
-  }
 
   const [mapInfo, setMapInfo] = useState({
     name: "",
     coordinate: { latitude: "", longitude: "" },
     detailAddress: "",
   });
-  const srcDetailAddress = useRef("");
-  const srcTel = useRef("");
+  const dstDetailAddress = useRef("");
+  const dstTel = useRef("");
   const [submitDisabled, CheckSubmitDisabled] = useState(true);
+
+  // 첫 페이지 렌더링 시 이전 값을 입력하지 않고, 잘못된 URL로 넘어왔을때 이전 페이지로 보냄
+  useEffect(() => {
+    if (!srcAddress) navigation(UrlMap.choiceSrcPageUrl);
+  }, []);
 
   useEffect(() => {
     CheckSubmitDisabled(CheckSubmitDisabledFun());
@@ -57,21 +43,21 @@ const ChoiceSrc = () => {
       mapInfo.coordinate.latitude !== "" &&
       mapInfo.coordinate.longitude !== "" &&
       mapInfo.detailAddress !== "";
-    const isSrcDetailAddressFilled = srcDetailAddress.current !== "";
-    const isSrcTelFilled = srcTel.current !== "";
-    return !(isMapInfoFilled && isSrcDetailAddressFilled && isSrcTelFilled);
+    const isDstDetailAddressFilled = dstDetailAddress.current !== "";
+    const isDstTelFilled = dstTel.current !== "";
+    return !(isMapInfoFilled && isDstDetailAddressFilled && isDstTelFilled);
   }
 
   function SumbitStore() {
-    setSrcInfo({
-      srcName: mapInfo.name,
-      srcAddress: mapInfo.detailAddress,
-      srcLatitude: Number(mapInfo.coordinate.latitude),
-      srcLongitude: Number(mapInfo.coordinate.longitude),
-      srcDetailAddress: srcDetailAddress.current,
-      srcTel: srcTel.current,
+    setDstInfo({
+      dstName: mapInfo.name,
+      dstAddress: mapInfo.detailAddress,
+      dstLatitude: Number(mapInfo.coordinate.latitude),
+      dstLongitude: Number(mapInfo.coordinate.longitude),
+      dstDetailAddress: dstDetailAddress.current,
+      dstTel: dstTel.current,
     });
-    navigation(UrlMap.choiceDstPageUrl);
+    navigation(UrlMap.choiceLoadInfoPageUrl);
   }
 
   return (
@@ -81,14 +67,14 @@ const ChoiceSrc = () => {
         HAUL<Typography_Span color="subColor">.</Typography_Span>
       </Header>
       <Margin height="24px" />
-      <Typography font="bold24">
+      <Typography font="bold24" singleLine={true}>
         <Typography_Span color="subColor" style={{ marginRight: "2px" }}>
-          {showUserTime()}
+          {srcName ? srcName : srcAddress}
         </Typography_Span>
-        에 뵈러 갈게요.
+        에서 출발할게요.
       </Typography>
       <Margin height="6px" />
-      <Typography font="bold24">출발지는 어딘가요?</Typography>
+      <Typography font="bold24">도착지는 어딘가요?</Typography>
       <Margin height="20px" />
       <SearchMap setMapInfo={setMapInfo} />
       <Margin height="20px" />
@@ -99,7 +85,7 @@ const ChoiceSrc = () => {
         size="small"
         placeholder="상세주소를 입력해주세요."
         onChange={({ target: { value } }) => {
-          srcDetailAddress.current = value;
+          dstDetailAddress.current = value;
           CheckSubmitDisabled(CheckSubmitDisabledFun());
         }}
       />
@@ -107,11 +93,11 @@ const ChoiceSrc = () => {
       <Typography font="bold16">도착하면 누구에게 연락할까요?</Typography>
       <Margin height="10px" />
       <Input
-        type="tel"
         size="small"
         placeholder="도착하면 전화할 연락처를 알려주세요."
+        type="tel"
         onChange={({ target: { value } }) => {
-          srcTel.current = value;
+          dstTel.current = value;
           CheckSubmitDisabled(CheckSubmitDisabledFun());
         }}
       />
@@ -130,4 +116,4 @@ const ChoiceSrc = () => {
   );
 };
 
-export default ChoiceSrc;
+export default ChoiceDst;
