@@ -1,4 +1,4 @@
-package com.hansalchai.haul.common.auth.filter;
+package com.hansalchai.haul.common.auth.config;
 
 import static com.hansalchai.haul.common.auth.jwt.JwtProvider.*;
 
@@ -32,7 +32,7 @@ public class JwtValidationFilter implements Filter {
 	private final ObjectMapper objectMapper;
 
 	private final String[] whiteListUris
-		= new String[] {"/users/sign-up", "/users/sign-in", "/auth/refresh/token", "*/h2-console*"};
+		= new String[] {"*/users*", "/auth/refresh/token", "*/h2-console*"};
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws
