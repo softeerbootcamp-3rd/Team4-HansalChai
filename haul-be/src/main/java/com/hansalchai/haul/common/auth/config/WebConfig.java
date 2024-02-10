@@ -3,15 +3,16 @@ package com.hansalchai.haul.common.auth.config;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hansalchai.haul.common.auth.filter.JwtValidationFilter;
 import com.hansalchai.haul.common.auth.jwt.JwtProvider;
 
 import jakarta.servlet.Filter;
 
 @Configuration
-public class FilterConfig {
+public class WebConfig implements WebMvcConfigurer {
 
 	@Bean
 	public FilterRegistrationBean<Filter> jwtValidationFilter(JwtProvider jwtProvider, ObjectMapper objectMapper) {
@@ -19,5 +20,12 @@ public class FilterConfig {
 		filterFilterRegistrationBean.setFilter(new JwtValidationFilter(jwtProvider, objectMapper));
 		filterFilterRegistrationBean.setOrder(1);
 		return filterFilterRegistrationBean;
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new UserAuthorizationInterceptor())
+			.order(1)
+			.excludePathPatterns("/api/v1/users/**", "*/h2-console*", "/css/**", "/*.ico", "/error");
 	}
 }
