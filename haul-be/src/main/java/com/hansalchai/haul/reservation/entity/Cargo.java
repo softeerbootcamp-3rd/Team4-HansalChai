@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class Cargo extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long cargoId;
+	private Long cargoId;
 
 	@Range(min = 0, max = 1000, message = "화물 가로는 10m를 넘을 수 없다.")
 	@Column(nullable = false)

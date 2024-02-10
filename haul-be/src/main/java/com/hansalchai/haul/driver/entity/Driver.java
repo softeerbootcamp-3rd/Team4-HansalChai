@@ -9,5 +9,5 @@ import jakarta.persistence.Id;
 public class Driver {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int driverId;
+	private Long driverId;
 }

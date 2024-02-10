@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class CargoOption extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long cargoOptionId;
+	private Long cargoOptionId;
 
 	@Column(nullable = false)
 	private boolean isRefrigerated;

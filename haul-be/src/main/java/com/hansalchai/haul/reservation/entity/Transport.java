@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 public class Transport extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long transportId;
+	private Long transportId;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)

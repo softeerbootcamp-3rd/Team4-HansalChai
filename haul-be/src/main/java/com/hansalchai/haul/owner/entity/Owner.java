@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 public class Owner extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long ownerId;
+	private Long ownerId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Car car;

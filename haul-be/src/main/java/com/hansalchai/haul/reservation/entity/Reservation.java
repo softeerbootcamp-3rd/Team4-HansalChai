@@ -34,7 +34,7 @@ import lombok.NoArgsConstructor;
 public class Reservation extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long reservationId;
+	private Long reservationId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Customer customer;

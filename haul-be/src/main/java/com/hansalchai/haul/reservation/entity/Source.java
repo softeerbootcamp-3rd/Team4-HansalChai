@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 public class Source extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long sourceId;
+	private Long sourceId;
 
 	@Column(length = 100, nullable = false)
 	private String name;

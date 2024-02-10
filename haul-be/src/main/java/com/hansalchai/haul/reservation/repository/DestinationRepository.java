@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.hansalchai.haul.reservation.entity.Destination;
 
-public interface DestinationRepository extends JpaRepository<Destination, Integer> {
+public interface DestinationRepository extends JpaRepository<Destination, Long> {
 }

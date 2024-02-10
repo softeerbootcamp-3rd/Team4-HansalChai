@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
 public class Car extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long carId;
+	private Long carId;
 
 	@Column(nullable = false)
 	private String type;

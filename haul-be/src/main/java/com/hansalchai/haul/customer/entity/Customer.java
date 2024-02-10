@@ -9,5 +9,5 @@ import jakarta.persistence.Id;
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int customerId;
+	private Long customerId;
 }
