@@ -1,7 +1,6 @@
 import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
 import Header from "../../components/Header/Header.jsx";
 import Margin from "../../components/Margin/Margin.jsx";
-import Typography from "../../components/Typhography/Typhography.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../components/Button/BottomButton.jsx";
 import styled from "styled-components";
@@ -35,7 +34,7 @@ const UserPayments = () => {
       <Carousel carouselList={[Card1, Card2, Card3]}></Carousel>
 
       <FixedCenterBox bottom="20px">
-        <BottomButton role="main">선택 완료</BottomButton>
+        <BottomButton role="main">결제수단 추가하기</BottomButton>
       </FixedCenterBox>
     </MobileLayout>
   );
