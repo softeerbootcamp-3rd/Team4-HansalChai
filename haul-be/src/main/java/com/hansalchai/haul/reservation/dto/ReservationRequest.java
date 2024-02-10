@@ -7,6 +7,10 @@ import java.time.LocalTime;
 import org.hibernate.validator.constraints.Range;
 
 import com.hansalchai.haul.reservation.constants.TransportType;
+import com.hansalchai.haul.reservation.entity.Cargo;
+import com.hansalchai.haul.reservation.entity.CargoOption;
+import com.hansalchai.haul.reservation.entity.Destination;
+import com.hansalchai.haul.reservation.entity.Source;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Max;
@@ -49,6 +53,17 @@ public class ReservationRequest {
 
 			@NotNull(message = "출발지 전화번호는 Null 일 수 없다.")
 			private String tel;
+
+			public Source build(){
+				return Source.builder()
+					.name(name)
+					.address(address)
+					.detailAddress(detailAddress)
+					.latitude(latitude)
+					.longitude(longitude)
+					.tel(tel)
+					.build();
+			}
 		}
 		@Getter
 		@Builder
@@ -70,6 +85,17 @@ public class ReservationRequest {
 
 			@NotNull(message = "도착지 전화번호는 Null 일 수 없다.")
 			private String tel;
+
+			public Destination build(){
+				return Destination.builder()
+					.name(name)
+					.address(address)
+					.detailAddress(detailAddress)
+					.latitude(latitude)
+					.longitude(longitude)
+					.tel(tel)
+					.build();
+			}
 		}
 		@Getter
 		@Builder
@@ -89,6 +115,15 @@ public class ReservationRequest {
 			@NotNull(message = "화물 무게는 Null 일 수 없다.")
 			@Range(min = 0, max = 1000000, message = "화물 무게는 1000T를 넘을 수 없다.")
 			private int weight;
+
+			public Cargo build(){
+				return Cargo.builder()
+					.width(width)
+					.length(length)
+					.height(height)
+					.weight(weight)
+					.build();
+			}
 		}
 		@Getter
 		@Builder
@@ -104,6 +139,15 @@ public class ReservationRequest {
 
 			@NotNull(message = "리프트필요여부는 Null 일 수 없다.")
 			private boolean isLiftRequired;
+
+			public CargoOption build(){
+				return CargoOption.builder()
+					.isRefrigerated(isRefrigerated)
+					.isFrozen(isFrozen)
+					.isFurniture(isFurniture)
+					.isLiftRequired(isLiftRequired)
+					.build();
+			}
 		}
 	}
 

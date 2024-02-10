@@ -26,37 +26,10 @@ public class ReservationService{
 	 */
 	public ReservationResponse.ReservationRecommendationDTO createReservation(ReservationRequest.CreateReservationDTO request) {
 
-		Source source = Source.builder()
-			.name(request.getSrc().getName())
-			.address(request.getSrc().getAddress())
-			.detailAddress(request.getSrc().getDetailAddress())
-			.latitude(request.getSrc().getLatitude())
-			.longitude(request.getSrc().getLongitude())
-			.tel(request.getSrc().getTel())
-			.build();
-
-		Destination destination = Destination.builder()
-			.name(request.getDst().getName())
-			.address(request.getDst().getAddress())
-			.detailAddress(request.getDst().getDetailAddress())
-			.latitude(request.getDst().getLatitude())
-			.longitude(request.getDst().getLongitude())
-			.tel(request.getDst().getTel())
-			.build();
-
-		Cargo cargo = Cargo.builder()
-			.width(request.getCargo().getWidth())
-			.length(request.getCargo().getLength())
-			.height(request.getCargo().getHeight())
-			.weight(request.getCargo().getWeight())
-			.build();
-
-		CargoOption cargoOption = CargoOption.builder()
-			.isFrozen(request.getCargoOption().isFrozen())
-			.isRefrigerated(request.getCargoOption().isRefrigerated())
-			.isFurniture(request.getCargoOption().isFurniture())
-			.isLiftRequired(request.getCargoOption().isLiftRequired())
-			.build();
+		Source source = request.getSrc().build();
+		Destination destination = request.getDst().build();
+		Cargo cargo = request.getCargo().build();
+		CargoOption cargoOption = request.getCargoOption().build();
 
 		//TODO Transport, Reservation 생성후 repository저장
 		//TODO Response 객체 생성후 반환
