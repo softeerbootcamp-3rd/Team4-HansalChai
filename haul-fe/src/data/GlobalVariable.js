@@ -8,6 +8,8 @@ export const UrlMap = {
   choiceDatePageUrl: "/request/date",
   choiceTimePageUrl: "/request/time",
   choiceSrcPageUrl: "/request/source",
+  choiceDstPageUrl: "/request/destination",
+  choiceLoadInfoPageUrl: "/request/loadInfo",
   morePageUrl: "/more",
   checkReservationPageUrl: "/check/list",
 };
