@@ -13,9 +13,12 @@ import ChoiceTransport from "../views/Request/ChoiceTransport/ChoiceTransport.js
 import ChoiceDate from "../views/Request/ChoiceDate/ChoiceDate.jsx";
 import ChoiceTime from "../views/Request/ChoiceTime/ChoiceTime";
 import ChoiceSrc from "../views/Request/ChoiceSrc/ChoiceSrc.jsx";
+import ChoiceDst from "../views/Request/ChoiceDst/ChoiceDst.jsx";
+import ChoiceLoadInfo from "../views/Request/\bChoiceLoadInfo/ChoiceLoadInfo.jsx";
 import Contract from "../views/Contract/Contract.jsx";
 import Check from "../views/Check/Check.jsx";
 import UserPayments from "../views/UserPayments/UserPayments.jsx";
+
 
 
 const ScrollToTop = () => {
@@ -55,6 +58,8 @@ const Router = () => (
         <Route path="date" element={<ChoiceDate />} />
         <Route path="time" element={<ChoiceTime />} />
         <Route path="source" element={<ChoiceSrc />} />
+        <Route path="destination" element={<ChoiceDst />} />
+        <Route path="loadInfo" element={<ChoiceLoadInfo />} />
       </Route>
       <Route path="/check" element={<Outlet />}>
         <Route path="list" element={<Check />} />
