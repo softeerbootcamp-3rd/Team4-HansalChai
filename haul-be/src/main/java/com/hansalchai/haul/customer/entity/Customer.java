@@ -40,8 +40,7 @@ public class Customer extends BaseTime {
 	private String password;
 
 	@Builder
-	public Customer(Long customerId, String name, String email, String tel, String password) {
-		this.customerId = customerId;
+	public Customer(String name, String email, String tel, String password) {
 		this.name = name;
 		this.email = email;
 		this.tel = tel;
