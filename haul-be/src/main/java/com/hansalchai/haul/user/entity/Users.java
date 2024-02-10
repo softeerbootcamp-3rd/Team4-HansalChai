@@ -1,12 +1,15 @@
-package com.hansalchai.haul.customer.entity;
+package com.hansalchai.haul.user.entity;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import com.hansalchai.haul.common.auth.constants.Role;
 import com.hansalchai.haul.common.utils.BaseTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,20 +21,17 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @SQLRestriction("is_deleted = FALSE")
-@SQLDelete(sql = "UPDATE customer SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
+@SQLDelete(sql = "UPDATE users SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
 @Entity
-@Table(name = "customer")
-public class Customer extends BaseTime {
+@Table(name = "users")
+public class Users extends BaseTime {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long customerId;
+	private Long userId;
 
 	@Column(length = 30, nullable = false)
 	private String name;
-
-	@Column(length = 50, nullable = false)
-	private String email;
 
 	@Column(length = 15, nullable = false)
 	private String tel;
@@ -39,11 +39,22 @@ public class Customer extends BaseTime {
 	@Column(length = 100, nullable = false)
 	private String password;
 
+	@Column(length = 50)
+	private String email;
+
+	private String photo;
+
+	@Enumerated(EnumType.STRING)
+	private Role role;
+
 	@Builder
-	public Customer(String name, String email, String tel, String password) {
+
+	public Users(String name, String tel, String password, String email, String photo, Role role) {
 		this.name = name;
-		this.email = email;
 		this.tel = tel;
 		this.password = password;
+		this.email = email;
+		this.photo = photo;
+		this.role = role;
 	}
 }

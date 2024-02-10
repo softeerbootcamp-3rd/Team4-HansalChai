@@ -1,26 +1,26 @@
-package com.hansalchai.haul.customer.service;
+package com.hansalchai.haul.user.service;
 
 import org.springframework.stereotype.Service;
 
-import com.hansalchai.haul.customer.dto.CustomerSignUpDto;
-import com.hansalchai.haul.customer.repository.CustomerRepository;
+import com.hansalchai.haul.user.dto.CustomerSignUpDto;
+import com.hansalchai.haul.user.repository.UsersRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
-@Service
 @RequiredArgsConstructor
-public class CustomerService {
+@Service
+public class UsersService {
 
-	private final CustomerRepository customerRepository;
+	private final UsersRepository usersRepository;
 
 	@Transactional
 	public void signUp(CustomerSignUpDto signUpDto) {
 		//중복 회원가입 검증
 		String tel = signUpDto.getTel();
-		if (customerRepository.findByTel(tel).isPresent()) {
+		if (usersRepository.findByTel(tel).isPresent()) {
 			throw new IllegalArgumentException("이미 가입된 전화번호입니다.");
 		}
-		customerRepository.save(signUpDto.toEntity());
+		usersRepository.save(signUpDto.toEntity());
 	}
 }
