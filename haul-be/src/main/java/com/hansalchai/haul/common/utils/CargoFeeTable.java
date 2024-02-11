@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import lombok.Getter;
+
 /*
 * 용달 화물 가격에 대한 테이블
 *
@@ -14,6 +16,8 @@ import java.util.stream.IntStream;
 * a~b 13000를 의미함
 * ex) 1000kg 트럭 -> [a][b][13000] 형태로 저장함.
 *
+* paramerter : int weight, double distance
+* 내부적으로 distance int형으로 변환
 * findCost는 lowerbound로 구현했고 value값에 해당하는 a의 index를 nlog(n)에 찾아줌.
 * ex) 1300, 13km -> 값
 *
@@ -96,16 +100,17 @@ public class CargoFeeTable {
 		});
 	}
 
-	public static int[] findCost(int weight, int distance) {
+	public static RequestedTruckInfo findCost(int weight, double distance) {
+		int target = (int)Math.round(distance);
 		//몇kg 몇대 가격
-		int[] ret = new int[]{0, 0, Integer.MAX_VALUE};
+		RequestedTruckInfo requestedTruckInfo= new RequestedTruckInfo(0, 0, Integer.MAX_VALUE);
 		for(int truckWeight : truckLoadWeightArray){
 			List<int[]> list = feeTable.get(truckWeight);
 			int hi = list.size() - 1;
 			int lo = 0;
 			while (lo < hi) {
 				int mid = (lo + hi) / 2;
-				if (distance > list.get(mid)[0]) {
+				if (target > list.get(mid)[0]) {
 					lo = mid + 1;
 				} else {
 					hi = mid;
@@ -114,9 +119,22 @@ public class CargoFeeTable {
 
 			int num = (weight + truckWeight - 1) / truckWeight;
 			int cost = list.get(lo)[2];
-			if(num * cost < ret[2])
-				ret = new int[]{ truckWeight, num,num*cost };
+			if(num * cost < requestedTruckInfo.cost)
+				requestedTruckInfo = new RequestedTruckInfo(truckWeight, num,num*cost );
 		}
-		return ret;
+		return requestedTruckInfo;
+	}
+
+	@Getter
+	public static class RequestedTruckInfo{
+		private final int type;
+		private final int number;
+		private final int cost;
+
+		public RequestedTruckInfo(int type, int number, int cost) {
+			this.type = type;
+			this.number = number;
+			this.cost = cost;
+		}
 	}
 }

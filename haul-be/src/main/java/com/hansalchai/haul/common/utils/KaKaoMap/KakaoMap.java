@@ -20,6 +20,17 @@ public class KakaoMap {
 	duration	Int	   목적지까지 소요 시간(초)	   필수
 	 */
 	public DistanceDurationInfo carPathFind(Location src, Location dst) {
-		return kakaoMapAPI.KaKaoCarDirections(src, dst);
+		return convertUnit(kakaoMapAPI.KaKaoCarDirections(src, dst));
+	}
+
+	/*
+	* 거리 m -> km
+	* 시간 sec -> hour
+	* */
+	private DistanceDurationInfo convertUnit(DistanceDurationInfo info){
+		double distance = info.getDistance() / (double)1000;
+		int duration = (int)Math.round((double)info.getDuration() / 3600);
+
+		return new DistanceDurationInfo(distance,duration);
 	}
 }

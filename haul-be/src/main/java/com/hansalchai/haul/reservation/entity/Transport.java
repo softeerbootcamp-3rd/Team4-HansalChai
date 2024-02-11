@@ -42,7 +42,7 @@ public class Transport extends BaseTime {
 
 	@PositiveOrZero(message = "운송이동시간은 음수 일 수 없다.")
 	@Column(nullable = false)
-	private double requiredTime;
+	private int requiredTime;
 
 	@Enumerated(EnumType.STRING)
 	private TransportStatus transportStatus = TransportStatus.NOT_STARTED;

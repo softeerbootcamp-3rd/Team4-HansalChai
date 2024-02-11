@@ -23,10 +23,10 @@ public class MapUtils{
 
 	@Getter
 	public static class DistanceDurationInfo {
-		private final int distance;
+		private final double distance;
 		private final int duration;
 
-		public DistanceDurationInfo(int distance, int duration) {
+		public DistanceDurationInfo(double distance, int duration) {
 			this.distance = distance;
 			this.duration = duration;
 		}
