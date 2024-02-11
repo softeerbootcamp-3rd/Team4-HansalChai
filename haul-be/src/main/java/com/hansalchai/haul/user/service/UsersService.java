@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.hansalchai.haul.common.auth.dto.AuthenticateUser;
+import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
 import com.hansalchai.haul.common.auth.jwt.Jwt;
 import com.hansalchai.haul.common.auth.jwt.JwtProvider;
 import com.hansalchai.haul.user.dto.CustomerSignUpDto;
@@ -48,7 +48,7 @@ public class UsersService {
 
 		// claim 생성
 		Map<String, Object> claims = new HashMap<>();
-		AuthenticateUser authUser = new AuthenticateUser(user);
+		AuthenticatedUser authUser = new AuthenticatedUser(user);
 		claims.put(AUTHENTICATE_USER, authUser);
 
 		// 토큰 생성

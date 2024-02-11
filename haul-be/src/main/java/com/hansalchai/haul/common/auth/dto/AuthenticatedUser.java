@@ -6,12 +6,12 @@ import com.hansalchai.haul.user.entity.Users;
 import lombok.Getter;
 
 @Getter
-public class AuthenticateUser {
+public class AuthenticatedUser {
 
 	private Long userId;
 	private Role role;
 
-	public AuthenticateUser(Users user) {
+	public AuthenticatedUser(Users user) {
 		this.userId = user.getUserId();
 		this.role = user.getRole();
 	}
