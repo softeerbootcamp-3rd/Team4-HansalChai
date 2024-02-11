@@ -1,4 +1,6 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import TestView from "../views/TestView.jsx";
 import Splash from "../views/Splash/Splash.jsx";
 import Login from "../views/Login/Login.jsx";
@@ -7,15 +9,18 @@ import SignUP from "../views/SignUp/SignUp.jsx";
 import More from "../views/More/More.jsx";
 import Terms from "../views/Terms/Terms.jsx";
 import UserInfo from "../views/UserInfo/UserInfo.jsx";
-import ChoiceTransport from "../views/ChoiceTransport/ChoiceTransport.jsx";
-import ChoiceDate from "../views/ChoiceDate/ChoiceDate.jsx";
-import ChoiceTime from "../views/ChoiceTime/ChoiceTime";
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import ChoiceTransport from "../views/Request/ChoiceTransport/ChoiceTransport.jsx";
+import ChoiceDate from "../views/Request/ChoiceDate/ChoiceDate.jsx";
+import ChoiceTime from "../views/Request/ChoiceTime/ChoiceTime";
+import ChoiceSrc from "../views/Request/ChoiceSrc/ChoiceSrc.jsx";
+import ChoiceDst from "../views/Request/ChoiceDst/ChoiceDst.jsx";
+import ChoiceLoadInfo from "../views/Request/\bChoiceLoadInfo/ChoiceLoadInfo.jsx";
 import Contract from "../views/Contract/Contract.jsx";
 import Check from "../views/Check/Check.jsx";
 import UserPayments from "../views/UserPayments/UserPayments.jsx";
 import CheckDetail from "../views/CheckDetail/CheckDetail.jsx";
+
+
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -53,6 +58,9 @@ const Router = () => (
         <Route path="type" element={<ChoiceTransport />} />
         <Route path="date" element={<ChoiceDate />} />
         <Route path="time" element={<ChoiceTime />} />
+        <Route path="source" element={<ChoiceSrc />} />
+        <Route path="destination" element={<ChoiceDst />} />
+        <Route path="loadInfo" element={<ChoiceLoadInfo />} />
       </Route>
       <Route path="/check" element={<Outlet />}>
         <Route path="list" element={<Check />} />
