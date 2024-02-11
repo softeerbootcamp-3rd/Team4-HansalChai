@@ -3,6 +3,7 @@ package com.hansalchai.haul.reservation.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.utils.CargoFeeTable;
 import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
 import com.hansalchai.haul.common.utils.MapUtils;
@@ -20,6 +21,7 @@ import com.hansalchai.haul.reservation.entity.Source;
 import com.hansalchai.haul.reservation.entity.Transport;
 import com.hansalchai.haul.reservation.repository.CargoOptionRepository;
 import com.hansalchai.haul.reservation.repository.CargoRepository;
+import com.hansalchai.haul.reservation.repository.CustomCarRepositoryImpl;
 import com.hansalchai.haul.reservation.repository.DestinationRepository;
 import com.hansalchai.haul.reservation.repository.ReservationRepository;
 import com.hansalchai.haul.reservation.repository.SourceRepository;
@@ -41,6 +43,9 @@ public class ReservationService{
 	private final ReservationRepository reservationRepository;
 	private final SourceRepository sourceRepository;
 	private final TransportRepository transportRepository;
+
+	//querydsl
+	private final CustomCarRepositoryImpl customCarRepository;
 	/*
 	1. 예약 dto에서 받아온 데이터로
 	2. 트럭을 선택
@@ -92,7 +97,6 @@ public class ReservationService{
 		reservationRepository.save(reservation);
 
 		//TODO Response 객체 생성후 반환
-
 
 
 		return null;
