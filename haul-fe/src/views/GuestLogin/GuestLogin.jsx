@@ -53,29 +53,32 @@ const GuestLogin = () => {
       <Margin height="36px" />
       <Typography font="semiBold20">이름</Typography>
       <Margin height="10px" />
-      <Input
-        size="big"
-        type="text"
-        placeholder="Your Name"
-        onChange={({ target: { value } }) => {
-          name.current = value;
-          checkLoginAbled();
-        }}
-      />
-      <Margin height="20px" />
-      <Typography font="semiBold20">전화번호</Typography>
-      <Margin height="10px" />
-      <Input
-        size="big"
-        type="tel"
-        placeholder="Phone Number"
-        onChange={({ target: { value } }) => {
-          tel.current = value;
-          checkLoginAbled();
-        }}
-      />
+      <form>
+        <Input
+          size="big"
+          type="text"
+          placeholder="Your Name"
+          onChange={({ target: { value } }) => {
+            name.current = value;
+            checkLoginAbled();
+          }}
+        />
+        <Margin height="20px" />
+        <Typography font="semiBold20">전화번호</Typography>
+        <Margin height="10px" />
+        <Input
+          size="big"
+          type="tel"
+          placeholder="Phone Number"
+          onChange={({ target: { value } }) => {
+            tel.current = value;
+            checkLoginAbled();
+          }}
+        />
+      </form>
       <FixedCenterBox bottom="30px">
         <BottomButton
+          type="submit"
           role="main"
           disabled={isButtonDisabled}
           onClick={() => {

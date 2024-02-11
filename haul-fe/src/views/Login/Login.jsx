@@ -18,7 +18,6 @@ import { ErrorMessageMap } from "../../data/GlobalVariable.js";
 const GoSignUpBtn = styled.button`
   width: auto;
   display: flex;
-  line-height: 14px;
 `;
 
 const Login = () => {
@@ -85,28 +84,30 @@ const Login = () => {
         />
       </GoSignUpBtn>
       <Margin height="36px" />
-      <Input
-        size="big"
-        type="tel"
-        placeholder="Phone Number "
-        onChange={({ target: { value } }) => {
-          tel.current = value;
-          checkLoginAbled();
-        }}
-      />
-      <Margin height="20px" />
-      <Input
-        size="big"
-        type="password"
-        placeholder="Password "
-        onChange={({ target: { value } }) => {
-          password.current = value;
-          checkLoginAbled();
-        }}
-      />
-
+      <form>
+        <Input
+          size="big"
+          type="tel"
+          placeholder="Phone Number "
+          onChange={({ target: { value } }) => {
+            tel.current = value;
+            checkLoginAbled();
+          }}
+        />
+        <Margin height="20px" />
+        <Input
+          size="big"
+          type="password"
+          placeholder="Password "
+          onChange={({ target: { value } }) => {
+            password.current = value;
+            checkLoginAbled();
+          }}
+        />
+      </form>
       <FixedCenterBox bottom="30px">
         <BottomButton
+          type="submit"
           role="main"
           disabled={isButtonDisabled}
           onClick={() => {
