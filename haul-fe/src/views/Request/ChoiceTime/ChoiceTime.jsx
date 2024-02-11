@@ -54,7 +54,7 @@ const ChoiceTime = () => {
 
   //백엔드 형식을 위해 15-30이런식으로 저장되어있는걸 state로 변화하는 함수
   function setStateTime(storeTimeString) {
-    const [h, m] = storeTimeString.split("-").map(v => Number(v));
+    const [h, m] = storeTimeString.split("-").map((v) => Number(v));
     h < 12 ? setAmPm("AM") : setAmPm("PM");
     setHour(h % 12);
     setMinute(m);
@@ -136,7 +136,6 @@ const ChoiceTime = () => {
           role="main"
           disabled={false}
           onClick={() => {
-            console.log(formatStoreTime());
             setReservationTime(formatStoreTime());
             navigation(UrlMap.choiceSrcPageUrl);
           }}
@@ -189,7 +188,7 @@ const Select = styled.select`
   background-color: transparent;
   ${props => props.theme.font.bold16};
   color: ${props => props.theme.colors.black};
-  background-color: #e0e6f8;
+  background-color: #E0E6F8;
   text-align: center;
   text-align-last: right;
   z-index: 3;

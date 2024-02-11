@@ -14,7 +14,9 @@ import ChoiceDate from "../views/Request/ChoiceDate/ChoiceDate.jsx";
 import ChoiceTime from "../views/Request/ChoiceTime/ChoiceTime";
 import ChoiceSrc from "../views/Request/ChoiceSrc/ChoiceSrc.jsx";
 import ChoiceDst from "../views/Request/ChoiceDst/ChoiceDst.jsx";
-import ChoiceLoadInfo from "../views/Request/\bChoiceLoadInfo/ChoiceLoadInfo.jsx";
+import ChoiceLoadInfo from "../views/Request/ChoiceLoadInfo/ChoiceLoadInfo.jsx";
+import Result from "../views/Request/Result/Result.jsx";
+import Complete from "../views/Request/Complete/Complete.jsx";
 import Contract from "../views/Contract/Contract.jsx";
 import Check from "../views/Check/Check.jsx";
 import UserPayments from "../views/UserPayments/UserPayments.jsx";
@@ -59,6 +61,8 @@ const Router = () => (
         <Route path="source" element={<ChoiceSrc />} />
         <Route path="destination" element={<ChoiceDst />} />
         <Route path="loadInfo" element={<ChoiceLoadInfo />} />
+        <Route path="result" element={<Result />} />
+        <Route path="complete" element={<Complete />} />
       </Route>
       <Route path="/check" element={<Outlet />}>
         <Route path="list" element={<Check />} />

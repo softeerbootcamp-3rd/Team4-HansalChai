@@ -54,6 +54,30 @@
       href="/apple-touch-icon-180x180.png"
     />
 
+    <script>
+      function getKakaoMapApiKey() {
+        return process.env.VITE_KAKAO_MAP_KEY;
+      }
+    </script>
+
+    <script>
+      function getKakaoMapApiKey() {
+        return process.env.VITE_KAKAO_MAP_KEY;
+      }
+
+      function loadKakaoMapScript() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src =
+          "//dapi.kakao.com/v2/maps/sdk.js?appkey=" +
+          getKakaoMapApiKey() +
+          "&autoload=false&libraries=services";
+        document.head.appendChild(script);
+      }
+
+      loadKakaoMapScript();
+    </script>
+
     <title>Haul - 화물을 옮기는 새로운 방법</title>
   </head>
   <body>
