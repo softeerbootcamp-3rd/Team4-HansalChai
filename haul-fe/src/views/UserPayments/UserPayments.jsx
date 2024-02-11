@@ -8,6 +8,7 @@ import Carousel from "./components/Carousel.jsx";
 import Card1 from "../../assets/pngs/card1.png";
 import Card2 from "../../assets/pngs/card2.png";
 import Card3 from "../../assets/pngs/card3.png";
+import ToastMaker from "../../components/Toast/ToastMaker.jsx";
 
 const CustomTypo = styled.p`
   ${({ theme }) => theme.font.bold24};
@@ -15,6 +16,13 @@ const CustomTypo = styled.p`
 `;
 
 const UserPayments = () => {
+  const btnHandler = () => {
+    ToastMaker({
+      type: "info",
+      children: "결제수단 추가하기는 아직 지원하지 않습니다."
+    });
+  };
+
   const username = "하울";
   return (
     <MobileLayout>
@@ -34,7 +42,9 @@ const UserPayments = () => {
       <Carousel carouselList={[Card1, Card2, Card3]}></Carousel>
 
       <FixedCenterBox bottom="20px">
-        <BottomButton role="main">결제수단 추가하기</BottomButton>
+        <BottomButton role="main" onClick={btnHandler}>
+          결제수단 추가하기
+        </BottomButton>
       </FixedCenterBox>
     </MobileLayout>
   );
