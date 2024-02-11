@@ -5,7 +5,6 @@ import { AiOutlineDollarCircle } from "react-icons/ai";
 import { LuClock4 } from "react-icons/lu";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 
-
 const ReservItemFrame = styled.div`
   width: 100%;
   ${({ theme }) => theme.flex.flexColumn};
@@ -35,8 +34,8 @@ const IconBlueBox = styled.div`
   width: 25px;
   height: 25px;
   border-radius: 4px;
-  ${(props) => props.theme.flex.flexCenter};
-  background-color: ${(props) => props.theme.colors.lightBlue};
+  ${({ theme }) => theme.flex.flexCenter};
+  background-color: ${({ theme }) => theme.colors.lightBlue};
 `;
 
 const MoneySub = styled.sub`
@@ -62,64 +61,64 @@ const IconedCaption = styled.div`
 `;
 
 const SummaryItemBox = ({ model, status, time, fee }) => {
-    return (
-      <ReservItemFrame>
-        <DescriptionTextArea>
-          <TextSetFrame align={"start"}>
+  return (
+    <ReservItemFrame>
+      <DescriptionTextArea>
+        <TextSetFrame align={"start"}>
+          <Typography font={"regular12"} color={"upperTextColor"}>
+            운송수단
+          </Typography>
+          <Margin height="4px" />
+          <Typography font={"bold20"} color={"realBlack"}>
+            {model}
+          </Typography>
+        </TextSetFrame>
+        <TextSetFrame align={"end"}>
+          <Typography font={"regular12"} color={"upperTextColor"}>
+            운송상태
+          </Typography>
+          <Margin height="4px" />
+          <Typography font={"bold20"} color={"realBlack"}>
+            {status}
+          </Typography>
+        </TextSetFrame>
+      </DescriptionTextArea>
+      <Margin height="12px" />
+      <UnderBar />
+      <Margin height="12px" />
+      <DescriptionTextArea>
+        <TextSetFrame align={"start"}>
+          <IconedCaption>
+            <IconBlueBox>
+              <LuClock4 style={{ width: 16, color: "white" }} />
+            </IconBlueBox>
             <Typography font={"regular12"} color={"upperTextColor"}>
-              운송수단
+              운송일시
             </Typography>
-            <Margin height="4px" />
-            <Typography font={"bold20"} color={"realBlack"}>
-              {model}
-            </Typography>
-          </TextSetFrame>
-          <TextSetFrame align={"end"}>
+          </IconedCaption>
+          <Margin height="4px" />
+          <Typography font={"bold20"} color={"realBlack"}>
+            {time}
+          </Typography>
+        </TextSetFrame>
+        <TextSetFrame align={"end"}>
+          <IconedCaption>
+            <IconBlueBox>
+              <AiOutlineDollarCircle style={{ width: 16, color: "white" }} />
+            </IconBlueBox>
             <Typography font={"regular12"} color={"upperTextColor"}>
-              운송상태
+              운송비용
             </Typography>
-            <Margin height="4px" />
-            <Typography font={"bold20"} color={"realBlack"}>
-              {status}
-            </Typography>
-          </TextSetFrame>
-        </DescriptionTextArea>
-        <Margin height="12px" />
-        <UnderBar />
-        <Margin height="12px" />
-        <DescriptionTextArea>
-          <TextSetFrame align={"start"}>
-            <IconedCaption>
-              <IconBlueBox>
-                <LuClock4 style={{ width: 16, color: "white" }} />
-              </IconBlueBox>
-              <Typography font={"regular12"} color={"upperTextColor"}>
-                운송일시
-              </Typography>
-            </IconedCaption>
-            <Margin height="4px" />
-            <Typography font={"bold20"} color={"realBlack"}>
-              {time}
-            </Typography>
-          </TextSetFrame>
-          <TextSetFrame align={"end"}>
-            <IconedCaption>
-              <IconBlueBox>
-                <AiOutlineDollarCircle style={{ width: 16, color: "white" }} />
-              </IconBlueBox>
-              <Typography font={"regular12"} color={"upperTextColor"}>
-                운송비용
-              </Typography>
-            </IconedCaption>
-            <Margin height="4px" />
-            <CustomTypo>
-              {fee}
-              <MoneySub>만원</MoneySub>
-            </CustomTypo>
-          </TextSetFrame>
-        </DescriptionTextArea>
-      </ReservItemFrame>
-    );
-  };
+          </IconedCaption>
+          <Margin height="4px" />
+          <CustomTypo>
+            {fee}
+            <MoneySub>만원</MoneySub>
+          </CustomTypo>
+        </TextSetFrame>
+      </DescriptionTextArea>
+    </ReservItemFrame>
+  );
+};
 
 export default SummaryItemBox;
