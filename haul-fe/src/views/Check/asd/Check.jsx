@@ -1,9 +1,9 @@
-import Header from "../../components/Header/Header.jsx";
-import Margin from "../../components/Margin/Margin.jsx";
-import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
-import Flex from "../../components/Flex/Flex.jsx";
-import NavigationBar from "../../components/NavigationBar/NavigationBar.jsx";
-import Typography from "../../components/Typhography/Typhography.jsx";
+import Header from "../../../components/Header/Header.jsx";
+import Margin from "../../../components/Margin/Margin.jsx";
+import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
+import Flex from "../../../components/Flex/Flex.jsx";
+import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
+import Typography from "../../../components/Typhography/Typhography.jsx";
 import { Link } from "react-router-dom";
 import SummaryItemBox from "./components/SummaryItemBox.jsx";
 

@@ -1,14 +1,14 @@
-import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
-import Header from "../../components/Header/Header.jsx";
-import Margin from "../../components/Margin/Margin.jsx";
-import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
-import BottomButton from "../../components/Button/BottomButton.jsx";
+import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
+import Header from "../../../components/Header/Header.jsx";
+import Margin from "../../../components/Margin/Margin.jsx";
+import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
+import BottomButton from "../../../components/Button/BottomButton.jsx";
 import styled from "styled-components";
 import Carousel from "./components/Carousel.jsx";
-import Card1 from "../../assets/pngs/card1.png";
-import Card2 from "../../assets/pngs/card2.png";
-import Card3 from "../../assets/pngs/card3.png";
-import ToastMaker from "../../components/Toast/ToastMaker.jsx";
+import Card1 from "../../../assets/pngs/card1.png";
+import Card2 from "../../../assets/pngs/card2.png";
+import Card3 from "../../../assets/pngs/card3.png";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 
 const CustomTypo = styled.p`
   ${({ theme }) => theme.font.bold24};

@@ -1,13 +1,13 @@
-import Header from "../../components/Header/Header.jsx";
-import Margin from "../../components/Margin/Margin.jsx";
-import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
-import Flex from "../../components/Flex/Flex.jsx";
-import NavigationBar from "../../components/NavigationBar/NavigationBar.jsx";
+import Header from "../../../components/Header/Header.jsx";
+import Margin from "../../../components/Margin/Margin.jsx";
+import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
+import Flex from "../../../components/Flex/Flex.jsx";
+import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import styled from "styled-components";
-import Typography from "../../components/Typhography/Typhography.jsx";
+import Typography from "../../../components/Typhography/Typhography.jsx";
 import DriverInfoBox from "./components/DriverInfoBox.jsx";
-import CarInfoBox from "../../components/CarInfoBox/CarInfoBox.jsx";
-import DetailInfo from "../../components/DetailInfo/DetailInfo.jsx";
+import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
+import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import { useLocation } from "react-router-dom";
 
 const ReservItemFrame = styled(Flex)`
@@ -90,7 +90,6 @@ const CheckDetail = ({ driver, car, map }) => {
 
   return (
     <MobileLayout>
-      <Margin height="20px" />
       <Header home={false} back={true}>
         <Typography font={"semiBold24"}>예약 확인</Typography>
       </Header>

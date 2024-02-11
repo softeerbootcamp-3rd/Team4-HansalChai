@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import Margin from "../../../components/Margin/Margin.jsx";
-import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
+import Margin from "../../../../components/Margin/Margin.jsx";
+import UnderBar from "../../../../components/UnderBar/UnderBar.jsx";
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { LuClock4 } from "react-icons/lu";
-import Typography from "../../../components/Typhography/Typhography.jsx";
+import Typography from "../../../../components/Typhography/Typhography.jsx";
 
 const ReservItemFrame = styled.div`
   width: 100%;

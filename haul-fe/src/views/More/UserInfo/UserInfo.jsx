@@ -1,14 +1,14 @@
-import Header from "../../components/Header/Header.jsx";
-import Margin from "../../components/Margin/Margin.jsx";
-import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
-import Flex from "../../components/Flex/Flex.jsx";
+import Header from "../../../components/Header/Header.jsx";
+import Margin from "../../../components/Margin/Margin.jsx";
+import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
+import Flex from "../../../components/Flex/Flex.jsx";
 import styled from "styled-components";
-import Typography from "../../components/Typhography/Typhography.jsx";
-import UnderBar from "../../components/UnderBar/UnderBar.jsx";
-import BottomButton from "../../components/Button/BottomButton.jsx";
+import Typography from "../../../components/Typhography/Typhography.jsx";
+import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
+import BottomButton from "../../../components/Button/BottomButton.jsx";
 import { useState, useRef } from "react";
-import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
-import { checkEmail } from "../../utils/helper.js";
+import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
+import { checkEmail } from "../../../utils/helper.js";
 
 //TODO: 비밀번호 상세 규칙 통일할 것!!!!!!
 //TODO: 상세 규칙 정하고 정규식 바꾼 후 util로 보낼 것!!!!!!!

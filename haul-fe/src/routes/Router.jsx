@@ -6,9 +6,9 @@ import Splash from "../views/Splash/Splash.jsx";
 import Login from "../views/Login/Login.jsx";
 import GuestLogin from "../views/GuestLogin/GuestLogin.jsx";
 import SignUP from "../views/SignUp/SignUp.jsx";
-import More from "../views/More/More.jsx";
-import Terms from "../views/Terms/Terms.jsx";
-import UserInfo from "../views/UserInfo/UserInfo.jsx";
+import More from "../views/More/List/More.jsx";
+import Terms from "../views/More/Terms/Terms.jsx";
+import UserInfo from "../views/More/UserInfo/UserInfo.jsx";
 import ChoiceTransport from "../views/Request/ChoiceTransport/ChoiceTransport.jsx";
 import ChoiceDate from "../views/Request/ChoiceDate/ChoiceDate.jsx";
 import ChoiceTime from "../views/Request/ChoiceTime/ChoiceTime";
@@ -17,10 +17,10 @@ import ChoiceDst from "../views/Request/ChoiceDst/ChoiceDst.jsx";
 import ChoiceLoadInfo from "../views/Request/ChoiceLoadInfo/ChoiceLoadInfo.jsx";
 import Result from "../views/Request/Result/Result.jsx";
 import Complete from "../views/Request/Complete/Complete.jsx";
-import Contract from "../views/Contract/Contract.jsx";
-import Check from "../views/Check/Check.jsx";
-import UserPayments from "../views/UserPayments/UserPayments.jsx";
-import CheckDetail from "../views/CheckDetail/CheckDetail.jsx";
+import Contract from "../views/More/Terms/Contract/Contract.jsx";
+import Check from "../views/Check/List/Check.jsx";
+import UserPayments from "../views/More/UserPayments/UserPayments.jsx";
+import CheckDetail from "../views/Check/CheckDetail/CheckDetail.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();

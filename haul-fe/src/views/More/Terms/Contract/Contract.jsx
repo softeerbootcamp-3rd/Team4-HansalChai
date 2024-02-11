@@ -1,10 +1,10 @@
-import Header from "../../components/Header/Header.jsx";
-import Margin from "../../components/Margin/Margin.jsx";
-import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
-import NavigationBar from "../../components/NavigationBar/NavigationBar.jsx";
+import Header from "../../../../components/Header/Header.jsx";
+import Margin from "../../../../components/Margin/Margin.jsx";
+import MobileLayout from "../../../../components/MobileLayout/MobileLayout.jsx";
+import NavigationBar from "../../../../components/NavigationBar/NavigationBar.jsx";
 import styled from "styled-components";
-import Typography from "../../components/Typhography/Typhography.jsx";
-import Contracts from "../../data/Contracts.js";
+import Typography from "../../../../components/Typhography/Typhography.jsx";
+import Contracts from "../../../../data/Contracts.js";
 
 const contractType = {
   services: "이용약관",
