@@ -37,7 +37,7 @@ const Router = () => (
       <Route path="/guestLogin" element={<GuestLogin />} />
       <Route path="/signUp" element={<SignUP />} />
       <Route path="/more" element={<Outlet />}>
-        <Route path="" element={<More />} />
+        <Route path="list" element={<More />} />
         <Route path="terms" element={<Outlet />}>
           <Route path="" element={<Terms />} />
           <Route path="services" element={<Contract type={"services"} />} />

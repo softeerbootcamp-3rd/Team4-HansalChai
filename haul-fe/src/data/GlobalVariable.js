@@ -10,6 +10,6 @@ export const UrlMap = {
   choiceSrcPageUrl: "/request/source",
   choiceDstPageUrl: "/request/destination",
   choiceLoadInfoPageUrl: "/request/loadInfo",
-  morePageUrl: "/more",
+  morePageUrl: "/more/list",
   checkReservationPageUrl: "/check/list"
 };
