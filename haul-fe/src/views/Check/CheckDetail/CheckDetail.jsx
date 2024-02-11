@@ -12,6 +12,7 @@ import { useLocation } from "react-router-dom";
 
 const ReservItemFrame = styled(Flex)`
   width: 100%;
+  padding-bottom: 83px;
   ${({ theme }) => theme.flex.flexColumn};
   overflow-y: scroll;
 `;
