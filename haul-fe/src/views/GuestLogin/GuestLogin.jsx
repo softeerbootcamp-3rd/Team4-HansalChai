@@ -9,9 +9,8 @@ import Input from "../../components/Input/Input.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../components/Button/BottomButton.jsx";
 import ToastMaker from "../../components/Toast/ToastMaker.jsx";
-import { UrlMap } from "../../data/GlobalVariable.js";
+import { UrlMap, ErrorMessageMap } from "../../data/GlobalVariable.js";
 import { isPhoneNumber } from "../../utils/helper.js";
-import { ErrorMessageMap } from "../../data/GlobalVariable.js";
 
 const GuestLogin = () => {
   const navigate = useNavigate();

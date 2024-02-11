@@ -10,10 +10,9 @@ import BottomButton from "../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { UrlMap } from "../../data/GlobalVariable.js";
+import { UrlMap, ErrorMessageMap } from "../../data/GlobalVariable.js";
 import { isPhoneNumber } from "../../utils/helper.js";
 import ToastMaker from "../../components/Toast/ToastMaker.jsx";
-import { ErrorMessageMap } from "../../data/GlobalVariable.js";
 
 const GoSignUpBtn = styled.button`
   width: auto;
