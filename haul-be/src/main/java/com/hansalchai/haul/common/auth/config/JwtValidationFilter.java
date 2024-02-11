@@ -11,7 +11,7 @@ import org.springframework.util.PatternMatchUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hansalchai.haul.common.auth.constants.JwtExceptionType;
-import com.hansalchai.haul.common.auth.dto.AuthenticateUser;
+import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
 import com.hansalchai.haul.common.auth.jwt.JwtProvider;
 
 import io.jsonwebtoken.Claims;
@@ -75,9 +75,9 @@ public class JwtValidationFilter implements Filter {
 		return authorization != null && authorization.startsWith(BEARER_TOKEN_PREFIX);
 	}
 
-	private AuthenticateUser getAuthenticateUser(String token) throws JsonProcessingException {
+	private AuthenticatedUser getAuthenticateUser(String token) throws JsonProcessingException {
 		Claims claims = jwtProvider.getClaims(token);
 		String authenticateUserJson = claims.get(AUTHENTICATE_USER, String.class);
-		return objectMapper.readValue(authenticateUserJson, AuthenticateUser.class);
+		return objectMapper.readValue(authenticateUserJson, AuthenticatedUser.class);
 	}
 }

@@ -10,7 +10,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.hansalchai.haul.common.auth.constants.Role;
-import com.hansalchai.haul.common.auth.dto.AuthenticateUser;
+import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
 
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ public class UserAuthorizationInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler)
 		throws IOException {
 		if (request.getAttribute(AUTHENTICATE_USER) != null) {
-			AuthenticateUser authenticateUser = (AuthenticateUser)request.getAttribute(AUTHENTICATE_USER);
+			AuthenticatedUser authenticateUser = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 			Role role = authenticateUser.getRole();
 			String baseUrl = getBaseUrl(handler);
 
