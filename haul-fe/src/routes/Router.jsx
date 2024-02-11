@@ -64,10 +64,7 @@ const Router = () => (
         <Route path="list" element={<Check />} />
         <Route
           path="detail/:reservid"
-          element={
-            /*TODO: 예약ID로 넘어가도록 바꿀 것*/
-            <CheckDetail driver={null} car={null} map={null} />
-          }
+          element={<CheckDetail driver={null} car={null} map={null} />}
         />
       </Route>
     </Routes>
