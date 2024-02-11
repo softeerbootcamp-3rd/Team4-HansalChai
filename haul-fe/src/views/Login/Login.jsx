@@ -10,7 +10,10 @@ import BottomButton from "../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { UrlMap } from "../../data/GlobalVariable";
+import { UrlMap } from "../../data/GlobalVariable.js";
+import { isPhoneNumber } from "../../utils/helper.js";
+import ToastMaker from "../../components/Toast/ToastMaker.jsx";
+import { ErrorMessageMap } from "../../data/GlobalVariable.js";
 
 const GoSignUpBtn = styled.button`
   width: auto;
@@ -32,6 +35,26 @@ const Login = () => {
     }
   }
 
+  //회원가입 버튼 클릭 시 실행 함수
+  function signUpBtnFun() {
+    navigate(UrlMap.signUpPageUrl);
+  }
+
+  //로그인 버튼 클릭 시 실행 함수
+  function loginBtnFun() {
+    //전화번호 형식 예외처리
+    if (!isPhoneNumber(tel.current)) {
+      ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
+      return;
+    }
+    navigate(UrlMap.choiceTranportTypeUrl);
+  }
+
+  // 비회원으로 접속하기 버튼 클릭 시 실행 함수
+  function guestLoginBtnFun() {
+    navigate(UrlMap.guestLoginPageUrl);
+  }
+
   return (
     <MobileLayout>
       <Margin height="40px" />
@@ -46,7 +69,7 @@ const Login = () => {
       <Margin height="10px" />
       <GoSignUpBtn
         onClick={() => {
-          navigate(UrlMap.signUpPageUrl);
+          signUpBtnFun();
         }}
       >
         <Typography font="bold16" color="subColor">
@@ -87,7 +110,7 @@ const Login = () => {
           role="main"
           disabled={isButtonDisabled}
           onClick={() => {
-            navigate(UrlMap.choiceTranportTypeUrl);
+            loginBtnFun();
           }}
         >
           로그인하기
@@ -97,13 +120,12 @@ const Login = () => {
           role="sub"
           disabled={false}
           onClick={() => {
-            navigate(UrlMap.guestLoginPageUrl);
+            guestLoginBtnFun();
           }}
         >
           비회원으로 접속하기
         </BottomButton>
       </FixedCenterBox>
-      <Margin height="200px" />
     </MobileLayout>
   );
 };
