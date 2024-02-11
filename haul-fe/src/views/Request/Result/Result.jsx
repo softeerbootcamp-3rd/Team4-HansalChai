@@ -22,7 +22,6 @@ const Result = () => {
 
   return (
     <MobileLayout>
-      <Margin height="20px" />
       <Header home={true}>
         HAUL
         <Typography_Span color="subColor">.</Typography_Span>

@@ -77,7 +77,6 @@ const ChoiceTime = () => {
 
   return (
     <MobileLayout>
-      <Margin height="20px" />
       <Header>
         HAUL<Typography_Span color="subColor">.</Typography_Span>
       </Header>

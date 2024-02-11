@@ -26,7 +26,6 @@ const UserPayments = () => {
   const username = "하울";
   return (
     <MobileLayout>
-      <Margin height="10px" />
       <Header>
         HAUL<span style={{ color: "#596FB7" }}>.</span>
       </Header>

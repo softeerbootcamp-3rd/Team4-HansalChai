@@ -72,7 +72,6 @@ const ChoiceTransport = () => {
 
   return (
     <MobileLayout>
-      <Margin height="20px" />
       <Header back={false}>
         HAUL
         <Typography_Span color="subColor">.</Typography_Span>

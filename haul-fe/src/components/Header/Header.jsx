@@ -11,6 +11,7 @@ const HeaderFrame = styled.div`
   align-items: center;
   font-family: "semiBold";
   font-size: 24px;
+  margin-top: 20px;
 `;
 
 const LeftHeaderFrame = styled.div`

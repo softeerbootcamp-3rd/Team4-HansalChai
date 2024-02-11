@@ -33,7 +33,6 @@ const More = () => {
 
   return (
     <MobileLayout>
-      <Margin height="10px" />
       <Header home={false} back={false}>
         <Typography font={"semiBold24"}>더보기</Typography>
       </Header>

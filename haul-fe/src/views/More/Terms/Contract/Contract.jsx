@@ -33,7 +33,6 @@ const ContractView = styled.pre`
 const Contract = ({ type }) => {
   return (
     <MobileLayout>
-      <Margin height="10px" />
       <Header home={true} back={true}>
         <Typography font={"semiBold24"}>{contractType[type]}</Typography>
       </Header>
