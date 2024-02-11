@@ -20,8 +20,6 @@ import Check from "../views/Check/Check.jsx";
 import UserPayments from "../views/UserPayments/UserPayments.jsx";
 import CheckDetail from "../views/CheckDetail/CheckDetail.jsx";
 
-
-
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 

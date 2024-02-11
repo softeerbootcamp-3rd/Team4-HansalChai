@@ -26,7 +26,7 @@ const Login = () => {
   const [isButtonDisabled, setButtonDisabled] = useState(true);
 
   function checkLoginAbled() {
-    let checkIsButtonDisabled = !(tel.current && password.current);
+    const checkIsButtonDisabled = !(tel.current && password.current);
     if (checkIsButtonDisabled !== isButtonDisabled) {
       setButtonDisabled(checkIsButtonDisabled);
     }
@@ -57,7 +57,7 @@ const Login = () => {
             fontSize: "14px",
             color: "#446EDA",
             marginLeft: "3px",
-            marginTop: "1px",
+            marginTop: "1px"
           }}
         />
       </GoSignUpBtn>

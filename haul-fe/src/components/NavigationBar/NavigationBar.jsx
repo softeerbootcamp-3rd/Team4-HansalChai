@@ -3,7 +3,7 @@ import TruckSvg from "../../assets/svgs/Truck.svg";
 import TruckSelectedSvg from "../../assets/svgs/Truck_Selected.svg";
 import {
   AiOutlineCarryOut as CheckSvg,
-  AiOutlineMenu as MoreSvg,
+  AiOutlineMenu as MoreSvg
 } from "react-icons/ai";
 import SelectedCircleSelectedSvg from "../../assets/svgs/SelectedCircle_Selected.svg";
 import SelectedCircleSvg from "../../assets/svgs/SelectedCircle.svg";
@@ -36,7 +36,7 @@ const ItemFrame = styled.div`
   align-items: center;
   gap: 4px;
   flex-grow: 1;
-  color: ${(props) =>
+  color: ${props =>
     props.selected
       ? props.theme.colors.mainColor
       : props.theme.colors.unselectedGray};
@@ -46,23 +46,23 @@ const TruckImg = styled.img`
   width: 42px;
   height: 23px;
   border: none;
-  fill: ${(props) => props.theme.colors[props.fill]};
+  fill: ${props => props.theme.colors[props.fill]};
   color: red;
 `;
 
 const IconFrame = styled.div`
-  color: ${(props) => props.theme.colors[props.fill]};
+  color: ${props => props.theme.colors[props.fill]};
 `;
 
 const SelectedCircleImg = styled.img`
   width: 6px;
   height: 6px;
-  fill: ${(props) => props.theme.colors[props.fill]};
+  fill: ${props => props.theme.colors[props.fill]};
   color: red;
 `;
 
 const NavigationBar = ({ selected = "reserv" }) => {
-  let navigator = useNavigate();
+  const navigator = useNavigate();
   const clickCheck = () => {
     navigator(UrlMap.checkReservationPageUrl);
   };

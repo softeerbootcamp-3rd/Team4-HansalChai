@@ -68,7 +68,7 @@ const CarInfoBox = ({ phase, type, capacity, volumn, quantity = 1 }) => {
       <CarCard>
         <QuantityBox>
           {quantity !== 1 ? (
-            <Typography font={"semiBold20"}>{"x" + quantity}</Typography>
+            <Typography font={"semiBold20"}>{`x${quantity}`}</Typography>
           ) : (
             ""
           )}

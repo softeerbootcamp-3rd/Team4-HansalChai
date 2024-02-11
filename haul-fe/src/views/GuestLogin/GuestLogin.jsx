@@ -18,7 +18,7 @@ const GuestLogin = () => {
   const [isButtonDisabled, setButtonDisabled] = useState(true);
 
   function checkLoginAbled() {
-    let checkIsButtonDisabled = !(name.current && tel.current);
+    const checkIsButtonDisabled = !(name.current && tel.current);
     if (checkIsButtonDisabled !== isButtonDisabled) {
       setButtonDisabled(checkIsButtonDisabled);
     }

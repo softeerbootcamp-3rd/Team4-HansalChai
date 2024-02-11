@@ -11,7 +11,7 @@ import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
 
 //TODO: 비밀번호 상세 규칙 통일할 것!!!!!!
 //TODO: 상세 규칙 정하고 정규식 바꾼 후 util로 보낼 것!!!!!!!
-const checkPassword = (password) => {
+const checkPassword = password => {
   if (password.length !== password.trim().length)
     return { result: false, message: "비밀번호는 공백을 포함할 수 없습니다" };
   if (password.length < 8)
@@ -66,7 +66,7 @@ const UserInfo = () => {
   const [userInfo, setUserInfo] = useState({
     name: "하울",
     email: "haul@haul.com",
-    tel: "010-0000-0000",
+    tel: "010-0000-0000"
   });
   const userRef = useRef(userInfo.name);
   const emailRef = useRef(userInfo.email);
@@ -86,7 +86,7 @@ const UserInfo = () => {
     setUserInfo({
       ...userInfo,
       name: userRef.current,
-      email: emailRef.current,
+      email: emailRef.current
     });
   };
 
@@ -107,7 +107,7 @@ const UserInfo = () => {
               <TextInput
                 id={"userName"}
                 defaultValue={userInfo.name}
-                onBlur={(e) => {
+                onBlur={e => {
                   const newUserName = e.target.value;
                   if (newUserName.trim().length !== 0)
                     userRef.current = newUserName;
@@ -123,7 +123,7 @@ const UserInfo = () => {
               <TextInput
                 id={"userEmail"}
                 defaultValue={userInfo.email}
-                onBlur={(e) => {
+                onBlur={e => {
                   const newUserEmail = e.target.value;
                   if (newUserEmail.trim().length !== 0)
                     emailRef.current = newUserEmail;
@@ -139,7 +139,7 @@ const UserInfo = () => {
               <TextInput
                 placeholder="●●●●●●"
                 id={"password"}
-                onBlur={(e) => {
+                onBlur={e => {
                   passwordRef.current = e.target.value;
                   const report = checkPassword(passwordRef.current);
                   if (report.result)
@@ -156,7 +156,7 @@ const UserInfo = () => {
               <TextInput
                 placeholder="●●●●●●"
                 id={"passwordConfirm"}
-                onBlur={(e) => {
+                onBlur={e => {
                   passwordConfirmRef.current = e.target.value;
                   if (passwordRef.current === passwordConfirmRef.current)
                     passwordPassedConfirmRef.current = passwordRef.current;

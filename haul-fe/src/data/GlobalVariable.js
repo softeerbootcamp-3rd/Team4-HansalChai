@@ -11,5 +11,5 @@ export const UrlMap = {
   choiceDstPageUrl: "/request/destination",
   choiceLoadInfoPageUrl: "/request/loadInfo",
   morePageUrl: "/more",
-  checkReservationPageUrl: "/check/list",
+  checkReservationPageUrl: "/check/list"
 };

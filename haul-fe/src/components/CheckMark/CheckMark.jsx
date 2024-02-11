@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled, { keyframes, css } from 'styled-components';
+import React from "react";
+import PropTypes from "prop-types";
+import styled, { keyframes, css } from "styled-components";
 
 const PREDEFINED_SIZE_MAP = {
-  small: '16px',
-  medium: '26px',
-  large: '52px',
-  xLarge: '72px',
-  xxLarge: '96px',
+  small: "16px",
+  medium: "26px",
+  large: "52px",
+  xLarge: "72px",
+  xxLarge: "96px"
 };
 
 const stroke = keyframes`
@@ -37,8 +37,9 @@ const CheckmarkSVG = styled.svg`
   stroke: var(--checkmark-arrow-color);
   stroke-width: var(--checkmark-arrow-thickness);
   stroke-miterlimit: 10;
-  animation: ${fill} 0.28s ease-in-out 0.4s forwards,
-              ${scale} 0.21s ease-in-out 0.9s both;
+  animation:
+    ${fill} 0.28s ease-in-out 0.4s forwards,
+    ${scale} 0.21s ease-in-out 0.9s both;
 `;
 
 const Circle = styled.circle`
@@ -60,12 +61,12 @@ const Path = styled.path`
 
 export default function Checkmark({ size, color }) {
   const computedSize = PREDEFINED_SIZE_MAP[size] || size;
-  const style = { 
-    '--checkmark-fill-color': color || '#000B49', 
-    '--checkmark-arrow-color': '#fff',
-    '--checkmark-arrow-thickness': '5',
-    width: computedSize, 
-    height: computedSize 
+  const style = {
+    "--checkmark-fill-color": color || "#000B49",
+    "--checkmark-arrow-color": "#fff",
+    "--checkmark-arrow-thickness": "5",
+    width: computedSize,
+    height: computedSize
   };
 
   return (
@@ -78,9 +79,9 @@ export default function Checkmark({ size, color }) {
 
 Checkmark.propTypes = {
   size: PropTypes.string,
-  color: PropTypes.string,
+  color: PropTypes.string
 };
 
 Checkmark.defaultProps = {
-  size: 'large',
+  size: "large"
 };

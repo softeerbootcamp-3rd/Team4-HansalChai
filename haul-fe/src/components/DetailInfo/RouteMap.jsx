@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   GoogleMap,
   LoadScript,
-  DirectionsRenderer,
+  DirectionsRenderer
 } from "@react-google-maps/api";
 
 const apiKey = import.meta.env.VITE_MAP_KEY;
@@ -10,7 +10,7 @@ const apiKey = import.meta.env.VITE_MAP_KEY;
 const containerStyle = {
   width: "100%",
   height: "227px",
-  borderRadius: "10px",
+  borderRadius: "10px"
 };
 
 const RouteMap = ({ origin, destination }) => {
@@ -21,7 +21,7 @@ const RouteMap = ({ origin, destination }) => {
     const request = {
       origin,
       destination,
-      travelMode: window.google.maps.TravelMode.DRIVING,
+      travelMode: window.google.maps.TravelMode.DRIVING
     };
 
     directionsService.route(request, (result, status) => {
@@ -40,7 +40,7 @@ const RouteMap = ({ origin, destination }) => {
         center={origin}
         zoom={14}
         options={{
-          disableDefaultUI: true,
+          disableDefaultUI: true
         }}
       >
         {directions && <DirectionsRenderer directions={directions} />}

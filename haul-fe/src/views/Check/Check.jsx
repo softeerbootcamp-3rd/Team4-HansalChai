@@ -14,14 +14,14 @@ const Check = () => {
       model: "1톤 포터(냉동)",
       status: "배정 중",
       time: "2024.1.10 12:10",
-      fee: 17,
+      fee: 17
     },
     {
       model: "2.5톤 마이티(카고)",
       status: "운송 완료",
       time: "2024.1.1 10:10",
-      fee: 25,
-    },
+      fee: 25
+    }
   ];
 
   const clickUserInfo = () => {

@@ -30,7 +30,7 @@ const Header = ({ home = false, back = true, children }) => {
     navigator(-1);
   };
   const clickHome = () => {
-    const path = "/" + pathname.slice(1).split("/")[0];
+    const path = `/${pathname.slice(1).split("/")[0]}`;
     navigator(path);
   };
 

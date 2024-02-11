@@ -4,11 +4,11 @@ const ButtonStyle = styled.button`
   width: 100%;
   height: 48px;
   left: 20px;
-  background-color: ${(props) =>
+  background-color: ${props =>
     props.role === "main"
       ? props.theme.colors.mainColor
       : props.theme.colors.subButtonBackground};
-  color: ${(props) =>
+  color: ${props =>
     props.role === "main"
       ? props.theme.colors.white
       : props.theme.colors.mainColor};
@@ -32,7 +32,7 @@ const BottomButton = ({
   role,
   disabled = false,
   onClick = undefined,
-  children,
+  children
 }) => {
   return (
     <ButtonStyle role={role} onClick={onClick} disabled={disabled}>

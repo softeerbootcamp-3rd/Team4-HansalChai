@@ -9,7 +9,7 @@ import Typography from "../../components/Typhography/Typhography.jsx";
 import { checkEmail } from "../../utils/helper.js";
 import {
   IoIosCheckmarkCircleOutline,
-  IoIosCloseCircleOutline,
+  IoIosCloseCircleOutline
 } from "react-icons/io";
 
 const SignUP = () => {
@@ -22,11 +22,11 @@ const SignUP = () => {
   const [isEmailForm, setEmailForm] = useState(false);
 
   const checkSame = () => {
-    let checkIsButtonDisabled = !(
-      name.current &&
-      tel.current &&
-      email.current &&
-      password.current
+    const checkIsButtonDisabled = !(
+      name.current
+      && tel.current
+      && email.current
+      && password.current
     );
     if (checkIsButtonDisabled !== isButtonDisabled) {
       setButtonDisabled(checkIsButtonDisabled);
@@ -73,7 +73,7 @@ const SignUP = () => {
         placeholder="Email"
         onChange={({ target: { value } }) => {
           email.current = value;
-          let checkEmailForm = checkEmail(email.current);
+          const checkEmailForm = checkEmail(email.current);
           if (checkEmailForm !== isEmailForm) {
             setEmailForm(checkEmailForm);
           }
@@ -118,7 +118,7 @@ const SignUP = () => {
         type="password"
         placeholder="Confirm Password"
         onChange={({ target: { value } }) => {
-          let checkSamePassword = value === password.current;
+          const checkSamePassword = value === password.current;
           if (checkSamePassword !== isSamePassword) {
             setSamePassword(checkSamePassword);
           }

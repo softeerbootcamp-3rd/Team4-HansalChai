@@ -24,12 +24,12 @@ const toRender = () => {
   return (
     <>
       <ToastListFrame>
-        {toastList.map((toast) => {
+        {toastList.map(toast => {
           return (
             <Toast
               type={toast.type}
-              key={"toast" + toast.index}
-              id={"toast" + toast.index}
+              key={`toast${toast.index}`}
+              id={`toast${toast.index}`}
             >
               {toast.children}
             </Toast>

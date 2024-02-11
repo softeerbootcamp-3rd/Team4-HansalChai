@@ -17,13 +17,13 @@ import { UrlMap } from "../../../data/GlobalVariable.js";
 const LoadInfoTypoBox = styled.div`
   width: 40px;
   height: auto;
-  ${(props) => props.theme.font["bold16"]}
+  ${props => props.theme.font["bold16"]}
   text-align: left;
   padding-bottom: 2px;
 `;
 
 const SpecialBtnBox = styled.div`
-  ${(props) => props.theme.flex.flexRow}
+  ${props => props.theme.flex.flexRow}
   flex-wrap: wrap;
   gap: 10px;
 `;
@@ -31,10 +31,10 @@ const SpecialBtnBox = styled.div`
 const SmallBtn = styled.button`
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.07);
-  background: ${(props) =>
+  background: ${props =>
     props.isClick ? props.theme.colors.subColor : props.theme.colors.inputGray};
-  ${(props) => props.theme.font.bold12};
-  color: ${(props) =>
+  ${props => props.theme.font.bold12};
+  color: ${props =>
     props.isClick ? props.theme.colors.white : props.theme.colors.grayText};
   width: fit-content;
   height: auto;
@@ -47,7 +47,7 @@ const ChoiceLoadInfo = () => {
 
   const {
     setRoadInfo,
-    state: { dstAddress },
+    state: { dstAddress }
   } = useContext(reservationStore);
   const [submitDisabled, CheckSubmitDisabled] = useState(true);
 
@@ -62,7 +62,7 @@ const ChoiceLoadInfo = () => {
     { note: "냉동", selected: false },
     { note: "탑차", selected: false },
     { note: "가구", selected: false },
-    { note: "리프트 필요", selected: false },
+    { note: "리프트 필요", selected: false }
   ]);
 
   const cargoWeight = useRef(0);
@@ -89,7 +89,7 @@ const ChoiceLoadInfo = () => {
       cargoWidth: Number(cargoWidth.current),
       cargoLength: Number(cargoLength.current),
       cargoHeight: Number(cargoHeight.current),
-      specialNotes: specialNotes,
+      specialNotes: specialNotes
     });
     //navigation(UrlMap.choiceLoadInfoPageUrl);
   }

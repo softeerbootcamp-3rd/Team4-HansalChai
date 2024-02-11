@@ -10,8 +10,8 @@ import { LuClock4 } from "react-icons/lu";
 
 const DetailInfoBox = styled.div`
   border-radius: 10px;
-  border: 1px solid ${(props) => props.theme.colors.grayBoxBorder};
-  background-color: ${(props) => props.theme.colors.grayBoxBackground};
+  border: 1px solid ${props => props.theme.colors.grayBoxBorder};
+  background-color: ${props => props.theme.colors.grayBoxBackground};
   width: 100%;
   height: auto;
   padding: 15px;
@@ -21,7 +21,7 @@ const InfoBox = styled.div`
   width: 100%;
   height: auto;
   border-radius: 10px;
-  background-color: ${(props) => props.theme.colors.inputGray};
+  background-color: ${props => props.theme.colors.inputGray};
   padding: 16px 8px;
 `;
 
@@ -39,8 +39,8 @@ const IconBlueBox = styled.div`
   width: 25px;
   height: 25px;
   border-radius: 4px;
-  ${(props) => props.theme.flex.flexCenter};
-  background-color: ${(props) => props.theme.colors.lightBlue};
+  ${props => props.theme.flex.flexCenter};
+  background-color: ${props => props.theme.colors.lightBlue};
 `;
 
 const RouteMapBox = styled.div`
@@ -56,7 +56,7 @@ const DetailInfo = ({
   dstName,
   dstAddress,
   fee,
-  time,
+  time
 }) => {
   return (
     <DetailInfoBox>

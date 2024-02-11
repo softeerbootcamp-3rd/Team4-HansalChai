@@ -18,7 +18,7 @@ const ChoiceDate = () => {
   const [selectedDay, setSelectedDay] = useState(new Date());
   const {
     setReservationDate,
-    state: { transportType, reservationDate },
+    state: { transportType, reservationDate }
   } = useContext(reservationStore);
 
   useEffect(() => {
@@ -27,16 +27,14 @@ const ChoiceDate = () => {
       navigation(UrlMap.choiceTranportTypeUrl);
     }
     //이전에 선택되어진게 있는지 확인. 있다면 그걸로 선택
-    if(!isEmptyString(reservationDate)){
+    if (!isEmptyString(reservationDate)) {
       const beforeChoiceDate = stringToDateObject(reservationDate);
       setSelectedDay(beforeChoiceDate);
     }
   }, []);
 
-  const DateFormChange = (date) => {
-    return (
-      date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate()
-    );
+  const DateFormChange = date => {
+    return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
   };
 
   return (

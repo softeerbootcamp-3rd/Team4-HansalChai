@@ -10,7 +10,7 @@ const contractType = {
   services: "이용약관",
   privacy: "개인정보 처리방침",
   transportation: "화물자동차 운송주선약관",
-  location: "위치기반서비스 이용약관",
+  location: "위치기반서비스 이용약관"
 };
 
 const ContractView = styled.pre`

@@ -25,8 +25,8 @@ const TransportBox = styled.div`
   margin-bottom: 20px;
   border-radius: 6px;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
-  background-color: ${(props) => props.boxeachcolor};
-  ${(props) => props.theme.flex.flexBetween};
+  background-color: ${props => props.boxeachcolor};
+  ${props => props.theme.flex.flexBetween};
   padding: 0 20px;
   cursor: pointer;
 `;
@@ -38,34 +38,34 @@ const ChoiceTransport = () => {
       transportPlusInfo: "중고거래, 물품 운송",
       maxLoad: 10,
       boxEachColor: "#d9c7e7",
-      img: Transport1,
+      img: Transport1
     },
     {
       transportType: "용달 이사",
       transportPlusInfo: "원룸이사, 1인 가구 이사",
       maxLoad: 1,
       boxEachColor: "#FF9A62",
-      img: Transport2,
+      img: Transport2
     },
     {
       transportType: "미니 용달",
       transportPlusInfo: "소규모 운송, 물품 3개 이하",
       maxLoad: 1,
       boxEachColor: "#F6D776",
-      img: Transport3,
+      img: Transport3
     },
     {
       transportType: "비지니스 운송",
       transportPlusInfo: "거래처 납부, 기업 운송",
       maxLoad: 10,
       boxEachColor: "#85C7EE",
-      img: Transport4,
-    },
+      img: Transport4
+    }
   ];
   const { setTransportType } = useContext(reservationStore);
 
   const navigation = useNavigate();
-  const ChoiceLogic = (transportType) => {
+  const ChoiceLogic = transportType => {
     setTransportType(transportType);
     navigation(UrlMap.choiceDatePageUrl);
   };

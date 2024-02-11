@@ -17,7 +17,7 @@ const ChoiceSrc = () => {
   const navigation = useNavigate();
   const {
     setSrcInfo,
-    state: { reservationTime },
+    state: { reservationTime }
   } = useContext(reservationStore);
 
   //시간 선택하지 않는 경우, 이전 페이지인 시간 선택 페이지로 이동
@@ -30,18 +30,18 @@ const ChoiceSrc = () => {
   function showUserTime() {
     const [reservationHour, reservationHourMin] = reservationTime
       .split("-")
-      .map((v) => Number(v));
+      .map(v => Number(v));
     let showTime = "";
     reservationHour >= 12 ? (showTime = "AM ") : (showTime = "PM ");
-    showTime += (reservationHour % 12) + "시";
-    showTime += reservationHourMin + "분";
+    showTime += `${reservationHour % 12}시`;
+    showTime += `${reservationHourMin}분`;
     return showTime;
   }
 
   const [mapInfo, setMapInfo] = useState({
     name: "",
     coordinate: { latitude: "", longitude: "" },
-    detailAddress: "",
+    detailAddress: ""
   });
   const srcDetailAddress = useRef("");
   const srcTel = useRef("");
@@ -69,7 +69,7 @@ const ChoiceSrc = () => {
       srcLatitude: Number(mapInfo.coordinate.latitude),
       srcLongitude: Number(mapInfo.coordinate.longitude),
       srcDetailAddress: srcDetailAddress.current,
-      srcTel: srcTel.current,
+      srcTel: srcTel.current
     });
     navigation(UrlMap.choiceDstPageUrl);
   }

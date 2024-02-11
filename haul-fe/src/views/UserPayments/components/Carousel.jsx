@@ -2,7 +2,7 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 
 import {
   IoIosArrowBack as BackIcon,
-  IoIosArrowForward as ForwardIcon,
+  IoIosArrowForward as ForwardIcon
 } from "react-icons/io";
 import styled from "styled-components";
 
@@ -133,7 +133,7 @@ const Carousel = ({ carouselList, setSelectedIndex }) => {
 
   //이미지 이동 함수 - 이미지 인덱스를 받아 해당 이미지로 이동
   //(무한 슬라이드 구현에서 복제된 슬라이드 -> 실제 슬라이드로 바로 이동)
-  const moveToNthSlide = (index) => {
+  const moveToNthSlide = index => {
     setTimeout(() => {
       setCurrentIndex(index);
       if (carouselRef.current !== null) {
@@ -143,7 +143,7 @@ const Carousel = ({ carouselList, setSelectedIndex }) => {
   };
 
   //화살표 클릭 이벤트 처리 - 이전, 다음 이미지로 이동
-  const handleSwipe = (direction) => {
+  const handleSwipe = direction => {
     const newIndex = currentIndex + direction;
 
     if (newIndex === carouselList.length + 1) {
@@ -152,7 +152,7 @@ const Carousel = ({ carouselList, setSelectedIndex }) => {
       moveToNthSlide(carouselList.length);
     }
 
-    setCurrentIndex((prev) => prev + direction);
+    setCurrentIndex(prev => prev + direction);
     if (carouselRef.current !== null) {
       carouselRef.current.style.transition = "all 0.5s ease-in-out";
     }
@@ -160,12 +160,12 @@ const Carousel = ({ carouselList, setSelectedIndex }) => {
 
   //터치 이벤트 처리 - 터치 방향에 따라 이미지 이동
   //터치 시작 이벤트 처리 - 시작 위치 잡기
-  const handleTouchStart = (e) => {
+  const handleTouchStart = e => {
     touchStartXRef.current = e.nativeEvent.touches[0].clientX;
   };
 
   //터치 이동 이벤트 처리 - 터치 중 손가락 움직임에 따라 이미지 이동
-  const handleTouchMove = (e) => {
+  const handleTouchMove = e => {
     const currentTouchX = e.nativeEvent.changedTouches[0].clientX;
 
     if (carouselRef.current !== null) {
@@ -176,7 +176,7 @@ const Carousel = ({ carouselList, setSelectedIndex }) => {
   };
 
   //터치 종료 이벤트 처리 - 터치 종료 시 이동 방향에 따라 이미지 이동(1개씩만 이동 가능)
-  const handleTouchEnd = (e) => {
+  const handleTouchEnd = e => {
     touchEndXRef.current = e.nativeEvent.changedTouches[0].clientX;
 
     if (touchStartXRef.current > touchEndXRef.current) {

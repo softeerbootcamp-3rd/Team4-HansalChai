@@ -10,7 +10,7 @@ import { UrlMap } from "../../data/GlobalVariable.js";
 const SplashBox = styled.div`
   width: 100%;
   height: 100%;
-  ${(props) => props.theme.flex.flexColumnAroundAlignCenter};
+  ${props => props.theme.flex.flexColumnAroundAlignCenter};
 `;
 
 const LoadingImg = styled.img`
@@ -42,7 +42,7 @@ const AnimatedBox = styled.div`
   width: 100%;
   height: auto;
   position: relative;
-  ${(props) => props.theme.flex.flexRowCenter};
+  ${props => props.theme.flex.flexRowCenter};
 `;
 
 const Splash = () => {

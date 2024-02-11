@@ -5,7 +5,7 @@ const Background = styled.div`
   width: 100%;
   height: auto;
   display: flex;
-  background-color: ${(props) => props.theme.colors.realBlack};
+  background-color: ${props => props.theme.colors.realBlack};
   overflow-x: hidden;
   overflow-y: hidden;
   justify-content: center;
@@ -22,7 +22,7 @@ const Mobile = styled.div`
   padding: 0px 20px;
   display: flex;
   flex-direction: column;
-  background-color: ${(props) =>
+  background-color: ${props =>
     props.color ? props.theme.colors[props.color] : props.theme.colors.white};
 `;
 

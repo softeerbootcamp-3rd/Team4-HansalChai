@@ -626,7 +626,7 @@ const Contracts = {
   제22조. 기타
   본 화물자동차운송주선약관에 규정된 이외의 필요한 사항은 당사자 간에 별도로 약정할 수 있다.
   
-  `,
+  `
 };
 
 export default Contracts;

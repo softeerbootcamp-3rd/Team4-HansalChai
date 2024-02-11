@@ -16,13 +16,13 @@ const ChoiceDst = () => {
   const navigation = useNavigate();
   const {
     setDstInfo,
-    state: { srcName, srcAddress },
+    state: { srcName, srcAddress }
   } = useContext(reservationStore);
 
   const [mapInfo, setMapInfo] = useState({
     name: "",
     coordinate: { latitude: "", longitude: "" },
-    detailAddress: "",
+    detailAddress: ""
   });
   const dstDetailAddress = useRef("");
   const dstTel = useRef("");
@@ -55,7 +55,7 @@ const ChoiceDst = () => {
       dstLatitude: Number(mapInfo.coordinate.latitude),
       dstLongitude: Number(mapInfo.coordinate.longitude),
       dstDetailAddress: dstDetailAddress.current,
-      dstTel: dstTel.current,
+      dstTel: dstTel.current
     });
     navigation(UrlMap.choiceLoadInfoPageUrl);
   }
