@@ -51,7 +51,7 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
     const data = await response.json();
 
     const linePath = [];
-    data.routes[0].sections[0].roads.forEach((router) => {
+    data.routes[0].sections[0].roads.forEach(router => {
       router.vertexes.forEach((vertex, index) => {
         if (index % 2 === 0) {
           linePath.push(
@@ -64,18 +64,18 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
       });
     });
 
-    var bounds = new kakao.maps.LatLngBounds();
+    const bounds = new kakao.maps.LatLngBounds();
     for (let i = 0; i < linePath.length; i++) {
       bounds.extend(linePath[i]);
     }
     kakaoMap.setBounds(bounds);
 
-    var polyline = new kakao.maps.Polyline({
+    const polyline = new kakao.maps.Polyline({
       path: linePath,
       strokeWeight: 5,
       strokeColor: "#446EDA",
       strokeOpacity: 0.7,
-      strokeStyle: "solid",
+      strokeStyle: "solid"
     });
     polyline.setMap(kakaoMap);
   } catch (error) {
@@ -88,7 +88,7 @@ const RouteMap = ({ origin, destination }) => {
     const mapContainer = document.getElementById("map");
     const mapOptions = {
       center: new kakao.maps.LatLng(origin.lat, origin.lng),
-      level: 10,
+      level: 10
     };
 
     const kakaoMap = new kakao.maps.Map(mapContainer, mapOptions);
@@ -99,12 +99,12 @@ const RouteMap = ({ origin, destination }) => {
     );
 
     // 출발지, 도착지 마커 생성
-    let originMarker = new kakao.maps.Marker({
-      position: originPosition,
+    const originMarker = new kakao.maps.Marker({
+      position: originPosition
     });
 
-    let destinationMaker = new kakao.maps.Marker({
-      position: destinationPosition,
+    const destinationMaker = new kakao.maps.Marker({
+      position: destinationPosition
     });
 
     originMarker.setMap(kakaoMap);
@@ -114,7 +114,7 @@ const RouteMap = ({ origin, destination }) => {
     getCarDirection({
       kakaoMap: kakaoMap,
       srcCoordinate: origin,
-      dstCoordinate: destination,
+      dstCoordinate: destination
     });
   };
 
@@ -128,7 +128,7 @@ const RouteMap = ({ origin, destination }) => {
         id="map"
         style={{
           width: "100%",
-          height: "227px",
+          height: "227px"
         }}
       ></div>
     </>

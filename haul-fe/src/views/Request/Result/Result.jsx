@@ -12,7 +12,7 @@ import { CompanyCallNumber } from "../../../data/GlobalVariable";
 
 const Result = () => {
   const {
-    state: { srcCoordinate, dstCoordinate },
+    state: { srcCoordinate, dstCoordinate }
   } = useContext(reservationStore);
 
   function CallCompany() {
@@ -45,13 +45,13 @@ const Result = () => {
       <DetailInfo
         srcCoordinate={{
           lat: srcCoordinate.srcLatitude,
-          lng: srcCoordinate.srcLongitude,
+          lng: srcCoordinate.srcLongitude
         }}
         srcAddress="서울특별시 강남구 강남대로 지하396 "
         srcName="강남구 애니타워"
         dstCoordinate={{
           lat: dstCoordinate.dstLatitude,
-          lng: dstCoordinate.dstLongitude,
+          lng: dstCoordinate.dstLongitude
         }}
         dstAddress="부산광역시 금정구 부산대학로63번길 2"
         dstName="부산대학교"
