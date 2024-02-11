@@ -47,8 +47,9 @@ public class Users extends BaseTime {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
-	@Builder
+	private String refreshToken;
 
+	@Builder
 	public Users(String name, String tel, String password, String email, String photo, Role role) {
 		this.name = name;
 		this.tel = tel;
@@ -56,5 +57,9 @@ public class Users extends BaseTime {
 		this.email = email;
 		this.photo = photo;
 		this.role = role;
+	}
+
+	public void updateRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
 	}
 }
