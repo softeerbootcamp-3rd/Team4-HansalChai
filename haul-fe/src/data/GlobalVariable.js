@@ -10,6 +10,9 @@ export const UrlMap = {
   choiceSrcPageUrl: "/request/source",
   choiceDstPageUrl: "/request/destination",
   choiceLoadInfoPageUrl: "/request/loadInfo",
+  resultPageUrl: "/request/result",
   morePageUrl: "/more",
   checkReservationPageUrl: "/check/list",
 };
+
+export const CompanyCallNumber = "01012341234";
