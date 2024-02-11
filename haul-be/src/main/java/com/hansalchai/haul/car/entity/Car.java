@@ -5,21 +5,18 @@ import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Range;
 
 import com.hansalchai.haul.car.constants.CarCategory;
+import com.hansalchai.haul.car.constants.CarType;
 import com.hansalchai.haul.common.utils.BaseTime;
-import com.hansalchai.haul.reservation.entity.Reservation;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Max;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,8 +32,9 @@ public class Car extends BaseTime {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long carId;
 
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private String type;
+	private CarType type;
 
 	@Column(nullable = false)
 	private String model;
@@ -64,7 +62,7 @@ public class Car extends BaseTime {
 	@Column(nullable = false)
 	private CarCategory category;
 
-	public Car(String type, String model, @Nullable String photo, int width, int length, int height, int weight,
+	public Car(CarType type, String model, @Nullable String photo, int width, int length, int height, int weight,
 		CarCategory category) {
 		this.type = type;
 		this.model = model;

@@ -4,6 +4,7 @@ import static com.hansalchai.haul.car.entity.QCar.*;
 
 import org.springframework.stereotype.Repository;
 
+import com.hansalchai.haul.car.constants.CarType;
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.car.constants.CarCategory;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -17,7 +18,7 @@ public class CustomCarRepositoryImpl implements CustomCarRepository {
 	}
 
 	@Override
-	public Car findProperCar(String type, CarCategory carCategory) {
+	public Car findProperCar(CarType type, CarCategory carCategory) {
 		return jpaQueryFactory.selectFrom(car)
 			.where(car.type.eq(type)
 				.and(car.category.eq(carCategory)))

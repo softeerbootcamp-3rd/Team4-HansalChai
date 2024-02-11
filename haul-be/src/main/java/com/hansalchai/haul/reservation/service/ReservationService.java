@@ -3,7 +3,10 @@ package com.hansalchai.haul.reservation.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hansalchai.haul.car.constants.CarCategory;
+import com.hansalchai.haul.car.constants.CarType;
 import com.hansalchai.haul.car.entity.Car;
+import com.hansalchai.haul.common.utils.CarCategorySelector;
 import com.hansalchai.haul.common.utils.CargoFeeTable;
 import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
 import com.hansalchai.haul.common.utils.MapUtils;
@@ -97,7 +100,7 @@ public class ReservationService{
 		reservationRepository.save(reservation);
 
 		//TODO Response 객체 생성후 반환
-
+		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption));
 
 		return null;
 	}
