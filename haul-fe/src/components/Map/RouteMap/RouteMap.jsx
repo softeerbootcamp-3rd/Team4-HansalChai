@@ -1,7 +1,24 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
-const apiKey = import.meta.env.VITE_MAP_KEY;
+//const apiKey = import.meta.env.VITE_MAP_KEY;
 const restApiKey = import.meta.env.VITE_KAKAO_MAP_REST_KEY;
+
+const loadKakaoMaps = drawdirection => {
+  if (window.kakao !== undefined) return;
+  const script = document.createElement("script");
+  script.type = "text/javascript";
+  script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${
+    import.meta.env.VITE_KAKAO_MAP_KEY
+  }&autoload=false&libraries=services`;
+
+  script.onload = () => {
+    window.kakao.maps.load(() => {
+      drawdirection();
+    });
+  };
+
+  document.head.appendChild(script);
+};
 
 // 지도, 출발지, 도착지 위도를 찍으면 지도에 경로를 그려주는 함수
 async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
@@ -12,11 +29,11 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
   const destination = `${dstCoordinate.lng},${dstCoordinate.lat}`;
   const headers = {
     Authorization: `KakaoAK ${REST_API_KEY}`,
-    "Content-Type": "application/json",
+    "Content-Type": "application/json"
   };
   const queryParams = new URLSearchParams({
     origin: origin,
-    destination: destination,
+    destination: destination
   });
 
   const requestUrl = `${url}?${queryParams}`; // 파라미터까지 포함된 전체 URL
@@ -24,7 +41,7 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
   try {
     const response = await fetch(requestUrl, {
       method: "GET",
-      headers: headers,
+      headers: headers
     });
 
     if (!response.ok) {
@@ -67,7 +84,7 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
 }
 
 const RouteMap = ({ origin, destination }) => {
-  useEffect(() => {
+  const drawdirection = () => {
     const mapContainer = document.getElementById("map");
     const mapOptions = {
       center: new kakao.maps.LatLng(origin.lat, origin.lng),
@@ -99,6 +116,10 @@ const RouteMap = ({ origin, destination }) => {
       srcCoordinate: origin,
       dstCoordinate: destination,
     });
+  };
+
+  useEffect(() => {
+    loadKakaoMaps(drawdirection);
   }, []);
 
   return (
