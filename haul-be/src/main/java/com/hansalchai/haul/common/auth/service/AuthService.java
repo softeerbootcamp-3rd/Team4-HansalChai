@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hansalchai.haul.common.auth.dto.AuthenticateUser;
+import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
 import com.hansalchai.haul.common.auth.jwt.Jwt;
 import com.hansalchai.haul.common.auth.jwt.JwtProvider;
 import com.hansalchai.haul.user.entity.Users;
@@ -27,7 +27,7 @@ public class AuthService {
 
 		// claim 생성
 		Map<String, Object> claims = new HashMap<>();
-		AuthenticateUser authenticateUser = new AuthenticateUser(user);
+		AuthenticatedUser authenticateUser = new AuthenticatedUser(user);
 		String authenticateUserJson = objectMapper.writeValueAsString(authenticateUser);
 		claims.put(AUTHENTICATE_USER, authenticateUserJson);
 
