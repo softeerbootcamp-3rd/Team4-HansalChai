@@ -8,6 +8,7 @@ import Typography from "../../components/Typhography/Typhography.jsx";
 import DriverInfoBox from "./components/DriverInfoBox.jsx";
 import CarInfoBox from "../../components/CarInfoBox/CarInfoBox.jsx";
 import DetailInfo from "../../components/DetailInfo/DetailInfo.jsx";
+import { useLocation } from "react-router-dom";
 
 const ReservItemFrame = styled(Flex)`
   width: 100%;
@@ -68,9 +69,12 @@ const CheckDetail = ({ driver, car, map }) => {
     fee: "15",
     time: "04"
   };
+
+  const location = useLocation();
+  const reservId = location.pathname.split("/").pop();
   const dummyData = {
-    driver: dummyDriver[1],
-    car: dummyCar[1],
+    driver: dummyDriver[reservId],
+    car: dummyCar[reservId],
     map: dummyMap
   };
   //TODO: 실제 데이터로 교체
