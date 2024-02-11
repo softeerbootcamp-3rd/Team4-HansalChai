@@ -13,7 +13,7 @@ const Background = styled.div`
 
 const Mobile = styled.div`
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: scroll;
   position: relative;
   width: ${MaxDeviceWidth};
   min-height: 100vh;

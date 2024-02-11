@@ -65,18 +65,18 @@ const ChoiceLoadInfo = () => {
     { note: "리프트 필요", selected: false },
   ]);
 
-  const cargoWeight = useRef(0);
-  const cargoWidth = useRef(0);
-  const cargoLength = useRef(0);
-  const cargoHeight = useRef(0);
+  const cargoWeight = useRef("");
+  const cargoWidth = useRef("");
+  const cargoLength = useRef("");
+  const cargoHeight = useRef("");
 
   //이 페이지에서 원하는 값이 다 있는지 체크
   function CheckSubmitDisabledFun() {
     const checkSubmitDisabled = !(
-      cargoWeight.current !== "0" &&
-      cargoWidth.current !== "0" &&
-      cargoLength.current !== "0" &&
-      cargoHeight.current !== "0"
+      cargoWeight.current &&
+      cargoWidth.current &&
+      cargoLength.current &&
+      cargoHeight.current
     );
     if (submitDisabled !== checkSubmitDisabled) {
       CheckSubmitDisabled(checkSubmitDisabled);
@@ -91,7 +91,7 @@ const ChoiceLoadInfo = () => {
       cargoHeight: Number(cargoHeight.current),
       specialNotes: specialNotes,
     });
-    //navigation(UrlMap.choiceLoadInfoPageUrl);
+    navigation(UrlMap.resultPageUrl);
   }
 
   return (
