@@ -1,4 +1,4 @@
-import { MaxDeviceWidth } from "../../data/GlobalVariable";
+import { MaxDeviceWidth } from "../../data/GlobalVariable.js";
 import styled, { css } from "styled-components";
 
 const FixedCenterBox = styled.div`

@@ -1,14 +1,7 @@
 import { useState, useEffect } from "react";
-import Input from "../../Input/Input";
-import styled from "styled-components";
-import Margin from "../../Margin/Margin";
-import Typography from "../../Typhography/Typhography";
-
-const Map = styled.div`
-  width: 100%;
-  height: 220px;
-  border-radius: 10px;
-`;
+import Input from "../../Input/Input.jsx";
+import Margin from "../../Margin/Margin.jsx";
+import Typography from "../../Typhography/Typhography.jsx";
 
 const SearchMap = ({ setMapInfo }) => {
   const [map, setMap] = useState();
@@ -107,7 +100,10 @@ const SearchMap = ({ setMapInfo }) => {
         />
       </div>
       <Margin height="12px" />
-      <Map id="map"></Map>
+      <div
+        id="map"
+        style={{ width: "100%", height: "220px", borderRadius: "10px" }}
+      ></div>
     </>
   );
 };
