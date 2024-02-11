@@ -29,7 +29,7 @@ const ChoiceTime = () => {
     if (isEmptyString(reservationDate)) {
       navigation(UrlMap.choiceDatePageUrl);
     }
-    if(!isEmptyString(reservationTime)){
+    if (!isEmptyString(reservationTime)) {
       setStateTime(reservationTime);
     }
   }, []);
@@ -53,10 +53,10 @@ const ChoiceTime = () => {
   }
 
   //백엔드 형식을 위해 15-30이런식으로 저장되어있는걸 state로 변화하는 함수
-  function setStateTime(storeTimeString){
-    const[h,m] = storeTimeString.split("-").map((v)=>Number(v));
-    h<12? setAmPm("AM"):setAmPm("PM");
-    setHour(h%12);
+  function setStateTime(storeTimeString) {
+    const [h, m] = storeTimeString.split("-").map((v) => Number(v));
+    h < 12 ? setAmPm("AM") : setAmPm("PM");
+    setHour(h % 12);
     setMinute(m);
   }
 
@@ -93,43 +93,42 @@ const ChoiceTime = () => {
       <Margin height="150px" />
       <TimePicker>
         <TimeBox>
-        <TimeEachBox>
-          <IconBox style={{ marginLeft: "-6px" }}>
-            <IoIosArrowDown size={"24px"} />
-          </IconBox>
-          <Select id="ampm" value={ampm} onChange={handleAmPmChange}>
-            <Option value="AM">오전</Option>
-            <Option value="PM">오후</Option>
-          </Select>
-        </TimeEachBox>
-        <Typography font="bold24">:</Typography>
-        <TimeEachBox>
-          <IconBox>
-            <IoIosArrowDown size={"24px"} />
-          </IconBox>
-          <Select id="hour" value={hour} onChange={handleHourChange}>
-            {hours.map((hour) => (
-              <Option key={hour} value={hour}>
-                {hour}
-              </Option>
-            ))}
-          </Select>
-        </TimeEachBox>
-        <Typography font="bold24">:</Typography>
-        <TimeEachBox>
-          <IconBox>
-            <IoIosArrowDown size={"24px"} />
-          </IconBox>
+          <TimeEachBox>
+            <IconBox style={{ marginLeft: "-6px" }}>
+              <IoIosArrowDown size={"24px"} />
+            </IconBox>
+            <Select id="ampm" value={ampm} onChange={handleAmPmChange}>
+              <Option value="AM">오전</Option>
+              <Option value="PM">오후</Option>
+            </Select>
+          </TimeEachBox>
+          <Typography font="bold24">:</Typography>
+          <TimeEachBox>
+            <IconBox>
+              <IoIosArrowDown size={"24px"} />
+            </IconBox>
+            <Select id="hour" value={hour} onChange={handleHourChange}>
+              {hours.map((hour) => (
+                <Option key={hour} value={hour}>
+                  {hour}
+                </Option>
+              ))}
+            </Select>
+          </TimeEachBox>
+          <Typography font="bold24">:</Typography>
+          <TimeEachBox>
+            <IconBox>
+              <IoIosArrowDown size={"24px"} />
+            </IconBox>
 
-          <Select id="minute" value={minute} onChange={handleMinuteChange}>
-            {minutes.map((minute) => (
-              <option key={minute} value={minute}>
-                {minute}
-              </option>
-            ))}
-          </Select>
-         
-        </TimeEachBox>
+            <Select id="minute" value={minute} onChange={handleMinuteChange}>
+              {minutes.map((minute) => (
+                <option key={minute} value={minute}>
+                  {minute}
+                </option>
+              ))}
+            </Select>
+          </TimeEachBox>
         </TimeBox>
       </TimePicker>
       <FixedCenterBox bottom="20px">
@@ -137,7 +136,6 @@ const ChoiceTime = () => {
           role="main"
           disabled={false}
           onClick={() => {
-            console.log(formatStoreTime())
             setReservationTime(formatStoreTime());
             navigation(UrlMap.choiceSrcPageUrl);
           }}
@@ -150,39 +148,36 @@ const ChoiceTime = () => {
 };
 
 const TimePicker = styled.div`
-  display:flex;
+  display: flex;
   align-items: flex-start;
   width: calc(${MaxDeviceWidth});
   height: 100vh;
-  background-color: ${(props)=>props.theme.colors.white};
+  background-color: ${(props) => props.theme.colors.white};
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  position:fixed;
+  position: fixed;
   top: 24%;
   left: 50%;
   transform: translateX(-50%);
   padding: 0px 40px;
   padding-top: 100px;
-  
 `;
 
 const TimeBox = styled.div`
   width: 100%;
   height: auto;
-  display:flex;
+  display: flex;
   justify-content: space-between;
-  align-items:center;
-`
+  align-items: center;
+`;
 
 const TimeEachBox = styled.div`
   width: auto;
   position: relative;
   cursor: pointer;
 `;
-
-
 
 const Select = styled.select`
   width: 80px;
@@ -193,7 +188,7 @@ const Select = styled.select`
   background-color: transparent;
   ${(props) => props.theme.font.bold16};
   color: ${(props) => props.theme.colors.black};
-  background-color:#E0E6F8;
+  background-color: #e0e6f8;
   text-align: center;
   text-align-last: right;
   z-index: 3;
