@@ -91,7 +91,7 @@ const ChoiceLoadInfo = () => {
       cargoHeight: Number(cargoHeight.current),
       specialNotes: specialNotes,
     });
-    //navigation(UrlMap.choiceLoadInfoPageUrl);
+    navigation(UrlMap.resultPageUrl);
   }
 
   return (
