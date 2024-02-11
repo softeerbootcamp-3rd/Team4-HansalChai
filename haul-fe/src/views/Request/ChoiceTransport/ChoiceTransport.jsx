@@ -7,10 +7,10 @@ import Typography from "../../../components/Typhography/Typhography.jsx";
 import Typography_Span from "../../../components/Typhography/Typhography_Span.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import styled from "styled-components";
-import Transport1 from "../../../assets/svgs/Transport1.svg";
-import Transport2 from "../../../assets/svgs/Transport2.svg";
-import Transport3 from "../../../assets/svgs/Transport3.svg";
-import Transport4 from "../../../assets/svgs/Transport4.svg";
+import 일반용달 from "../../../assets/svgs/일반용달.svg";
+import 용달이사 from "../../../assets/svgs/용달이사.svg";
+import 미니용달 from "../../../assets/svgs/미니용달.svg";
+import 비즈니스운송 from "../../../assets/svgs/비즈니스운송.svg";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
 import { UrlMap } from "../../../data/GlobalVariable.js";
@@ -38,28 +38,28 @@ const ChoiceTransport = () => {
       transportPlusInfo: "중고거래, 물품 운송",
       maxLoad: 10,
       boxEachColor: "#d9c7e7",
-      img: Transport1,
+      img: 일반용달,
     },
     {
       transportType: "용달 이사",
       transportPlusInfo: "원룸이사, 1인 가구 이사",
       maxLoad: 1,
       boxEachColor: "#FF9A62",
-      img: Transport2,
+      img: 용달이사,
     },
     {
       transportType: "미니 용달",
       transportPlusInfo: "소규모 운송, 물품 3개 이하",
       maxLoad: 1,
       boxEachColor: "#F6D776",
-      img: Transport3,
+      img: 미니용달,
     },
     {
       transportType: "비지니스 운송",
       transportPlusInfo: "거래처 납부, 기업 운송",
       maxLoad: 10,
       boxEachColor: "#85C7EE",
-      img: Transport4,
+      img: 비즈니스운송,
     },
   ];
   const { setTransportType } = useContext(reservationStore);
