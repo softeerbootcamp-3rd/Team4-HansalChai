@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hansalchai.haul.common.auth.jwt.Jwt;
 import com.hansalchai.haul.common.utils.ApiResponse;
 import com.hansalchai.haul.common.utils.SuccessCode;
@@ -19,7 +20,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("api/v1/users")
 @RestController
 public class UsersController {
 
@@ -32,7 +33,8 @@ public class UsersController {
 	}
 
 	@PostMapping("/sign-in")
-	public ResponseEntity<ApiResponse<Jwt>> signIn(@Valid @RequestBody UserLoginDto loginDto) {
+	public ResponseEntity<ApiResponse<Jwt>> signIn(@Valid @RequestBody UserLoginDto loginDto) throws
+		JsonProcessingException {
 		Jwt jwt = usersService.signIn(loginDto);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, jwt));
 	}
