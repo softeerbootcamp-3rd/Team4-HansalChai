@@ -2,6 +2,7 @@ import styled, { keyframes } from "styled-components";
 // ToastMaker에서 props를 통한 theme 전파를 사용할 수 없어
 // Toast에서도 props로 theme을 받을 수 없음
 import theme from "../../styles/theme/Theme.jsx";
+import { MaxDeviceWidth } from "../../data/GlobalVariable.js";
 import {
   CgCloseO as ErrorSvg,
   CgDanger as WarningSvg,
@@ -46,6 +47,7 @@ const typeSvg = {
 };
 
 const ToastFrame = styled.div`
+  max-width: calc(${MaxDeviceWidth} - 40px);
   width: calc(100% - 40px);
   height: 48px;
 
@@ -73,7 +75,11 @@ const ToastIcon = styled.div`
 `;
 
 const ToastText = styled.div`
-  flex-grow: 1;
+  position: absolute;
+  width: calc(100% - 80px);
+  left: 60px;
+  word-break: keep-all;
+  line-break: loose;
 `;
 
 const Toast = ({ type, children }) => {
