@@ -9,6 +9,9 @@ const GlobalStyle = createGlobalStyle`
       height: 100vh;
       background-color: white;
       font-family: "regular";
+      ::-webkit-scrollbar {
+        display: none;
+      }
   }
   
   html{
