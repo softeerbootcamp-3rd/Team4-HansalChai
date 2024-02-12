@@ -100,9 +100,11 @@ const CarouselImg = styled.img`
   height: fit-content;
 `;
 
-const Carousel = ({ carouselList, setSelectedIndex }) => {
+const Carousel = ({ carouselList, setSelectedIndex, initialIndex = 0 }) => {
   //현재 위치를 나타내는 인덱스와 이미지 리스트를 관리
-  const [currentIndex, setCurrentIndex] = useState(carouselList.length);
+  const [currentIndex, setCurrentIndex] = useState(
+    carouselList.length + initialIndex
+  );
   const [currentCarouselList, setCurrentCarouselList] = useState();
 
   //touch 이벤트 처리를 위한 ref(값을 유지해야 함)
@@ -117,7 +119,7 @@ const Carousel = ({ carouselList, setSelectedIndex }) => {
     if (carouselRef.current !== null) {
       carouselRef.current.style.transform = `translateX(-${currentIndex}00%)`;
     }
-    setSelectedIndex?.(() => (currentIndex % carouselList.length) + 1);
+    setSelectedIndex?.(() => currentIndex % carouselList.length);
   }, [currentIndex]);
 
   //캐러셀 리스트가 변경되면 시작과 끝에 이미지를 추가하여 무한 슬라이드 구현
