@@ -74,7 +74,7 @@ public class ReservationService{
 			.build();
 
 		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
-		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption));
+		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption), cargo);
 
 		Reservation reservation = Reservation.builder()
 			.customer(customer)

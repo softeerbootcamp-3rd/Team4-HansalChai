@@ -12,8 +12,6 @@ import com.hansalchai.haul.reservation.entity.CargoOption;
 import com.hansalchai.haul.reservation.entity.Destination;
 import com.hansalchai.haul.reservation.entity.Source;
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;

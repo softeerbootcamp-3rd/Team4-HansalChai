@@ -62,8 +62,11 @@ public class Car extends BaseTime {
 	@Column(nullable = false)
 	private CarCategory category;
 
+	@Column(nullable = false)
+	private Boolean isboxtruck;
+
 	public Car(CarType type, String model, @Nullable String photo, int width, int length, int height, int weight,
-		CarCategory category) {
+		CarCategory category, Boolean isboxtruck) {
 		this.type = type;
 		this.model = model;
 		this.photo = photo;
@@ -72,5 +75,6 @@ public class Car extends BaseTime {
 		this.height = height;
 		this.weight = weight;
 		this.category = category;
+		this.isboxtruck = isboxtruck;
 	}
 }
