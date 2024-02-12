@@ -3,10 +3,24 @@ import Input from "../../Input/Input.jsx";
 import Margin from "../../Margin/Margin.jsx";
 import Typography from "../../Typhography/Typhography.jsx";
 
-const SearchMap = ({ setMapInfo }) => {
+function initialAddressFun(beforeName, beforeAddress) {
+  if (beforeAddress && beforeName) return `${beforeName},${beforeAddress}`;
+  if (beforeAddress) return beforeAddress;
+  return "";
+}
+
+const SearchMap = ({
+  setMapInfo,
+  beforeName,
+  beforeAddress,
+  beforeLat,
+  beforeLon,
+}) => {
   const [map, setMap] = useState();
   const [marker, setMarker] = useState();
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState(
+    initialAddressFun(beforeName, beforeAddress)
+  );
 
   const [isKakaoMapLoaded, setIsKakaoMapLoaded] = useState(false);
   const [isPostcodeLoaded, setIsPostcodeLoaded] = useState(false);
@@ -39,20 +53,31 @@ const SearchMap = ({ setMapInfo }) => {
   };
 
   useEffect(() => {
-    loadKakaoMaps();
-    loadPostcode();
+    if (!isKakaoMapLoaded) {
+      loadKakaoMaps();
+    }
+    if (!isPostcodeLoaded) {
+      loadPostcode();
+    }
   }, []);
 
   useEffect(() => {
     if (isKakaoMapLoaded) {
       const container = document.getElementById("map");
+      const beforePos = new window.kakao.maps.LatLng(beforeLat, beforeLon);
       const options = {
-        center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+        center: beforePos,
         level: 3,
       };
-
-      setMap(new window.kakao.maps.Map(container, options));
-      setMarker(new window.kakao.maps.Marker());
+      const map = new kakao.maps.Map(container, options);
+      const marker = new kakao.maps.Marker();
+      if (beforeAddress) {
+        marker.setMap(null);
+        marker.setPosition(beforePos);
+        marker.setMap(map);
+      }
+      setMap(map);
+      setMarker(marker);
     }
   }, [isKakaoMapLoaded]);
 

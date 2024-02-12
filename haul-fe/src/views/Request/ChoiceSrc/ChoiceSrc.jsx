@@ -18,7 +18,14 @@ const ChoiceSrc = () => {
   const navigation = useNavigate();
   const {
     setSrcInfo,
-    state: { srcTel, srcDetailAddress, reservationTime },
+    state: {
+      srcName,
+      srcAddress,
+      srcCoordinate,
+      srcDetailAddress,
+      srcTel,
+      reservationTime,
+    },
   } = useContext(reservationStore);
 
   //시간 선택하지 않는 경우, 이전 페이지인 시간 선택 페이지로 이동
@@ -27,8 +34,7 @@ const ChoiceSrc = () => {
       navigation(UrlMap.choiceTimePageUrl);
       return;
     }
-    inSrcTel.current = srcTel;
-    inSrcDetailAddress.current = srcDetailAddress;
+    checkSubmitDisabled(checkSubmitDisabledFun());
   }, []);
 
   function showUserTime() {
@@ -43,12 +49,15 @@ const ChoiceSrc = () => {
   }
 
   const [mapInfo, setMapInfo] = useState({
-    name: "",
-    coordinate: { latitude: "", longitude: "" },
-    detailAddress: "",
+    name: srcName,
+    coordinate: {
+      latitude: srcCoordinate.srcLatitude,
+      longitude: srcCoordinate.srcLongitude,
+    },
+    detailAddress: srcDetailAddress,
   });
-  const inSrcDetailAddress = useRef("");
-  const inSrcTel = useRef("");
+  const inSrcDetailAddress = useRef(srcDetailAddress);
+  const inSrcTel = useRef(srcTel);
   const [submitDisabled, checkSubmitDisabled] = useState(true);
 
   useEffect(() => {
@@ -98,7 +107,13 @@ const ChoiceSrc = () => {
       <Margin height="6px" />
       <Typography font="bold24">출발지는 어딘가요?</Typography>
       <Margin height="20px" />
-      <SearchMap setMapInfo={setMapInfo} />
+      <SearchMap
+        setMapInfo={setMapInfo}
+        beforeName={srcName}
+        beforeAddress={srcAddress}
+        beforeLat={srcCoordinate.srcLatitude}
+        beforeLon={srcCoordinate.srcLongitude}
+      />
       <Margin height="20px" />
       <Typography font="bold16">상세주소</Typography>
       <Margin height="10px" />
@@ -106,6 +121,7 @@ const ChoiceSrc = () => {
         type="text"
         size="small"
         placeholder="상세주소를 입력해주세요."
+        defaultValue={srcDetailAddress}
         onChange={({ target: { value } }) => {
           inSrcDetailAddress.current = value;
           checkSubmitDisabled(checkSubmitDisabledFun());
@@ -118,6 +134,7 @@ const ChoiceSrc = () => {
         type="tel"
         size="small"
         placeholder="도착하면 전화할 연락처를 알려주세요."
+        defaultValue={srcTel}
         onChange={({ target: { value } }) => {
           inSrcTel.current = value;
           checkSubmitDisabled(checkSubmitDisabledFun());
