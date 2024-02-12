@@ -12,6 +12,7 @@ import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
 import com.hansalchai.haul.common.utils.MapUtils;
 import com.hansalchai.haul.common.utils.ReservationNumberGenerator;
 import com.hansalchai.haul.customer.entity.Customer;
+import com.hansalchai.haul.customer.repository.CustomerRepository;
 import com.hansalchai.haul.driver.entity.Driver;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
 import com.hansalchai.haul.reservation.dto.ReservationRequest;
@@ -44,6 +45,7 @@ public class ReservationService{
 	private final ReservationRepository reservationRepository;
 	private final SourceRepository sourceRepository;
 	private final TransportRepository transportRepository;
+	private final CustomerRepository customerRepository;
 
 	//querydsl
 	private final CustomCarRepositoryImpl customCarRepository;
@@ -92,11 +94,7 @@ public class ReservationService{
 			.count(fee.getNumber())
 			.build();
 
-		cargoRepository.save(cargo);
-		cargoOptionRepository.save(cargoOption);
-		sourceRepository.save(source);
-		destinationRepository.save(destination);
-		transportRepository.save(transport);
+		customerRepository.save(customer);
 		reservationRepository.save(reservation);
 
 		return new ReservationResponse.ReservationRecommendationDTO(reservation,

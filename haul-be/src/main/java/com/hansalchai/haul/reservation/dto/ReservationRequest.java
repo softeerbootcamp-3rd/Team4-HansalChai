@@ -13,9 +13,12 @@ import com.hansalchai.haul.reservation.entity.Destination;
 import com.hansalchai.haul.reservation.entity.Source;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 public class ReservationRequest {
 	@Getter
@@ -31,6 +34,18 @@ public class ReservationRequest {
 		private DestinationDTO dst;
 		private CargoDTO cargo;
 		private CargoOptionDTO cargoOption;
+
+		public CreateReservationDTO(TransportType transportType, LocalDate date, LocalTime time, SourceDTO src,
+			DestinationDTO dst, CargoDTO cargo, CargoOptionDTO cargoOption) {
+			this.transportType = transportType;
+			this.date = date;
+			this.time = time;
+			this.src = src;
+			this.dst = dst;
+			this.cargo = cargo;
+			this.cargoOption = cargoOption;
+		}
+
 		@Getter
 		@Builder
 		public static class SourceDTO {

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import com.hansalchai.haul.reservation.entity.Reservation;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,6 +31,8 @@ public class ReservationResponse {
 			private String capacity;
 			@NotNull(message = "차 스펙은 Null 일 수 없다.")
 			private String feature;
+			@Nullable
+			private String photo;
 		}
 
 		@Getter
@@ -65,6 +68,7 @@ public class ReservationResponse {
 				.model(reservation.getCar().getModel())
 				.capacity(reservation.getCar().getType().name())
 				.feature(getSizeToString(reservation))
+				.photo(reservation.getCar().getPhoto())
 				.build();
 			this.src = SourceDTO.builder()
 				.name(reservation.getSource().getName())
