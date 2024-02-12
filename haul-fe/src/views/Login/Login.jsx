@@ -27,7 +27,9 @@ const Login = () => {
   const [isButtonDisabled, setButtonDisabled] = useState(true);
 
   function checkLoginAbled() {
-    let checkIsButtonDisabled = !(tel.current && password.current);
+    let checkIsButtonDisabled = !(
+      tel.current.trim() && password.current.trim()
+    );
     if (checkIsButtonDisabled !== isButtonDisabled) {
       setButtonDisabled(checkIsButtonDisabled);
     }

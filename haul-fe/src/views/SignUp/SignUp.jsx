@@ -29,11 +29,11 @@ const SignUP = () => {
 
   const isAllWriteFun = () => {
     let checkIsButtonDisabled = !(
-      name.current &&
-      tel.current &&
-      email.current &&
-      password.current &&
-      checkPassword.current
+      name.current.trim() &&
+      tel.current.trim() &&
+      email.current.trim() &&
+      password.current.trim() &&
+      checkPassword.current.trim()
     );
     if (checkIsButtonDisabled !== isButtonDisabled) {
       setButtonDisabled(checkIsButtonDisabled);
