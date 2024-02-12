@@ -8,9 +8,12 @@ import DetailInfo from "../../../components/DetailInfo/DetailInfo";
 import BottomButton from "../../../components/Button/BottomButton";
 import { useContext } from "react";
 import { reservationStore } from "../../../store/reservationStore";
+import { useNavigate } from "react-router-dom";
 import { CompanyCallNumber } from "../../../data/GlobalVariable";
+import { UrlMap } from "../../../data/GlobalVariable";
 
 const Result = () => {
+  const navigation = useNavigate();
   const {
     state: { srcCoordinate, dstCoordinate }
   } = useContext(reservationStore);
@@ -59,7 +62,15 @@ const Result = () => {
         time="04"
       />
       <Margin height="30px" />
-      <BottomButton role="main">이걸로 결정할게요!</BottomButton>
+      <BottomButton
+        role="main"
+        onClick={() => {
+          //FIXME: 이후 결제 페이지로 변경
+          navigation(UrlMap.completePageUrl);
+        }}
+      >
+        이걸로 결정할게요!
+      </BottomButton>
       <Margin height="10px" />
       <BottomButton
         role="sub"

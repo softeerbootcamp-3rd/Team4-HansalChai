@@ -10,27 +10,64 @@ import Typography_Span from "../../../components/Typhography/Typhography_Span.js
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import { isEmptyString } from "../../../utils/helper.js";
-import { IoIosArrowDown } from "react-icons/io";
 import { UrlMap } from "../../../data/GlobalVariable.js";
-import { MaxDeviceWidth } from "../../../data/GlobalVariable.js";
+import { LuClock9 } from "react-icons/lu";
+import Flex from "../../../components/Flex/Flex.jsx";
+import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
+
+const TimeWrapper = styled.div`
+  ${(props) => props.theme.flex.flexRow}
+  flex-wrap: wrap;
+  gap: 10px;
+`;
+
+const SmallBtn = styled.button`
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  background: ${(props) =>
+    props.isClick ? props.theme.colors.subColor : props.theme.colors.inputGray};
+  ${(props) => props.theme.font.bold12};
+  color: ${(props) =>
+    props.isClick ? props.theme.colors.white : props.theme.colors.grayText};
+  width: 80px;
+  height: auto;
+  padding: 16px 0px;
+  text-align: center;
+`;
 
 const ChoiceTime = () => {
   const navigation = useNavigate();
-  const [ampm, setAmPm] = useState("AM");
-  const [hour, setHour] = useState(0);
-  const [minute, setMinute] = useState(0);
+  const [selectedTime, setSelectedTime] = useState("");
+
+  const morningTimes = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30"];
+  const afternoonTimes = [
+    "12:00",
+    "12:30",
+    "13:00",
+    "13:30",
+    "14:00",
+    "14:30",
+    "15:00",
+    "15:30",
+    "16:00",
+    "16:30",
+    "17:00",
+    "17:30",
+    "18:00",
+  ];
 
   const {
     setReservationTime,
     state: { reservationDate, reservationTime }
   } = useContext(reservationStore);
+
   useEffect(() => {
     //날짜를 선택하지 않고 이 페이지로 오게 될 경우를 대비
     if (isEmptyString(reservationDate)) {
       navigation(UrlMap.choiceDatePageUrl);
     }
     if (!isEmptyString(reservationTime)) {
-      setStateTime(reservationTime);
+      setSelectedTime(reservationTime);
     }
   }, []);
 
@@ -42,38 +79,10 @@ const ChoiceTime = () => {
     return `${year}.${formattedMonth}.${formattedDay}`;
   }
 
-  function formatStoreTime() {
-    let pushHour = Number(hour);
-    const pushMin = Number(minute);
-    if (ampm === "PM") {
-      pushHour += 12;
-    }
-    const resultFormat = `${pushHour}-${pushMin}`;
-    return resultFormat;
+  function sumbitFun() {
+    setReservationTime(selectedTime);
+    navigation(UrlMap.choiceSrcPageUrl);
   }
-
-  //백엔드 형식을 위해 15-30이런식으로 저장되어있는걸 state로 변화하는 함수
-  function setStateTime(storeTimeString) {
-    const [h, m] = storeTimeString.split("-").map(v => Number(v));
-    h < 12 ? setAmPm("AM") : setAmPm("PM");
-    setHour(h % 12);
-    setMinute(m);
-  }
-
-  const handleAmPmChange = e => {
-    setAmPm(e.target.value);
-  };
-
-  const handleHourChange = e => {
-    setHour(parseInt(e.target.value));
-  };
-
-  const handleMinuteChange = e => {
-    setMinute(parseInt(e.target.value));
-  };
-
-  const hours = Array.from(Array(12), (_, i) => i);
-  const minutes = Array.from(Array(6), (_, i) => i * 10);
 
   return (
     <MobileLayout>
@@ -89,120 +98,59 @@ const ChoiceTime = () => {
       </Typography>
       <Margin height="4px" />
       <Typography font="bold24">몇시에 찾아뵈면 될까요?</Typography>
-      <Margin height="150px" />
-      <TimePicker>
-        <TimeBox>
-          <TimeEachBox>
-            <IconBox style={{ marginLeft: "-6px" }}>
-              <IoIosArrowDown size={"24px"} />
-            </IconBox>
-            <Select id="ampm" value={ampm} onChange={handleAmPmChange}>
-              <Option value="AM">오전</Option>
-              <Option value="PM">오후</Option>
-            </Select>
-          </TimeEachBox>
-          <Typography font="bold24">:</Typography>
-          <TimeEachBox>
-            <IconBox>
-              <IoIosArrowDown size={"24px"} />
-            </IconBox>
-            <Select id="hour" value={hour} onChange={handleHourChange}>
-              {hours.map(hour => (
-                <Option key={hour} value={hour}>
-                  {hour}
-                </Option>
-              ))}
-            </Select>
-          </TimeEachBox>
-          <Typography font="bold24">:</Typography>
-          <TimeEachBox>
-            <IconBox>
-              <IoIosArrowDown size={"24px"} />
-            </IconBox>
+      <Margin height="40px" />
+      <Flex kind="flexRowAlignCenter">
+        <LuClock9 size={"20px"} style={{ marginRight: "3px" }} />
+        <Typography font="bold20">오전</Typography>
+      </Flex>
+      <Margin height="14px" />
+      <TimeWrapper>
+        {morningTimes.map((time) => (
+          <SmallBtn
+            key={time}
+            isClick={selectedTime === time}
+            onClick={() => {
+              setSelectedTime(time);
+            }}
+          >
+            {time}
+          </SmallBtn>
+        ))}
+      </TimeWrapper>
+      <Margin height="40px" />
+      <Flex kind="flexRowAlignCenter">
+        <LuClock9 size={"20px"} style={{ marginRight: "3px" }} />
+        <Typography font="bold20">오후</Typography>
+      </Flex>
+      <Margin height="14px" />
+      <TimeWrapper>
+        {afternoonTimes.map((time) => (
+          <SmallBtn
+            key={time}
+            isClick={selectedTime === time}
+            onClick={() => {
+              setSelectedTime(time);
+            }}
+          >
+            {time}
+          </SmallBtn>
+        ))}
+      </TimeWrapper>
 
-            <Select id="minute" value={minute} onChange={handleMinuteChange}>
-              {minutes.map(minute => (
-                <option key={minute} value={minute}>
-                  {minute}
-                </option>
-              ))}
-            </Select>
-          </TimeEachBox>
-        </TimeBox>
-      </TimePicker>
-      <FixedCenterBox bottom="20px">
+      <FixedCenterBox bottom="100px">
         <BottomButton
           role="main"
           disabled={false}
           onClick={() => {
-            setReservationTime(formatStoreTime());
-            navigation(UrlMap.choiceSrcPageUrl);
+            sumbitFun();
           }}
         >
           선택 완료
         </BottomButton>
       </FixedCenterBox>
+      <NavigationBar />
     </MobileLayout>
   );
 };
-
-const TimePicker = styled.div`
-  display: flex;
-  align-items: flex-start;
-  width: calc(${MaxDeviceWidth});
-  height: 100vh;
-  background-color: ${props => props.theme.colors.white};
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  position: fixed;
-  top: 24%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 0px 40px;
-  padding-top: 100px;
-`;
-
-const TimeBox = styled.div`
-  width: 100%;
-  height: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const TimeEachBox = styled.div`
-  width: auto;
-  position: relative;
-  cursor: pointer;
-`;
-
-const Select = styled.select`
-  width: 80px;
-  height: 50px;
-  border: none;
-  padding: 0 16px;
-  border-radius: 4px;
-  background-color: transparent;
-  ${props => props.theme.font.bold16};
-  color: ${props => props.theme.colors.black};
-  background-color: #e0e6f8;
-  text-align: center;
-  text-align-last: right;
-  z-index: 3;
-`;
-
-const Option = styled.option`
-  ${props => props.theme.font.semiBold18};
-`;
-
-const IconBox = styled.div`
-  position: absolute;
-  top: 52%;
-  transform: translateY(-50%);
-  left: 13px;
-  z-index: 10;
-`;
 
 export default ChoiceTime;

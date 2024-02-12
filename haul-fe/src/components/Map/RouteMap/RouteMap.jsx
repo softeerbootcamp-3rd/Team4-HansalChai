@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 
-//const apiKey = import.meta.env.VITE_MAP_KEY;
 const restApiKey = import.meta.env.VITE_KAKAO_MAP_REST_KEY;
 
 const loadKakaoMaps = drawdirection => {
@@ -36,7 +35,7 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
     destination: destination
   });
 
-  const requestUrl = `${url}?${queryParams}`; // 파라미터까지 포함된 전체 URL
+  const requestUrl = `${url}?${queryParams}`;
 
   try {
     const response = await fetch(requestUrl, {
@@ -64,13 +63,13 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
       });
     });
 
-    const bounds = new kakao.maps.LatLngBounds();
+    let bounds = new kakao.maps.LatLngBounds();
     for (let i = 0; i < linePath.length; i++) {
       bounds.extend(linePath[i]);
     }
     kakaoMap.setBounds(bounds);
 
-    const polyline = new kakao.maps.Polyline({
+    let polyline = new kakao.maps.Polyline({
       path: linePath,
       strokeWeight: 5,
       strokeColor: "#446EDA",

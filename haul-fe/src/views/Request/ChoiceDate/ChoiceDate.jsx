@@ -9,9 +9,9 @@ import Typography_Span from "../../../components/Typhography/Typhography_Span.js
 import Calendar from "./components/Calendar.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
-import { isEmptyString } from "../../../utils/helper.js";
+import { isEmptyString, stringToDateObject } from "../../../utils/helper.js";
 import { UrlMap } from "../../../data/GlobalVariable.js";
-import { stringToDateObject } from "../../../utils/helper.js";
+import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 
 const ChoiceDate = () => {
   const navigation = useNavigate();
@@ -37,6 +37,11 @@ const ChoiceDate = () => {
     return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
   };
 
+  const SubmitBtnFun = () => {
+    setReservationDate(DateFormChange(selectedDay));
+    navigation(UrlMap.choiceTimePageUrl);
+  };
+
   return (
     <MobileLayout>
       <Header>
@@ -51,21 +56,19 @@ const ChoiceDate = () => {
       <Margin height="4px" />
       <Typography font="bold24">언제 찾아뵈면 될까요?</Typography>
       <Margin height="60px" />
-
       <Calendar selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
-
-      <FixedCenterBox bottom="20px">
+      <FixedCenterBox bottom="100px">
         <BottomButton
           role="main"
           disabled={!selectedDay}
           onClick={() => {
-            setReservationDate(DateFormChange(selectedDay));
-            navigation(UrlMap.choiceTimePageUrl);
+            SubmitBtnFun();
           }}
         >
           선택 완료
         </BottomButton>
       </FixedCenterBox>
+      <NavigationBar />
     </MobileLayout>
   );
 };
