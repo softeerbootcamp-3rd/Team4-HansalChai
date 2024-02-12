@@ -65,8 +65,7 @@ const Result = () => {
       <BottomButton
         role="main"
         onClick={() => {
-          //FIXME: 이후 결제 페이지로 변경
-          navigation(UrlMap.completePageUrl);
+          navigation(UrlMap.choicePaymentPageUrl);
         }}
       >
         이걸로 결정할게요!

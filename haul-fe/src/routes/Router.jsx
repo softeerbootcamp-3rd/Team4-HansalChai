@@ -21,6 +21,7 @@ import Contract from "../views/More/Terms/Contract/Contract.jsx";
 import Check from "../views/Check/List/Check.jsx";
 import UserPayments from "../views/More/UserPayments/UserPayments.jsx";
 import CheckDetail from "../views/Check/CheckDetail/CheckDetail.jsx";
+import Purchase from "../views/Request/Purchase/Purchase.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -62,6 +63,7 @@ const Router = () => (
         <Route path="destination" element={<ChoiceDst />} />
         <Route path="loadInfo" element={<ChoiceLoadInfo />} />
         <Route path="result" element={<Result />} />
+        <Route path="purchase" element={<Purchase />} />
         <Route path="complete" element={<Complete />} />
       </Route>
       <Route path="/check" element={<Outlet />}>
