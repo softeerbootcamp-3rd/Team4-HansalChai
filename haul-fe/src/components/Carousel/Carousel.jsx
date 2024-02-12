@@ -128,10 +128,7 @@ const Carousel = ({ carouselList, setSelectedIndex, initialIndex = 0 }) => {
   //캐러셀 리스트가 변경되면 시작과 끝에 이미지를 추가하여 무한 슬라이드 구현
   useEffect(() => {
     if (carouselList.length !== 0) {
-      //const startData = carouselList[0];
-      //const endData = carouselList[carouselList.length - 1];
       const newList = [...carouselList, ...carouselList, ...carouselList];
-
       setCurrentCarouselList(newList);
     }
   }, [carouselList]);
