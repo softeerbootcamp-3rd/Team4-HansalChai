@@ -1,18 +1,20 @@
+import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { reservationStore } from "../../../store/reservationStore.jsx";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Header from "../../../components/Header/Header.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import Typography_Span from "../../../components/Typhography/Typhography_Span.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import Input from "../../../components/Input/Input.jsx";
-import { useContext, useEffect, useRef, useState } from "react";
-import { reservationStore } from "../../../store/reservationStore.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
 import styled from "styled-components";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
-import { useNavigate } from "react-router-dom";
-import { UrlMap } from "../../../data/GlobalVariable.js";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable.js";
+import { isNumber, isPositiveNumber } from "../../../utils/helper.js";
 
 const LoadInfoTypoBox = styled.div`
   width: 40px;
@@ -72,11 +74,16 @@ const ChoiceLoadInfo = () => {
 
   //이 페이지에서 원하는 값이 다 있는지 체크
   function CheckSubmitDisabledFun() {
+    cargoWeight.current = cargoWeight.current.trim();
+    cargoWidth.current = cargoWidth.current.trim();
+    cargoLength.current = cargoLength.current.trim();
+    cargoHeight.current = cargoHeight.current.trim();
+
     const checkSubmitDisabled = !(
-      cargoWeight.current &&
-      cargoWidth.current &&
-      cargoLength.current &&
-      cargoHeight.current
+      cargoWeight.current.trim() &&
+      cargoWidth.current.trim() &&
+      cargoLength.current.trim() &&
+      cargoHeight.current.trim()
     );
     if (submitDisabled !== checkSubmitDisabled) {
       CheckSubmitDisabled(checkSubmitDisabled);
@@ -84,6 +91,27 @@ const ChoiceLoadInfo = () => {
   }
 
   function SumbitStore() {
+    if (
+      !isNumber(cargoWeight.current) ||
+      !isNumber(cargoWidth.current) ||
+      !isNumber(cargoLength.current) ||
+      !isNumber(cargoHeight.current)
+    ) {
+      ToastMaker({ type: "error", children: ErrorMessageMap.IsNotNumber });
+      return;
+    }
+    if (
+      !isPositiveNumber(cargoWeight.current) ||
+      !isPositiveNumber(cargoWidth.current) ||
+      !isPositiveNumber(cargoLength.current) ||
+      !isPositiveNumber(cargoHeight.current)
+    ) {
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.IsNotPositiveNumber,
+      });
+      return;
+    }
     setRoadInfo({
       cargoWeight: Number(cargoWeight.current),
       cargoWidth: Number(cargoWidth.current),
