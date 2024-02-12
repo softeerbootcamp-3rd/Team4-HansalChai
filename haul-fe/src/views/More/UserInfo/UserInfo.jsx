@@ -81,7 +81,7 @@ const TextInput = styled.input`
 
 const InputAdvisor = styled.div`
   width: 100%;
-  height: 100%;
+  height: fit-content;
   ${({ theme }) => theme.flex.flexRow};
   align-items: center;
   justify-content: flex-end;
