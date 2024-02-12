@@ -74,13 +74,13 @@ public class ReservationResponse {
 				.name(reservation.getSource().getName())
 				.address(reservation.getSource().getAddress())
 				.latitude(reservation.getSource().getLatitude())
-				.latitude(reservation.getSource().getLongitude())
+				.longitude(reservation.getSource().getLongitude())
 				.build();
 			this.dst = DestinationDTO.builder()
 				.name(reservation.getDestination().getName())
 				.address(reservation.getDestination().getAddress())
 				.latitude(reservation.getDestination().getLatitude())
-				.latitude(reservation.getDestination().getLongitude())
+				.longitude(reservation.getDestination().getLongitude())
 				.build();
 			this.cost = reservation.getTransport().getFee();
 			this.duration = duration;
