@@ -10,16 +10,16 @@ import lombok.Getter;
 public class CustomerSignUpDto {
 
 	@NotNull(message = "이름은 null일 수 없습니다.")
-	private String name;
+	private final String name;
 
 	@NotNull(message = "전화번호는 null일 수 없습니다.")
-	private String tel;
+	private final String tel;
 
 	@NotNull(message = "비밀번호는 null일 수 없습니다.")
-	private String password;
+	private final String password;
 
 	@NotNull(message = "이메일은 null일 수 없습니다.")
-	private String email;
+	private final String email;
 
 	public CustomerSignUpDto(String name, String tel, String password, String email) {
 		this.name = name;

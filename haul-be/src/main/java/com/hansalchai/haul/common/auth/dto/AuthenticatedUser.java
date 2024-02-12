@@ -8,8 +8,8 @@ import lombok.Getter;
 @Getter
 public class AuthenticatedUser {
 
-	private Long userId;
-	private Role role;
+	private final Long userId;
+	private final Role role;
 
 	public AuthenticatedUser(Long userId, Role role) {
 		this.userId = userId;
