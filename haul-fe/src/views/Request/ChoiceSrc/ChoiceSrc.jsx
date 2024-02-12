@@ -39,12 +39,19 @@ const ChoiceSrc = () => {
 
   function showUserTime() {
     const [reservationHour, reservationHourMin] = reservationTime
-      .split("-")
+      .split(":")
       .map((v) => Number(v));
     let showTime = "";
-    reservationHour >= 12 ? (showTime = "PM ") : (showTime = "AM ");
-    showTime += (reservationHour % 12) + "시";
-    showTime += reservationHourMin + "분";
+    reservationHour >= 12 ? (showTime = "오후 ") : (showTime = "오전 ");
+    if (reservationHour === 12) {
+    }
+    reservationHour === 12
+      ? (showTime += reservationHour + "시")
+      : (showTime += (reservationHour % 12) + "시");
+
+    if (reservationHourMin !== 0) {
+      showTime += reservationHourMin + "분";
+    }
     return showTime;
   }
 
@@ -99,10 +106,8 @@ const ChoiceSrc = () => {
       </Header>
       <Margin height="24px" />
       <Typography font="bold24">
-        <Typography_Span color="subColor" style={{ marginRight: "2px" }}>
-          {showUserTime()}
-        </Typography_Span>
-        에 뵈러 갈게요.
+        <Typography_Span color="subColor">{showUserTime()}</Typography_Span>에
+        뵈러 갈게요.
       </Typography>
       <Margin height="6px" />
       <Typography font="bold24">출발지는 어딘가요?</Typography>
