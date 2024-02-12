@@ -15,6 +15,7 @@ import com.hansalchai.haul.reservation.dto.ReservationRequest;
 import com.hansalchai.haul.reservation.dto.ReservationResponse;
 import com.hansalchai.haul.reservation.service.ReservationService;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -90,12 +91,20 @@ public class ReservationTest {
 		// given
 		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTO();
 		//when
-		ReservationResponse.ReservationRecommendationDTO reservationRecommendationDTO = reservationService.createReservation(createReservationDTO);
+		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO);
+
 		//then
-		logger.info(String.valueOf(reservationRecommendationDTO.getCost()));
-		logger.info(String.valueOf(reservationRecommendationDTO.getDuration()));
-		logger.info(String.valueOf(reservationRecommendationDTO.getCar().getCount()));
-		logger.info(String.valueOf(reservationRecommendationDTO.getCar().getModel()));
+		Assertions.assertEquals(482000, actual.getCost());
+		Assertions.assertEquals(1, actual.getCar().getCount());
+		Assertions.assertEquals("8톤트럭 모델", actual.getCar().getModel());
+		Assertions.assertEquals("광주", actual.getSrc().getName());
+		Assertions.assertEquals("광주광역시 서구 상무민주로 119 나나빌딩", actual.getSrc().getAddress());
+		Assertions.assertEquals( BigDecimal.valueOf(35.161723), actual.getSrc().getLongitude());
+		Assertions.assertEquals(BigDecimal.valueOf(126.857084), actual.getSrc().getLatitude());
+		Assertions.assertEquals("부산", actual.getDst().getName());
+		Assertions.assertEquals("부산광역시 연제구 거제대로178번길 51-2", actual.getDst().getAddress());
+		Assertions.assertEquals(BigDecimal.valueOf(35.184116), actual.getDst().getLongitude());
+		Assertions.assertEquals(BigDecimal.valueOf(129.073332), actual.getDst().getLatitude());
 	}
 
 	@Test
