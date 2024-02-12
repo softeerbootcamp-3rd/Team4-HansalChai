@@ -10,7 +10,9 @@ import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import { useState, useRef, useEffect, useContext } from "react";
 import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate } from "react-router-dom";
-import { UrlMap } from "../../../data/GlobalVariable.js";
+import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable.js";
+import { isPhoneNumber } from "../../../utils/helper.js";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 
 const ChoiceDst = () => {
   const navigation = useNavigate();
@@ -49,6 +51,10 @@ const ChoiceDst = () => {
   }
 
   function SumbitStore() {
+    if (!isPhoneNumber(dstTel.current)) {
+      ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
+      return;
+    }
     setDstInfo({
       dstName: mapInfo.name,
       dstAddress: mapInfo.detailAddress,
