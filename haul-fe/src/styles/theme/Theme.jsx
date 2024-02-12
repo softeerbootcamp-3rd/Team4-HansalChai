@@ -34,7 +34,7 @@ const colors = {
   infoColor: "#afafaf",
   subButtonBackground: "#F3EDC8",
   upperTextColor: "#10101080",
-  radioUnchecked: "#89939e33",
+  radioUnchecked: "#89939e33"
 };
 
 const font = {
@@ -127,7 +127,7 @@ const font = {
     font-family: 'regular';
     font-size: 12px;
     line-height: 12px;
-  `,
+  `
 };
 
 const flex = {
@@ -182,7 +182,7 @@ const flex = {
   flexBetween: `
     display: flex;
     justify-content: space-between;
-    `,
+    `
 };
 
 const animation = {
@@ -210,14 +210,14 @@ const animation = {
       transform: translate(-50%,0%);
     }
   }
-  `,
+  `
 };
 
 const theme = {
   colors,
   font,
   flex,
-  animation,
+  animation
 };
 
 export default theme;

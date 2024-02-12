@@ -58,7 +58,6 @@
       function getKakaoMapApiKey() {
         return import.meta.env.VITE_KAKAO_MAP_API_KEY;
       }
-
       function loadKakaoMapScript() {
         var script = document.createElement("script");
         script.type = "text/javascript";
@@ -68,10 +67,8 @@
           "&autoload=false&libraries=services";
         document.head.appendChild(script);
       }
-
       loadKakaoMapScript();
     </script>
-
     <title>Haul - 화물을 옮기는 새로운 방법</title>
   </head>
   <body>

@@ -2,7 +2,7 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 
 import {
   IoIosArrowBack as BackIcon,
-  IoIosArrowForward as ForwardIcon,
+  IoIosArrowForward as ForwardIcon
 } from "react-icons/io";
 import styled from "styled-components";
 
@@ -100,10 +100,15 @@ const CarouselImg = styled.img`
   height: fit-content;
 `;
 
-const Carousel = ({ carouselList, setSelectedIndex }) => {
+const Carousel = ({ carouselList, setSelectedIndex, initialIndex = 0 }) => {
   //현재 위치를 나타내는 인덱스와 이미지 리스트를 관리
-  const [currentIndex, setCurrentIndex] = useState(carouselList.length);
+  const [currentIndex, setCurrentIndex] = useState(
+    carouselList.length + initialIndex
+  );
   const [currentCarouselList, setCurrentCarouselList] = useState();
+
+  //버튼 클릭 시 이미지 이동을 막기 위한 상태
+  const [disabled, setDisabled] = useState(false);
 
   //touch 이벤트 처리를 위한 ref(값을 유지해야 함)
   const touchStartXRef = useRef();
@@ -117,23 +122,20 @@ const Carousel = ({ carouselList, setSelectedIndex }) => {
     if (carouselRef.current !== null) {
       carouselRef.current.style.transform = `translateX(-${currentIndex}00%)`;
     }
-    setSelectedIndex?.(() => (currentIndex % carouselList.length) + 1);
+    setSelectedIndex?.(() => currentIndex % carouselList.length);
   }, [currentIndex]);
 
   //캐러셀 리스트가 변경되면 시작과 끝에 이미지를 추가하여 무한 슬라이드 구현
   useEffect(() => {
     if (carouselList.length !== 0) {
-      //const startData = carouselList[0];
-      //const endData = carouselList[carouselList.length - 1];
       const newList = [...carouselList, ...carouselList, ...carouselList];
-
       setCurrentCarouselList(newList);
     }
   }, [carouselList]);
 
   //이미지 이동 함수 - 이미지 인덱스를 받아 해당 이미지로 이동
   //(무한 슬라이드 구현에서 복제된 슬라이드 -> 실제 슬라이드로 바로 이동)
-  const moveToNthSlide = (index) => {
+  const moveToNthSlide = index => {
     setTimeout(() => {
       setCurrentIndex(index);
       if (carouselRef.current !== null) {
@@ -143,16 +145,20 @@ const Carousel = ({ carouselList, setSelectedIndex }) => {
   };
 
   //화살표 클릭 이벤트 처리 - 이전, 다음 이미지로 이동
-  const handleSwipe = (direction) => {
+  const handleSwipe = direction => {
+    setDisabled(true);
+    setTimeout(() => {
+      setDisabled(false);
+    }, 500);
     const newIndex = currentIndex + direction;
 
-    if (newIndex === carouselList.length + 1) {
-      moveToNthSlide(1);
-    } else if (newIndex === 0) {
-      moveToNthSlide(carouselList.length);
+    if (newIndex === carouselList.length * 2 + 1) {
+      moveToNthSlide(carouselList.length + 1);
+    } else if (newIndex === carouselList.length) {
+      moveToNthSlide(carouselList.length * 2);
     }
 
-    setCurrentIndex((prev) => prev + direction);
+    setCurrentIndex(prev => prev + direction);
     if (carouselRef.current !== null) {
       carouselRef.current.style.transition = "all 0.5s ease-in-out";
     }
@@ -160,12 +166,15 @@ const Carousel = ({ carouselList, setSelectedIndex }) => {
 
   //터치 이벤트 처리 - 터치 방향에 따라 이미지 이동
   //터치 시작 이벤트 처리 - 시작 위치 잡기
-  const handleTouchStart = (e) => {
-    touchStartXRef.current = e.nativeEvent.touches[0].clientX;
+  const handleTouchStart = e => {
+    touchStartXRef.current = disabled ? e.nativeEvent.touches[0].clientX : null;
   };
 
   //터치 이동 이벤트 처리 - 터치 중 손가락 움직임에 따라 이미지 이동
-  const handleTouchMove = (e) => {
+  const handleTouchMove = e => {
+    if (disabled) return;
+    if (touchStartXRef.current === null)
+      touchStartXRef.current = e.nativeEvent.changedTouches[0].clientX;
     const currentTouchX = e.nativeEvent.changedTouches[0].clientX;
 
     if (carouselRef.current !== null) {
@@ -176,7 +185,8 @@ const Carousel = ({ carouselList, setSelectedIndex }) => {
   };
 
   //터치 종료 이벤트 처리 - 터치 종료 시 이동 방향에 따라 이미지 이동(1개씩만 이동 가능)
-  const handleTouchEnd = (e) => {
+  const handleTouchEnd = e => {
+    if (disabled || touchStartXRef.current === null) return;
     touchEndXRef.current = e.nativeEvent.changedTouches[0].clientX;
 
     if (touchStartXRef.current > touchEndXRef.current) {
@@ -199,6 +209,7 @@ const Carousel = ({ carouselList, setSelectedIndex }) => {
             className={"carousel__left-btn"}
             id={"carouselLeftBtn"}
             onClick={() => handleSwipe(-1)}
+            disabled={disabled}
           >
             <BackIcon />
           </CarouselBtn>
@@ -221,6 +232,7 @@ const Carousel = ({ carouselList, setSelectedIndex }) => {
             className={"carousel__right-btn"}
             id={"carouselRightBtn"}
             onClick={() => handleSwipe(1)}
+            disabled={disabled}
           >
             <ForwardIcon />
           </CarouselBtn>

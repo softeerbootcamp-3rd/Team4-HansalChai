@@ -10,36 +10,36 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       devOptions: {
-        enabled: true,
+        enabled: true
       },
       manifest: {
         icons: [
           {
             src: "/icon_x192.png",
             type: "image/png",
-            sizes: "192x192",
+            sizes: "192x192"
           },
           {
             src: "/icon_x192_maskable.png",
             type: "image/png",
             sizes: "192x192",
-            purpose: "maskable",
+            purpose: "maskable"
           },
           {
             src: "/icon_x512.png",
             type: "image/png",
-            sizes: "512x512",
+            sizes: "512x512"
           },
           {
             src: "/icon_x512_maskable.png",
             type: "image/png",
             sizes: "512x512",
-            purpose: "maskable",
-          },
+            purpose: "maskable"
+          }
         ],
         background_color: "#000B49",
-        theme_color: "#000B49",
-      },
-    }),
-  ],
+        theme_color: "#000B49"
+      }
+    })
+  ]
 });

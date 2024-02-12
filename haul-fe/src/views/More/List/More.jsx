@@ -1,12 +1,12 @@
-import Header from "../../components/Header/Header.jsx";
-import Margin from "../../components/Margin/Margin.jsx";
-import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
-import Flex from "../../components/Flex/Flex.jsx";
+import Header from "../../../components/Header/Header.jsx";
+import Margin from "../../../components/Margin/Margin.jsx";
+import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
+import Flex from "../../../components/Flex/Flex.jsx";
 import { IoIosArrowForward as ArrowIcon } from "react-icons/io";
-import NavigationBar from "../../components/NavigationBar/NavigationBar.jsx";
+import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import styled from "styled-components";
-import Typography from "../../components/Typhography/Typhography.jsx";
-import UnderBar from "../../components/UnderBar/UnderBar.jsx";
+import Typography from "../../../components/Typhography/Typhography.jsx";
+import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
 import { useNavigate } from "react-router-dom";
 
 const ListItem = styled.div`
@@ -33,7 +33,6 @@ const More = () => {
 
   return (
     <MobileLayout>
-      <Margin height="10px" />
       <Header home={false} back={false}>
         <Typography font={"semiBold24"}>더보기</Typography>
       </Header>

@@ -58,7 +58,7 @@ const ChoiceTime = () => {
 
   const {
     setReservationTime,
-    state: { reservationDate, reservationTime },
+    state: { reservationDate, reservationTime }
   } = useContext(reservationStore);
 
   useEffect(() => {
@@ -74,8 +74,8 @@ const ChoiceTime = () => {
   function formatDateString(dateString) {
     if (isEmptyString(dateString)) return "";
     const [year, month, day] = dateString.split(".");
-    const formattedMonth = month.length === 1 ? "0" + month : month;
-    const formattedDay = day.length === 1 ? "0" + day : day;
+    const formattedMonth = month.length === 1 ? `0${month}` : month;
+    const formattedDay = day.length === 1 ? `0${day}` : day;
     return `${year}.${formattedMonth}.${formattedDay}`;
   }
 
@@ -86,7 +86,6 @@ const ChoiceTime = () => {
 
   return (
     <MobileLayout>
-      <Margin height="20px" />
       <Header>
         HAUL<Typography_Span color="subColor">.</Typography_Span>
       </Header>

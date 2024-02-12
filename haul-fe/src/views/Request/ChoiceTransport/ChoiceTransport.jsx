@@ -25,8 +25,8 @@ const TransportBox = styled.div`
   margin-bottom: 20px;
   border-radius: 6px;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
-  background-color: ${(props) => props.boxeachcolor};
-  ${(props) => props.theme.flex.flexBetween};
+  background-color: ${props => props.boxeachcolor};
+  ${props => props.theme.flex.flexBetween};
   padding: 0 20px;
   cursor: pointer;
 `;
@@ -65,14 +65,13 @@ const ChoiceTransport = () => {
   const { setTransportType } = useContext(reservationStore);
 
   const navigation = useNavigate();
-  const ChoiceLogic = (transportType) => {
+  const ChoiceLogic = transportType => {
     setTransportType(transportType);
     navigation(UrlMap.choiceDatePageUrl);
   };
 
   return (
     <MobileLayout>
-      <Margin height="20px" />
       <Header back={false}>
         HAUL
         <Typography_Span color="subColor">.</Typography_Span>

@@ -16,3 +16,7 @@ dev-dist/
 .DS_Store
 
 Thumbs.db
+
+.eslintrc.*
+.prettierrc
+.prettierrc.*

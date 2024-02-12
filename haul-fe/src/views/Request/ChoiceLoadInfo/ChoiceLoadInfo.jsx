@@ -19,13 +19,13 @@ import { isNumber, isPositiveNumber } from "../../../utils/helper.js";
 const LoadInfoTypoBox = styled.div`
   width: 40px;
   height: auto;
-  ${(props) => props.theme.font["bold16"]}
+  ${props => props.theme.font["bold16"]}
   text-align: left;
   padding-bottom: 2px;
 `;
 
 const SpecialBtnBox = styled.div`
-  ${(props) => props.theme.flex.flexRow}
+  ${props => props.theme.flex.flexRow}
   flex-wrap: wrap;
   gap: 10px;
 `;
@@ -33,10 +33,10 @@ const SpecialBtnBox = styled.div`
 const SmallBtn = styled.button`
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.07);
-  background: ${(props) =>
+  background: ${props =>
     props.isClick ? props.theme.colors.subColor : props.theme.colors.inputGray};
-  ${(props) => props.theme.font.bold12};
-  color: ${(props) =>
+  ${props => props.theme.font.bold12};
+  color: ${props =>
     props.isClick ? props.theme.colors.white : props.theme.colors.grayText};
   width: fit-content;
   height: auto;
@@ -127,7 +127,6 @@ const ChoiceLoadInfo = () => {
 
   return (
     <MobileLayout>
-      <Margin height="20px" />
       <Header>
         HAUL
         <Typography_Span color="subColor">.</Typography_Span>

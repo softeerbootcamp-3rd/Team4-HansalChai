@@ -18,7 +18,7 @@ const ChoiceDate = () => {
   const [selectedDay, setSelectedDay] = useState(new Date());
   const {
     setReservationDate,
-    state: { transportType, reservationDate },
+    state: { transportType, reservationDate }
   } = useContext(reservationStore);
 
   useEffect(() => {
@@ -33,10 +33,8 @@ const ChoiceDate = () => {
     }
   }, []);
 
-  const DateFormChange = (date) => {
-    return (
-      date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate()
-    );
+  const DateFormChange = date => {
+    return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
   };
 
   const SubmitBtnFun = () => {
@@ -46,7 +44,6 @@ const ChoiceDate = () => {
 
   return (
     <MobileLayout>
-      <Margin height="20px" />
       <Header>
         HAUL
         <Typography_Span color="subColor">.</Typography_Span>

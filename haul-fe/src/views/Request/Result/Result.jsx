@@ -15,7 +15,7 @@ import { UrlMap } from "../../../data/GlobalVariable";
 const Result = () => {
   const navigation = useNavigate();
   const {
-    state: { srcCoordinate, dstCoordinate },
+    state: { srcCoordinate, dstCoordinate }
   } = useContext(reservationStore);
 
   function CallCompany() {
@@ -25,7 +25,6 @@ const Result = () => {
 
   return (
     <MobileLayout>
-      <Margin height="20px" />
       <Header home={true}>
         HAUL
         <Typography_Span color="subColor">.</Typography_Span>
@@ -49,13 +48,13 @@ const Result = () => {
       <DetailInfo
         srcCoordinate={{
           lat: srcCoordinate.srcLatitude,
-          lng: srcCoordinate.srcLongitude,
+          lng: srcCoordinate.srcLongitude
         }}
         srcAddress="서울특별시 강남구 강남대로 지하396 "
         srcName="강남구 애니타워"
         dstCoordinate={{
           lat: dstCoordinate.dstLatitude,
-          lng: dstCoordinate.dstLongitude,
+          lng: dstCoordinate.dstLongitude
         }}
         dstAddress="부산광역시 금정구 부산대학로63번길 2"
         dstName="부산대학교"
@@ -66,8 +65,7 @@ const Result = () => {
       <BottomButton
         role="main"
         onClick={() => {
-          //FIXME: 이후 결제 페이지로 변경
-          navigation(UrlMap.completePageUrl);
+          navigation(UrlMap.choicePaymentPageUrl);
         }}
       >
         이걸로 결정할게요!

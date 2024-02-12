@@ -1,14 +1,9 @@
-import Header from "../../components/Header/Header.jsx";
-import Margin from "../../components/Margin/Margin.jsx";
-import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
-import Flex from "../../components/Flex/Flex.jsx";
-import NavigationBar from "../../components/NavigationBar/NavigationBar.jsx";
 import styled from "styled-components";
-import Typography from "../../components/Typhography/Typhography.jsx";
-import { useNavigate } from "react-router-dom";
-import UnderBar from "../../components/UnderBar/UnderBar.jsx";
+import Margin from "../../../../components/Margin/Margin.jsx";
+import UnderBar from "../../../../components/UnderBar/UnderBar.jsx";
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { LuClock4 } from "react-icons/lu";
+import Typography from "../../../../components/Typhography/Typhography.jsx";
 
 const ReservItemFrame = styled.div`
   width: 100%;
@@ -18,6 +13,7 @@ const ReservItemFrame = styled.div`
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.colors.cardBorder};
   padding: 15px;
+  cursor: pointer;
 `;
 
 const DescriptionTextArea = styled.div`
@@ -38,8 +34,8 @@ const IconBlueBox = styled.div`
   width: 25px;
   height: 25px;
   border-radius: 4px;
-  ${(props) => props.theme.flex.flexCenter};
-  background-color: ${(props) => props.theme.colors.lightBlue};
+  ${({ theme }) => theme.flex.flexCenter};
+  background-color: ${({ theme }) => theme.colors.lightBlue};
 `;
 
 const MoneySub = styled.sub`
@@ -64,7 +60,7 @@ const IconedCaption = styled.div`
   gap: 4px;
 `;
 
-const ReservItem = ({ model, status, time, fee }) => {
+const SummaryItemBox = ({ model, status, time, fee }) => {
   return (
     <ReservItemFrame>
       <DescriptionTextArea>
@@ -125,49 +121,4 @@ const ReservItem = ({ model, status, time, fee }) => {
   );
 };
 
-const Check = () => {
-  const navigate = useNavigate();
-  const dummyData = [
-    {
-      model: "1톤 포터(냉동)",
-      status: "배정 중",
-      time: "2024.1.10 12:10",
-      fee: 17,
-    },
-    {
-      model: "2.5톤 마이티(카고)",
-      status: "운송 완료",
-      time: "2024.1.1 10:10",
-      fee: 25,
-    },
-  ];
-
-  const clickUserInfo = () => {
-    navigate("/more/user-info");
-  };
-
-  return (
-    <MobileLayout>
-      <Margin height="10px" />
-      <Header home={false} back={false}>
-        <Typography font={"semiBold24"}>예약 확인</Typography>
-      </Header>
-      <Margin height="32px" />
-      {dummyData.map((data, index) => (
-        <div key={`reserv${index}`}>
-          <ReservItem
-            model={data.model}
-            status={data.status}
-            time={data.time}
-            fee={data.fee}
-          />
-          <Margin height="20px" />
-        </div>
-      ))}
-      <Flex kind="flexColumn"></Flex>
-      <NavigationBar selected="check" />
-    </MobileLayout>
-  );
-};
-
-export default Check;
+export default SummaryItemBox;

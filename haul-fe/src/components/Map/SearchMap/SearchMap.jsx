@@ -67,7 +67,7 @@ const SearchMap = ({
       const beforePos = new window.kakao.maps.LatLng(beforeLat, beforeLon);
       const options = {
         center: beforePos,
-        level: 3,
+        level: 3
       };
       const map = new kakao.maps.Map(container, options);
       const marker = new kakao.maps.Marker();
@@ -87,10 +87,10 @@ const SearchMap = ({
     }
     new window.daum.Postcode({
       oncomplete: function (addrData) {
-        var geocoder = new window.kakao.maps.services.Geocoder();
+        const geocoder = new window.kakao.maps.services.Geocoder();
         geocoder.addressSearch(addrData.address, function (result, status) {
           if (status === window.kakao.maps.services.Status.OK) {
-            var currentPos = new window.kakao.maps.LatLng(
+            const currentPos = new window.kakao.maps.LatLng(
               result[0].y,
               result[0].x
             );
@@ -99,16 +99,16 @@ const SearchMap = ({
             marker.setPosition(currentPos);
             marker.setMap(map);
             addrData.buildingName.length
-              ? setAddress(addrData.buildingName + ", " + addrData.address)
+              ? setAddress(`${addrData.buildingName}, ${addrData.address}`)
               : setAddress(addrData.address);
             setMapInfo({
               name: addrData.buildingName,
               coordinate: { longitude: result[0].x, latitude: result[0].y },
-              detailAddress: addrData.address,
+              detailAddress: addrData.address
             });
           }
         });
-      },
+      }
     }).open();
   };
 

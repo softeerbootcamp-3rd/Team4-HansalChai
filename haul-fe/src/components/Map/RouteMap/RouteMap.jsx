@@ -1,6 +1,23 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 const restApiKey = import.meta.env.VITE_KAKAO_MAP_REST_KEY;
+
+const loadKakaoMaps = drawdirection => {
+  if (window.kakao !== undefined) return;
+  const script = document.createElement("script");
+  script.type = "text/javascript";
+  script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${
+    import.meta.env.VITE_KAKAO_MAP_KEY
+  }&autoload=false&libraries=services`;
+
+  script.onload = () => {
+    window.kakao.maps.load(() => {
+      drawdirection();
+    });
+  };
+
+  document.head.appendChild(script);
+};
 
 // 지도, 출발지, 도착지 위도를 찍으면 지도에 경로를 그려주는 함수
 async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
@@ -11,11 +28,11 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
   const destination = `${dstCoordinate.lng},${dstCoordinate.lat}`;
   const headers = {
     Authorization: `KakaoAK ${REST_API_KEY}`,
-    "Content-Type": "application/json",
+    "Content-Type": "application/json"
   };
   const queryParams = new URLSearchParams({
     origin: origin,
-    destination: destination,
+    destination: destination
   });
 
   const requestUrl = `${url}?${queryParams}`;
@@ -23,7 +40,7 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
   try {
     const response = await fetch(requestUrl, {
       method: "GET",
-      headers: headers,
+      headers: headers
     });
 
     if (!response.ok) {
@@ -33,7 +50,7 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
     const data = await response.json();
 
     const linePath = [];
-    data.routes[0].sections[0].roads.forEach((router) => {
+    data.routes[0].sections[0].roads.forEach(router => {
       router.vertexes.forEach((vertex, index) => {
         if (index % 2 === 0) {
           linePath.push(
@@ -57,7 +74,7 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
       strokeWeight: 5,
       strokeColor: "#446EDA",
       strokeOpacity: 0.7,
-      strokeStyle: "solid",
+      strokeStyle: "solid"
     });
     polyline.setMap(kakaoMap);
   } catch (error) {
@@ -66,11 +83,11 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
 }
 
 const RouteMap = ({ origin, destination }) => {
-  useEffect(() => {
+  const drawdirection = () => {
     const mapContainer = document.getElementById("map");
     const mapOptions = {
       center: new kakao.maps.LatLng(origin.lat, origin.lng),
-      level: 10,
+      level: 10
     };
 
     const kakaoMap = new kakao.maps.Map(mapContainer, mapOptions);
@@ -81,12 +98,12 @@ const RouteMap = ({ origin, destination }) => {
     );
 
     // 출발지, 도착지 마커 생성
-    let originMarker = new kakao.maps.Marker({
-      position: originPosition,
+    const originMarker = new kakao.maps.Marker({
+      position: originPosition
     });
 
-    let destinationMaker = new kakao.maps.Marker({
-      position: destinationPosition,
+    const destinationMaker = new kakao.maps.Marker({
+      position: destinationPosition
     });
 
     originMarker.setMap(kakaoMap);
@@ -96,8 +113,12 @@ const RouteMap = ({ origin, destination }) => {
     getCarDirection({
       kakaoMap: kakaoMap,
       srcCoordinate: origin,
-      dstCoordinate: destination,
+      dstCoordinate: destination
     });
+  };
+
+  useEffect(() => {
+    loadKakaoMaps(drawdirection);
   }, []);
 
   return (
@@ -106,7 +127,7 @@ const RouteMap = ({ origin, destination }) => {
         id="map"
         style={{
           width: "100%",
-          height: "227px",
+          height: "227px"
         }}
       ></div>
     </>

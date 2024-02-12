@@ -1,4 +1,4 @@
-export const isEmptyString = (value) => {
+export const isEmptyString = value => {
   return value.length === 0;
 };
 

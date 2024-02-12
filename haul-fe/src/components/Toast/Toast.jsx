@@ -6,7 +6,7 @@ import {
   CgCloseO as ErrorSvg,
   CgDanger as WarningSvg,
   CgMoreO as InfoSvg,
-  CgCheckO as SuccessSvg,
+  CgCheckO as SuccessSvg
 } from "react-icons/cg";
 
 const toastAnimation = keyframes`
@@ -22,7 +22,7 @@ const typeColor = {
   success: theme.colors.successColor,
   error: theme.colors.errorColor,
   warning: theme.colors.warningColor,
-  info: theme.colors.infoColor,
+  info: theme.colors.infoColor
 };
 
 const typeBackground = {
@@ -35,14 +35,14 @@ const typeBackground = {
   success: theme.colors.successColor,
   error: theme.colors.errorColor,
   warning: theme.colors.warningColor,
-  info: theme.colors.infoColor,
+  info: theme.colors.infoColor
 };
 
 const typeSvg = {
   success: <SuccessSvg size={20} color={theme.colors.white} />,
   error: <ErrorSvg size={20} color={theme.colors.white} />,
   warning: <WarningSvg size={20} color={theme.colors.white} />,
-  info: <InfoSvg size={20} color={theme.colors.white} />,
+  info: <InfoSvg size={20} color={theme.colors.white} />
 };
 
 const ToastFrame = styled.div`

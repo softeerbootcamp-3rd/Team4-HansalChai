@@ -77,7 +77,7 @@ const Calendar = ({
   selectedDay,
   setSelectedDay,
   isPrevMonth,
-  isNextMonth,
+  isNextMonth
 }) => {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -98,7 +98,7 @@ const Calendar = ({
   };
 
   //날짜를 클릭했을때 발생하는 함수
-  const onClickDay = (day) => {
+  const onClickDay = day => {
     if (isSameDay(day, selectedDay)) {
       setSelectedDay(null);
     } else {
@@ -189,7 +189,7 @@ const Calendar = ({
     return days;
   };
 
-  const buildCalendarTag = (calendarDays) => {
+  const buildCalendarTag = calendarDays => {
     return calendarDays.map((day, i) => {
       if (day.getMonth() < currentMonth.getMonth()) {
         return (
@@ -229,7 +229,7 @@ const Calendar = ({
     });
   };
 
-  const divideWeek = (calendarTags) => {
+  const divideWeek = calendarTags => {
     return calendarTags.reduce((acc, day, i) => {
       if (i % 7 === 0) acc.push([day]);
       else acc[acc.length - 1].push(day);

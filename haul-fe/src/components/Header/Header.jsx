@@ -3,6 +3,7 @@ import { CgChevronLeft } from "react-icons/cg";
 import Margin from "../Margin/Margin.jsx";
 import Home from "../../assets/svgs/Home.svg";
 import { useLocation, useNavigate } from "react-router-dom";
+import { UrlMap } from "../../data/GlobalVariable.js";
 
 const HeaderFrame = styled.div`
   width: 100%;
@@ -10,6 +11,7 @@ const HeaderFrame = styled.div`
   align-items: center;
   font-family: "semiBold";
   font-size: 24px;
+  margin-top: 20px;
 `;
 
 const LeftHeaderFrame = styled.div`
@@ -30,7 +32,20 @@ const Header = ({ home = false, back = true, children }) => {
     navigator(-1);
   };
   const clickHome = () => {
-    const path = "/" + pathname.slice(1).split("/")[0];
+    let path = `/${pathname.slice(1).split("/")[0]}`;
+    switch (path) {
+      case "/request":
+        path = UrlMap.choiceTranportTypeUrl;
+        break;
+      case "/check":
+        path = UrlMap.checkReservationPageUrl;
+        break;
+      case "/more":
+        path = UrlMap.morePageUrl;
+        break;
+      default:
+        break;
+    }
     navigator(path);
   };
 

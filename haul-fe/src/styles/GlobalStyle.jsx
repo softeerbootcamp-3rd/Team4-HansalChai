@@ -24,6 +24,10 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
     margin: 0;
     padding: 0;
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+    ::-webkit-scrollbar {
+      display: none; /* 크롬, 사파리, 오페라, 엣지 */
   }
 
   a {

@@ -11,7 +11,7 @@ import { checkEmail, isPhoneNumber } from "../../utils/helper.js";
 import { useNavigate } from "react-router-dom";
 import {
   IoIosCheckmarkCircleOutline,
-  IoIosCloseCircleOutline,
+  IoIosCloseCircleOutline
 } from "react-icons/io";
 import ToastMaker from "../../components/Toast/ToastMaker.jsx";
 import { UrlMap, ErrorMessageMap } from "../../data/GlobalVariable.js";
