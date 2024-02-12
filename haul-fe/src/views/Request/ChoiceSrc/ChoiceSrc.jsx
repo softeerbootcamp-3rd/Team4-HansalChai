@@ -70,8 +70,8 @@ const ChoiceSrc = () => {
       mapInfo.coordinate.latitude !== "" &&
       mapInfo.coordinate.longitude !== "" &&
       mapInfo.detailAddress !== "";
-    const isSrcDetailAddressFilled = inSrcDetailAddress.current !== "";
-    const isSrcTelFilled = inSrcTel.current !== "";
+    const isSrcDetailAddressFilled = inSrcDetailAddress.current.trim() !== "";
+    const isSrcTelFilled = inSrcTel.current.trim() !== "";
     return !(isMapInfoFilled && isSrcDetailAddressFilled && isSrcTelFilled);
   }
 

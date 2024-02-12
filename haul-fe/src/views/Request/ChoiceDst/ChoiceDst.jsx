@@ -56,8 +56,8 @@ const ChoiceDst = () => {
       mapInfo.coordinate.latitude !== "" &&
       mapInfo.coordinate.longitude !== "" &&
       mapInfo.detailAddress !== "";
-    const isDstDetailAddressFilled = inDstDetailAddress.current !== "";
-    const isDstTelFilled = inDstTel.current !== "";
+    const isDstDetailAddressFilled = inDstDetailAddress.current.trim() !== "";
+    const isDstTelFilled = inDstTel.current.trim() !== "";
     return !(isMapInfoFilled && isDstDetailAddressFilled && isDstTelFilled);
   }
 
