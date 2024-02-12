@@ -21,6 +21,13 @@ public class CustomerSignUpDto {
 	@NotNull(message = "이메일은 null일 수 없습니다.")
 	private String email;
 
+	public CustomerSignUpDto(String name, String tel, String password, String email) {
+		this.name = name;
+		this.tel = tel;
+		this.password = password;
+		this.email = email;
+	}
+
 	public Users toEntity() {
 		return Users.builder()
 			.name(name)
