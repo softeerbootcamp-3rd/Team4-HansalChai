@@ -7,6 +7,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Range;
 
+import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.utils.BaseTime;
 import com.hansalchai.haul.customer.entity.Customer;
 import com.hansalchai.haul.driver.entity.Driver;
@@ -57,6 +58,9 @@ public class Reservation extends BaseTime {
 	@OneToOne(fetch = FetchType.LAZY)
 	private Transport transport;
 
+	@OneToOne(fetch = FetchType.LAZY)
+	private Car car;
+
 	@Column(nullable = false)
 	private String number;
 
@@ -76,7 +80,7 @@ public class Reservation extends BaseTime {
 
 	@Builder
 	public Reservation(Customer customer, Driver driver, Cargo cargo, CargoOption cargoOption, Source source,
-		Destination destination, Transport transport, String number, LocalDate date, LocalTime time, int count,
+		Destination destination, Transport transport,Car car, String number, LocalDate date, LocalTime time, int count,
 		double distance) {
 		this.customer = customer;
 		this.driver = driver;
@@ -85,6 +89,7 @@ public class Reservation extends BaseTime {
 		this.source = source;
 		this.destination = destination;
 		this.transport = transport;
+		this.car = car;
 		this.number = number;
 		this.date = date;
 		this.time = time;

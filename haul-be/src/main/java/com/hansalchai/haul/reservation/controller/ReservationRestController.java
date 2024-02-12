@@ -1,5 +1,7 @@
 package com.hansalchai.haul.reservation.controller;
 
+import static com.hansalchai.haul.common.utils.ApiResponse.*;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +28,6 @@ public class ReservationRestController {
 		@Valid @RequestBody ReservationRequest.CreateReservationDTO request
 	) {
 		ReservationResponse.ReservationRecommendationDTO response = reservationService.createReservation(request);
-		return ResponseEntity.ok(ApiResponse.success(SuccessCode.GET_SUCCESS, response));
+		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 }

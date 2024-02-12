@@ -37,9 +37,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class ReservationService{
-	private KakaoMap kakaoMap;
-
-	private final OwnerRepository ownerRepository;
+	private final KakaoMap kakaoMap;
 	private final CargoRepository cargoRepository;
 	private final CargoOptionRepository cargoOptionRepository;
 	private final DestinationRepository destinationRepository;
@@ -76,6 +74,7 @@ public class ReservationService{
 			.build();
 
 		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
+		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption));
 
 		Reservation reservation = Reservation.builder()
 			.customer(customer)
@@ -85,6 +84,7 @@ public class ReservationService{
 			.source(source)
 			.destination(destination)
 			.transport(transport)
+			.car(recommendedCar)
 			.number(reservationNumber)
 			.date(request.getDate())
 			.time(request.getTime())
@@ -99,9 +99,7 @@ public class ReservationService{
 		transportRepository.save(transport);
 		reservationRepository.save(reservation);
 
-		//TODO Response 객체 생성후 반환
-		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption));
-
-		return null;
+		return new ReservationResponse.ReservationRecommendationDTO(reservation,
+			distanceDurationInfo.getDuration());
 	}
 }
