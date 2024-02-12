@@ -51,7 +51,7 @@ const CustomTypo = styled.div`
   color: ${({ theme }) => theme.colors.realBlack};
   ${({ theme }) => theme.flex.flexRow};
   justify-content: end;
-  align-items: end;
+  align-items: center;
   gap: 4px;
 `;
 
@@ -96,7 +96,7 @@ const SummaryItemBox = ({ model, status, time, fee }) => {
               운송일시
             </Typography>
           </IconedCaption>
-          <Margin height="4px" />
+          <Margin height="8px" />
           <Typography font={"bold20"} color={"realBlack"}>
             {time}
           </Typography>
@@ -110,7 +110,7 @@ const SummaryItemBox = ({ model, status, time, fee }) => {
               운송비용
             </Typography>
           </IconedCaption>
-          <Margin height="4px" />
+          <Margin height="8px" />
           <CustomTypo>
             {fee}
             <MoneySub>만원</MoneySub>
