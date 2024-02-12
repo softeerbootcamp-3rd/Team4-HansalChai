@@ -22,8 +22,8 @@ const DriverInfoFrame = styled.div`
 `;
 
 const DriverImage = styled.img`
-  width: 160px;
-  height: 160px;
+  width: 130px;
+  height: 130px;
   border-radius: 16px;
   background-repeat: no-repeat;
   object-fit: cover;
