@@ -124,9 +124,10 @@ const RouteMap = ({ origin, destination }) => {
     <>
       <div
         id="map"
-        style={{
-          width: "100%",
-          height: "227px"
+        style={{ 
+          width: "100%", 
+          height: "227px", 
+          borderRadius: "10px" 
         }}
       ></div>
     </>
