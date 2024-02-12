@@ -6,6 +6,7 @@ import java.time.LocalTime;
 
 import org.hibernate.validator.constraints.Range;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hansalchai.haul.reservation.constants.TransportType;
 import com.hansalchai.haul.reservation.entity.Cargo;
 import com.hansalchai.haul.reservation.entity.CargoOption;
@@ -14,15 +15,17 @@ import com.hansalchai.haul.reservation.entity.Source;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import lombok.ToString;
 
 public class ReservationRequest {
 	@Getter
-	@Builder
+	@Setter
+	@ToString
+	@NoArgsConstructor
+	@AllArgsConstructor
 	public static class CreateReservationDTO {
 		@NotNull(message = "운송수단은 Null 일 수 없다.")
 		private TransportType transportType;
@@ -35,19 +38,9 @@ public class ReservationRequest {
 		private CargoDTO cargo;
 		private CargoOptionDTO cargoOption;
 
-		public CreateReservationDTO(TransportType transportType, LocalDate date, LocalTime time, SourceDTO src,
-			DestinationDTO dst, CargoDTO cargo, CargoOptionDTO cargoOption) {
-			this.transportType = transportType;
-			this.date = date;
-			this.time = time;
-			this.src = src;
-			this.dst = dst;
-			this.cargo = cargo;
-			this.cargoOption = cargoOption;
-		}
-
 		@Getter
-		@Builder
+		@Setter
+		@ToString
 		public static class SourceDTO {
 			@NotNull(message = "출발지 이름은 Null 일 수 없다.")
 			private String name;
@@ -79,7 +72,8 @@ public class ReservationRequest {
 			}
 		}
 		@Getter
-		@Builder
+		@Setter
+		@ToString
 		public static class DestinationDTO {
 			@NotNull(message = "도착지 이름은 Null 일 수 없다.")
 			private String name;
@@ -111,7 +105,8 @@ public class ReservationRequest {
 			}
 		}
 		@Getter
-		@Builder
+		@Setter
+		@ToString
 		public static class CargoDTO {
 			@NotNull(message = "화물 가로는 Null 일 수 없다.")
 			@Range(min = 0, max = 1000, message = "화물 가로는 10m를 넘을 수 없다.")
@@ -139,17 +134,22 @@ public class ReservationRequest {
 			}
 		}
 		@Getter
-		@Builder
+		@Setter
+		@ToString
 		public static class CargoOptionDTO {
+			@JsonProperty("refrigerated")
 			@NotNull(message = "냉장여부는 Null 일 수 없다.")
 			private boolean isRefrigerated;
 
+			@JsonProperty("frozen")
 			@NotNull(message = "냉동여부는 Null 일 수 없다.")
 			private boolean isFrozen;
 
+			@JsonProperty("furniture")
 			@NotNull(message = "가구여부는 Null 일 수 없다.")
 			private boolean	isFurniture;
 
+			@JsonProperty("liftRequired")
 			@NotNull(message = "리프트필요여부는 Null 일 수 없다.")
 			private boolean isLiftRequired;
 

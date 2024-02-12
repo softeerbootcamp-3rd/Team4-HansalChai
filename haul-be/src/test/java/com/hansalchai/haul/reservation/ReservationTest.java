@@ -52,51 +52,36 @@ public class ReservationTest {
 	}
 
 	private ReservationRequest.CreateReservationDTO makeDummyReservationRequestDTO(){
-		ReservationRequest.CreateReservationDTO.SourceDTO sourceDTO =
-			ReservationRequest.CreateReservationDTO.SourceDTO.builder()
-				.name("광주")
-				.tel("01012345678")
-				.address("광주광역시 서구 상무민주로 119 나나빌딩")
-				.detailAddress("구이덕")
-				.longitude(BigDecimal.valueOf(35.161723))
-				.latitude(BigDecimal.valueOf(126.857084))
-				.build();
-		ReservationRequest.CreateReservationDTO.DestinationDTO destinationDTO =
-			ReservationRequest.CreateReservationDTO.DestinationDTO.builder()
-				.name("부산")
-				.tel("01012345678")
-				.address("부산광역시 연제구 거제대로178번길 51-2")
-				.detailAddress("종갓집 양곱창")
-				.longitude(BigDecimal.valueOf(35.184116))
-				.latitude(BigDecimal.valueOf(129.073332))
-				.build();
-		//TODO 12000은 안됨
-		ReservationRequest.CreateReservationDTO.CargoDTO cargoDTO =
-			ReservationRequest.CreateReservationDTO.CargoDTO.builder()
-				.width(100)
-				.length(100)
-				.height(100)
-				.weight(6000)
-				.build();
-		ReservationRequest.CreateReservationDTO.CargoOptionDTO cargoOptionDTO =
-			ReservationRequest.CreateReservationDTO.CargoOptionDTO.builder()
-				.isRefrigerated(true)
-				.isFurniture(false)
-				.isLiftRequired(true)
-				.isFrozen(false)
-				.build();
+		ReservationRequest.CreateReservationDTO.SourceDTO src = new ReservationRequest.CreateReservationDTO.SourceDTO();
+		src.setName("광주");
+		src.setAddress("광주광역시 서구 상무민주로 119 나나빌딩");
+		src.setTel("01012345678");
+		src.setDetailAddress("구이덕");
+		src.setLongitude(BigDecimal.valueOf(35.161723));
+		src.setLatitude(BigDecimal.valueOf(126.857084));
 
-		ReservationRequest.CreateReservationDTO createReservationDTO =
-			ReservationRequest.CreateReservationDTO.builder()
-				.date(LocalDate.parse("2024-02-14"))
-				.time(LocalTime.parse("14:30:00"))
-				.transportType(TransportType.GENERAL)
-				.cargo(cargoDTO)
-				.cargoOption(cargoOptionDTO)
-				.src(sourceDTO)
-				.dst(destinationDTO)
-				.build();
-		return createReservationDTO;
+		ReservationRequest.CreateReservationDTO.DestinationDTO dst = new ReservationRequest.CreateReservationDTO.DestinationDTO();
+		dst.setName("부산");
+		dst.setAddress("부산광역시 연제구 거제대로178번길 51-2");
+		dst.setDetailAddress("종갓집 양곱창");
+		dst.setLongitude(BigDecimal.valueOf(35.184116));
+		dst.setLatitude(BigDecimal.valueOf(129.073332));
+		dst.setTel("01012345678");
+
+		ReservationRequest.CreateReservationDTO.CargoDTO cargo = new ReservationRequest.CreateReservationDTO.CargoDTO();
+		cargo.setWidth(100);
+		cargo.setLength(100);
+		cargo.setHeight(100);
+		cargo.setWeight(6000);
+
+		ReservationRequest.CreateReservationDTO.CargoOptionDTO cargoOption = new ReservationRequest.CreateReservationDTO.CargoOptionDTO();
+		cargoOption.setRefrigerated(true);
+		cargoOption.setFurniture(false);
+		cargoOption.setLiftRequired(true);
+		cargoOption.setFrozen(false);
+
+		return new ReservationRequest.CreateReservationDTO(
+			TransportType.GENERAL, LocalDate.parse("2024-02-14"), LocalTime.parse("14:30:00"),src, dst, cargo, cargoOption);
 	}
 
 	@Test
@@ -133,7 +118,7 @@ public class ReservationTest {
 		logger.info("테스트 정보 확인: "+responseBody);
 
 		// verify
-		resultActions.andExpect(jsonPath("$.status").value("success"));
+		resultActions.andExpect(jsonPath("$.status").value(200));
 	}
 
 }
