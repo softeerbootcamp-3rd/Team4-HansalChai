@@ -8,16 +8,13 @@ import { MaxDeviceWidth } from "../../../../data/GlobalVariable";
 
 const CalendarContainer = styled.div`
   width: calc(${MaxDeviceWidth});
-  height: 100vh;
+  height: calc(100vh - 250px);
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  position: fixed;
-  top: 24%;
-  left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-20px);
 `;
 
 const CalendarNav = styled.div`

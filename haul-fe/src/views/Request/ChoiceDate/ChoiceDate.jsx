@@ -11,6 +11,7 @@ import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import { isEmptyString, stringToDateObject } from "../../../utils/helper.js";
 import { UrlMap } from "../../../data/GlobalVariable.js";
+import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 
 const ChoiceDate = () => {
   const navigation = useNavigate();
@@ -59,7 +60,7 @@ const ChoiceDate = () => {
       <Typography font="bold24">언제 찾아뵈면 될까요?</Typography>
       <Margin height="60px" />
       <Calendar selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
-      <FixedCenterBox bottom="20px">
+      <FixedCenterBox bottom="100px">
         <BottomButton
           role="main"
           disabled={!selectedDay}
@@ -70,6 +71,7 @@ const ChoiceDate = () => {
           선택 완료
         </BottomButton>
       </FixedCenterBox>
+      <NavigationBar />
     </MobileLayout>
   );
 };

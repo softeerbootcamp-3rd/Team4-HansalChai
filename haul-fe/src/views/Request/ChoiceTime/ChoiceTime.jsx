@@ -13,6 +13,7 @@ import { isEmptyString } from "../../../utils/helper.js";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 import { LuClock9 } from "react-icons/lu";
 import Flex from "../../../components/Flex/Flex.jsx";
+import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 
 const TimeWrapper = styled.div`
   ${(props) => props.theme.flex.flexRow}
@@ -137,7 +138,7 @@ const ChoiceTime = () => {
         ))}
       </TimeWrapper>
 
-      <FixedCenterBox bottom="20px">
+      <FixedCenterBox bottom="100px">
         <BottomButton
           role="main"
           disabled={false}
@@ -148,6 +149,7 @@ const ChoiceTime = () => {
           선택 완료
         </BottomButton>
       </FixedCenterBox>
+      <NavigationBar />
     </MobileLayout>
   );
 };
