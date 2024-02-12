@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import Typography from "../Typhography/Typhography";
-import UnderBar from "../UnderBar/UnderBar";
-import Margin from "../Margin/Margin";
-import RouteMap from "../Map/RouteMap/RouteMap";
-import Flex from "../Flex/Flex";
+import Typography from "../Typhography/Typhography.jsx";
+import UnderBar from "../UnderBar/UnderBar.jsx";
+import Margin from "../Margin/Margin.jsx";
+import RouteMap from "../Map/RouteMap/RouteMap.jsx";
+import Flex from "../Flex/Flex.jsx";
 import RouteIcon from "../../assets/svgs/RouteIcon.svg";
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { LuClock4 } from "react-icons/lu";

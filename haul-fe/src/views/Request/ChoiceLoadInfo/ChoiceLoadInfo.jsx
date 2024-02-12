@@ -1,18 +1,20 @@
+import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { reservationStore } from "../../../store/reservationStore.jsx";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Header from "../../../components/Header/Header.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import Typography_Span from "../../../components/Typhography/Typhography_Span.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import Input from "../../../components/Input/Input.jsx";
-import { useContext, useEffect, useRef, useState } from "react";
-import { reservationStore } from "../../../store/reservationStore.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
 import styled from "styled-components";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
-import { useNavigate } from "react-router-dom";
-import { UrlMap } from "../../../data/GlobalVariable.js";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable.js";
+import { isNumber, isPositiveNumber } from "../../../utils/helper.js";
 
 const LoadInfoTypoBox = styled.div`
   width: 40px;
@@ -47,7 +49,15 @@ const ChoiceLoadInfo = () => {
 
   const {
     setRoadInfo,
-    state: { dstAddress },
+    state: {
+      dstAddress,
+      cargoWeight,
+      cargoWidth,
+      cargoLength,
+      cargoHeight,
+      specialNotes,
+    },
+    state,
   } = useContext(reservationStore);
   const [submitDisabled, CheckSubmitDisabled] = useState(true);
 
@@ -55,28 +65,28 @@ const ChoiceLoadInfo = () => {
     if (!dstAddress) {
       navigation(UrlMap.choiceDstPageUrl);
     }
+    CheckSubmitDisabledFun();
   }, []);
 
-  const [specialNotes, setSpecialNotes] = useState([
-    { note: "냉장", selected: false },
-    { note: "냉동", selected: false },
-    { note: "탑차", selected: false },
-    { note: "가구", selected: false },
-    { note: "리프트 필요", selected: false },
-  ]);
+  const [inSpecialNotes, setInSpecialNotes] = useState(specialNotes);
 
-  const cargoWeight = useRef("");
-  const cargoWidth = useRef("");
-  const cargoLength = useRef("");
-  const cargoHeight = useRef("");
+  const inCargoWeight = useRef(cargoWeight.toString());
+  const inCargoWidth = useRef(cargoWidth.toString());
+  const inCargoLength = useRef(cargoLength.toString());
+  const inCargoHeight = useRef(cargoHeight.toString());
 
   //이 페이지에서 원하는 값이 다 있는지 체크
   function CheckSubmitDisabledFun() {
+    inCargoWeight.current = inCargoWeight.current.trim();
+    inCargoWidth.current = inCargoWidth.current.trim();
+    inCargoLength.current = inCargoLength.current.trim();
+    inCargoHeight.current = inCargoHeight.current.trim();
+
     const checkSubmitDisabled = !(
-      cargoWeight.current &&
-      cargoWidth.current &&
-      cargoLength.current &&
-      cargoHeight.current
+      inCargoWeight.current &&
+      inCargoWidth.current &&
+      inCargoLength.current &&
+      inCargoHeight.current
     );
     if (submitDisabled !== checkSubmitDisabled) {
       CheckSubmitDisabled(checkSubmitDisabled);
@@ -84,12 +94,33 @@ const ChoiceLoadInfo = () => {
   }
 
   function SumbitStore() {
+    if (
+      !isNumber(inCargoWeight.current) ||
+      !isNumber(inCargoWidth.current) ||
+      !isNumber(inCargoLength.current) ||
+      !isNumber(inCargoHeight.current)
+    ) {
+      ToastMaker({ type: "error", children: ErrorMessageMap.IsNotNumber });
+      return;
+    }
+    if (
+      !isPositiveNumber(inCargoWeight.current) ||
+      !isPositiveNumber(inCargoWidth.current) ||
+      !isPositiveNumber(inCargoLength.current) ||
+      !isPositiveNumber(inCargoHeight.current)
+    ) {
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.IsNotPositiveNumber,
+      });
+      return;
+    }
     setRoadInfo({
-      cargoWeight: Number(cargoWeight.current),
-      cargoWidth: Number(cargoWidth.current),
-      cargoLength: Number(cargoLength.current),
-      cargoHeight: Number(cargoHeight.current),
-      specialNotes: specialNotes,
+      cargoWeight: Number(inCargoWeight.current),
+      cargoWidth: Number(inCargoWidth.current),
+      cargoLength: Number(inCargoLength.current),
+      cargoHeight: Number(inCargoHeight.current),
+      specialNotes: inSpecialNotes,
     });
     navigation(UrlMap.resultPageUrl);
   }
@@ -115,8 +146,9 @@ const ChoiceLoadInfo = () => {
       <Input
         size="small"
         placeholder="무게를 알려주세요"
+        defaultValue={cargoWeight}
         onChange={({ target: { value } }) => {
-          cargoWeight.current = value;
+          inCargoWeight.current = value;
           CheckSubmitDisabledFun();
         }}
         unit="kg"
@@ -132,8 +164,9 @@ const ChoiceLoadInfo = () => {
         <Input
           size="small"
           placeholder="짐의 너비를 알려주세요"
+          defaultValue={cargoWidth}
           onChange={({ target: { value } }) => {
-            cargoWidth.current = value;
+            inCargoWidth.current = value;
             CheckSubmitDisabledFun();
           }}
           unit="cm"
@@ -147,8 +180,9 @@ const ChoiceLoadInfo = () => {
         <Input
           size="small"
           placeholder="짐의 길이를 알려주세요"
+          defaultValue={cargoLength}
           onChange={({ target: { value } }) => {
-            cargoLength.current = value;
+            inCargoLength.current = value;
             CheckSubmitDisabledFun();
           }}
           unit="cm"
@@ -162,8 +196,9 @@ const ChoiceLoadInfo = () => {
         <Input
           size="small"
           placeholder="짐의 높이를 알려주세요"
+          defaultValue={cargoHeight}
           onChange={({ target: { value } }) => {
-            cargoHeight.current = value;
+            inCargoHeight.current = value;
             CheckSubmitDisabledFun();
           }}
           unit="cm"
@@ -177,13 +212,13 @@ const ChoiceLoadInfo = () => {
       </Typography>
       <Margin height="12px" />
       <SpecialBtnBox>
-        {specialNotes.map((specialNote, index) => (
+        {inSpecialNotes.map((specialNote, index) => (
           <SmallBtn
             key={index}
             isClick={specialNote.selected}
             onClick={() => {
-              setSpecialNotes(
-                specialNotes.map((note, noteIndex) => {
+              setInSpecialNotes(
+                inSpecialNotes.map((note, noteIndex) => {
                   if (noteIndex !== index) return note;
                   return { ...note, selected: !note.selected };
                 })

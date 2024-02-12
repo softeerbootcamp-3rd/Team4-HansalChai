@@ -9,9 +9,8 @@ import Typography_Span from "../../../components/Typhography/Typhography_Span.js
 import Calendar from "./components/Calendar.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
-import { isEmptyString } from "../../../utils/helper.js";
+import { isEmptyString, stringToDateObject } from "../../../utils/helper.js";
 import { UrlMap } from "../../../data/GlobalVariable.js";
-import { stringToDateObject } from "../../../utils/helper.js";
 
 const ChoiceDate = () => {
   const navigation = useNavigate();
@@ -27,7 +26,7 @@ const ChoiceDate = () => {
       navigation(UrlMap.choiceTranportTypeUrl);
     }
     //이전에 선택되어진게 있는지 확인. 있다면 그걸로 선택
-    if(!isEmptyString(reservationDate)){
+    if (!isEmptyString(reservationDate)) {
       const beforeChoiceDate = stringToDateObject(reservationDate);
       setSelectedDay(beforeChoiceDate);
     }
@@ -37,6 +36,11 @@ const ChoiceDate = () => {
     return (
       date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate()
     );
+  };
+
+  const SubmitBtnFun = () => {
+    setReservationDate(DateFormChange(selectedDay));
+    navigation(UrlMap.choiceTimePageUrl);
   };
 
   return (
@@ -54,16 +58,13 @@ const ChoiceDate = () => {
       <Margin height="4px" />
       <Typography font="bold24">언제 찾아뵈면 될까요?</Typography>
       <Margin height="60px" />
-
       <Calendar selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
-
       <FixedCenterBox bottom="20px">
         <BottomButton
           role="main"
           disabled={!selectedDay}
           onClick={() => {
-            setReservationDate(DateFormChange(selectedDay));
-            navigation(UrlMap.choiceTimePageUrl);
+            SubmitBtnFun();
           }}
         >
           선택 완료

@@ -10,22 +10,35 @@ import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import { useState, useRef, useEffect, useContext } from "react";
 import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate } from "react-router-dom";
-import { UrlMap } from "../../../data/GlobalVariable.js";
+import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable.js";
+import { isPhoneNumber } from "../../../utils/helper.js";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 
 const ChoiceDst = () => {
   const navigation = useNavigate();
   const {
     setDstInfo,
-    state: { srcName, srcAddress },
+    state: {
+      srcName,
+      srcAddress,
+      dstName,
+      dstAddress,
+      dstCoordinate,
+      dstTel,
+      dstDetailAddress,
+    },
   } = useContext(reservationStore);
 
   const [mapInfo, setMapInfo] = useState({
-    name: "",
-    coordinate: { latitude: "", longitude: "" },
-    detailAddress: "",
+    name: dstName,
+    coordinate: {
+      latitude: dstCoordinate.dstLatitude,
+      longitude: dstCoordinate.dstLongitude,
+    },
+    detailAddress: dstDetailAddress,
   });
-  const dstDetailAddress = useRef("");
-  const dstTel = useRef("");
+  const inDstDetailAddress = useRef(dstDetailAddress);
+  const inDstTel = useRef(dstTel);
   const [submitDisabled, CheckSubmitDisabled] = useState(true);
 
   // 첫 페이지 렌더링 시 이전 값을 입력하지 않고, 잘못된 URL로 넘어왔을때 이전 페이지로 보냄
@@ -43,19 +56,23 @@ const ChoiceDst = () => {
       mapInfo.coordinate.latitude !== "" &&
       mapInfo.coordinate.longitude !== "" &&
       mapInfo.detailAddress !== "";
-    const isDstDetailAddressFilled = dstDetailAddress.current !== "";
-    const isDstTelFilled = dstTel.current !== "";
+    const isDstDetailAddressFilled = inDstDetailAddress.current.trim() !== "";
+    const isDstTelFilled = inDstTel.current.trim() !== "";
     return !(isMapInfoFilled && isDstDetailAddressFilled && isDstTelFilled);
   }
 
   function SumbitStore() {
+    if (!isPhoneNumber(inDstTel.current)) {
+      ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
+      return;
+    }
     setDstInfo({
       dstName: mapInfo.name,
       dstAddress: mapInfo.detailAddress,
       dstLatitude: Number(mapInfo.coordinate.latitude),
       dstLongitude: Number(mapInfo.coordinate.longitude),
-      dstDetailAddress: dstDetailAddress.current,
-      dstTel: dstTel.current,
+      dstDetailAddress: inDstDetailAddress.current,
+      dstTel: inDstTel.current,
     });
     navigation(UrlMap.choiceLoadInfoPageUrl);
   }
@@ -76,16 +93,23 @@ const ChoiceDst = () => {
       <Margin height="6px" />
       <Typography font="bold24">도착지는 어딘가요?</Typography>
       <Margin height="20px" />
-      <SearchMap setMapInfo={setMapInfo} />
+      <SearchMap
+        setMapInfo={setMapInfo}
+        beforeName={dstName}
+        beforeAddress={dstAddress}
+        beforeLat={dstCoordinate.dstLatitude}
+        beforeLon={dstCoordinate.dstLongitude}
+      />
       <Margin height="20px" />
       <Typography font="bold16">상세주소</Typography>
       <Margin height="10px" />
       <Input
         type="text"
         size="small"
+        defaultValue={dstDetailAddress}
         placeholder="상세주소를 입력해주세요."
         onChange={({ target: { value } }) => {
-          dstDetailAddress.current = value;
+          inDstDetailAddress.current = value;
           CheckSubmitDisabled(CheckSubmitDisabledFun());
         }}
       />
@@ -95,9 +119,10 @@ const ChoiceDst = () => {
       <Input
         size="small"
         placeholder="도착하면 전화할 연락처를 알려주세요."
+        defaultValue={dstTel}
         type="tel"
         onChange={({ target: { value } }) => {
-          dstTel.current = value;
+          inDstTel.current = value;
           CheckSubmitDisabled(CheckSubmitDisabledFun());
         }}
       />

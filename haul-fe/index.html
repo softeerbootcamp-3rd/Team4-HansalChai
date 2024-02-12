@@ -54,15 +54,9 @@
       href="/apple-touch-icon-180x180.png"
     />
 
-    <script>
+    <script type="module">
       function getKakaoMapApiKey() {
-        return process.env.VITE_KAKAO_MAP_KEY;
-      }
-    </script>
-
-    <script>
-      function getKakaoMapApiKey() {
-        return process.env.VITE_KAKAO_MAP_KEY;
+        return import.meta.env.VITE_KAKAO_MAP_API_KEY;
       }
 
       function loadKakaoMapScript() {

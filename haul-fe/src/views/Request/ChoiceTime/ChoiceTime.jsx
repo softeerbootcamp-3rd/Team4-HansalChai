@@ -19,11 +19,14 @@ const ChoiceTime = () => {
   const [ampm, setAmPm] = useState("AM");
   const [hour, setHour] = useState(0);
   const [minute, setMinute] = useState(0);
+  const hours = Array.from(Array(12), (_, i) => i);
+  const minutes = Array.from(Array(6), (_, i) => i * 10);
 
   const {
     setReservationTime,
     state: { reservationDate, reservationTime },
   } = useContext(reservationStore);
+
   useEffect(() => {
     //날짜를 선택하지 않고 이 페이지로 오게 될 경우를 대비
     if (isEmptyString(reservationDate)) {
@@ -44,12 +47,17 @@ const ChoiceTime = () => {
 
   function formatStoreTime() {
     let pushHour = Number(hour);
-    let pushMin = Number(minute);
+    const pushMin = Number(minute);
     if (ampm === "PM") {
       pushHour += 12;
     }
     const resultFormat = pushHour + "-" + pushMin;
     return resultFormat;
+  }
+
+  function sumbitFun() {
+    setReservationTime(formatStoreTime());
+    navigation(UrlMap.choiceSrcPageUrl);
   }
 
   //백엔드 형식을 위해 15-30이런식으로 저장되어있는걸 state로 변화하는 함수
@@ -71,9 +79,6 @@ const ChoiceTime = () => {
   const handleMinuteChange = (e) => {
     setMinute(parseInt(e.target.value));
   };
-
-  const hours = Array.from(Array(12), (_, i) => i);
-  const minutes = Array.from(Array(6), (_, i) => i * 10);
 
   return (
     <MobileLayout>
@@ -136,8 +141,7 @@ const ChoiceTime = () => {
           role="main"
           disabled={false}
           onClick={() => {
-            setReservationTime(formatStoreTime());
-            navigation(UrlMap.choiceSrcPageUrl);
+            sumbitFun();
           }}
         >
           선택 완료

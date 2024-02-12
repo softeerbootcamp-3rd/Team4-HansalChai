@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 const InputWrapper = styled.div`
-  display: flex;
-  align-items: center;
+  ${(props) => props.theme.flex.flexRowAlignCenter};
   width: 100%;
   height: ${(props) => (props.size === "big" ? "56px" : "38px")};
   background-color: ${(props) => props.theme.colors.inputGray};
@@ -39,6 +38,7 @@ const Input = ({
   placeholder,
   onChange,
   value,
+  defaultValue,
   readOnly,
   unit,
   textAlign,
@@ -47,6 +47,7 @@ const Input = ({
     <InputWrapper size={size}>
       <InputSection
         value={value}
+        defaultValue={defaultValue}
         type={type}
         size={size}
         placeholder={placeholder}
