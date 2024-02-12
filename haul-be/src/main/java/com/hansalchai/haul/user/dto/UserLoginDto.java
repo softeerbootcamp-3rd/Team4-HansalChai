@@ -7,4 +7,10 @@ public class UserLoginDto {
 
 	private String tel;
 	private String password;
+
+
+	public UserLoginDto(String tel, String password) {
+		this.tel = tel;
+		this.password = password;
+	}
 }

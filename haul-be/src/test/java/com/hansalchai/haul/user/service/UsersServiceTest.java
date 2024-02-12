@@ -1,13 +1,17 @@
 package com.hansalchai.haul.user.service;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.hansalchai.haul.common.auth.constants.Role;
+import com.hansalchai.haul.common.auth.jwt.Jwt;
 import com.hansalchai.haul.user.dto.CustomerSignUpDto;
+import com.hansalchai.haul.user.dto.UserLoginDto;
 import com.hansalchai.haul.user.entity.Users;
 import com.hansalchai.haul.user.repository.UsersRepository;
 
@@ -55,5 +59,62 @@ class UsersServiceTest {
 		assertThatThrownBy(() -> usersService.signUp(signUpDto2)) //중복 전화번호로 가입 -> 예외 발생
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("이미 가입된 전화번호입니다.");
+	}
+
+	@Test
+	@DisplayName("로그인 성공")
+	void signInSuccessTest() {
+
+		//given
+		Users user = Users.builder()
+			.name("haul")
+			.tel("01012341234")
+			.password("password")
+			.email("haul@gmail.com")
+			.role(Role.CUSTOMER)
+			.build();
+		usersRepository.save(user);
+
+		//when
+		UserLoginDto loginDto = new UserLoginDto("01012341234", "password");
+
+		//then
+		Jwt jwt = assertDoesNotThrow(() -> usersService.signIn(loginDto));  // 로그인 성공 시, 어떤 예외도 발생하지 않는다
+		assertThat(jwt).isInstanceOf(Jwt.class);
+	}
+
+	@Test
+	@DisplayName("로그인 실패 - 회원가입하지 않은 유저의 로그인 시도")
+	void signInFailTest1() {
+
+		//given
+		UserLoginDto loginDto = new UserLoginDto("01012341234", "password");
+
+		//when, then
+		assertThatThrownBy(() -> usersService.signIn(loginDto))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("회원가입하지 않은 유저입니다.");
+	}
+
+	@Test
+	@DisplayName("로그인 실패 - 비밀번호가 틀린 경우")
+	void signInFailTest2() {
+
+		//given
+		Users user = Users.builder()
+			.name("haul")
+			.tel("01012341234")
+			.password("password")
+			.email("haul@gmail.com")
+			.role(Role.CUSTOMER)
+			.build();
+		usersRepository.save(user);
+
+		UserLoginDto loginDto = new UserLoginDto("01012341234", "wrongPassword");
+
+		//when, then
+		assertThatThrownBy(() -> usersService.signIn(loginDto))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("비밀번호가 일치하지 않습니다.");
 	}
 }
