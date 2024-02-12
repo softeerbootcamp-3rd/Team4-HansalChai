@@ -38,6 +38,7 @@ const Input = ({
   placeholder,
   onChange,
   value,
+  defaultValue,
   readOnly,
   unit,
   textAlign,
@@ -46,6 +47,7 @@ const Input = ({
     <InputWrapper size={size}>
       <InputSection
         value={value}
+        defaultValue={defaultValue}
         type={type}
         size={size}
         placeholder={placeholder}
