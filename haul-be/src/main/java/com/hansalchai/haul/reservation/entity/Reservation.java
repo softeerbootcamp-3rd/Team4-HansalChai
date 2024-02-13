@@ -11,6 +11,8 @@ import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.utils.BaseTime;
 import com.hansalchai.haul.customer.entity.Customer;
 import com.hansalchai.haul.driver.entity.Driver;
+import com.hansalchai.haul.owner.entity.Owner;
+import com.hansalchai.haul.user.entity.Users;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -39,10 +41,10 @@ public class Reservation extends BaseTime {
 	private Long reservationId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Customer customer;
+	private Users user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Driver driver;
+	private Owner owner;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private Cargo cargo;
@@ -80,11 +82,11 @@ public class Reservation extends BaseTime {
 
 
 	@Builder
-	public Reservation(Customer customer, Driver driver, Cargo cargo, CargoOption cargoOption, Source source,
+	public Reservation(Users user, Owner owner, Cargo cargo, CargoOption cargoOption, Source source,
 		Destination destination, Transport transport,Car car, String number, LocalDate date, LocalTime time, int count,
 		double distance) {
-		this.customer = customer;
-		this.driver = driver;
+		this.user = user;
+		this.owner = owner;
 		this.cargo = cargo;
 		this.cargoOption = cargoOption;
 		this.source = source;

@@ -91,7 +91,8 @@ public class ReservationTest {
 		// given
 		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTO();
 		//when
-		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO);
+		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO,
+			1L);
 
 		//then
 		Assertions.assertEquals(482000, actual.getCost());

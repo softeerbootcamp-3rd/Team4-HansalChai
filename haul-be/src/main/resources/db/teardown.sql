@@ -1,9 +1,19 @@
 SET
 REFERENTIAL_INTEGRITY FALSE;
+TRUNCATE TABLE users;
 TRUNCATE TABLE car;
 TRUNCATE TABLE reservation;
 SET
 REFERENTIAL_INTEGRITY TRUE;
+
+INSERT INTO users (name, tel, password, email, photo, role, created_at, updated_at)
+VALUES
+    ('John Doe', '1234567890', 'password1', 'john@example.com', 'john.jpg', 'CUSTOMER', NOW(), NOW()),
+    ('Jane Smith', '9876543210', 'password2', 'jane@example.com', 'jane.jpg', 'CUSTOMER', NOW(), NOW()),
+    ('Alice Johnson', '5551234567', 'password3', 'alice@example.com', 'alice.jpg', 'CUSTOMER', NOW(), NOW()),
+    ('Bob Brown', '9998887777', 'password4', 'bob@example.com', 'bob.jpg', 'CUSTOMER', NOW(), NOW()),
+    ('Charlie Davis', '1112223333', 'password5', 'charlie@example.com', 'charlie.jpg', 'CUSTOMER', NOW(), NOW());
+
 
 INSERT INTO car (type, model, photo, width, length, height, weight, category, isboxtruck, created_at, updated_at)
 VALUES

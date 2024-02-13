@@ -63,7 +63,7 @@ public class Users extends BaseTime {
 		this.refreshToken = refreshToken;
 	}
 
-	public Users toEntity(String name, String tel, String password, String email, String photo, Role role){
+	public static Users toEntity(String name, String tel, String password, String email, String photo, Role role){
 		return Users.builder()
 			.name(name)
 			.tel(tel)

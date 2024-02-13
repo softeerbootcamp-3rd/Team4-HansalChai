@@ -1,11 +1,10 @@
 package com.hansalchai.haul.reservation.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hansalchai.haul.car.constants.CarCategory;
 import com.hansalchai.haul.car.constants.CarType;
 import com.hansalchai.haul.car.entity.Car;
+import com.hansalchai.haul.common.auth.constants.Role;
 import com.hansalchai.haul.common.utils.CarCategorySelector;
 import com.hansalchai.haul.common.utils.CargoFeeTable;
 import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
@@ -13,8 +12,6 @@ import com.hansalchai.haul.common.utils.MapUtils;
 import com.hansalchai.haul.common.utils.ReservationNumberGenerator;
 import com.hansalchai.haul.customer.entity.Customer;
 import com.hansalchai.haul.customer.repository.CustomerRepository;
-import com.hansalchai.haul.driver.entity.Driver;
-import com.hansalchai.haul.owner.repository.OwnerRepository;
 import com.hansalchai.haul.reservation.dto.ReservationRequest;
 import com.hansalchai.haul.reservation.dto.ReservationResponse;
 import com.hansalchai.haul.reservation.entity.Cargo;
@@ -31,6 +28,7 @@ import com.hansalchai.haul.reservation.repository.ReservationRepository;
 import com.hansalchai.haul.reservation.repository.SourceRepository;
 import com.hansalchai.haul.reservation.repository.TransportRepository;
 import com.hansalchai.haul.user.entity.Users;
+import com.hansalchai.haul.user.repository.UsersRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +45,7 @@ public class ReservationService{
 	private final SourceRepository sourceRepository;
 	private final TransportRepository transportRepository;
 	private final CustomerRepository customerRepository;
+	private final UsersRepository usersRepository;
 
 	//querydsl
 	private final CustomCarRepositoryImpl customCarRepository;
@@ -55,9 +54,10 @@ public class ReservationService{
 	2. 트럭을 선택
 	3. 예약을 생성 후 데이터 반환
 	 */
-	public ReservationResponse.ReservationRecommendationDTO createReservation(ReservationRequest.CreateReservationDTO request) {
+	public ReservationResponse.ReservationRecommendationDTO createReservation(ReservationRequest.CreateReservationDTO request,
+		Long userId) {
 		//TODO 주문한 사람 연결
-		Customer customer = new Customer();
+		Users user = usersRepository.findById(userId).get();
 
 		Source source = request.getSrc().build();
 		Destination destination = request.getDst().build();
@@ -80,8 +80,8 @@ public class ReservationService{
 		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption), cargo);
 
 		Reservation reservation = Reservation.builder()
-			.customer(customer)
-			.driver(null)
+			.user(user)
+			.owner(null)
 			.cargo(cargo)
 			.cargoOption(cargoOption)
 			.source(source)
@@ -95,7 +95,6 @@ public class ReservationService{
 			.count(fee.getNumber())
 			.build();
 
-		customerRepository.save(customer);
 		reservationRepository.save(reservation);
 
 		return new ReservationResponse.ReservationRecommendationDTO(reservation,
@@ -103,9 +102,6 @@ public class ReservationService{
 	}
 
 	public ReservationResponse.ReservationRecommendationDTO createGuestReservation(ReservationRequest.CreateReservationGuestDTO request) {
-		//TODO 주문한 사람 연결
-		Customer customer = new Customer();
-
 		Source source = request.getSrc().build();
 		Destination destination = request.getDst().build();
 		Cargo cargo = request.getCargo().build();
@@ -126,9 +122,11 @@ public class ReservationService{
 		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
 		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption), cargo);
 
+		Users guest = Users.toEntity(request.getUserInfoDTO().getName(),request.getUserInfoDTO().getTel(),reservationNumber, null, null, Role.GUEST);
+
 		Reservation reservation = Reservation.builder()
-			.customer(customer)
-			.driver(null)
+			.user(guest)
+			.owner(null)
 			.cargo(cargo)
 			.cargoOption(cargoOption)
 			.source(source)
@@ -142,7 +140,7 @@ public class ReservationService{
 			.count(fee.getNumber())
 			.build();
 
-		customerRepository.save(customer);
+		usersRepository.save(guest);
 		reservationRepository.save(reservation);
 
 		return new ReservationResponse.ReservationRecommendationDTO(reservation,
