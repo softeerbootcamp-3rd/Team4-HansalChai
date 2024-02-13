@@ -2,9 +2,14 @@ package com.hansalchai.haul.reservation.service;
 
 import static com.hansalchai.haul.reservation.dto.ReservationRequest.*;
 import static com.hansalchai.haul.reservation.dto.ReservationResponse.*;
+import static com.hansalchai.haul.reservation.dto.ReservationResponse.ReservationDTO.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hansalchai.haul.car.constants.CarType;
@@ -15,23 +20,14 @@ import com.hansalchai.haul.common.utils.CargoFeeTable;
 import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
 import com.hansalchai.haul.common.utils.MapUtils;
 import com.hansalchai.haul.common.utils.ReservationNumberGenerator;
-import com.hansalchai.haul.customer.entity.Customer;
-import com.hansalchai.haul.customer.repository.CustomerRepository;
-import com.hansalchai.haul.reservation.dto.ReservationRequest;
-import com.hansalchai.haul.reservation.dto.ReservationResponse;
 import com.hansalchai.haul.reservation.entity.Cargo;
 import com.hansalchai.haul.reservation.entity.CargoOption;
 import com.hansalchai.haul.reservation.entity.Destination;
 import com.hansalchai.haul.reservation.entity.Reservation;
 import com.hansalchai.haul.reservation.entity.Source;
 import com.hansalchai.haul.reservation.entity.Transport;
-import com.hansalchai.haul.reservation.repository.CargoOptionRepository;
-import com.hansalchai.haul.reservation.repository.CargoRepository;
 import com.hansalchai.haul.reservation.repository.CustomCarRepositoryImpl;
-import com.hansalchai.haul.reservation.repository.DestinationRepository;
 import com.hansalchai.haul.reservation.repository.ReservationRepository;
-import com.hansalchai.haul.reservation.repository.SourceRepository;
-import com.hansalchai.haul.reservation.repository.TransportRepository;
 import com.hansalchai.haul.user.entity.Users;
 import com.hansalchai.haul.user.repository.UsersRepository;
 
@@ -48,6 +44,7 @@ public class ReservationService{
 
 	//querydsl
 	private final CustomCarRepositoryImpl customCarRepository;
+	private final int PAGECUT = 10;
 	/*
 	1. 예약 dto에서 받아온 데이터로
 	2. 트럭을 선택
@@ -112,8 +109,13 @@ public class ReservationService{
 			distanceDurationInfo.getDuration());
 	}
 
-	public List<ReservationDTO> getReservation(Long userId) {
-		
-		return null;
+	public ReservationDTO getReservation(int page, Long userId) {
+		Users customer = usersRepository.findById(userId).get();
+
+		Pageable pageable = PageRequest.of(page,PAGECUT);
+		Page<Reservation> pageContent = reservationRepository.findByCustomerId(customer.getUserId(), pageable);
+		List<ReservationInfoDTO> reservationInfoDTOS = pageContent.getContent().stream().map(ReservationInfoDTO::new).collect(Collectors.toList());
+		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
+		return new ReservationDTO(reservationInfoDTOS, isLastPage);
 	}
 }

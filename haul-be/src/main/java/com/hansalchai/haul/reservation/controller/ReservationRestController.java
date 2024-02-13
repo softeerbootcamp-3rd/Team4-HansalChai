@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hansalchai.haul.common.auth.constants.Role;
@@ -52,9 +53,9 @@ public class ReservationRestController {
 	}
 
 	@GetMapping("/reservations")
-	public ResponseEntity<ApiResponse<List<ReservationDTO>>> getCustomerReservation(HttpServletRequest request){
+	public ResponseEntity<ApiResponse<ReservationDTO>> getCustomerReservation(@RequestParam(value = "page", defaultValue = "0") int page, HttpServletRequest request){
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		List<ReservationDTO> response = reservationService.getReservation(auth.getUserId());
+		ReservationDTO response = reservationService.getReservation(page, auth.getUserId());
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
