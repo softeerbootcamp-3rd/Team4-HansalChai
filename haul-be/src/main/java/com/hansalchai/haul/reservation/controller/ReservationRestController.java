@@ -59,4 +59,10 @@ public class ReservationRestController {
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
+	@GetMapping("/reservations/guest")
+	public ResponseEntity<ApiResponse<ReservationDTO>> getGuestReservation(@RequestParam(value = "number") String number){
+		ReservationDTO response = reservationService.getGuestReservation(number);
+		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
+	}
+
 }

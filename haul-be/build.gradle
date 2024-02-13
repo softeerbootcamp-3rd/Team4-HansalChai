@@ -1,14 +1,7 @@
-buildscript {
-	ext {
-		queryDslVersion = "5.0.0"
-	}
-}
-
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.2'
 	id 'io.spring.dependency-management' version '1.1.4'
-	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 
 group = 'com.hansalchai'
@@ -50,34 +43,16 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 
 	//querydsl
-	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
-	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jakarta"
-	annotationProcessor("jakarta.persistence:jakarta.persistence-api")
-	annotationProcessor("jakarta.annotation:jakarta.annotation-api")
-
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
 
-//querydsl 추가 시작
-def querydslDir = "$buildDir/generated/querydsl"
-
-querydsl {
-	jpa = true
-	querydslSourcesDir = querydslDir
+bootJar {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
-
-sourceSets {
-	main.java.srcDir querydslDir
-}
-
-configurations {
-	querydsl.extendsFrom compileClasspath
-}
-
-compileQuerydsl {
-	options.annotationProcessorPath = configurations.querydsl
-}
-//querydsl 추가 끝
