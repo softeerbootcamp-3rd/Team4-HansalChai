@@ -22,11 +22,13 @@ const DriverInfoFrame = styled.div`
 `;
 
 const DriverImage = styled.img`
-  width: 160px;
-  height: 160px;
   border-radius: 16px;
   background-repeat: no-repeat;
   object-fit: cover;
+  width: 130px;
+  height: 130px;
+  object-fit: scale-down;
+  object-position: center;
 `;
 
 const DescriptionArea = styled.div`

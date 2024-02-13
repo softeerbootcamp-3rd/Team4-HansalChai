@@ -27,6 +27,7 @@ const NavigationBarFrame = styled.div`
   box-shadow: 0px 1px 11px 0px rgba(0, 0, 0, 0.15);
   font-family: "semiBold";
   font-size: 12px;
+  z-index: 99;
 `;
 
 const ItemFrame = styled.div`

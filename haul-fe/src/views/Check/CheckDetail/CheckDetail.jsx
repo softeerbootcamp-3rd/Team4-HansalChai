@@ -61,10 +61,10 @@ const CheckDetail = ({ driver, car, map }) => {
     }
   ];
   const dummyMap = {
-    srcCoordinate: { lat: 37.4239627802915, lng: -122.0829089197085 },
+    srcCoordinate: { lat: 37.4942643848404, lng: 127.028259839376 },
     srcAddress: "서울특별시 강남구 강남대로 지하396 ",
     srcName: "강남구 애니타워",
-    dstCoordinate: { lat: 37.4212648197085, lng: -122.0856068802915 },
+    dstCoordinate: { lat: 37.4466225962954, lng: 126.65387634549 },
     dstAddress: "부산광역시 금정구 부산대학로63번길 2",
     dstName: "부산대학교",
     fee: "15",

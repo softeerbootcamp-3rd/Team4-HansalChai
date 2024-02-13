@@ -84,6 +84,14 @@ const ChoiceTime = () => {
     navigation(UrlMap.choiceSrcPageUrl);
   }
 
+  function clickDateFun(time){
+    if(selectedTime === time){
+      setSelectedTime("");
+      return;
+    }
+    setSelectedTime(time);
+  }
+
   return (
     <MobileLayout>
       <Header>
@@ -110,7 +118,7 @@ const ChoiceTime = () => {
             key={time}
             isClick={selectedTime === time}
             onClick={() => {
-              setSelectedTime(time);
+              clickDateFun(time);
             }}
           >
             {time}
@@ -129,7 +137,7 @@ const ChoiceTime = () => {
             key={time}
             isClick={selectedTime === time}
             onClick={() => {
-              setSelectedTime(time);
+              clickDateFun(time);
             }}
           >
             {time}
@@ -140,7 +148,7 @@ const ChoiceTime = () => {
       <FixedCenterBox bottom="100px">
         <BottomButton
           role="main"
-          disabled={false}
+          disabled={isEmptyString(selectedTime)}
           onClick={() => {
             sumbitFun();
           }}
