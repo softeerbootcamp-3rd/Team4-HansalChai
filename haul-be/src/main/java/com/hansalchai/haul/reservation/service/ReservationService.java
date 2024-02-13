@@ -5,6 +5,7 @@ import static com.hansalchai.haul.reservation.dto.ReservationResponse.*;
 import static com.hansalchai.haul.reservation.dto.ReservationResponse.ReservationDTO.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -52,8 +53,8 @@ public class ReservationService{
 	 */
 	public ReservationRecommendationDTO createReservation(CreateReservationDTO request,
 		Long userId) {
-		Users user = usersRepository.findById(userId).get();
-
+		Users user = usersRepository.findById(userId)
+			.orElseThrow(() -> new RuntimeException("User not found"));
 		Source source = request.getSrc().build();
 		Destination destination = request.getDst().build();
 		Cargo cargo = request.getCargo().build();
@@ -110,10 +111,10 @@ public class ReservationService{
 	}
 
 	public ReservationDTO getReservation(int page, Long userId) {
-		Users customer = usersRepository.findById(userId).get();
-
+		Users user = usersRepository.findById(userId)
+			.orElseThrow(() -> new RuntimeException("User not found"));
 		Pageable pageable = PageRequest.of(page,PAGECUT);
-		Page<Reservation> pageContent = reservationRepository.findByCustomerId(customer.getUserId(), pageable);
+		Page<Reservation> pageContent = reservationRepository.findByCustomerId(user.getUserId(), pageable);
 		List<ReservationInfoDTO> reservationInfoDTOS = pageContent.getContent().stream().map(ReservationInfoDTO::new).collect(Collectors.toList());
 		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
 		return new ReservationDTO(reservationInfoDTOS, isLastPage);
