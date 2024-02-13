@@ -22,7 +22,7 @@ import Check from "../views/Check/List/Check.jsx";
 import UserPayments from "../views/More/UserPayments/UserPayments.jsx";
 import CheckDetail from "../views/Check/CheckDetail/CheckDetail.jsx";
 import Purchase from "../views/Request/Purchase/Purchase.jsx";
-import GuestCheck from "../views/\bGuestCheck/GuestCheck.jsx";
+import GuestCheck from "../views/GuestCheck/GuestCheck.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
