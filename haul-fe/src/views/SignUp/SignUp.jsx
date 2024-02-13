@@ -59,6 +59,10 @@ const SignUP = () => {
       });
       return;
     }
+    if(password.current.length<8){
+      ToastMaker({ type: "error", children: ErrorMessageMap.IsNotMinPasswordCount });
+      return;
+    }
     if (!isSamePassword) {
       ToastMaker({ type: "error", children: ErrorMessageMap.NotSamePassword });
       return;
