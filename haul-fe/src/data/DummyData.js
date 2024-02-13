@@ -1,23 +1,23 @@
 //예약 요약 리스트 더미 데이터
 const dummySummaryList = [
   {
-    model: "1톤 포터(냉동)",
+    car: "1톤 포터(냉동)",
     status: "배정 중",
-    time: "2024.1.10 12:10",
-    fee: 17,
-    reservId: 0
+    datetime: "2024.1.10 12:10",
+    cost: 17,
+    id: 0
   },
   {
-    model: "2.5톤 마이티(카고)",
+    car: "2.5톤 마이티(카고)",
     status: "운송 완료",
-    time: "2024.1.1 10:10",
-    fee: 25,
-    reservId: 1
+    datetime: "2024.1.1 10:10",
+    cost: 25,
+    id: 1
   }
 ];
 
-export const dummySummary = () => {
-  return dummySummaryList;
+export const dummySummary = (reservId = undefined) => {
+  return reservId !== undefined ? dummySummaryList[reservId] : dummySummaryList;
 };
 
 //예약 상세 페이지 더미 데이터
