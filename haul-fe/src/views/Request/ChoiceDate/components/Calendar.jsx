@@ -7,7 +7,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { MaxDeviceWidth } from "../../../../data/GlobalVariable";
 
 const CalendarContainer = styled.div`
-  width: calc(${MaxDeviceWidth});
+  width: calc(${MaxDeviceWidth} + 40px);
   height: calc(100vh - 250px);
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 10px;
