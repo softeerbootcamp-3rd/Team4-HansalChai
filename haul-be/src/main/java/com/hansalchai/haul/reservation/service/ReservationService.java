@@ -78,8 +78,7 @@ public class ReservationService{
 
 		reservationRepository.save(reservation);
 
-		return new ReservationRecommendationDTO(reservation,
-			distanceDurationInfo.getDuration());
+		return new ReservationRecommendationDTO(reservation);
 	}
 
 	public ReservationRecommendationDTO createGuestReservation(CreateReservationGuestDTO request) {
@@ -107,8 +106,7 @@ public class ReservationService{
 		usersRepository.save(guest);
 		reservationRepository.save(reservation);
 
-		return new ReservationRecommendationDTO(reservation,
-			distanceDurationInfo.getDuration());
+		return new ReservationRecommendationDTO(reservation);
 	}
 
 	public ReservationDTO getReservation(int page, Long userId) {
@@ -122,14 +120,17 @@ public class ReservationService{
 	}
 
 	public ReservationDTO getGuestReservation(String number) {
-		Reservation reservation = reservationRepository.findByNumber(number);
+		Reservation reservation = reservationRepository.findByNumber(number)
+			.orElseThrow(() -> new RuntimeException("Reservation not found"));
 		ReservationInfoDTO reservationInfoDTO = new ReservationInfoDTO(reservation);
 		List<ReservationInfoDTO> reservationInfoDTOS = new ArrayList<>();
 		reservationInfoDTOS.add(reservationInfoDTO);
 		return new ReservationDTO(reservationInfoDTOS, true);
 	}
 
-	public ReservationDetailDTO getReservationDetail(int id, Long userId) {
-		return null;
+	public ReservationDetailDTO getReservationDetail(Long id, Long userId) {
+		Reservation reservation = reservationRepository.findById(id)
+			.orElseThrow(() -> new RuntimeException("Reservation not found"));
+		return new ReservationDetailDTO(reservation);
 	}
 }

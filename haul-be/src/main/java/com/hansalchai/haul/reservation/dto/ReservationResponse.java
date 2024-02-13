@@ -22,7 +22,7 @@ public class ReservationResponse {
 		@NotNull(message = "비용은 Null 일 수 없다.")
 		private final int cost;
 		@NotNull(message = "걸리는시간은 Null 일 수 없다.")
-		private final double duration;
+		private final double requiredTime;
 
 		@Getter
 		@Builder
@@ -66,7 +66,7 @@ public class ReservationResponse {
 		}
 
 		@Builder
-		public ReservationRecommendationDTO(Reservation reservation, double duration) {
+		public ReservationRecommendationDTO(Reservation reservation) {
 			this.car = CarDTO.builder()
 				.count(reservation.getCount())
 				.model(reservation.getCar().getModel())
@@ -87,7 +87,7 @@ public class ReservationResponse {
 				.longitude(reservation.getDestination().getLongitude())
 				.build();
 			this.cost = reservation.getTransport().getFee();
-			this.duration = duration;
+			this.requiredTime = reservation.getTransport().getRequiredTime();
 		}
 
 		private String getSizeToString(Reservation reservation){
@@ -146,7 +146,7 @@ public class ReservationResponse {
 		@NotNull(message = "비용은 Null 일 수 없다.")
 		private final int cost;
 		@NotNull(message = "걸리는시간은 Null 일 수 없다.")
-		private final double duration;
+		private final double requiredTime;
 
 		@Getter
 		@Builder
@@ -201,7 +201,7 @@ public class ReservationResponse {
 		}
 
 		@Builder
-		public ReservationDetailDTO(Reservation reservation, double duration) {
+		public ReservationDetailDTO(Reservation reservation) {
 			this.driver = DriverDTO.builder()
 				.name(reservation.getOwner().getUser().getName())
 				.tel(reservation.getOwner().getUser().getTel())
@@ -227,7 +227,7 @@ public class ReservationResponse {
 				.longitude(reservation.getDestination().getLongitude())
 				.build();
 			this.cost = reservation.getTransport().getFee();
-			this.duration = duration;
+			this.requiredTime = reservation.getTransport().getRequiredTime();
 		}
 
 		private String getSizeToString(Reservation reservation){
