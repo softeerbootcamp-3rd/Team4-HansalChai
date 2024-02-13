@@ -128,4 +128,8 @@ public class ReservationService{
 		reservationInfoDTOS.add(reservationInfoDTO);
 		return new ReservationDTO(reservationInfoDTOS, true);
 	}
+
+	public ReservationDetailDTO getReservationDetail(int id, Long userId) {
+		return null;
+	}
 }

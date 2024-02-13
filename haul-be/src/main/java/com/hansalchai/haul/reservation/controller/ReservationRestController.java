@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -62,6 +63,13 @@ public class ReservationRestController {
 	@GetMapping("/reservations/guest")
 	public ResponseEntity<ApiResponse<ReservationDTO>> getGuestReservation(@RequestParam(value = "number") String number){
 		ReservationDTO response = reservationService.getGuestReservation(number);
+		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
+	}
+
+	@GetMapping("/reservations//{id}")
+	public ResponseEntity<ApiResponse<ReservationDetailDTO>> getCustomerReservationDetail(@PathVariable int id, HttpServletRequest request){
+		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
+		ReservationDetailDTO response = reservationService.getReservationDetail(id, auth.getUserId());
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 

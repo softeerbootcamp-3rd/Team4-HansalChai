@@ -136,4 +136,9 @@ public class ReservationResponse {
 			}
 		}
 	}
+
+	@Getter
+	public static class ReservationDetailDTO{
+
+	}
 }
