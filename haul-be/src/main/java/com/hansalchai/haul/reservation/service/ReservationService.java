@@ -114,7 +114,7 @@ public class ReservationService{
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
 		Pageable pageable = PageRequest.of(page,PAGECUT);
-		Page<Reservation> pageContent = reservationRepository.findByCustomerId(user.getUserId(), pageable);
+		Page<Reservation> pageContent = reservationRepository.findByUserId(user.getUserId(), pageable);
 		List<ReservationInfoDTO> reservationInfoDTOS = pageContent.getContent().stream().map(ReservationInfoDTO::new).collect(Collectors.toList());
 		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
 		return new ReservationDTO(reservationInfoDTOS, isLastPage);
