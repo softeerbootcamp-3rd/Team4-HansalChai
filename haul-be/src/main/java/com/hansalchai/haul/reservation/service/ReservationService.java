@@ -133,4 +133,10 @@ public class ReservationService{
 			.orElseThrow(() -> new RuntimeException("Reservation not found"));
 		return new ReservationDetailDTO(reservation);
 	}
+
+	public ReservationDetailDTO getGuestReservationDetail(Long id) {
+		Reservation reservation = reservationRepository.findById(id)
+			.orElseThrow(() -> new RuntimeException("Reservation not found"));
+		return new ReservationDetailDTO(reservation);
+	}
 }

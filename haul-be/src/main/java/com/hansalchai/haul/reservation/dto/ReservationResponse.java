@@ -4,12 +4,15 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import com.hansalchai.haul.car.entity.Car;
+import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.reservation.entity.Reservation;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -139,7 +142,7 @@ public class ReservationResponse {
 
 	@Getter
 	public static class ReservationDetailDTO{
-		private final DriverDTO driver;
+		private DriverDTO driver;
 		private final CarDTO car;
 		private final SourceDTO src;
 		private final DestinationDTO dst;
@@ -151,11 +154,8 @@ public class ReservationResponse {
 		@Getter
 		@Builder
 		public static class DriverDTO{
-			@NotNull(message = "이름은 Null 일 수 없다.")
 			private String name;
-			@NotNull(message = "전화번호는 Null 일 수 없다.")
 			private String tel;
-			@Nullable
 			private String photo;
 		}
 
@@ -202,11 +202,14 @@ public class ReservationResponse {
 
 		@Builder
 		public ReservationDetailDTO(Reservation reservation) {
-			this.driver = DriverDTO.builder()
-				.name(reservation.getOwner().getUser().getName())
-				.tel(reservation.getOwner().getUser().getTel())
-				.photo(reservation.getOwner().getUser().getPhoto())
-				.build();
+			Optional.ofNullable(reservation.getOwner())
+				.map(Owner::getUser)
+				.ifPresent(user -> this.driver = DriverDTO.builder()
+					.name(user.getName())
+					.tel(user.getTel())
+					.photo(user.getPhoto())
+					.build());
+
 			this.car = CarDTO.builder()
 				.count(reservation.getCount())
 				.model(reservation.getCar().getModel())

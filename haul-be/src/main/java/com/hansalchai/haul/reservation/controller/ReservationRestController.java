@@ -67,9 +67,15 @@ public class ReservationRestController {
 	}
 
 	@GetMapping("/reservations/{id}")
-	public ResponseEntity<ApiResponse<ReservationDetailDTO>> getCustomerReservationDetail(@PathVariable Long id, HttpServletRequest request){
+	public ResponseEntity<ApiResponse<ReservationDetailDTO>> getCustomerReservationDetail(@PathVariable("id")Long id, HttpServletRequest request){
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		ReservationDetailDTO response = reservationService.getReservationDetail(id, auth.getUserId());
+		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
+	}
+
+	@GetMapping("/reservations/guest/{id}")
+	public ResponseEntity<ApiResponse<ReservationDetailDTO>> getGuestReservationDetail(@PathVariable("id")Long id){
+		ReservationDetailDTO response = reservationService.getGuestReservationDetail(id);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
