@@ -1,16 +1,15 @@
 import MobileLayout from "../../../components/MobileLayout/MobileLayout";
 import Header from "../../../components/Header/Header";
-import TypographySpan from "../../../components/Typhography/Typhography_Span";
-import Typography from "../../../components/Typhography/Typhography";
-import Margin from "../../../components/Margin/Margin";
-import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox";
-import DetailInfo from "../../../components/DetailInfo/DetailInfo";
-import BottomButton from "../../../components/Button/BottomButton";
+import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
+import Typography from "../../../components/Typhography/Typhography.jsx";
+import Margin from "../../../components/Margin/Margin.jsx";
+import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
+import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
+import BottomButton from "../../../components/Button/BottomButton.jsx";
 import { useContext } from "react";
-import { reservationStore } from "../../../store/reservationStore";
+import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate } from "react-router-dom";
-import { CompanyCallNumber } from "../../../data/GlobalVariable";
-import { UrlMap } from "../../../data/GlobalVariable";
+import { CompanyCallNumber, UrlMap } from "../../../data/GlobalVariable.js";
 
 const Result = () => {
   const navigation = useNavigate();
