@@ -5,7 +5,7 @@ import Header from "../../../components/Header/Header.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
-import TypographySpan from "../../../components/Typhography/Typhography_Span.jsx";
+import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 import Card1 from "../../../assets/pngs/card1.png";
 import Card2 from "../../../assets/pngs/card2.png";
 import Card3 from "../../../assets/pngs/card3.png";
