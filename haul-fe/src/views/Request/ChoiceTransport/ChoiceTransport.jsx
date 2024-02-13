@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Header from "../../../components/Header/Header.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
-import Typography_Span from "../../../components/Typhography/Typhography_Span.jsx";
+import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import styled from "styled-components";
 import 일반용달 from "../../../assets/svgs/일반용달.svg";
@@ -38,29 +38,29 @@ const ChoiceTransport = () => {
       transportPlusInfo: "중고거래, 물품 운송",
       maxLoad: 10,
       boxEachColor: "#d9c7e7",
-      img: 일반용달,
+      img: 일반용달
     },
     {
       transportType: "용달 이사",
       transportPlusInfo: "원룸이사, 1인 가구 이사",
       maxLoad: 1,
       boxEachColor: "#FF9A62",
-      img: 용달이사,
+      img: 용달이사
     },
     {
       transportType: "미니 용달",
       transportPlusInfo: "소규모 운송, 물품 3개 이하",
       maxLoad: 1,
       boxEachColor: "#F6D776",
-      img: 미니용달,
+      img: 미니용달
     },
     {
       transportType: "비지니스 운송",
       transportPlusInfo: "거래처 납부, 기업 운송",
       maxLoad: 10,
       boxEachColor: "#85C7EE",
-      img: 비즈니스운송,
-    },
+      img: 비즈니스운송
+    }
   ];
   const { setTransportType } = useContext(reservationStore);
 
@@ -74,7 +74,7 @@ const ChoiceTransport = () => {
     <MobileLayout>
       <Header back={false}>
         HAUL
-        <Typography_Span color="subColor">.</Typography_Span>
+        <TypographySpan color="subColor">.</TypographySpan>
       </Header>
       <Margin height="24px" />
       <Typography font="bold24">운송의 종류를 선택해주세요.</Typography>

@@ -118,7 +118,8 @@ const UserInfo = () => {
   const [isNameCorrect, setIsNameCorrect] = useState(null);
   const [isEmailCorrect, setIsEmailCorrect] = useState(null);
   const [isPasswordCorrect, setIsPasswordCorrect] = useState(null);
-  const [isPasswordConfirmCorrect, setIsPasswordConfirmCorrect] = useState(null);
+  const [isPasswordConfirmCorrect, setIsPasswordConfirmCorrect] =
+    useState(null);
 
   const clickEditBtn = () => {
     setIsEdit(true);

@@ -47,6 +47,7 @@ const typeSvg = {
 };
 
 const ToastFrame = styled.div`
+  max-width: calc(${MaxDeviceWidth} - 40px);
   width: calc(100% - 40px);
   max-width: (${MaxDeviceWidth} - 40px);
   height: 48px;
@@ -74,10 +75,16 @@ const ToastIcon = styled.div`
 `;
 
 const ToastText = styled.div`
+<<<<<<< HEAD
+  position: absolute;
+  width: calc(100% - 80px);
+  left: 60px;
+=======
   width: calc(100% - 80px);
   display: flex;
   justify-content: center;
   align-items: center;
+>>>>>>> c55e8fff2ea3aa36ec81aa4e39abdfd1f579c04d
   word-break: keep-all;
   line-break: loose;
 `;

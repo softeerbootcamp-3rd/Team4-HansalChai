@@ -1,16 +1,15 @@
 import MobileLayout from "../../../components/MobileLayout/MobileLayout";
 import Header from "../../../components/Header/Header";
-import Typography_Span from "../../../components/Typhography/Typhography_Span";
-import Typography from "../../../components/Typhography/Typhography";
-import Margin from "../../../components/Margin/Margin";
-import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox";
-import DetailInfo from "../../../components/DetailInfo/DetailInfo";
-import BottomButton from "../../../components/Button/BottomButton";
+import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
+import Typography from "../../../components/Typhography/Typhography.jsx";
+import Margin from "../../../components/Margin/Margin.jsx";
+import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
+import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
+import BottomButton from "../../../components/Button/BottomButton.jsx";
 import { useContext } from "react";
-import { reservationStore } from "../../../store/reservationStore";
+import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate } from "react-router-dom";
-import { CompanyCallNumber } from "../../../data/GlobalVariable";
-import { UrlMap } from "../../../data/GlobalVariable";
+import { CompanyCallNumber, UrlMap } from "../../../data/GlobalVariable.js";
 
 const Result = () => {
   const navigation = useNavigate();
@@ -27,11 +26,11 @@ const Result = () => {
     <MobileLayout>
       <Header home={true}>
         HAUL
-        <Typography_Span color="subColor">.</Typography_Span>
+        <TypographySpan color="subColor">.</TypographySpan>
       </Header>
       <Margin height="24px" />
       <Typography font="bold24">
-        <Typography_Span color="subColor">하울</Typography_Span>에서
+        <TypographySpan color="subColor">하울</TypographySpan>에서
       </Typography>
       <Margin height="6px" />
       <Typography font="bold24">당신만을 위한 차를 준비했어요.</Typography>

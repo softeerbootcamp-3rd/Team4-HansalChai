@@ -8,7 +8,7 @@ const initialState = {
   srcAddress: "",
   srcCoordinate: {
     srcLatitude: 37.497259947611596,
-    srcLongitude: 127.03218978408303,
+    srcLongitude: 127.03218978408303
   },
   srcDetailAddress: "",
   srcTel: "",
@@ -16,7 +16,7 @@ const initialState = {
   dstAddress: "",
   dstCoordinate: {
     dstLatitude: 37.497259947611596,
-    dstLongitude: 127.03218978408303,
+    dstLongitude: 127.03218978408303
   },
   dstDetailAddress: "",
   dstTel: "",

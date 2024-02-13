@@ -196,6 +196,8 @@ const Carousel = ({ carouselList, setSelectedIndex, initialIndex = 0 }) => {
     }
   };
 
+  RefedCarouselList.displayName = "CarouselList";
+
   return (
     <>
       <Container>

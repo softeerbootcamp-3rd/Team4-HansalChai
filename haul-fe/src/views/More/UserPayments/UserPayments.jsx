@@ -38,7 +38,10 @@ const UserPayments = () => {
       </CustomTypo>
 
       <Margin height="68px" />
-      <Carousel carouselList={[Card1, Card2, Card3]}  initialIndex={0}></Carousel>
+      <Carousel
+        carouselList={[Card1, Card2, Card3]}
+        initialIndex={0}
+      ></Carousel>
 
       <FixedCenterBox bottom="20px">
         <BottomButton role="main" onClick={btnHandler}>

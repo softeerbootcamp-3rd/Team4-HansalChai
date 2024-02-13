@@ -5,7 +5,7 @@ import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Header from "../../../components/Header/Header.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
-import Typography_Span from "../../../components/Typhography/Typhography_Span.jsx";
+import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 import Calendar from "./components/Calendar.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
@@ -46,11 +46,11 @@ const ChoiceDate = () => {
     <MobileLayout>
       <Header>
         HAUL
-        <Typography_Span color="subColor">.</Typography_Span>
+        <TypographySpan color="subColor">.</TypographySpan>
       </Header>
       <Margin height="24px" />
       <Typography font="bold24">
-        <Typography_Span color="subColor">{transportType}</Typography_Span>을
+        <TypographySpan color="subColor">{transportType}</TypographySpan>을
         선택하셨군요.
       </Typography>
       <Margin height="4px" />

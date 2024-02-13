@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Margin from "../../../../components/Margin/Margin";
-import Typography_Span from "../../../../components/Typhography/Typhography_Span";
+import TypographySpan from "../../../../components/Typhography/TyphographySpan";
 import Checkmark from "../../../../components/CheckMark/CheckMark";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { MaxDeviceWidth } from "../../../../data/GlobalVariable";
@@ -9,7 +9,7 @@ import { MaxDeviceWidth } from "../../../../data/GlobalVariable";
 const CalendarContainer = styled.div`
   width: calc(${MaxDeviceWidth} + 40px);
   height: calc(100vh - 250px);
-  background-color: ${(props) => props.theme.colors.white};
+  background-color: ${props => props.theme.colors.white};
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -18,15 +18,15 @@ const CalendarContainer = styled.div`
 `;
 
 const CalendarNav = styled.div`
-  ${(props) => props.theme.flex.flexBetweenCenter};
+  ${props => props.theme.flex.flexBetweenCenter};
   padding: 0 14px;
   margin-bottom: 20px;
-  ${(props) => props.theme.font.bold16};
+  ${props => props.theme.font.bold16};
 `;
 
 const CalendarButton = styled.button`
   border: none;
-  color: ${(props) => props.theme.colors.mainColor};
+  color: ${props => props.theme.colors.mainColor};
   font-size: 20px;
   cursor: pointer;
   padding-top: 1px;
@@ -36,20 +36,20 @@ const CalendarTable = styled.table`
   width: 100%;
   text-align: center;
   border-collapse: collapse;
-  ${(props) => props.theme.font.semiBold14};
+  ${props => props.theme.font.semiBold14};
 `;
 
 const DayCell = styled.th`
   width: 30px;
-  ${(props) => props.theme.flex.flexCenter};
+  ${props => props.theme.flex.flexCenter};
 `;
 
 const CalendarCell = styled.td`
   cursor: pointer;
   width: 30px;
   height: 56px;
-  ${(props) => props.theme.flex.flexCenter};
-  ${(props) => props.theme.font.semiBold14};
+  ${props => props.theme.flex.flexCenter};
+  ${props => props.theme.font.semiBold14};
   &.prevMonthDay,
   &.nextMonthDay {
     color: #bbb;
@@ -64,7 +64,7 @@ const CalendarCell = styled.td`
 
 const CalendarTr = styled.tr`
   width: 100%;
-  ${(props) => props.theme.flex.flexBetween};
+  ${props => props.theme.flex.flexBetween};
 `;
 
 const GrayLine = styled.div`
@@ -247,9 +247,9 @@ const Calendar = ({
         <CalendarButton onClick={prevCalendar}>
           <IoIosArrowBack />
         </CalendarButton>
-        <Typography_Span font="bold16" color="mainColor">
+        <TypographySpan font="bold16" color="mainColor">
           {currentMonth.getFullYear()}년 {currentMonth.getMonth() + 1}월
-        </Typography_Span>
+        </TypographySpan>
         <CalendarButton onClick={nextCalendar}>
           <IoIosArrowForward />
         </CalendarButton>
@@ -267,8 +267,8 @@ const Calendar = ({
         <tbody>
           <tr style={{ height: "16px" }} />
           {calendarRows.map((row, i) => [
-            <GrayLine />,
-            <CalendarTr key={`row-${i}`}>{row}</CalendarTr>,
+            <GrayLine key={i} />,
+            <CalendarTr key={`row-${i}`}>{row}</CalendarTr>
           ])}
         </tbody>
       </CalendarTable>

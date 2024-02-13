@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const InputWrapper = styled.div`
-  ${(props) => props.theme.flex.flexRowAlignCenter};
+  ${props => props.theme.flex.flexRowAlignCenter};
   width: 100%;
   height: ${props => (props.size === "big" ? "56px" : "38px")};
   background-color: ${props => props.theme.colors.inputGray};

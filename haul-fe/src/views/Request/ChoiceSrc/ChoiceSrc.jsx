@@ -3,7 +3,7 @@ import { reservationStore } from "../../../store/reservationStore.jsx";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import Header from "../../../components/Header/Header.jsx";
-import Typography_Span from "../../../components/Typhography/Typhography_Span.jsx";
+import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import SearchMap from "../../../components/Map/SearchMap/SearchMap.jsx";
 import Input from "../../../components/Input/Input.jsx";
@@ -24,8 +24,8 @@ const ChoiceSrc = () => {
       srcCoordinate,
       srcDetailAddress,
       srcTel,
-      reservationTime,
-    },
+      reservationTime
+    }
   } = useContext(reservationStore);
 
   //시간 선택하지 않는 경우, 이전 페이지인 시간 선택 페이지로 이동
@@ -40,17 +40,15 @@ const ChoiceSrc = () => {
   function showUserTime() {
     const [reservationHour, reservationHourMin] = reservationTime
       .split(":")
-      .map((v) => Number(v));
+      .map(v => Number(v));
     let showTime = "";
     reservationHour >= 12 ? (showTime = "오후 ") : (showTime = "오전 ");
-    if (reservationHour === 12) {
-    }
     reservationHour === 12
-      ? (showTime += reservationHour + "시")
-      : (showTime += (reservationHour % 12) + "시");
+      ? (showTime += `${reservationHour}시`)
+      : (showTime += `${reservationHour % 12}시`);
 
     if (reservationHourMin !== 0) {
-      showTime += reservationHourMin + "분";
+      showTime += `${reservationHourMin}분`;
     }
     return showTime;
   }
@@ -59,9 +57,9 @@ const ChoiceSrc = () => {
     name: srcName,
     coordinate: {
       latitude: srcCoordinate.srcLatitude,
-      longitude: srcCoordinate.srcLongitude,
+      longitude: srcCoordinate.srcLongitude
     },
-    detailAddress: srcDetailAddress,
+    detailAddress: srcDetailAddress
   });
   const inSrcDetailAddress = useRef(srcDetailAddress);
   const inSrcTel = useRef(srcTel);
@@ -93,7 +91,7 @@ const ChoiceSrc = () => {
       srcLatitude: Number(mapInfo.coordinate.latitude),
       srcLongitude: Number(mapInfo.coordinate.longitude),
       srcDetailAddress: inSrcDetailAddress.current,
-      srcTel: inSrcTel.current,
+      srcTel: inSrcTel.current
     });
     navigation(UrlMap.choiceDstPageUrl);
   }
@@ -101,11 +99,11 @@ const ChoiceSrc = () => {
   return (
     <MobileLayout>
       <Header>
-        HAUL<Typography_Span color="subColor">.</Typography_Span>
+        HAUL<TypographySpan color="subColor">.</TypographySpan>
       </Header>
       <Margin height="24px" />
       <Typography font="bold24">
-        <Typography_Span color="subColor">{showUserTime()}</Typography_Span>에
+        <TypographySpan color="subColor">{showUserTime()}</TypographySpan>에
         뵈러 갈게요.
       </Typography>
       <Margin height="6px" />

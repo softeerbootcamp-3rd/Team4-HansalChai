@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+//kakao로 인해 eslint-disable no-undef 추가
 import { useState, useEffect } from "react";
 import Input from "../../Input/Input.jsx";
 import Margin from "../../Margin/Margin.jsx";
@@ -14,7 +16,7 @@ const SearchMap = ({
   beforeName,
   beforeAddress,
   beforeLat,
-  beforeLon,
+  beforeLon
 }) => {
   const [map, setMap] = useState();
   const [marker, setMarker] = useState();

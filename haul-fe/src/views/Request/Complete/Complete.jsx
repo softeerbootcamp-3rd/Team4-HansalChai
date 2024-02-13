@@ -2,7 +2,7 @@ import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import Lottie from "lottie-react";
-import Loading_Truck from "../../../assets/gifs/Loading_Truck.json";
+import LoadingTruck from "../../../assets/gifs/LoadingTruck.json";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
@@ -23,7 +23,7 @@ const Complete = () => {
       <Margin height="60px" />
       <Typography font="bold24">예약을 완료했어요.</Typography>
       <Flex kind="flexCenter">
-        <Lottie animationData={Loading_Truck} style={{maxWidth:"500px"}}/>
+        <Lottie animationData={LoadingTruck} style={{ maxWidth: "500px" }} />
       </Flex>
       <Typography font="bold24">잠시 후에 기사가</Typography>
       <Margin height="4px" />

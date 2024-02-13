@@ -5,8 +5,8 @@ const Typo = styled.p`
     props.color ? props.theme.colors[props.color] : props.theme.colors.black};
   ${props => props.font && props.theme.font[props.font]};
   ${props =>
-    props.singleLine
-    && `
+    props.singleLine &&
+    `
     white-space: nowrap; 
     overflow: hidden;    
     text-overflow: ellipsis; 
