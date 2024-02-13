@@ -100,4 +100,48 @@ public class ReservationService{
 		return new ReservationResponse.ReservationRecommendationDTO(reservation,
 			distanceDurationInfo.getDuration());
 	}
+
+	public ReservationResponse.ReservationRecommendationDTO createGuestReservation(ReservationRequest.CreateReservationGuestDTO request) {
+		Source source = request.getSrc().build();
+		Destination destination = request.getDst().build();
+		Cargo cargo = request.getCargo().build();
+		CargoOption cargoOption = request.getCargoOption().build();
+
+		//TODO 리팩토링 도움
+		MapUtils.Location srcLocation = new MapUtils.Location(source.getLatitude(), source.getLongitude());
+		MapUtils.Location dstLocation = new MapUtils.Location(destination.getLatitude(), destination.getLongitude());
+		MapUtils.DistanceDurationInfo distanceDurationInfo = kakaoMap.carPathFind(srcLocation, dstLocation);
+		CargoFeeTable.RequestedTruckInfo fee = CargoFeeTable.findCost(cargo.getWeight(), distanceDurationInfo.getDistance());
+
+		Transport transport = Transport.builder()
+			.type(request.getTransportType())
+			.fee(fee.getCost())
+			.requiredTime(distanceDurationInfo.getDuration())
+			.build();
+
+		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
+		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption), cargo);
+
+		Reservation reservation = Reservation.builder()
+			.customer(customer)
+			.driver(null)
+			.cargo(cargo)
+			.cargoOption(cargoOption)
+			.source(source)
+			.destination(destination)
+			.transport(transport)
+			.car(recommendedCar)
+			.number(reservationNumber)
+			.date(request.getDate())
+			.time(request.getTime())
+			.distance(distanceDurationInfo.getDistance())
+			.count(fee.getNumber())
+			.build();
+
+		customerRepository.save(customer);
+		reservationRepository.save(reservation);
+
+		return new ReservationResponse.ReservationRecommendationDTO(reservation,
+			distanceDurationInfo.getDuration());
+	}
 }

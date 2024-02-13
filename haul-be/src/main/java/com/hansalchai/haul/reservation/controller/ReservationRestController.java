@@ -30,4 +30,12 @@ public class ReservationRestController {
 		ReservationResponse.ReservationRecommendationDTO response = reservationService.createReservation(request);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
+
+	@PostMapping("/reservations/guest")
+	public ResponseEntity<ApiResponse<ReservationResponse.ReservationRecommendationDTO>> guestReservation(
+		@Valid @RequestBody ReservationRequest.CreateReservationGuestDTO request
+	) {
+		ReservationResponse.ReservationRecommendationDTO response = reservationService.createGuestReservation(request);
+		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
+	}
 }

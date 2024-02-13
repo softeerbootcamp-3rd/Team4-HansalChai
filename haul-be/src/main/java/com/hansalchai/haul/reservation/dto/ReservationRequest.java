@@ -164,4 +164,12 @@ public class ReservationRequest {
 		}
 	}
 
+	@Getter
+	@Setter
+	@ToString
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class CreateReservationGuestDTO{
+
+	}
 }
