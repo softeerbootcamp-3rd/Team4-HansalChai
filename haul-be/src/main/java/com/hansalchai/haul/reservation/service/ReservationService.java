@@ -4,6 +4,7 @@ import static com.hansalchai.haul.reservation.dto.ReservationRequest.*;
 import static com.hansalchai.haul.reservation.dto.ReservationResponse.*;
 import static com.hansalchai.haul.reservation.dto.ReservationResponse.ReservationDTO.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -118,5 +119,13 @@ public class ReservationService{
 		List<ReservationInfoDTO> reservationInfoDTOS = pageContent.getContent().stream().map(ReservationInfoDTO::new).collect(Collectors.toList());
 		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
 		return new ReservationDTO(reservationInfoDTOS, isLastPage);
+	}
+
+	public ReservationDTO getGuestReservation(String number) {
+		Reservation reservation = reservationRepository.findByNumber(number);
+		ReservationInfoDTO reservationInfoDTO = new ReservationInfoDTO(reservation);
+		List<ReservationInfoDTO> reservationInfoDTOS = new ArrayList<>();
+		reservationInfoDTOS.add(reservationInfoDTO);
+		return new ReservationDTO(reservationInfoDTOS, true);
 	}
 }
