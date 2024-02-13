@@ -66,7 +66,7 @@ public class ReservationRestController {
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
-	@GetMapping("/reservations//{id}")
+	@GetMapping("/reservations/{id}")
 	public ResponseEntity<ApiResponse<ReservationDetailDTO>> getCustomerReservationDetail(@PathVariable int id, HttpServletRequest request){
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		ReservationDetailDTO response = reservationService.getReservationDetail(id, auth.getUserId());
