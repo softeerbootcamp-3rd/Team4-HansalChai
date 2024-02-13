@@ -9,6 +9,7 @@ import DriverInfoBox from "./components/DriverInfoBox.jsx";
 import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import { useLocation } from "react-router-dom";
+import { dummyDetail } from "../../../data/DummyData.js";
 
 const ReservItemFrame = styled(Flex)`
   width: 100%;
@@ -18,75 +19,19 @@ const ReservItemFrame = styled(Flex)`
 `;
 
 const CheckDetail = ({ driver, car, map }) => {
-  const dummyDriver = [
-    {
-      phase: "before",
-      name: null,
-      tel: null,
-      picture: null
-    },
-    {
-      phase: "reserv",
-      name: "김포터",
-      tel: "010-0000-0000",
-      picture: null
-    },
-    {
-      phase: "moving",
-      name: "김포터",
-      tel: "010-0000-0000",
-      picture: null
-    },
-    {
-      phase: "after",
-      name: "김포터",
-      tel: "010-0000-0000",
-      picture: null
-    }
-  ];
-  const dummyCar = [
-    {
-      type: "포터2",
-      phase: "before",
-      capacity: "1톤",
-      volumn: "10 X 15 X 3 M",
-      quantity: 1
-    },
-    {
-      type: "마이티3",
-      phase: "after",
-      capacity: "2.5톤",
-      volumn: "10 X 15 X 3 M",
-      quantity: 2
-    }
-  ];
-  const dummyMap = {
-    srcCoordinate: { lat: 37.4942643848404, lng: 127.028259839376 },
-    srcAddress: "서울특별시 강남구 강남대로 지하396 ",
-    srcName: "강남구 애니타워",
-    dstCoordinate: { lat: 37.4466225962954, lng: 126.65387634549 },
-    dstAddress: "부산광역시 금정구 부산대학로63번길 2",
-    dstName: "부산대학교",
-    fee: "15",
-    time: "04"
-  };
 
   const location = useLocation();
   const reservId = location.pathname.split("/").pop();
-  const dummyData = {
-    driver: dummyDriver[reservId],
-    car: dummyCar[reservId],
-    map: dummyMap
-  };
+
   //TODO: 실제 데이터로 교체
   if (!driver) {
-    ({ driver } = dummyData);
+    ({ driver } = dummyDetail(reservId));
   }
   if (!car) {
-    ({ car } = dummyData);
+    ({ car } = dummyDetail(reservId));
   }
   if (!map) {
-    ({ map } = dummyData);
+    ({ map } = dummyDetail(reservId));
   }
 
   return (
