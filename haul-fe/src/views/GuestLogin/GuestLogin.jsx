@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
 import Margin from "../../components/Margin/Margin.jsx";
 import Typography from "../../components/Typhography/Typhography.jsx";
-import Typography_Span from "../../components/Typhography/Typhography_Span.jsx";
+import TypographySpan from "../../components/Typhography/Typhography_Span.jsx";
 import Flex from "../../components/Flex/Flex.jsx";
 import Input from "../../components/Input/Input.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
@@ -42,7 +42,7 @@ const GuestLogin = () => {
       <Flex kind="flexCenter">
         <Typography font="bold32">
           HAUL YOUR NEED
-          <Typography_Span color="subColor">.</Typography_Span>
+          <TypographySpan color="subColor">.</TypographySpan>
         </Typography>
       </Flex>
       <Margin height="83px" />

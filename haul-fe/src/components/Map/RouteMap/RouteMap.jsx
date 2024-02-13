@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+//kakao로 인해 eslint-disable no-undef 추가
 import { useEffect } from "react";
 
 const restApiKey = import.meta.env.VITE_KAKAO_MAP_REST_KEY;
@@ -62,13 +64,13 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
       });
     });
 
-    let bounds = new kakao.maps.LatLngBounds();
+    const bounds = new kakao.maps.LatLngBounds();
     for (let i = 0; i < linePath.length; i++) {
       bounds.extend(linePath[i]);
     }
     kakaoMap.setBounds(bounds);
 
-    let polyline = new kakao.maps.Polyline({
+    const polyline = new kakao.maps.Polyline({
       path: linePath,
       strokeWeight: 5,
       strokeColor: "#446EDA",
@@ -124,10 +126,10 @@ const RouteMap = ({ origin, destination }) => {
     <>
       <div
         id="map"
-        style={{ 
-          width: "100%", 
-          height: "227px", 
-          borderRadius: "10px" 
+        style={{
+          width: "100%",
+          height: "227px",
+          borderRadius: "10px"
         }}
       ></div>
     </>

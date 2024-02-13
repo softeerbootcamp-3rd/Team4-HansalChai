@@ -5,7 +5,7 @@ import Header from "../../../components/Header/Header.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
-import Typography_Span from "../../../components/Typhography/Typhography_Span.jsx";
+import TypographySpan from "../../../components/Typhography/Typhography_Span.jsx";
 import Card1 from "../../../assets/pngs/card1.png";
 import Card2 from "../../../assets/pngs/card2.png";
 import Card3 from "../../../assets/pngs/card3.png";
@@ -50,12 +50,12 @@ const Purchase = () => {
     <MobileLayout>
       <Header back={true} home={false}>
         HAUL
-        <Typography_Span color="subColor">.</Typography_Span>
+        <TypographySpan color="subColor">.</TypographySpan>
       </Header>
       <Margin height="24px" />
       <Typography font="bold24">
-        <Typography_Span color="subColor">결제 수단</Typography_Span>
-        을 선택해주세요.
+        <TypographySpan color="subColor">결제 수단</TypographySpan>을
+        선택해주세요.
       </Typography>
       <Margin height="68px" />
       {isChoosing ? (

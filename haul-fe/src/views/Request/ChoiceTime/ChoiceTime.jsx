@@ -6,7 +6,7 @@ import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import Header from "../../../components/Header/Header.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
-import Typography_Span from "../../../components/Typhography/Typhography_Span.jsx";
+import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import { isEmptyString } from "../../../utils/helper.js";
@@ -16,7 +16,7 @@ import Flex from "../../../components/Flex/Flex.jsx";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 
 const TimeWrapper = styled.div`
-  ${(props) => props.theme.flex.flexRow}
+  ${props => props.theme.flex.flexRow}
   flex-wrap: wrap;
   gap: 10px;
 `;
@@ -24,10 +24,10 @@ const TimeWrapper = styled.div`
 const SmallBtn = styled.button`
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.07);
-  background: ${(props) =>
+  background: ${props =>
     props.isClick ? props.theme.colors.subColor : props.theme.colors.inputGray};
-  ${(props) => props.theme.font.bold12};
-  color: ${(props) =>
+  ${props => props.theme.font.bold12};
+  color: ${props =>
     props.isClick ? props.theme.colors.white : props.theme.colors.grayText};
   width: 80px;
   height: auto;
@@ -53,7 +53,7 @@ const ChoiceTime = () => {
     "16:30",
     "17:00",
     "17:30",
-    "18:00",
+    "18:00"
   ];
 
   const {
@@ -84,8 +84,8 @@ const ChoiceTime = () => {
     navigation(UrlMap.choiceSrcPageUrl);
   }
 
-  function clickDateFun(time){
-    if(selectedTime === time){
+  function clickDateFun(time) {
+    if (selectedTime === time) {
       setSelectedTime("");
       return;
     }
@@ -95,13 +95,13 @@ const ChoiceTime = () => {
   return (
     <MobileLayout>
       <Header>
-        HAUL<Typography_Span color="subColor">.</Typography_Span>
+        HAUL<TypographySpan color="subColor">.</TypographySpan>
       </Header>
       <Margin height="24px" />
       <Typography font="bold24">
-        <Typography_Span color="subColor" style={{ marginRight: "2px" }}>
+        <TypographySpan color="subColor" style={{ marginRight: "2px" }}>
           {formatDateString(reservationDate)}
-        </Typography_Span>
+        </TypographySpan>
         에 뵈러 갈게요.
       </Typography>
       <Margin height="4px" />
@@ -113,7 +113,7 @@ const ChoiceTime = () => {
       </Flex>
       <Margin height="14px" />
       <TimeWrapper>
-        {morningTimes.map((time) => (
+        {morningTimes.map(time => (
           <SmallBtn
             key={time}
             isClick={selectedTime === time}
@@ -132,7 +132,7 @@ const ChoiceTime = () => {
       </Flex>
       <Margin height="14px" />
       <TimeWrapper>
-        {afternoonTimes.map((time) => (
+        {afternoonTimes.map(time => (
           <SmallBtn
             key={time}
             isClick={selectedTime === time}

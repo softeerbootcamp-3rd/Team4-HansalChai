@@ -2,16 +2,16 @@ export const isEmptyString = value => {
   return value.length === 0;
 };
 
-export const isNumber = (value) => {
+export const isNumber = value => {
   return !isNaN(value);
 };
 
-export const isPositiveNumber = (value) => {
+export const isPositiveNumber = value => {
   return Number(value) > 0;
 };
 
 // 문자열이 이메일 형식인지 확인해주는 함수
-export const checkEmail = (email) => {
+export const checkEmail = email => {
   const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/;
   return emailRegex.test(email);
 };

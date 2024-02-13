@@ -1,6 +1,5 @@
-import React from "react";
 import PropTypes from "prop-types";
-import styled, { keyframes, css } from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const PREDEFINED_SIZE_MAP = {
   small: "16px",

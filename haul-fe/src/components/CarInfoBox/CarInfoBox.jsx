@@ -44,7 +44,6 @@ const CarCardImage = styled.img`
   border-radius: 10px;
   object-fit: scale-down;
   object-position: center;
-  
 `;
 const QuantityBox = styled.div`
   position: absolute;

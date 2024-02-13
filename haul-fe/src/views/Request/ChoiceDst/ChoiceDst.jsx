@@ -1,7 +1,7 @@
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import Header from "../../../components/Header/Header.jsx";
-import Typography_Span from "../../../components/Typhography/Typhography_Span.jsx";
+import TypographySpan from "../../../components/Typhography/Typhography_Span.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import SearchMap from "../../../components/Map/SearchMap/SearchMap.jsx";
 import Input from "../../../components/Input/Input.jsx";
@@ -25,17 +25,17 @@ const ChoiceDst = () => {
       dstAddress,
       dstCoordinate,
       dstTel,
-      dstDetailAddress,
-    },
+      dstDetailAddress
+    }
   } = useContext(reservationStore);
 
   const [mapInfo, setMapInfo] = useState({
     name: dstName,
     coordinate: {
       latitude: dstCoordinate.dstLatitude,
-      longitude: dstCoordinate.dstLongitude,
+      longitude: dstCoordinate.dstLongitude
     },
-    detailAddress: dstDetailAddress,
+    detailAddress: dstDetailAddress
   });
   const inDstDetailAddress = useRef(dstDetailAddress);
   const inDstTel = useRef(dstTel);
@@ -72,7 +72,7 @@ const ChoiceDst = () => {
       dstLatitude: Number(mapInfo.coordinate.latitude),
       dstLongitude: Number(mapInfo.coordinate.longitude),
       dstDetailAddress: inDstDetailAddress.current,
-      dstTel: inDstTel.current,
+      dstTel: inDstTel.current
     });
     navigation(UrlMap.choiceLoadInfoPageUrl);
   }
@@ -80,13 +80,13 @@ const ChoiceDst = () => {
   return (
     <MobileLayout>
       <Header>
-        HAUL<Typography_Span color="subColor">.</Typography_Span>
+        HAUL<TypographySpan color="subColor">.</TypographySpan>
       </Header>
       <Margin height="24px" />
       <Typography font="bold24" singleLine={true}>
-        <Typography_Span color="subColor" style={{ marginRight: "2px" }}>
+        <TypographySpan color="subColor" style={{ marginRight: "2px" }}>
           {srcName ? srcName : srcAddress}
-        </Typography_Span>
+        </TypographySpan>
         에서 출발할게요.
       </Typography>
       <Margin height="6px" />

@@ -1,6 +1,6 @@
 import MobileLayout from "../../../components/MobileLayout/MobileLayout";
 import Header from "../../../components/Header/Header";
-import Typography_Span from "../../../components/Typhography/Typhography_Span";
+import TypographySpan from "../../../components/Typhography/Typhography_Span";
 import Typography from "../../../components/Typhography/Typhography";
 import Margin from "../../../components/Margin/Margin";
 import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox";
@@ -27,11 +27,11 @@ const Result = () => {
     <MobileLayout>
       <Header home={true}>
         HAUL
-        <Typography_Span color="subColor">.</Typography_Span>
+        <TypographySpan color="subColor">.</TypographySpan>
       </Header>
       <Margin height="24px" />
       <Typography font="bold24">
-        <Typography_Span color="subColor">하울</Typography_Span>에서
+        <TypographySpan color="subColor">하울</TypographySpan>에서
       </Typography>
       <Margin height="6px" />
       <Typography font="bold24">당신만을 위한 차를 준비했어요.</Typography>

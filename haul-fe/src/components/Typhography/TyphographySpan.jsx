@@ -6,8 +6,8 @@ const Typo = styled.span`
   ${props => props.font && props.theme.font[props.font]};
 `;
 
-const Typography_Span = ({ children, ...rest }) => {
+const TypographySpan = ({ children, ...rest }) => {
   return <Typo {...rest}>{children}</Typo>;
 };
 
-export default Typography_Span;
+export default TypographySpan;

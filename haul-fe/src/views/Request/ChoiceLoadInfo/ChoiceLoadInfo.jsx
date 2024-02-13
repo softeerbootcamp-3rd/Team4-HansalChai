@@ -4,7 +4,7 @@ import { reservationStore } from "../../../store/reservationStore.jsx";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Header from "../../../components/Header/Header.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
-import Typography_Span from "../../../components/Typhography/Typhography_Span.jsx";
+import TypographySpan from "../../../components/Typhography/Typhography_Span.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import Input from "../../../components/Input/Input.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
@@ -56,8 +56,7 @@ const ChoiceLoadInfo = () => {
       cargoLength,
       cargoHeight,
       specialNotes
-    },
-    state,
+    }
   } = useContext(reservationStore);
   const [submitDisabled, CheckSubmitDisabled] = useState(true);
 
@@ -111,7 +110,7 @@ const ChoiceLoadInfo = () => {
     ) {
       ToastMaker({
         type: "error",
-        children: ErrorMessageMap.IsNotPositiveNumber,
+        children: ErrorMessageMap.IsNotPositiveNumber
       });
       return;
     }
@@ -120,7 +119,7 @@ const ChoiceLoadInfo = () => {
       cargoWidth: Number(inCargoWidth.current),
       cargoLength: Number(inCargoLength.current),
       cargoHeight: Number(inCargoHeight.current),
-      specialNotes: inSpecialNotes,
+      specialNotes: inSpecialNotes
     });
     navigation(UrlMap.resultPageUrl);
   }
@@ -129,11 +128,11 @@ const ChoiceLoadInfo = () => {
     <MobileLayout>
       <Header>
         HAUL
-        <Typography_Span color="subColor">.</Typography_Span>
+        <TypographySpan color="subColor">.</TypographySpan>
       </Header>
       <Margin height="24px" />
       <Typography font="bold20">
-        <Typography_Span color="subColor">하울</Typography_Span>
+        <TypographySpan color="subColor">하울</TypographySpan>
         에서 당신만을 위한 차를 <br />
         보내드리기 위해 몇가지만 물어볼게요!
       </Typography>

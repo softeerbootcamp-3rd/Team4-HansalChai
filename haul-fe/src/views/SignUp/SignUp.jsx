@@ -28,7 +28,7 @@ const SignUP = () => {
   const [isEmailForm, setEmailForm] = useState(false);
 
   const isAllWriteFun = () => {
-    let checkIsButtonDisabled = !(
+    const checkIsButtonDisabled = !(
       name.current.trim() &&
       tel.current.trim() &&
       email.current.trim() &&
@@ -55,7 +55,7 @@ const SignUP = () => {
     if (!isEmailForm) {
       ToastMaker({
         type: "error",
-        children: ErrorMessageMap.InvalidEmailformat,
+        children: ErrorMessageMap.InvalidEmailformat
       });
       return;
     }
@@ -106,7 +106,7 @@ const SignUP = () => {
           placeholder="Email"
           onChange={({ target: { value } }) => {
             email.current = value;
-            let checkEmailForm = checkEmail(email.current);
+            const checkEmailForm = checkEmail(email.current);
             if (checkEmailForm !== isEmailForm) {
               setEmailForm(checkEmailForm);
             }
