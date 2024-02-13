@@ -111,12 +111,14 @@ public class ReservationResponse {
 
 		@Getter
 		public static class ReservationInfoDTO{
+			private final Long id;
 			private final String car;
 			private final String status;
 			private final String datetime;
 			private final int cost;
 			@Builder
 			public ReservationInfoDTO(Reservation reservation) {
+				this.id = reservation.getReservationId();
 				this.car = getCarToString(reservation.getCar());
 				this.status = reservation.getTransport().getTransportStatus().getCode();
 				this.datetime = getDateTimeString(reservation.getDate(), reservation.getTime());
