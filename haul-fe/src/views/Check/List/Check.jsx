@@ -19,12 +19,12 @@ const Check = () => {
       <Margin height="32px" />
       {dummySummary().map((data, index) => (
         <div key={`reserv${index}`}>
-          <Link to={`/check/detail/${data.reservId}`} key={`reserv${index}`}>
+          <Link to={`/check/detail/${data.id}`} key={`reserv${index}`}>
             <SummaryItemBox
-              model={data.model}
+              model={data.car}
               status={data.status}
-              time={data.time}
-              fee={data.fee}
+              time={data.datetime}
+              fee={data.cost}
             />
           </Link>
           <Margin height="20px" />
