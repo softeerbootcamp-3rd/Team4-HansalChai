@@ -1,10 +1,20 @@
 package com.hansalchai.haul.user.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
 public class UserLoginDto {
 
-	private String tel;
-	private String password;
+	@NotNull(message = "전화번호(아이디)는 null일 수 없습니다.")
+	private final String tel;
+
+	@NotNull(message = "비밀번호는 null일 수 없습니다.")
+	private final String password;
+
+
+	public UserLoginDto(String tel, String password) {
+		this.tel = tel;
+		this.password = password;
+	}
 }

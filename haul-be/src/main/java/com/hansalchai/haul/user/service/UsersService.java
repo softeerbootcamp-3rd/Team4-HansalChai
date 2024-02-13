@@ -21,13 +21,14 @@ public class UsersService {
 	private final UsersRepository usersRepository;
 
 	@Transactional
-	public void signUp(CustomerSignUpDto signUpDto) {
+	public Long signUp(CustomerSignUpDto signUpDto) {
 		//중복 회원가입 검증
 		String tel = signUpDto.getTel();
 		if (usersRepository.findByTel(tel).isPresent()) {
 			throw new IllegalArgumentException("이미 가입된 전화번호입니다.");
 		}
-		usersRepository.save(signUpDto.toEntity());
+
+		return usersRepository.save(signUpDto.toEntity()).getUserId();
 	}
 
 	@Transactional
