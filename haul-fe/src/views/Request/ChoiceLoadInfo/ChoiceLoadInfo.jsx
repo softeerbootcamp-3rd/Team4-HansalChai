@@ -15,6 +15,7 @@ import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable.js";
 import { isNumber, isPositiveNumber } from "../../../utils/helper.js";
+import { getIsMember } from "../../../utils/localStorage.js";
 
 const LoadInfoTypoBox = styled.div`
   width: 40px;
@@ -121,6 +122,13 @@ const ChoiceLoadInfo = () => {
       cargoHeight: Number(inCargoHeight.current),
       specialNotes: inSpecialNotes
     });
+
+
+    const isMeber = getIsMember();
+    if(isMeber === "false"){
+      navigation(UrlMap.guestInfoPageUrl);
+      return;
+    }
     navigation(UrlMap.resultPageUrl);
   }
 

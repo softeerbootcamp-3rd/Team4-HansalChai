@@ -10,6 +10,7 @@ import { useContext } from "react";
 import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate } from "react-router-dom";
 import { CompanyCallNumber, UrlMap } from "../../../data/GlobalVariable.js";
+import { getIsMember } from "../../../utils/localStorage.js";
 
 const Result = () => {
   const navigation = useNavigate();
@@ -17,10 +18,20 @@ const Result = () => {
     state: { srcCoordinate, dstCoordinate }
   } = useContext(reservationStore);
 
-  function CallCompany() {
+  function callCompany() {
     const phoneNumber = CompanyCallNumber;
     window.location.href = `tel:${phoneNumber}`;
   }
+
+  function decideBtnFun(){
+    const isMember = getIsMember();
+    if(isMember === "false"){
+      navigation(UrlMap.completePageUrl);
+      return;
+    }
+    navigation(UrlMap.choicePaymentPageUrl);
+  }
+
 
   return (
     <MobileLayout>
@@ -64,7 +75,7 @@ const Result = () => {
       <BottomButton
         role="main"
         onClick={() => {
-          navigation(UrlMap.choicePaymentPageUrl);
+          decideBtnFun();
         }}
       >
         이걸로 결정할게요!
@@ -73,7 +84,7 @@ const Result = () => {
       <BottomButton
         role="sub"
         onClick={() => {
-          CallCompany();
+          callCompany();
         }}
       >
         유선 상담하기

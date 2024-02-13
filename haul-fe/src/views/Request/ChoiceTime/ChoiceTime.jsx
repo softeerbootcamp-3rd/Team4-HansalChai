@@ -14,6 +14,7 @@ import { UrlMap } from "../../../data/GlobalVariable.js";
 import { LuClock9 } from "react-icons/lu";
 import Flex from "../../../components/Flex/Flex.jsx";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
+import { isLoginFun } from "../../../utils/localStorage.js";
 
 const TimeWrapper = styled.div`
   ${props => props.theme.flex.flexRow}
@@ -62,6 +63,10 @@ const ChoiceTime = () => {
   } = useContext(reservationStore);
 
   useEffect(() => {
+    const isLogin = isLoginFun();
+    if(!isLogin){
+      navigation(UrlMap.loginPageUrl);
+    }
     //날짜를 선택하지 않고 이 페이지로 오게 될 경우를 대비
     if (isEmptyString(reservationDate)) {
       navigation(UrlMap.choiceDatePageUrl);
