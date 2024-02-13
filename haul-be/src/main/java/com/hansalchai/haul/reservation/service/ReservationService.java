@@ -30,6 +30,7 @@ import com.hansalchai.haul.reservation.repository.DestinationRepository;
 import com.hansalchai.haul.reservation.repository.ReservationRepository;
 import com.hansalchai.haul.reservation.repository.SourceRepository;
 import com.hansalchai.haul.reservation.repository.TransportRepository;
+import com.hansalchai.haul.user.entity.Users;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -102,6 +103,9 @@ public class ReservationService{
 	}
 
 	public ReservationResponse.ReservationRecommendationDTO createGuestReservation(ReservationRequest.CreateReservationGuestDTO request) {
+		//TODO 주문한 사람 연결
+		Customer customer = new Customer();
+
 		Source source = request.getSrc().build();
 		Destination destination = request.getDst().build();
 		Cargo cargo = request.getCargo().build();
