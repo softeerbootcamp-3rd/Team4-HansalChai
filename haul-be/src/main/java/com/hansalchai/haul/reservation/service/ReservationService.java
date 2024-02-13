@@ -41,13 +41,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class ReservationService{
 	private final KakaoMap kakaoMap;
-	private final CargoRepository cargoRepository;
-	private final CargoOptionRepository cargoOptionRepository;
-	private final DestinationRepository destinationRepository;
 	private final ReservationRepository reservationRepository;
-	private final SourceRepository sourceRepository;
-	private final TransportRepository transportRepository;
-	private final CustomerRepository customerRepository;
 	private final UsersRepository usersRepository;
 
 	//querydsl
@@ -72,11 +66,7 @@ public class ReservationService{
 		MapUtils.DistanceDurationInfo distanceDurationInfo = kakaoMap.carPathFind(srcLocation, dstLocation);
 		CargoFeeTable.RequestedTruckInfo fee = CargoFeeTable.findCost(cargo.getWeight(), distanceDurationInfo.getDistance());
 
-		Transport transport = Transport.builder()
-			.type(request.getTransportType())
-			.fee(fee.getCost())
-			.requiredTime(distanceDurationInfo.getDuration())
-			.build();
+		Transport transport = Transport.toEntity(request.getTransportType(), fee.getCost(),distanceDurationInfo.getDuration());
 
 		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
 		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption), cargo);
@@ -97,17 +87,12 @@ public class ReservationService{
 		Cargo cargo = request.getCargo().build();
 		CargoOption cargoOption = request.getCargoOption().build();
 
-		//TODO 리팩토링 도움
 		MapUtils.Location srcLocation = new MapUtils.Location(source.getLatitude(), source.getLongitude());
 		MapUtils.Location dstLocation = new MapUtils.Location(destination.getLatitude(), destination.getLongitude());
 		MapUtils.DistanceDurationInfo distanceDurationInfo = kakaoMap.carPathFind(srcLocation, dstLocation);
 		CargoFeeTable.RequestedTruckInfo fee = CargoFeeTable.findCost(cargo.getWeight(), distanceDurationInfo.getDistance());
 
-		Transport transport = Transport.builder()
-			.type(request.getTransportType())
-			.fee(fee.getCost())
-			.requiredTime(distanceDurationInfo.getDuration())
-			.build();
+		Transport transport = Transport.toEntity(request.getTransportType(), fee.getCost(),distanceDurationInfo.getDuration());
 
 		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
 		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption), cargo);
