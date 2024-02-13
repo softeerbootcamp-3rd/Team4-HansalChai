@@ -3,7 +3,6 @@ import { useEffect } from "react";
 const restApiKey = import.meta.env.VITE_KAKAO_MAP_REST_KEY;
 
 const loadKakaoMaps = drawdirection => {
-  if (window.kakao !== undefined) return;
   const script = document.createElement("script");
   script.type = "text/javascript";
   script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${
@@ -125,9 +124,10 @@ const RouteMap = ({ origin, destination }) => {
     <>
       <div
         id="map"
-        style={{
-          width: "100%",
-          height: "227px"
+        style={{ 
+          width: "100%", 
+          height: "227px", 
+          borderRadius: "10px" 
         }}
       ></div>
     </>

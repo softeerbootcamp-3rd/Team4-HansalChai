@@ -92,7 +92,7 @@ const AdvisorText = styled(Typography)`
   ${({ theme }) => theme.font.medium12};
   color: ${({ theme, color }) => theme.colors[color]};
   position: absolute;
-  top: -12px;
+  bottom: 4px;
 `;
 
 const UserInfo = () => {
@@ -207,6 +207,7 @@ const UserInfo = () => {
               </TextLabel>
               <TextInput
                 placeholder="●●●●●●"
+                type="password"
                 id={"password"}
                 onBlur={e => {
                   passwordRef.current = e.target.value;
@@ -237,6 +238,7 @@ const UserInfo = () => {
               <TextInput
                 placeholder="●●●●●●"
                 id={"passwordConfirm"}
+                type="password"
                 onBlur={e => {
                   passwordConfirmRef.current = e.target.value;
                   setIsPasswordConfirmCorrect(

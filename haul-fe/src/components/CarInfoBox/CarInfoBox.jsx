@@ -40,10 +40,11 @@ const CarCard = styled.div`
 
 const CarCardImage = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
   border-radius: 10px;
-  object-fit: cover;
+  object-fit: scale-down;
   object-position: center;
+  
 `;
 const QuantityBox = styled.div`
   position: absolute;

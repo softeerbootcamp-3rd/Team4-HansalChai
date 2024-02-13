@@ -55,7 +55,7 @@ const ChoiceLoadInfo = () => {
       cargoWidth,
       cargoLength,
       cargoHeight,
-      specialNotes,
+      specialNotes
     },
     state,
   } = useContext(reservationStore);

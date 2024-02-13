@@ -5,6 +5,7 @@ import Lottie from "lottie-react";
 import Loading_Truck from "../../../assets/gifs/Loading_Truck.json";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
+import Flex from "../../../components/Flex/Flex.jsx";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 import { useNavigate } from "react-router-dom";
 
@@ -21,7 +22,9 @@ const Complete = () => {
     <MobileLayout>
       <Margin height="60px" />
       <Typography font="bold24">예약을 완료했어요.</Typography>
-      <Lottie animationData={Loading_Truck} />
+      <Flex kind="flexCenter">
+        <Lottie animationData={Loading_Truck} style={{maxWidth:"500px"}}/>
+      </Flex>
       <Typography font="bold24">잠시 후에 기사가</Typography>
       <Margin height="4px" />
       <Typography font="bold24">배정되는대로 알려드릴게요.</Typography>
