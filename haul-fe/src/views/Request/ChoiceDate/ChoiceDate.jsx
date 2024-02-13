@@ -15,7 +15,7 @@ import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 
 const ChoiceDate = () => {
   const navigation = useNavigate();
-  const [selectedDay, setSelectedDay] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState();
   const {
     setReservationDate,
     state: { transportType, reservationDate }
