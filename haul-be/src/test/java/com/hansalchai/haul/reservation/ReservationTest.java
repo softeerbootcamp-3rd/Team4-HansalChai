@@ -108,6 +108,7 @@ public class ReservationTest {
 		Assertions.assertEquals(BigDecimal.valueOf(129.073332), actual.getDst().getLatitude());
 	}
 
+	//TODO 토큰이 없어서 실패함
 	@Test
 	@DisplayName("고객은 화물차를 예약할 수 있습니다.")
 	void ReservationMVCTest() throws Exception {

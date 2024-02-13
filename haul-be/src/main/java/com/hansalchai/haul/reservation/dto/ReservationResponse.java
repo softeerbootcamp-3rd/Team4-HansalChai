@@ -96,4 +96,9 @@ public class ReservationResponse {
 			return stringBuilder.toString();
 		}
 	}
+
+	@Getter
+	public static class ReservationDTO{
+
+	}
 }

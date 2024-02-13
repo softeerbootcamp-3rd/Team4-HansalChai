@@ -2,8 +2,11 @@ package com.hansalchai.haul.reservation.controller;
 
 import static com.hansalchai.haul.common.auth.jwt.JwtProvider.*;
 import static com.hansalchai.haul.common.utils.ApiResponse.*;
+import static com.hansalchai.haul.reservation.dto.ReservationRequest.*;
+import static com.hansalchai.haul.reservation.dto.ReservationResponse.*;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -29,20 +32,28 @@ public class ReservationRestController {
 	private final ReservationService reservationService;
 
 	@PostMapping("/reservations")
-	public ResponseEntity<ApiResponse<ReservationResponse.ReservationRecommendationDTO>> customerReservation(
-		@Valid @RequestBody ReservationRequest.CreateReservationDTO reservationDTO,
+	public ResponseEntity<ApiResponse<ReservationRecommendationDTO>> postCustomerReservation(
+		@Valid @RequestBody CreateReservationDTO reservationDTO,
 		HttpServletRequest request
 	) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		ReservationResponse.ReservationRecommendationDTO response = reservationService.createReservation(reservationDTO, auth.getUserId());
+		ReservationRecommendationDTO response = reservationService.createReservation(reservationDTO, auth.getUserId());
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
 	@PostMapping("/reservations/guest")
-	public ResponseEntity<ApiResponse<ReservationResponse.ReservationRecommendationDTO>> guestReservation(
-		@Valid @RequestBody ReservationRequest.CreateReservationGuestDTO reservationDTO
+	public ResponseEntity<ApiResponse<ReservationRecommendationDTO>> postGuestReservation(
+		@Valid @RequestBody CreateReservationGuestDTO reservationDTO
 	) {
-		ReservationResponse.ReservationRecommendationDTO response = reservationService.createGuestReservation(reservationDTO);
+		ReservationRecommendationDTO response = reservationService.createGuestReservation(reservationDTO);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
+
+	@GetMapping("/reservations")
+	public ResponseEntity<ApiResponse<ReservationDTO>> getCustomerReservation(HttpServletRequest request){
+		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
+		ReservationDTO response = reservationService.getReservation(auth.getUserId());
+		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
+	}
+
 }

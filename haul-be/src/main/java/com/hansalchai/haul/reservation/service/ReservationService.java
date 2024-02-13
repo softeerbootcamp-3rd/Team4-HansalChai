@@ -109,4 +109,8 @@ public class ReservationService{
 		return new ReservationRecommendationDTO(reservation,
 			distanceDurationInfo.getDuration());
 	}
+
+	public ReservationDTO getReservation(Long userId) {
+		return null;
+	}
 }
