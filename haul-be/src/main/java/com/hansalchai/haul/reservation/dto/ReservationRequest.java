@@ -180,7 +180,7 @@ public class ReservationRequest {
 		private DestinationDTO dst;
 		private CargoDTO cargo;
 		private CargoOptionDTO cargoOption;
-		private UserInfoDTO userInfoDTO;
+		private UserInfoDTO userInfo;
 
 		@Getter
 		@Setter

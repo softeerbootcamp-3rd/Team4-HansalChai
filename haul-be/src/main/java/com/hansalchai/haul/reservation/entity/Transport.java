@@ -42,19 +42,19 @@ public class Transport extends BaseTime {
 
 	@PositiveOrZero(message = "운송이동시간은 음수 일 수 없다.")
 	@Column(nullable = false)
-	private int requiredTime;
+	private double requiredTime;
 
 	@Enumerated(EnumType.STRING)
 	private TransportStatus transportStatus = TransportStatus.NOT_STARTED;
 
 	@Builder
-	public Transport(TransportType type, int fee, int requiredTime) {
+	public Transport(TransportType type, int fee, double requiredTime) {
 		this.type = type;
 		this.fee = fee;
 		this.requiredTime = requiredTime;
 	}
 
-	public static Transport toEntity(TransportType type, int fee, int requiredTime){
+	public static Transport toEntity(TransportType type, int fee, double requiredTime){
 		return Transport.builder()
 			.type(type)
 			.fee(fee)

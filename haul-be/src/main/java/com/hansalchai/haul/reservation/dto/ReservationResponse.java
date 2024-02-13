@@ -18,7 +18,7 @@ public class ReservationResponse {
 		@NotNull(message = "비용은 Null 일 수 없다.")
 		private final int cost;
 		@NotNull(message = "걸리는시간은 Null 일 수 없다.")
-		private final int duration;
+		private final double duration;
 
 		@Getter
 		@Builder
@@ -62,7 +62,7 @@ public class ReservationResponse {
 		}
 
 		@Builder
-		public ReservationRecommendationDTO(Reservation reservation, int duration) {
+		public ReservationRecommendationDTO(Reservation reservation, double duration) {
 			this.car = CarDTO.builder()
 				.count(reservation.getCount())
 				.model(reservation.getCar().getModel())
@@ -95,6 +95,5 @@ public class ReservationResponse {
 				.append(reservation.getCar().getLength());
 			return stringBuilder.toString();
 		}
-
 	}
 }

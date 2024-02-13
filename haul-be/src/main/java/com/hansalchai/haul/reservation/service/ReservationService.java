@@ -97,7 +97,7 @@ public class ReservationService{
 		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
 		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption), cargo);
 
-		Users guest = Users.toEntity(request.getUserInfoDTO().getName(),request.getUserInfoDTO().getTel(),reservationNumber, null, null, Role.GUEST);
+		Users guest = Users.toEntity(request.getUserInfo().getName(),request.getUserInfo().getTel(),reservationNumber, null, null, Role.GUEST);
 
 		Reservation reservation = Reservation.toEntity(guest, null, cargo, cargoOption,
 			source, destination, transport, recommendedCar, reservationNumber, request.getDate(),request.getTime(),
