@@ -32,7 +32,7 @@ public class JwtValidationFilter implements Filter {
 	private final ObjectMapper objectMapper;
 
 	private final String[] whiteListUris
-		= new String[] {"*/users*", "/auth/refresh/token", "*/h2-console*"};
+		= new String[] {"*/users*", "/auth/refresh/token", "*/h2-console*", "/swagger-ui/**", "*/api-docs*"};
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws
