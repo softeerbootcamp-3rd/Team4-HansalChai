@@ -5,7 +5,7 @@ import org.hibernate.annotations.SQLRestriction;
 
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.utils.BaseTime;
-import com.hansalchai.haul.driver.entity.Driver;
+import com.hansalchai.haul.user.entity.Users;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,7 +34,7 @@ public class Owner extends BaseTime {
 	private Car car;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Driver driver;
+	private Users user;
 
 	@Column(nullable = false)
 	private String number;

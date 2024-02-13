@@ -35,8 +35,6 @@ public class QOwner extends EntityPathBase<Owner> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> deletedAt = _super.deletedAt;
 
-    public final com.hansalchai.haul.driver.entity.QDriver driver;
-
     //inherited
     public final BooleanPath isDeleted = _super.isDeleted;
 
@@ -46,6 +44,8 @@ public class QOwner extends EntityPathBase<Owner> {
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
+
+    public final com.hansalchai.haul.user.entity.QUsers user;
 
     public QOwner(String variable) {
         this(Owner.class, forVariable(variable), INITS);
@@ -66,7 +66,7 @@ public class QOwner extends EntityPathBase<Owner> {
     public QOwner(Class<? extends Owner> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.car = inits.isInitialized("car") ? new com.hansalchai.haul.car.entity.QCar(forProperty("car")) : null;
-        this.driver = inits.isInitialized("driver") ? new com.hansalchai.haul.driver.entity.QDriver(forProperty("driver")) : null;
+        this.user = inits.isInitialized("user") ? new com.hansalchai.haul.user.entity.QUsers(forProperty("user")) : null;
     }
 
 }

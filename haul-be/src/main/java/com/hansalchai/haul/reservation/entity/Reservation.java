@@ -10,8 +10,6 @@ import org.hibernate.validator.constraints.Range;
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.auth.constants.Role;
 import com.hansalchai.haul.common.utils.BaseTime;
-import com.hansalchai.haul.customer.entity.Customer;
-import com.hansalchai.haul.driver.entity.Driver;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.user.entity.Users;
 
