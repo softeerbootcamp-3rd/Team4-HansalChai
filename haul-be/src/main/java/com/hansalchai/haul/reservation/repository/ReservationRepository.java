@@ -11,4 +11,7 @@ import com.hansalchai.haul.reservation.entity.Reservation;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 	@Query(value = "select v from Reservation v where v.user.userId = :userId")
 	Page<Reservation> findByUserId(@Param("userId") Long userId, Pageable pageable);
+
+	@Query(value = "select v from Reservation v where v.number = :number")
+	Reservation findByNumber(@Param("number") String number);
 }
