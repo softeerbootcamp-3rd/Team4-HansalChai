@@ -37,7 +37,9 @@ const CheckDetail = ({ driver, car, map }) => {
   return (
     <MobileLayout>
       <Header home={false} back={true}>
-        <Typography font={"semiBold24"}>예약 확인</Typography>
+        <Typography font={"semiBold24"} color={"mainColor"}>
+          예약 확인
+        </Typography>
       </Header>
       <Margin height="32px" />
       <ReservItemFrame kind="flexColumn">

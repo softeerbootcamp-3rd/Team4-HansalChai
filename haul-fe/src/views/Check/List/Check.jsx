@@ -9,11 +9,12 @@ import SummaryItemBox from "./components/SummaryItemBox.jsx";
 import { dummySummary } from "../../../data/DummyData.js";
 
 const Check = () => {
-
   return (
     <MobileLayout>
       <Header home={false} back={false}>
-        <Typography font={"semiBold24"}>예약 확인</Typography>
+        <Typography font={"semiBold24"} color={"mainColor"}>
+          예약 확인
+        </Typography>
       </Header>
       <Margin height="32px" />
       {dummySummary().map((data, index) => (

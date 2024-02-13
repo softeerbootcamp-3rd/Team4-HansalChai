@@ -142,7 +142,7 @@ const UserInfo = () => {
   return (
     <MobileLayout>
       <Header home={true} back={true}>
-        <Typography font={"semiBold24"}>더보기</Typography>
+        <Typography font={"semiBold24"} color={"mainColor"}>더보기</Typography>
       </Header>
       <Margin height="32px" />
       {isEdit ? (
