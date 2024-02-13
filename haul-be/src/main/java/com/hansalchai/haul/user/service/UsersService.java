@@ -11,7 +11,6 @@ import com.hansalchai.haul.user.dto.UserLoginDto;
 import com.hansalchai.haul.user.entity.Users;
 import com.hansalchai.haul.user.repository.UsersRepository;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -54,7 +53,9 @@ public class UsersService {
 		return jwt;
 	}
 
-	public ProfileDTO getProfile(HttpServletRequest request) {
-		return null;
+	public ProfileDTO getProfile(Long userId) {
+		Users user = usersRepository.findById(userId)
+			.orElseThrow(() -> new RuntimeException("User not found"));
+		return new ProfileDTO(user);
 	}
 }
