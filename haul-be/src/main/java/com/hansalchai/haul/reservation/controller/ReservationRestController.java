@@ -5,6 +5,8 @@ import static com.hansalchai.haul.common.utils.ApiResponse.*;
 import static com.hansalchai.haul.reservation.dto.ReservationRequest.*;
 import static com.hansalchai.haul.reservation.dto.ReservationResponse.*;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,9 +52,9 @@ public class ReservationRestController {
 	}
 
 	@GetMapping("/reservations")
-	public ResponseEntity<ApiResponse<ReservationDTO>> getCustomerReservation(HttpServletRequest request){
+	public ResponseEntity<ApiResponse<List<ReservationDTO>>> getCustomerReservation(HttpServletRequest request){
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		ReservationDTO response = reservationService.getReservation(auth.getUserId());
+		List<ReservationDTO> response = reservationService.getReservation(auth.getUserId());
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 

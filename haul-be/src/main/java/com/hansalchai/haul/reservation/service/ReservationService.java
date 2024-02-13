@@ -3,6 +3,8 @@ package com.hansalchai.haul.reservation.service;
 import static com.hansalchai.haul.reservation.dto.ReservationRequest.*;
 import static com.hansalchai.haul.reservation.dto.ReservationResponse.*;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.hansalchai.haul.car.constants.CarType;
@@ -110,7 +112,8 @@ public class ReservationService{
 			distanceDurationInfo.getDuration());
 	}
 
-	public ReservationDTO getReservation(Long userId) {
+	public List<ReservationDTO> getReservation(Long userId) {
+		
 		return null;
 	}
 }

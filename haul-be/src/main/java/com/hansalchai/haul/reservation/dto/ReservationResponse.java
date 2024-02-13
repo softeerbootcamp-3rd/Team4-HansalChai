@@ -1,7 +1,14 @@
 package com.hansalchai.haul.reservation.dto;
 
 import java.math.BigDecimal;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
 
+import org.springframework.cglib.core.Local;
+
+import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.reservation.entity.Reservation;
 
 import jakarta.annotation.Nullable;
@@ -87,18 +94,36 @@ public class ReservationResponse {
 		}
 
 		private String getSizeToString(Reservation reservation){
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append(reservation.getCar().getWidth())
-				.append(" X ")
-				.append(reservation.getCar().getHeight())
-				.append(" X ")
-				.append(reservation.getCar().getLength());
-			return stringBuilder.toString();
+			Car car = reservation.getCar();
+			return String.format("%d X %d X %d",
+				car.getWidth(),
+				car.getHeight(),
+				car.getLength());
 		}
 	}
 
 	@Getter
 	public static class ReservationDTO{
+    	private final String car;
+		private final String status;
+		private final String datetime;
+		private final int cost;
+		@Builder
+		public ReservationDTO(Reservation reservation) {
+			this.car = getCarToString(reservation.getCar());
+			this.status = reservation.getTransport().getTransportStatus().getCode();
+			this.datetime = getDateTimeString(reservation.getDate(), reservation.getTime());
+			this.cost = reservation.getTransport().getFee();
+		}
 
+		public String getCarToString(Car car){
+			return String.format("%s(%s)",
+				car.getType().getCode(),
+				car.getModel());
+		}
+
+		public String getDateTimeString(LocalDate date, LocalTime time) {
+			return date.toString() + " " + time.toString();
+		}
 	}
 }
