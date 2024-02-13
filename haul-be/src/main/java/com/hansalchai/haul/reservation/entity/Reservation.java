@@ -8,6 +8,7 @@ import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Range;
 
 import com.hansalchai.haul.car.entity.Car;
+import com.hansalchai.haul.common.auth.constants.Role;
 import com.hansalchai.haul.common.utils.BaseTime;
 import com.hansalchai.haul.customer.entity.Customer;
 import com.hansalchai.haul.driver.entity.Driver;
@@ -98,5 +99,25 @@ public class Reservation extends BaseTime {
 		this.time = time;
 		this.count = count;
 		this.distance = distance;
+	}
+
+	public static Reservation toEntity(Users user, Owner owner,Cargo cargo, CargoOption cargoOption, Source source,
+		Destination destination, Transport transport,Car car, String number, LocalDate date, LocalTime time,
+		double distance, int count){
+		return Reservation.builder()
+				.user(user)
+				.owner(owner)
+				.cargo(cargo)
+				.cargoOption(cargoOption)
+				.source(source)
+				.destination(destination)
+				.transport(transport)
+				.car(car)
+				.number(number)
+				.date(date)
+				.time(time)
+				.distance(distance)
+				.count(count)
+				.build();
 	}
 }

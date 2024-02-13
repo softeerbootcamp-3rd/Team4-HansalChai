@@ -1,5 +1,8 @@
 package com.hansalchai.haul.reservation.service;
 
+import static com.hansalchai.haul.reservation.dto.ReservationRequest.*;
+import static com.hansalchai.haul.reservation.dto.ReservationResponse.*;
+
 import org.springframework.stereotype.Service;
 
 import com.hansalchai.haul.car.constants.CarType;
@@ -54,9 +57,8 @@ public class ReservationService{
 	2. 트럭을 선택
 	3. 예약을 생성 후 데이터 반환
 	 */
-	public ReservationResponse.ReservationRecommendationDTO createReservation(ReservationRequest.CreateReservationDTO request,
+	public ReservationRecommendationDTO createReservation(CreateReservationDTO request,
 		Long userId) {
-		//TODO 주문한 사람 연결
 		Users user = usersRepository.findById(userId).get();
 
 		Source source = request.getSrc().build();
@@ -79,29 +81,17 @@ public class ReservationService{
 		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
 		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption), cargo);
 
-		Reservation reservation = Reservation.builder()
-			.user(user)
-			.owner(null)
-			.cargo(cargo)
-			.cargoOption(cargoOption)
-			.source(source)
-			.destination(destination)
-			.transport(transport)
-			.car(recommendedCar)
-			.number(reservationNumber)
-			.date(request.getDate())
-			.time(request.getTime())
-			.distance(distanceDurationInfo.getDistance())
-			.count(fee.getNumber())
-			.build();
+		Reservation reservation = Reservation.toEntity(user, null, cargo, cargoOption,
+				source, destination, transport, recommendedCar, reservationNumber, request.getDate(),request.getTime(),
+				distanceDurationInfo.getDuration(), fee.getNumber());
 
 		reservationRepository.save(reservation);
 
-		return new ReservationResponse.ReservationRecommendationDTO(reservation,
+		return new ReservationRecommendationDTO(reservation,
 			distanceDurationInfo.getDuration());
 	}
 
-	public ReservationResponse.ReservationRecommendationDTO createGuestReservation(ReservationRequest.CreateReservationGuestDTO request) {
+	public ReservationRecommendationDTO createGuestReservation(CreateReservationGuestDTO request) {
 		Source source = request.getSrc().build();
 		Destination destination = request.getDst().build();
 		Cargo cargo = request.getCargo().build();
@@ -124,26 +114,14 @@ public class ReservationService{
 
 		Users guest = Users.toEntity(request.getUserInfoDTO().getName(),request.getUserInfoDTO().getTel(),reservationNumber, null, null, Role.GUEST);
 
-		Reservation reservation = Reservation.builder()
-			.user(guest)
-			.owner(null)
-			.cargo(cargo)
-			.cargoOption(cargoOption)
-			.source(source)
-			.destination(destination)
-			.transport(transport)
-			.car(recommendedCar)
-			.number(reservationNumber)
-			.date(request.getDate())
-			.time(request.getTime())
-			.distance(distanceDurationInfo.getDistance())
-			.count(fee.getNumber())
-			.build();
+		Reservation reservation = Reservation.toEntity(guest, null, cargo, cargoOption,
+			source, destination, transport, recommendedCar, reservationNumber, request.getDate(),request.getTime(),
+			distanceDurationInfo.getDuration(), fee.getNumber());
 
 		usersRepository.save(guest);
 		reservationRepository.save(reservation);
 
-		return new ReservationResponse.ReservationRecommendationDTO(reservation,
+		return new ReservationRecommendationDTO(reservation,
 			distanceDurationInfo.getDuration());
 	}
 }
