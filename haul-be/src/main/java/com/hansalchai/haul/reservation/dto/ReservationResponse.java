@@ -109,6 +109,7 @@ public class ReservationResponse {
 			this.isLastPage = isLastPage;
 		}
 
+		@Getter
 		public static class ReservationInfoDTO{
 			private final String car;
 			private final String status;
@@ -119,7 +120,7 @@ public class ReservationResponse {
 				this.car = getCarToString(reservation.getCar());
 				this.status = reservation.getTransport().getTransportStatus().getCode();
 				this.datetime = getDateTimeString(reservation.getDate(), reservation.getTime());
-				this.cost = reservation.getTransport().getFee();
+				this.cost = reservation.getTransport().getFee() / 10000;
 			}
 
 			public String getCarToString(Car car){
