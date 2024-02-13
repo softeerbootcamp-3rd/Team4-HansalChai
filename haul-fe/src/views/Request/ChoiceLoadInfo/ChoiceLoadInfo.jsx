@@ -4,7 +4,7 @@ import { reservationStore } from "../../../store/reservationStore.jsx";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Header from "../../../components/Header/Header.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
-import TypographySpan from "../../../components/Typhography/Typhography_Span.jsx";
+import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import Input from "../../../components/Input/Input.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";

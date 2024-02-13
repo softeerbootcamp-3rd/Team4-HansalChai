@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
 import Margin from "../../components/Margin/Margin.jsx";
 import Typography from "../../components/Typhography/Typhography.jsx";
-import TypographySpan from "../../components/Typhography/Typhography_Span.jsx";
+import TypographySpan from "../../components/Typhography/TyphographySpan.jsx";
 import Flex from "../../components/Flex/Flex.jsx";
 import Input from "../../components/Input/Input.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";

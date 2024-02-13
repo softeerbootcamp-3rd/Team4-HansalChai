@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Margin from "../../../../components/Margin/Margin";
-import TypographySpan from "../../../../components/Typhography/Typhography_Span";
+import TypographySpan from "../../../../components/Typhography/TyphographySpan";
 import Checkmark from "../../../../components/CheckMark/CheckMark";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { MaxDeviceWidth } from "../../../../data/GlobalVariable";

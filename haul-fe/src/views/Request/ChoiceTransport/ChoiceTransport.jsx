@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Header from "../../../components/Header/Header.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
-import TypographySpan from "../../../components/Typhography/Typhography_Span.jsx";
+import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import styled from "styled-components";
 import 일반용달 from "../../../assets/svgs/일반용달.svg";
