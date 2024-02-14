@@ -12,18 +12,19 @@ import BottomButton from "../../../components/Button/BottomButton.jsx";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable.js";
 import { isPhoneNumber } from "../../../utils/helper.js";
+import { guestReservationFun } from "../../../repository/reservationRepository.js";
 
 const GuestInfo = () => {
   const navigate = useNavigate();
-  const { setGuestInfo } = useContext(reservationStore);
+  const { setGuestInfo, getReservationState } = useContext(reservationStore);
 
-  const guestName = useRef("");
-  const guestTel = useRef("");
+  const inGuestName = useRef("");
+  const inGuestTel = useRef("");
   const [isButtonDisabled, setButtonDisabled] = useState(true);
 
   function checkGuestInfoAbled() {
     const checkIsButtonDisabled = !(
-      guestName.current.trim() && guestTel.current.trim()
+      inGuestName.current.trim() && inGuestTel.current.trim()
     );
     if (checkIsButtonDisabled !== isButtonDisabled) {
       setButtonDisabled(checkIsButtonDisabled);
@@ -31,14 +32,26 @@ const GuestInfo = () => {
   }
 
   //비회원 로그인 버튼 클릭 시 함수 (정보 입력 완료 버튼)
-  function guestInfoBtnFun() {
+  async function guestInfoBtnFun() {
     //전화번호 형식 예외처리
-    if (!isPhoneNumber(guestTel.current)) {
+    if (!isPhoneNumber(inGuestTel.current)) {
       ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
       return;
     }
-    setGuestInfo({ guestName: guestName.current, guestTel: guestTel.current });
-    navigate(UrlMap.resultPageUrl);
+
+    const reservationState = getReservationState();
+    console.log(reservationState);
+    const { success, data, message } = await guestReservationFun({
+      ...reservationState,
+      guestName: inGuestName.current,
+      guestTel: inGuestTel.current
+    });
+    if (success) {
+      console.log("성공");
+    } else {
+      ToastMaker({ type: "error", children: message });
+    }
+    //navigate(UrlMap.resultPageUrl);
   }
 
   return (
@@ -65,7 +78,7 @@ const GuestInfo = () => {
           type="text"
           placeholder="Your Name"
           onChange={({ target: { value } }) => {
-            guestName.current = value;
+            inGuestName.current = value;
             checkGuestInfoAbled();
           }}
         />
@@ -77,7 +90,7 @@ const GuestInfo = () => {
           type="tel"
           placeholder="Phone Number"
           onChange={({ target: { value } }) => {
-            guestTel.current = value;
+            inGuestTel.current = value;
             checkGuestInfoAbled();
           }}
         />

@@ -66,7 +66,7 @@ const ChoiceTransport = () => {
   const { setTransportType } = useContext(reservationStore);
 
   const navigation = useNavigate();
-  const ChoiceLogic = transportType => {
+  const ChoiceTransportBoxLogic = transportType => {
     setTransportType(transportType);
     navigation(UrlMap.choiceDatePageUrl);
   };
@@ -96,7 +96,7 @@ const ChoiceTransport = () => {
             key={idx}
             boxeachcolor={boxEachColor}
             onClick={() => {
-              ChoiceLogic(transportType);
+              ChoiceTransportBoxLogic(transportType);
             }}
           >
             <Flex
