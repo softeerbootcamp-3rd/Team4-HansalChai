@@ -7,7 +7,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { MaxDeviceWidth } from "../../../../data/GlobalVariable";
 
 const CalendarContainer = styled.div`
-  width: calc(${MaxDeviceWidth} + 40px);
+  width: ${MaxDeviceWidth};
   height: calc(100vh - 250px);
   background-color: ${props => props.theme.colors.white};
   border-radius: 10px;
@@ -80,10 +80,11 @@ const Calendar = ({
   isNextMonth
 }) => {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const today = new Date();
+  today.setDate(today.getDate() + 1);
   today.setHours(0, 0, 0, 0);
+  const [currentMonth, setCurrentMonth] = useState(today);
 
   // 두 날짜가 같은지 확인하는 함수
   const isSameDay = (toDay, compareDay) => {

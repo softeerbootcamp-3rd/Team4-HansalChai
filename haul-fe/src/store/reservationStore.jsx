@@ -30,7 +30,9 @@ const initialState = {
     { note: "탑차", selected: false },
     { note: "가구", selected: false },
     { note: "리프트 필요", selected: false }
-  ]
+  ],
+  guestName: "",
+  guestTel: ""
 };
 
 const reservationStore = createContext(initialState);
@@ -54,6 +56,10 @@ const ReservationStoreProvider = ({ children }) => {
     dispatch({ type: "SET_RESERVATION_TIME", payload: { reservationTime } });
   };
 
+  const setGuestInfo = ({ guestName, guestTel }) => {
+    dispatch({ type: "SET_GUEST_INFO", payload: { guestName, guestTel } });
+  };
+
   const setSrcInfo = ({
     srcName,
     srcAddress,
@@ -73,6 +79,31 @@ const ReservationStoreProvider = ({ children }) => {
         srcTel
       }
     });
+  };
+
+  const getReservationState = () => {
+    return {
+      transportType: state.transportType,
+      reservationDate: state.reservationDate,
+      reservationTime: state.reservationTime,
+      srcName: state.srcName,
+      srcAddress: state.srcAddress,
+      srcCoordinate: state.srcCoordinate,
+      srcDetailAddress: state.srcDetailAddress,
+      srcTel: state.srcTel,
+      dstName: state.dstName,
+      dstAddress: state.dstAddress,
+      dstCoordinate: state.dstCoordinate,
+      dstDetailAddress: state.dstDetailAddress,
+      dstTel: state.dstTel,
+      cargoWeight: state.cargoWeight,
+      cargoWidth: state.cargoWidth,
+      cargoLength: state.cargoLength,
+      cargoHeight: state.cargoHeight,
+      specialNotes: state.specialNotes,
+      guestName: state.guestName,
+      guestTel: state.guestTel
+    };
   };
 
   const setDstInfo = ({
@@ -125,7 +156,9 @@ const ReservationStoreProvider = ({ children }) => {
         setReservationTime,
         setSrcInfo,
         setDstInfo,
-        setRoadInfo
+        setRoadInfo,
+        setGuestInfo,
+        getReservationState
       }}
     >
       {children}
@@ -187,7 +220,12 @@ const reducer = (state, action) => {
         cargoHeight: action.payload.cargoHeight,
         specialNotes: action.payload.specialNotes
       };
-
+    case "SET_GUEST_INFO":
+      return {
+        ...state,
+        guestName: action.payload.guestName,
+        guestTel: action.payload.guestTel
+      };
     default:
       return state;
   }

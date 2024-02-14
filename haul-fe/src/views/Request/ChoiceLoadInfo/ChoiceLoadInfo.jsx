@@ -15,6 +15,8 @@ import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable.js";
 import { isNumber, isPositiveNumber } from "../../../utils/helper.js";
+import { getIsMember } from "../../../utils/localStorage.js";
+import { memberReservationFun } from "../../../repository/reservationRepository.js";
 
 const LoadInfoTypoBox = styled.div`
   width: 40px;
@@ -49,6 +51,7 @@ const ChoiceLoadInfo = () => {
 
   const {
     setRoadInfo,
+    getReservationState,
     state: {
       dstAddress,
       cargoWeight,
@@ -92,7 +95,7 @@ const ChoiceLoadInfo = () => {
     }
   }
 
-  function SumbitStore() {
+  async function SumbitStore() {
     if (
       !isNumber(inCargoWeight.current) ||
       !isNumber(inCargoWidth.current) ||
@@ -114,6 +117,7 @@ const ChoiceLoadInfo = () => {
       });
       return;
     }
+
     setRoadInfo({
       cargoWeight: Number(inCargoWeight.current),
       cargoWidth: Number(inCargoWidth.current),
@@ -121,7 +125,23 @@ const ChoiceLoadInfo = () => {
       cargoHeight: Number(inCargoHeight.current),
       specialNotes: inSpecialNotes
     });
-    navigation(UrlMap.resultPageUrl);
+
+    const isMember = getIsMember();
+    //비회원이라면 guestInfo 페이지로 이동
+    if (isMember === "false") {
+      navigation(UrlMap.guestInfoPageUrl);
+      return;
+    }
+    // 회원이라면 바로 결과 페이지로 이동
+    const { success, data, message } = await memberReservationFun(
+      getReservationState()
+    );
+    if (success) {
+      console.log("성공");
+      //navigation(UrlMap.resultPageUrl);
+    } else {
+      ToastMaker({ type: "error", children: message });
+    }
   }
 
   return (

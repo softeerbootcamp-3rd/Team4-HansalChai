@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import TestView from "../views/TestView.jsx";
 import Splash from "../views/Splash/Splash.jsx";
 import Login from "../views/Login/Login.jsx";
-import GuestLogin from "../views/GuestLogin/GuestLogin.jsx";
 import SignUP from "../views/SignUp/SignUp.jsx";
 import More from "../views/More/List/More.jsx";
 import Terms from "../views/More/Terms/Terms.jsx";
@@ -15,6 +14,7 @@ import ChoiceTime from "../views/Request/ChoiceTime/ChoiceTime";
 import ChoiceSrc from "../views/Request/ChoiceSrc/ChoiceSrc.jsx";
 import ChoiceDst from "../views/Request/ChoiceDst/ChoiceDst.jsx";
 import ChoiceLoadInfo from "../views/Request/ChoiceLoadInfo/ChoiceLoadInfo.jsx";
+import GuestInfo from "../views/Request/GuestInfo/GuestInfo.jsx";
 import Result from "../views/Request/Result/Result.jsx";
 import Complete from "../views/Request/Complete/Complete.jsx";
 import Contract from "../views/More/Terms/Contract/Contract.jsx";
@@ -37,7 +37,6 @@ const Router = () => (
     <Routes>
       <Route path="/" element={<Splash />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/guestLogin" element={<GuestLogin />} />
       <Route path="/signUp" element={<SignUP />} />
       <Route path="/more" element={<Outlet />}>
         <Route path="list" element={<More />} />
@@ -64,6 +63,7 @@ const Router = () => (
         <Route path="loadInfo" element={<ChoiceLoadInfo />} />
         <Route path="result" element={<Result />} />
         <Route path="purchase" element={<Purchase />} />
+        <Route path="guestInfo" element={<GuestInfo />} />
         <Route path="complete" element={<Complete />} />
       </Route>
       <Route path="/check" element={<Outlet />}>
