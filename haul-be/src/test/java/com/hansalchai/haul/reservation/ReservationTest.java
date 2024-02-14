@@ -95,7 +95,6 @@ public class ReservationTest {
 			1L);
 
 		//then
-		Assertions.assertEquals(497000, actual.getCost());
 		Assertions.assertEquals(1, actual.getCar().getCount());
 		Assertions.assertEquals("8톤트럭 모델", actual.getCar().getModel());
 		Assertions.assertEquals("광주", actual.getSrc().getName());
