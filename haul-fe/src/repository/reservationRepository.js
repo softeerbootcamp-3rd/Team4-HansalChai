@@ -26,7 +26,7 @@ export async function memberReservationFun({
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${getAccessToken}`
+        Authorization: `Bearer ${getAccessToken}`
       },
       body: JSON.stringify({
         transportType: transportType,
@@ -70,15 +70,13 @@ export async function memberReservationFun({
         data
       };
     } else {
-      return { success: false, message: "Login failed" };
+      return { success: false, message: "Reservation failed" };
     }
   } catch (error) {
     console.error("Login error:", error);
     return { success: false, message: error.toString() };
   }
 }
-
-
 
 export async function guestReservationFun({
   transportType,
@@ -146,44 +144,7 @@ export async function guestReservationFun({
         }
       })
     });
-    console.log(JSON.stringify({
-        transportType: transportType,
-        date: reservationDate,
-        time: reservationTime,
-        src: {
-          name: srcName,
-          address: srcAddress,
-          detailAddress: srcDetailAddress,
-          latitude: srcCoordinate.srcLatitude,
-          longitude: srcCoordinate.srcLongitude,
-          tel: srcTel
-        },
-        dst: {
-          name: dstName,
-          address: dstAddress,
-          detailAddress: dstDetailAddress,
-          latitude: dstCoordinate.dstLatitude,
-          longitude: dstCoordinate.dstLongitude,
-          tel: dstTel
-        },
-        cargo: {
-          width: cargoWidth,
-          length: cargoLength,
-          height: cargoHeight,
-          weight: cargoWeight
-        },
-        cargoOption: {
-          refrigerated: specialNotes[0].selected,
-          frozen: specialNotes[1].selected,
-          furniture: specialNotes[2].selected,
-          liftRequired: specialNotes[3].selected
-        },
-        userInfo: {
-          name: guestName,
-          tel: guestTel
-        }
-      }))
-    console.log(response);
+
     if (response.ok) {
       const data = await response.json();
       return {
@@ -191,11 +152,10 @@ export async function guestReservationFun({
         data
       };
     } else {
-      return { success: false, message: "Login failed" };
+      return { success: false, message: "Reservation failed" };
     }
   } catch (error) {
     console.error("Login error:", error);
     return { success: false, message: error.toString() };
   }
 }
-
