@@ -71,6 +71,7 @@ const ChoiceTime = () => {
     if (isEmptyString(reservationDate)) {
       navigation(UrlMap.choiceDatePageUrl);
     }
+    //이전에 선택한 시간이 있다면 그걸로 선택해두기
     if (!isEmptyString(reservationTime)) {
       setSelectedTime(reservationTime);
     }
@@ -78,13 +79,11 @@ const ChoiceTime = () => {
 
   function formatDateString(dateString) {
     if (isEmptyString(dateString)) return "";
-    const [year, month, day] = dateString.split(".");
-    const formattedMonth = month.length === 1 ? `0${month}` : month;
-    const formattedDay = day.length === 1 ? `0${day}` : day;
-    return `${year}.${formattedMonth}.${formattedDay}`;
+    const [year, month, day] = dateString.split("-");
+    return `${year}.${month}.${day}`;
   }
 
-  function sumbitFun() {
+  function sumbitTimeFun() {
     setReservationTime(selectedTime);
     navigation(UrlMap.choiceSrcPageUrl);
   }
@@ -155,7 +154,7 @@ const ChoiceTime = () => {
           role="main"
           disabled={isEmptyString(selectedTime)}
           onClick={() => {
-            sumbitFun();
+            sumbitTimeFun();
           }}
         >
           선택 완료
