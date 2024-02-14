@@ -1,7 +1,11 @@
 package com.hansalchai.haul.reservation.dto;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
+import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.reservation.entity.Reservation;
 
 import jakarta.annotation.Nullable;
@@ -18,7 +22,7 @@ public class ReservationResponse {
 		@NotNull(message = "비용은 Null 일 수 없다.")
 		private final int cost;
 		@NotNull(message = "걸리는시간은 Null 일 수 없다.")
-		private final int duration;
+		private final double duration;
 
 		@Getter
 		@Builder
@@ -62,7 +66,7 @@ public class ReservationResponse {
 		}
 
 		@Builder
-		public ReservationRecommendationDTO(Reservation reservation, int duration) {
+		public ReservationRecommendationDTO(Reservation reservation, double duration) {
 			this.car = CarDTO.builder()
 				.count(reservation.getCount())
 				.model(reservation.getCar().getModel())
@@ -87,14 +91,49 @@ public class ReservationResponse {
 		}
 
 		private String getSizeToString(Reservation reservation){
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append(reservation.getCar().getWidth())
-				.append(" X ")
-				.append(reservation.getCar().getHeight())
-				.append(" X ")
-				.append(reservation.getCar().getLength());
-			return stringBuilder.toString();
+			Car car = reservation.getCar();
+			return String.format("%d X %d X %d",
+				car.getWidth(),
+				car.getHeight(),
+				car.getLength());
+		}
+	}
+
+	@Getter
+	public static class ReservationDTO{
+		List<ReservationInfoDTO> reservationInfoDTOS;
+		boolean isLastPage;
+
+		public ReservationDTO(List<ReservationInfoDTO> reservationInfoDTOS, boolean isLastPage) {
+			this.reservationInfoDTOS = reservationInfoDTOS;
+			this.isLastPage = isLastPage;
 		}
 
+		@Getter
+		public static class ReservationInfoDTO{
+			private final Long id;
+			private final String car;
+			private final String status;
+			private final String datetime;
+			private final int cost;
+			@Builder
+			public ReservationInfoDTO(Reservation reservation) {
+				this.id = reservation.getReservationId();
+				this.car = getCarToString(reservation.getCar());
+				this.status = reservation.getTransport().getTransportStatus().getCode();
+				this.datetime = getDateTimeString(reservation.getDate(), reservation.getTime());
+				this.cost = reservation.getTransport().getFee() / 10000;
+			}
+
+			public String getCarToString(Car car){
+				return String.format("%s(%s)",
+					car.getType().getCode(),
+					car.getModel());
+			}
+
+			public String getDateTimeString(LocalDate date, LocalTime time) {
+				return date.toString() + " " + time.toString();
+			}
+		}
 	}
 }

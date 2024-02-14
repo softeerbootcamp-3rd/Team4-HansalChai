@@ -24,9 +24,9 @@ public class MapUtils{
 	@Getter
 	public static class DistanceDurationInfo {
 		private final double distance;
-		private final int duration;
+		private final double duration;
 
-		public DistanceDurationInfo(double distance, int duration) {
+		public DistanceDurationInfo(double distance, double duration) {
 			this.distance = distance;
 			this.duration = duration;
 		}

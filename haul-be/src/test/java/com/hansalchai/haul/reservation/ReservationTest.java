@@ -91,10 +91,11 @@ public class ReservationTest {
 		// given
 		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTO();
 		//when
-		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO);
+		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO,
+			1L);
 
 		//then
-		Assertions.assertEquals(482000, actual.getCost());
+		Assertions.assertEquals(497000, actual.getCost());
 		Assertions.assertEquals(1, actual.getCar().getCount());
 		Assertions.assertEquals("8톤트럭 모델", actual.getCar().getModel());
 		Assertions.assertEquals("광주", actual.getSrc().getName());
@@ -107,6 +108,7 @@ public class ReservationTest {
 		Assertions.assertEquals(BigDecimal.valueOf(129.073332), actual.getDst().getLatitude());
 	}
 
+	//TODO 토큰이 없어서 실패함
 	@Test
 	@DisplayName("고객은 화물차를 예약할 수 있습니다.")
 	void ReservationMVCTest() throws Exception {

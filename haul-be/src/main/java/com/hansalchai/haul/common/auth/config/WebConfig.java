@@ -21,11 +21,11 @@ public class WebConfig implements WebMvcConfigurer {
 		filterFilterRegistrationBean.setOrder(1);
 		return filterFilterRegistrationBean;
 	}
-
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new UserAuthorizationInterceptor())
-			.order(1)
-			.excludePathPatterns("/api/v1/users/**", "*/h2-console*", "/css/**", "/*.ico", "/error");
-	}
+	//TODO
+	// @Override
+	// public void addInterceptors(InterceptorRegistry registry) {
+	// 	registry.addInterceptor(new UserAuthorizationInterceptor())
+	// 		.order(1)
+	// 		.excludePathPatterns("/api/v1/users/**", "*/h2-console*", "/css/**", "/*.ico", "/error", "/api/v1/reservations**");
+	// }
 }

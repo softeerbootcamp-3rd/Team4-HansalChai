@@ -20,7 +20,7 @@ import lombok.Getter;
 * 내부적으로 distance int형으로 변환
 * findCost는 lowerbound로 구현했고 value값에 해당하는 a의 index를 nlog(n)에 찾아줌.
 * ex) 1300, 13km -> 값
-*
+* 값은 만원 단위로 버림
 * */
 public class CargoFeeTable {
 	private static final Map<Integer, List<int[]> > feeTable = new HashMap<>();
@@ -120,7 +120,7 @@ public class CargoFeeTable {
 			int num = (weight + truckWeight - 1) / truckWeight;
 			int cost = list.get(lo)[2];
 			if(num * cost < requestedTruckInfo.cost)
-				requestedTruckInfo = new RequestedTruckInfo(truckWeight, num,num*cost );
+				requestedTruckInfo = new RequestedTruckInfo(truckWeight, num,((num * cost) / 10000) * 10000 );
 		}
 		return requestedTruckInfo;
 	}
