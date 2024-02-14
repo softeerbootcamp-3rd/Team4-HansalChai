@@ -37,9 +37,9 @@ public class QSource extends EntityPathBase<Source> {
     //inherited
     public final BooleanPath isDeleted = _super.isDeleted;
 
-    public final NumberPath<java.math.BigDecimal> latitude = createNumber("latitude", java.math.BigDecimal.class);
+    public final NumberPath<Double> latitude = createNumber("latitude", Double.class);
 
-    public final NumberPath<java.math.BigDecimal> longitude = createNumber("longitude", java.math.BigDecimal.class);
+    public final NumberPath<Double> longitude = createNumber("longitude", Double.class);
 
     public final StringPath name = createString("name");
 

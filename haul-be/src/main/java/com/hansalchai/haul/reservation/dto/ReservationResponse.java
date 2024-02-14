@@ -50,9 +50,9 @@ public class ReservationResponse {
 			@NotNull(message = "출발지 주소는 Null 일 수 없다.")
 			private String address;
 			@NotNull(message = "출발지 위도는 Null 일 수 없다.")
-			private BigDecimal latitude;
+			private double latitude;
 			@NotNull(message = "출발지 경도는 Null 일 수 없다.")
-			private BigDecimal longitude;
+			private double longitude;
 		}
 
 		@Getter
@@ -63,9 +63,9 @@ public class ReservationResponse {
 			@NotNull(message = "출발지 주소는 Null 일 수 없다.")
 			private String address;
 			@NotNull(message = "출발지 위도는 Null 일 수 없다.")
-			private BigDecimal latitude;
+			private double latitude;
 			@NotNull(message = "출발지 경도는 Null 일 수 없다.")
-			private BigDecimal longitude;
+			private double longitude;
 		}
 
 		@Builder
@@ -186,9 +186,9 @@ public class ReservationResponse {
 			@NotNull(message = "출발지 주소는 Null 일 수 없다.")
 			private String address;
 			@NotNull(message = "출발지 위도는 Null 일 수 없다.")
-			private BigDecimal latitude;
+			private double latitude;
 			@NotNull(message = "출발지 경도는 Null 일 수 없다.")
-			private BigDecimal longitude;
+			private double longitude;
 		}
 
 		@Getter
@@ -199,9 +199,9 @@ public class ReservationResponse {
 			@NotNull(message = "출발지 주소는 Null 일 수 없다.")
 			private String address;
 			@NotNull(message = "출발지 위도는 Null 일 수 없다.")
-			private BigDecimal latitude;
+			private double latitude;
 			@NotNull(message = "출발지 경도는 Null 일 수 없다.")
-			private BigDecimal longitude;
+			private double longitude;
 		}
 
 		@Builder

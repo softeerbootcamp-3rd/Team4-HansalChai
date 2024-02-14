@@ -59,15 +59,15 @@ public class ReservationTest {
 		src.setAddress("광주광역시 서구 상무민주로 119 나나빌딩");
 		src.setTel("01012345678");
 		src.setDetailAddress("구이덕");
-		src.setLongitude(BigDecimal.valueOf(35.161723));
-		src.setLatitude(BigDecimal.valueOf(126.857084));
+		src.setLongitude(37.4851943071576);
+		src.setLatitude(126.717952447459);
 
 		ReservationRequest.CreateReservationDTO.DestinationDTO dst = new ReservationRequest.CreateReservationDTO.DestinationDTO();
 		dst.setName("부산");
 		dst.setAddress("부산광역시 연제구 거제대로178번길 51-2");
 		dst.setDetailAddress("종갓집 양곱창");
-		dst.setLongitude(BigDecimal.valueOf(35.184116));
-		dst.setLatitude(BigDecimal.valueOf(129.073332));
+		dst.setLongitude(37.4482284563797);
+		dst.setLatitude(126.649653068211);
 		dst.setTel("01012345678");
 
 		ReservationRequest.CreateReservationDTO.CargoDTO cargo = new ReservationRequest.CreateReservationDTO.CargoDTO();
@@ -100,12 +100,12 @@ public class ReservationTest {
 		Assertions.assertEquals("8톤트럭 모델", actual.getCar().getModel());
 		Assertions.assertEquals("광주", actual.getSrc().getName());
 		Assertions.assertEquals("광주광역시 서구 상무민주로 119 나나빌딩", actual.getSrc().getAddress());
-		Assertions.assertEquals( BigDecimal.valueOf(35.161723), actual.getSrc().getLongitude());
-		Assertions.assertEquals(BigDecimal.valueOf(126.857084), actual.getSrc().getLatitude());
+		Assertions.assertEquals( 35.161723, actual.getSrc().getLongitude());
+		Assertions.assertEquals(126.857084, actual.getSrc().getLatitude());
 		Assertions.assertEquals("부산", actual.getDst().getName());
 		Assertions.assertEquals("부산광역시 연제구 거제대로178번길 51-2", actual.getDst().getAddress());
-		Assertions.assertEquals(BigDecimal.valueOf(35.184116), actual.getDst().getLongitude());
-		Assertions.assertEquals(BigDecimal.valueOf(129.073332), actual.getDst().getLatitude());
+		Assertions.assertEquals(35.184116, actual.getDst().getLongitude());
+		Assertions.assertEquals(129.073332, actual.getDst().getLatitude());
 	}
 
 	//TODO 토큰이 없어서 실패함

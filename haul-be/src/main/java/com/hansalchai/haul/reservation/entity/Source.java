@@ -41,18 +41,18 @@ public class Source extends BaseTime {
 	@Column(length = 100, nullable = false)
 	private String detailAddress;
 
-	@Column(precision = 11, scale = 7, nullable = false)
-	private BigDecimal latitude;
+	@Column(nullable = false)
+	private double latitude;
 
-	@Column(precision = 11, scale = 7, nullable = false)
-	private BigDecimal longitude;
+	@Column(nullable = false)
+	private double longitude;
 
 	@Column(length = 15, nullable = false)
 	private String tel;
 
 	@Builder
-	public Source(String name, String address, String detailAddress, BigDecimal latitude,
-		BigDecimal longitude, String tel) {
+	public Source(String name, String address, String detailAddress, double latitude,
+		double longitude, String tel) {
 		this.name = name;
 		this.address = address;
 		this.detailAddress = detailAddress;

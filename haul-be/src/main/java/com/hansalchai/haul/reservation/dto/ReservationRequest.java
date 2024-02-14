@@ -52,10 +52,10 @@ public class ReservationRequest {
 			private String detailAddress;
 
 			@NotNull(message = "출발지 위도는 Null 일 수 없다.")
-			private BigDecimal latitude;
+			private double latitude;
 
 			@NotNull(message = "출발지 경도는 Null 일 수 없다.")
-			private BigDecimal longitude;
+			private double longitude;
 
 			@NotNull(message = "출발지 전화번호는 Null 일 수 없다.")
 			private String tel;
@@ -85,10 +85,10 @@ public class ReservationRequest {
 			private String detailAddress;
 
 			@NotNull(message = "도착지 위도는 Null 일 수 없다.")
-			private BigDecimal latitude;
+			private double latitude;
 
 			@NotNull(message = "도착지 경도는 Null 일 수 없다.")
-			private BigDecimal longitude;
+			private double longitude;
 
 			@NotNull(message = "도착지 전화번호는 Null 일 수 없다.")
 			private String tel;
@@ -196,10 +196,10 @@ public class ReservationRequest {
 			private String detailAddress;
 
 			@NotNull(message = "출발지 위도는 Null 일 수 없다.")
-			private BigDecimal latitude;
+			private double latitude;
 
 			@NotNull(message = "출발지 경도는 Null 일 수 없다.")
-			private BigDecimal longitude;
+			private double longitude;
 
 			@NotNull(message = "출발지 전화번호는 Null 일 수 없다.")
 			private String tel;
@@ -229,10 +229,10 @@ public class ReservationRequest {
 			private String detailAddress;
 
 			@NotNull(message = "도착지 위도는 Null 일 수 없다.")
-			private BigDecimal latitude;
+			private double latitude;
 
 			@NotNull(message = "도착지 경도는 Null 일 수 없다.")
-			private BigDecimal longitude;
+			private double longitude;
 
 			@NotNull(message = "도착지 전화번호는 Null 일 수 없다.")
 			private String tel;
