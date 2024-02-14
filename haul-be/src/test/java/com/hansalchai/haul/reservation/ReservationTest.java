@@ -71,10 +71,10 @@ public class ReservationTest {
 		dst.setTel("01012345678");
 
 		ReservationRequest.CreateReservationDTO.CargoDTO cargo = new ReservationRequest.CreateReservationDTO.CargoDTO();
-		cargo.setWidth(100);
-		cargo.setLength(100);
-		cargo.setHeight(100);
-		cargo.setWeight(6000);
+		cargo.setWidth(1);
+		cargo.setLength(1);
+		cargo.setHeight(1);
+		cargo.setWeight(1);
 
 		ReservationRequest.CreateReservationDTO.CargoOptionDTO cargoOption = new ReservationRequest.CreateReservationDTO.CargoOptionDTO();
 		cargoOption.setRefrigerated(true);
@@ -87,6 +87,14 @@ public class ReservationTest {
 	}
 
 	@Test
+	@DisplayName("예약 중복 테스트")
+	void ReservationDuplicationTest() throws Exception{
+		// given
+		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTO();
+
+	}
+
+	@Test
 	@DisplayName("예약 service 테스트")
 	void ReservationServiceTest() throws Exception {
 		// given
@@ -94,10 +102,9 @@ public class ReservationTest {
 		//when
 		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO,
 			1L);
-
 		//then
 		Assertions.assertEquals(1, actual.getCar().getCount());
-		Assertions.assertEquals("8톤트럭 모델", actual.getCar().getModel());
+		Assertions.assertEquals("포터2", actual.getCar().getModel());
 		Assertions.assertEquals("광주", actual.getSrc().getName());
 		Assertions.assertEquals("광주광역시 서구 상무민주로 119 나나빌딩", actual.getSrc().getAddress());
 		Assertions.assertEquals( 35.161723, actual.getSrc().getLongitude());
