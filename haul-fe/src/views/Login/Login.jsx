@@ -14,6 +14,7 @@ import { UrlMap, ErrorMessageMap } from "../../data/GlobalVariable.js";
 import { isPhoneNumber } from "../../utils/helper.js";
 import ToastMaker from "../../components/Toast/ToastMaker.jsx";
 import { setIsMember } from "../../utils/localStorage.js";
+import { loginFun } from "../../repository/userRepository.js";
 
 const GoSignUpBtn = styled.button`
   width: auto;
@@ -42,13 +43,17 @@ const Login = () => {
   }
 
   //로그인 버튼 클릭 시 실행 함수
-  function loginBtnFun() {
+  async function loginBtnFun() {
     //전화번호 형식 예외처리
     if (!isPhoneNumber(tel.current)) {
       ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
       return;
     }
-    navigate(UrlMap.choiceTranportTypeUrl);
+    const { success, data, message } = await loginFun({
+      tel: tel.current,
+      password: password.current
+    });
+    //navigate(UrlMap.choiceTranportTypeUrl);
   }
 
   // 비회원으로 접속하기 버튼 클릭 시 실행 함수

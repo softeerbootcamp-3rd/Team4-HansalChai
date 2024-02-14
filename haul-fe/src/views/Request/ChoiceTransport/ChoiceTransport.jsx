@@ -72,12 +72,12 @@ const ChoiceTransport = () => {
     navigation(UrlMap.choiceDatePageUrl);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const isLogin = isLoginFun();
-    if(!isLogin){
+    if (!isLogin) {
       navigation(UrlMap.loginPageUrl);
     }
-  },[])
+  }, []);
 
   return (
     <MobileLayout>

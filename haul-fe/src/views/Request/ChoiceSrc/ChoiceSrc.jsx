@@ -32,7 +32,7 @@ const ChoiceSrc = () => {
   //시간 선택하지 않는 경우, 이전 페이지인 시간 선택 페이지로 이동
   useEffect(() => {
     const isLogin = isLoginFun();
-    if(!isLogin){
+    if (!isLogin) {
       navigation(UrlMap.loginPageUrl);
     }
     if (isEmptyString(reservationTime)) {

@@ -123,9 +123,8 @@ const ChoiceLoadInfo = () => {
       specialNotes: inSpecialNotes
     });
 
-
     const isMeber = getIsMember();
-    if(isMeber === "false"){
+    if (isMeber === "false") {
       navigation(UrlMap.guestInfoPageUrl);
       return;
     }

@@ -17,6 +17,7 @@ import { isLoginFun } from "../../../utils/localStorage.js";
 const ChoiceDate = () => {
   const navigation = useNavigate();
   const [selectedDay, setSelectedDay] = useState();
+  
   const {
     setReservationDate,
     state: { transportType, reservationDate }
@@ -24,7 +25,7 @@ const ChoiceDate = () => {
 
   useEffect(() => {
     const isLogin = isLoginFun();
-    if(!isLogin){
+    if (!isLogin) {
       navigation(UrlMap.loginPageUrl);
     }
     //예상치 않은 URL접속을 방지

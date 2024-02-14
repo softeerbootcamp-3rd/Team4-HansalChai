@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
+import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate } from "react-router-dom";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
@@ -14,13 +15,16 @@ import { isPhoneNumber } from "../../../utils/helper.js";
 
 const GuestInfo = () => {
   const navigate = useNavigate();
+  const { setGuestInfo } = useContext(reservationStore);
 
   const guestName = useRef("");
   const guestTel = useRef("");
   const [isButtonDisabled, setButtonDisabled] = useState(true);
 
   function checkGuestInfoAbled() {
-    const checkIsButtonDisabled = !(guestName.current.trim() && guestTel.current.trim());
+    const checkIsButtonDisabled = !(
+      guestName.current.trim() && guestTel.current.trim()
+    );
     if (checkIsButtonDisabled !== isButtonDisabled) {
       setButtonDisabled(checkIsButtonDisabled);
     }
@@ -33,6 +37,7 @@ const GuestInfo = () => {
       ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
       return;
     }
+    setGuestInfo({ guestName: guestName.current, guestTel: guestTel.current });
     navigate(UrlMap.resultPageUrl);
   }
 
@@ -42,17 +47,12 @@ const GuestInfo = () => {
         HAUL<TypographySpan color="subColor">.</TypographySpan>
       </Header>
       <Margin height="24px" />
-      <Typography font="bold24">
-        소중한 고객님의
-      </Typography>
+      <Typography font="bold24">소중한 고객님의</Typography>
       <Margin height="6px" />
       <Typography font="bold24">
-        <TypographySpan color="subColor">
-            이름  
-        </TypographySpan>
-        과 
-        <TypographySpan color="subColor" style={{marginLeft:"5px"}}>
-            전화번호 
+        <TypographySpan color="subColor">이름</TypographySpan>과
+        <TypographySpan color="subColor" style={{ marginLeft: "5px" }}>
+          전화번호
         </TypographySpan>
         를 알려주세요.
       </Typography>

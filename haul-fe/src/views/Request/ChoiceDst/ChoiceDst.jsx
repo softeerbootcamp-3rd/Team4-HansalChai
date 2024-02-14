@@ -45,7 +45,7 @@ const ChoiceDst = () => {
   // 첫 페이지 렌더링 시 이전 값을 입력하지 않고, 잘못된 URL로 넘어왔을때 이전 페이지로 보냄
   useEffect(() => {
     const isLogin = isLoginFun();
-    if(!isLogin){
+    if (!isLogin) {
       navigation(UrlMap.loginPageUrl);
     }
     if (!srcAddress) navigation(UrlMap.choiceSrcPageUrl);
