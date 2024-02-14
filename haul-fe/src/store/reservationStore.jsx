@@ -30,7 +30,7 @@ const initialState = {
     { note: "탑차", selected: false },
     { note: "가구", selected: false },
     { note: "리프트 필요", selected: false }
-  ],
+  ]
 };
 
 const reservationStore = createContext(initialState);
@@ -75,8 +75,8 @@ const ReservationStoreProvider = ({ children }) => {
     });
   };
 
-  const getReservationState = () =>{
-    return({
+  const getReservationState = () => {
+    return {
       transportType: state.transportType,
       reservationDate: state.reservationDate,
       reservationTime: state.reservationTime,
@@ -94,10 +94,9 @@ const ReservationStoreProvider = ({ children }) => {
       cargoWidth: state.cargoWidth,
       cargoLength: state.cargoLength,
       cargoHeight: state.cargoHeight,
-      specialNotes: state.specialNotes,
-    })
-  }
-
+      specialNotes: state.specialNotes
+    };
+  };
 
   const setDstInfo = ({
     dstName,
