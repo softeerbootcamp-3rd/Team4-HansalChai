@@ -28,7 +28,9 @@ const ListEnd = () => {
   return (
     <div>
       <Flex kind="flexColumn" align="center">
-        <Typography font={"medium16"} color={"upperTextColor"}>모두 보여드렸어요</Typography>
+        <Typography font={"medium16"} color={"upperTextColor"}>
+          모두 보여드렸어요
+        </Typography>
       </Flex>
     </div>
   );
@@ -73,6 +75,7 @@ const InfiniteList = () => {
 
   //IntersectionObserver에 마지막 요소가 잡히면 페이지를 1 증가시킴
   const [observe, unobserve, disconnect] = useIntersectionObserver(() => {
+    if (isEnd) return;
     setPage(prev => prev + 1);
   });
 
@@ -91,19 +94,24 @@ const InfiniteList = () => {
   }, [page]);
 
   useEffect(() => {
-    if (isEnd) disconnect();
+    if (isEnd) {
+      disconnect();
+      setIsLoading(true);
+    }
   }, [isEnd]);
 
   useEffect(() => {
+    if (isEnd) return;
     if (isLoading) unobserve(endRef.current);
     else observe(endRef.current);
   }, [isLoading]);
 
   useEffect(() => {
+    if (isEnd) return;
     setIsLoading(false);
     return () => {
       setReservationList([]);
-      observe(endRef.current);
+      if (endRef.current) observe(endRef.current);
     };
   }, []);
 
@@ -111,11 +119,7 @@ const InfiniteList = () => {
     <ListFrame>
       {reservationList.map((data, index) => (
         <div key={`reserv${index}`}>
-          <Link
-            to={`/check/detail/${data.id}`}
-            key={`reserv${index}`}
-            onClick={() => {console.log("Leave");disconnect()}}
-          >
+          <Link to={`/check/detail/${data.id}`} key={`reserv${index}`}>
             <SummaryItemBox
               model={data.car}
               status={data.status}
