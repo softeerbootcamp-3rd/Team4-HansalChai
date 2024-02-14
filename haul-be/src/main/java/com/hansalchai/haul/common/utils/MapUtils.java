@@ -7,10 +7,10 @@ import lombok.Getter;
 public class MapUtils{
 	@Getter
 	public static class Location {
-		private final BigDecimal latitude;
-		private final BigDecimal longitude;
+		private final double latitude;
+		private final double longitude;
 
-		public Location(BigDecimal latitude, BigDecimal longitude) {
+		public Location(double latitude, double longitude) {
 			this.latitude = latitude;
 			this.longitude = longitude;
 		}
