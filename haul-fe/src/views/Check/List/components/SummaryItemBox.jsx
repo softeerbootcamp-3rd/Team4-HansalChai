@@ -8,7 +8,7 @@ import Typography from "../../../../components/Typhography/Typhography.jsx";
 const ReservItemFrame = styled.div`
   width: 100%;
   ${({ theme }) => theme.flex.flexColumn};
-  align-items: left;
+  align-items: start;
   background-color: ${({ theme }) => theme.colors.cardBackground};
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.colors.cardBorder};
