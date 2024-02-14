@@ -63,7 +63,6 @@ public class UsersService {
 	public void putProfile(ProfileUpdateDTO profileUpdateDTO, Long userId) {
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
-
-		user.update(profileUpdateDTO.getName(), profileUpdateDTO.getEmail(), profileUpdateDTO.getPassword());
+		user.update(profileUpdateDTO.getPassword());
 	}
 }
