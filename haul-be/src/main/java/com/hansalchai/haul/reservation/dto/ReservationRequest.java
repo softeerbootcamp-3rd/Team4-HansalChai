@@ -28,7 +28,7 @@ public class ReservationRequest {
 	@AllArgsConstructor
 	public static class CreateReservationDTO {
 		@NotNull(message = "운송수단은 Null 일 수 없다.")
-		private TransportType transportType;
+		private String transportType;
 		@NotNull(message = "예약 날짜는 Null 일 수 없다.")
 		private LocalDate date;
 		@NotNull(message = "예약 시간은 Null 일 수 없다.")
@@ -171,7 +171,7 @@ public class ReservationRequest {
 	@AllArgsConstructor
 	public static class CreateReservationGuestDTO{
 		@NotNull(message = "운송수단은 Null 일 수 없다.")
-		private TransportType transportType;
+		private String transportType;
 		@NotNull(message = "예약 날짜는 Null 일 수 없다.")
 		private LocalDate date;
 		@NotNull(message = "예약 시간은 Null 일 수 없다.")
