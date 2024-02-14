@@ -17,7 +17,7 @@ public class MapUtils{
 
 		@Override
 		public String toString() {
-			return latitude + "," + longitude;
+			return longitude + "," + latitude;
 		}
 	}
 
