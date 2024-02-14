@@ -81,8 +81,8 @@ const ReservationStoreProvider = ({ children }) => {
     });
   };
 
-  const getReservationState = () =>{
-    return({
+  const getReservationState = () => {
+    return {
       transportType: state.transportType,
       reservationDate: state.reservationDate,
       reservationTime: state.reservationTime,
@@ -103,9 +103,8 @@ const ReservationStoreProvider = ({ children }) => {
       specialNotes: state.specialNotes,
       guestName: state.guestName,
       guestTel: state.guestTel
-    })
-  }
-
+    };
+  };
 
   const setDstInfo = ({
     dstName,
