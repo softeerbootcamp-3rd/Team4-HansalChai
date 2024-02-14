@@ -13,11 +13,94 @@ const dummySummaryList = [
     datetime: "2024.1.1 10:10",
     cost: 25,
     id: 1
+  },
+  {
+    car: "1톤 포터(냉동)",
+    status: "배정 중",
+    datetime: "2024.1.10 12:10",
+    cost: 3,
+    id: 0
+  },
+  {
+    car: "2.5톤 마이티(카고)",
+    status: "운송 완료",
+    datetime: "2024.1.1 10:10",
+    cost: 4,
+    id: 1
+  },
+  {
+    car: "1톤 포터(냉동)",
+    status: "배정 중",
+    datetime: "2024.1.10 12:10",
+    cost: 5,
+    id: 0
+  },
+  {
+    car: "2.5톤 마이티(카고)",
+    status: "운송 완료",
+    datetime: "2024.1.1 10:10",
+    cost: 6,
+    id: 1
+  },
+  {
+    car: "1톤 포터(냉동)",
+    status: "배정 중",
+    datetime: "2024.1.10 12:10",
+    cost: 7,
+    id: 0
+  },
+  {
+    car: "2.5톤 마이티(카고)",
+    status: "운송 완료",
+    datetime: "2024.1.1 10:10",
+    cost: 8,
+    id: 1
+  },
+  {
+    car: "1톤 포터(냉동)",
+    status: "배정 중",
+    datetime: "2024.1.10 12:10",
+    cost: 9,
+    id: 0
+  },
+  {
+    car: "2.5톤 마이티(카고)",
+    status: "운송 완료",
+    datetime: "2024.1.1 10:10",
+    cost: 10,
+    id: 1
+  },
+  {
+    car: "1톤 포터(냉동)",
+    status: "배정 중",
+    datetime: "2024.1.10 12:10",
+    cost: 11,
+    id: 0
+  },
+  {
+    car: "2.5톤 마이티(카고)",
+    status: "운송 완료",
+    datetime: "2024.1.1 10:10",
+    cost: 12,
+    id: 1
   }
 ];
 
 export const dummySummary = (reservId = undefined) => {
   return reservId !== undefined ? dummySummaryList[reservId] : dummySummaryList;
+};
+
+export const dummyPagedSummary = page => {
+  const PAGESIZE = 2;
+  return {
+    reservationInfoDTOS: dummySummaryList.slice(
+      page * PAGESIZE,
+      page * PAGESIZE + PAGESIZE
+    ),
+    lastPage:
+      dummySummaryList.slice(page * PAGESIZE, page * PAGESIZE + PAGESIZE)
+        .length !== PAGESIZE
+  };
 };
 
 //예약 상세 페이지 더미 데이터
