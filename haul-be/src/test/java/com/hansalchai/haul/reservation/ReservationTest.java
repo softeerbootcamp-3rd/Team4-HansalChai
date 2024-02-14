@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hansalchai.haul.common.utils.ReservationNumberGenerator;
 import com.hansalchai.haul.reservation.constants.TransportType;
 import com.hansalchai.haul.reservation.dto.ReservationRequest;
 import com.hansalchai.haul.reservation.dto.ReservationResponse;
@@ -82,7 +83,7 @@ public class ReservationTest {
 		cargoOption.setFrozen(false);
 
 		return new ReservationRequest.CreateReservationDTO(
-			TransportType.GENERAL, LocalDate.parse("2024-02-14"), LocalTime.parse("14:30:00"),src, dst, cargo, cargoOption);
+			"일반 용달", LocalDate.parse("2024-02-14"), LocalTime.parse("14:30:00"),src, dst, cargo, cargoOption);
 	}
 
 	@Test
@@ -131,4 +132,11 @@ public class ReservationTest {
 		resultActions.andExpect(jsonPath("$.status").value(200));
 	}
 
+	@Test
+	@DisplayName("번호 생성테스트")
+	void GenerateNumberTest() throws Exception {
+		for(int i = 0;i<30;i++){
+			logger.info(ReservationNumberGenerator.generateUniqueId());
+		}
+	}
 }

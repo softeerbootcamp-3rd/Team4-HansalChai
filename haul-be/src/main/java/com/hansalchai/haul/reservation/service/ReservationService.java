@@ -22,6 +22,7 @@ import com.hansalchai.haul.common.utils.CargoFeeTable;
 import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
 import com.hansalchai.haul.common.utils.MapUtils;
 import com.hansalchai.haul.common.utils.ReservationNumberGenerator;
+import com.hansalchai.haul.reservation.constants.TransportType;
 import com.hansalchai.haul.reservation.entity.Cargo;
 import com.hansalchai.haul.reservation.entity.CargoOption;
 import com.hansalchai.haul.reservation.entity.Destination;
@@ -67,7 +68,7 @@ public class ReservationService{
 		MapUtils.DistanceDurationInfo distanceDurationInfo = kakaoMap.carPathFind(srcLocation, dstLocation);
 		CargoFeeTable.RequestedTruckInfo fee = CargoFeeTable.findCost(cargo.getWeight(), distanceDurationInfo.getDistance());
 
-		Transport transport = Transport.toEntity(reservationDTO.getTransportType(), fee.getCost(),distanceDurationInfo.getDuration());
+		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), fee.getCost(),distanceDurationInfo.getDuration());
 
 		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
 		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption), cargo);
@@ -92,7 +93,7 @@ public class ReservationService{
 		MapUtils.DistanceDurationInfo distanceDurationInfo = kakaoMap.carPathFind(srcLocation, dstLocation);
 		CargoFeeTable.RequestedTruckInfo fee = CargoFeeTable.findCost(cargo.getWeight(), distanceDurationInfo.getDistance());
 
-		Transport transport = Transport.toEntity(reservationDTO.getTransportType(), fee.getCost(),distanceDurationInfo.getDuration());
+		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), fee.getCost(),distanceDurationInfo.getDuration());
 
 		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
 		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption), cargo);
