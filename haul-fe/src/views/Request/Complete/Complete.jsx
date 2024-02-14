@@ -23,7 +23,7 @@ const Complete = () => {
       <Margin height="60px" />
       <Typography font="bold24">예약을 완료했어요.</Typography>
       <Flex kind="flexCenter">
-        <Lottie animationData={Loading_Truck} style={{maxWidth:"500px"}}/>
+        <Lottie animationData={Loading_Truck} style={{ maxWidth: "500px" }} />
       </Flex>
       <Typography font="bold24">잠시 후에 기사가</Typography>
       <Margin height="4px" />

@@ -17,7 +17,7 @@ import { isLoginFun } from "../../../utils/localStorage.js";
 const ChoiceDate = () => {
   const navigation = useNavigate();
   const [selectedDay, setSelectedDay] = useState();
-  
+
   const {
     setReservationDate,
     state: { transportType, reservationDate }

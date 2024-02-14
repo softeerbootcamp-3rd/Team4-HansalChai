@@ -18,7 +18,7 @@ import { UrlMap, ErrorMessageMap } from "../../data/GlobalVariable.js";
 import { signUpFun } from "../../repository/userRepository.js";
 
 const SignUP = () => {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const name = useRef("");
   const tel = useRef("");
   const email = useRef("");
@@ -56,7 +56,7 @@ const SignUP = () => {
     if (!isEmailForm) {
       ToastMaker({
         type: "error",
-        children: ErrorMessageMap.InvalidEmailformat
+        children: message
       });
       return;
     }
@@ -72,14 +72,18 @@ const SignUP = () => {
       return;
     }
 
-    const { success, data, message } = await signUpFun({
+    const { success, message } = await signUpFun({
       name: name.current,
       tel: tel.current,
       password: password.current,
       email: email.current
     });
 
-    //navigation(UrlMap.loginPageUrl);
+    if (success) {
+      navigate(UrlMap.loginPageUrl);
+    } else {
+      ToastMaker({ type: "error", children: message });
+    }
   };
 
   return (

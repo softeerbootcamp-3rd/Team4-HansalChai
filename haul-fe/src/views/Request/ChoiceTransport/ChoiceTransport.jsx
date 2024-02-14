@@ -16,7 +16,6 @@ import Flex from "../../../components/Flex/Flex.jsx";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 import { isLoginFun } from "../../../utils/localStorage.js";
 
-
 const ImgBox = styled.img`
   width: 140px;
 `;

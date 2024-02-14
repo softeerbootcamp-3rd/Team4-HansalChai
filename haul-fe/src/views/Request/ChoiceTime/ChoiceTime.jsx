@@ -64,7 +64,7 @@ const ChoiceTime = () => {
 
   useEffect(() => {
     const isLogin = isLoginFun();
-    if(!isLogin){
+    if (!isLogin) {
       navigation(UrlMap.loginPageUrl);
     }
     //날짜를 선택하지 않고 이 페이지로 오게 될 경우를 대비
