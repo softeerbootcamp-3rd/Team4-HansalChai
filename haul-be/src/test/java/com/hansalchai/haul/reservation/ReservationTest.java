@@ -59,15 +59,15 @@ public class ReservationTest {
 		src.setAddress("광주광역시 서구 상무민주로 119 나나빌딩");
 		src.setTel("01012345678");
 		src.setDetailAddress("구이덕");
-		src.setLongitude(37.4851943071576);
-		src.setLatitude(126.717952447459);
+		src.setLatitude(37.4851943071576);
+		src.setLongitude(126.717952447459);
 
 		ReservationRequest.CreateReservationDTO.DestinationDTO dst = new ReservationRequest.CreateReservationDTO.DestinationDTO();
 		dst.setName("부산");
 		dst.setAddress("부산광역시 연제구 거제대로178번길 51-2");
 		dst.setDetailAddress("종갓집 양곱창");
-		dst.setLongitude(37.4482284563797);
-		dst.setLatitude(126.649653068211);
+		dst.setLatitude(37.4482284563797);
+		dst.setLongitude(126.649653068211);
 		dst.setTel("01012345678");
 
 		ReservationRequest.CreateReservationDTO.CargoDTO cargo = new ReservationRequest.CreateReservationDTO.CargoDTO();
