@@ -23,15 +23,14 @@ const Result = () => {
     window.location.href = `tel:${phoneNumber}`;
   }
 
-  function decideBtnFun(){
+  function decideBtnFun() {
     const isMember = getIsMember();
-    if(isMember === "false"){
+    if (isMember === "false") {
       navigation(UrlMap.completePageUrl);
       return;
     }
     navigation(UrlMap.choicePaymentPageUrl);
   }
-
 
   return (
     <MobileLayout>
