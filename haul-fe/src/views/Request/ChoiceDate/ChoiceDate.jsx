@@ -40,10 +40,13 @@ const ChoiceDate = () => {
   }, []);
 
   const DateFormChange = date => {
-    return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
 
-  const SubmitBtnFun = () => {
+  const SubmitDateBtnFun = () => {
     setReservationDate(DateFormChange(selectedDay));
     navigation(UrlMap.choiceTimePageUrl);
   };
@@ -68,7 +71,7 @@ const ChoiceDate = () => {
           role="main"
           disabled={!selectedDay}
           onClick={() => {
-            SubmitBtnFun();
+            SubmitDateBtnFun();
           }}
         >
           선택 완료
