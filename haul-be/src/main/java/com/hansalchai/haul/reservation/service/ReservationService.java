@@ -52,14 +52,14 @@ public class ReservationService{
 	2. 트럭을 선택
 	3. 예약을 생성 후 데이터 반환
 	 */
-	public ReservationRecommendationDTO createReservation(CreateReservationDTO request,
+	public ReservationRecommendationDTO createReservation(CreateReservationDTO reservationDTO,
 		Long userId) {
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
-		Source source = request.getSrc().build();
-		Destination destination = request.getDst().build();
-		Cargo cargo = request.getCargo().build();
-		CargoOption cargoOption = request.getCargoOption().build();
+		Source source = reservationDTO.getSrc().build();
+		Destination destination = reservationDTO.getDst().build();
+		Cargo cargo = reservationDTO.getCargo().build();
+		CargoOption cargoOption = reservationDTO.getCargoOption().build();
 
 		//TODO 리팩토링 도움
 		MapUtils.Location srcLocation = new MapUtils.Location(source.getLatitude(), source.getLongitude());
@@ -67,13 +67,13 @@ public class ReservationService{
 		MapUtils.DistanceDurationInfo distanceDurationInfo = kakaoMap.carPathFind(srcLocation, dstLocation);
 		CargoFeeTable.RequestedTruckInfo fee = CargoFeeTable.findCost(cargo.getWeight(), distanceDurationInfo.getDistance());
 
-		Transport transport = Transport.toEntity(request.getTransportType(), fee.getCost(),distanceDurationInfo.getDuration());
+		Transport transport = Transport.toEntity(reservationDTO.getTransportType(), fee.getCost(),distanceDurationInfo.getDuration());
 
 		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
 		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption), cargo);
 
 		Reservation reservation = Reservation.toEntity(user, null, cargo, cargoOption,
-				source, destination, transport, recommendedCar, reservationNumber, request.getDate(),request.getTime(),
+				source, destination, transport, recommendedCar, reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
 				distanceDurationInfo.getDuration(), fee.getNumber());
 
 		reservationRepository.save(reservation);
@@ -81,26 +81,26 @@ public class ReservationService{
 		return new ReservationRecommendationDTO(reservation);
 	}
 
-	public ReservationRecommendationDTO createGuestReservation(CreateReservationGuestDTO request) {
-		Source source = request.getSrc().build();
-		Destination destination = request.getDst().build();
-		Cargo cargo = request.getCargo().build();
-		CargoOption cargoOption = request.getCargoOption().build();
+	public ReservationRecommendationDTO createGuestReservation(CreateReservationGuestDTO reservationDTO) {
+		Source source = reservationDTO.getSrc().build();
+		Destination destination = reservationDTO.getDst().build();
+		Cargo cargo = reservationDTO.getCargo().build();
+		CargoOption cargoOption = reservationDTO.getCargoOption().build();
 
 		MapUtils.Location srcLocation = new MapUtils.Location(source.getLatitude(), source.getLongitude());
 		MapUtils.Location dstLocation = new MapUtils.Location(destination.getLatitude(), destination.getLongitude());
 		MapUtils.DistanceDurationInfo distanceDurationInfo = kakaoMap.carPathFind(srcLocation, dstLocation);
 		CargoFeeTable.RequestedTruckInfo fee = CargoFeeTable.findCost(cargo.getWeight(), distanceDurationInfo.getDistance());
 
-		Transport transport = Transport.toEntity(request.getTransportType(), fee.getCost(),distanceDurationInfo.getDuration());
+		Transport transport = Transport.toEntity(reservationDTO.getTransportType(), fee.getCost(),distanceDurationInfo.getDuration());
 
 		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
 		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption), cargo);
 
-		Users guest = Users.toEntity(request.getUserInfo().getName(),request.getUserInfo().getTel(),reservationNumber, null, null, Role.GUEST);
+		Users guest = Users.toEntity(reservationDTO.getUserInfo().getName(),reservationDTO.getUserInfo().getTel(),reservationNumber, null, null, Role.GUEST);
 
 		Reservation reservation = Reservation.toEntity(guest, null, cargo, cargoOption,
-			source, destination, transport, recommendedCar, reservationNumber, request.getDate(),request.getTime(),
+			source, destination, transport, recommendedCar, reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
 			distanceDurationInfo.getDuration(), fee.getNumber());
 
 		usersRepository.save(guest);

@@ -125,7 +125,11 @@ public class ReservationResponse {
 				this.car = getCarToString(reservation.getCar());
 				this.status = reservation.getTransport().getTransportStatus().getCode();
 				this.datetime = getDateTimeString(reservation.getDate(), reservation.getTime());
-				this.cost = reservation.getTransport().getFee() / 10000;
+				this.cost = costCut(reservation.getTransport().getFee());
+			}
+
+			public int costCut(int fee){
+				return fee/10000;
 			}
 
 			public String getCarToString(Car car){
