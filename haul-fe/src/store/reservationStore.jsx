@@ -81,6 +81,32 @@ const ReservationStoreProvider = ({ children }) => {
     });
   };
 
+  const getReservationState = () =>{
+    return({
+      transportType: state.transportType,
+      reservationDate: state.reservationDate,
+      reservationTime: state.reservationTime,
+      srcName: state.srcName,
+      srcAddress: state.srcAddress,
+      srcCoordinate: state.srcCoordinate,
+      srcDetailAddress: state.srcDetailAddress,
+      srcTel: state.srcTel,
+      dstName: state.dstName,
+      dstAddress: state.dstAddress,
+      dstCoordinate: state.dstCoordinate,
+      dstDetailAddress: state.dstDetailAddress,
+      dstTel: state.dstTel,
+      cargoWeight: state.cargoWeight,
+      cargoWidth: state.cargoWidth,
+      cargoLength: state.cargoLength,
+      cargoHeight: state.cargoHeight,
+      specialNotes: state.specialNotes,
+      guestName: state.guestName,
+      guestTel: state.guestTel
+    })
+  }
+
+
   const setDstInfo = ({
     dstName,
     dstAddress,
@@ -132,7 +158,8 @@ const ReservationStoreProvider = ({ children }) => {
         setSrcInfo,
         setDstInfo,
         setRoadInfo,
-        setGuestInfo
+        setGuestInfo,
+        getReservationState
       }}
     >
       {children}
