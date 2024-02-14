@@ -1,4 +1,4 @@
-import { useRef, useState, useContext } from "react";
+import { useRef, useState, useContext, useEffect } from "react";
 import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate } from "react-router-dom";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
@@ -16,11 +16,19 @@ import { guestReservationFun } from "../../../repository/reservationRepository.j
 
 const GuestInfo = () => {
   const navigate = useNavigate();
-  const { setGuestInfo, getReservationState } = useContext(reservationStore);
+  const {
+    setGuestInfo,
+    getReservationState,
+    state: { guestName, guestTel }
+  } = useContext(reservationStore);
 
-  const inGuestName = useRef("");
-  const inGuestTel = useRef("");
+  const inGuestName = useRef(guestName);
+  const inGuestTel = useRef(guestTel);
   const [isButtonDisabled, setButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    checkGuestInfoAbled();
+  }, []);
 
   function checkGuestInfoAbled() {
     const checkIsButtonDisabled = !(
@@ -39,15 +47,19 @@ const GuestInfo = () => {
       return;
     }
 
+    setGuestInfo({
+      guestName: inGuestName.current,
+      guestTel: inGuestTel.current
+    });
     const reservationState = getReservationState();
-    console.log(reservationState);
     const { success, data, message } = await guestReservationFun({
       ...reservationState,
       guestName: inGuestName.current,
       guestTel: inGuestTel.current
     });
+
     if (success) {
-      console.log("성공");
+      navigate(UrlMap.resultPageUrl, { state: { data: data.data } });
     } else {
       ToastMaker({ type: "error", children: message });
     }
@@ -77,6 +89,7 @@ const GuestInfo = () => {
           size="big"
           type="text"
           placeholder="Your Name"
+          defaultValue={guestName}
           onChange={({ target: { value } }) => {
             inGuestName.current = value;
             checkGuestInfoAbled();
@@ -88,6 +101,7 @@ const GuestInfo = () => {
         <Input
           size="big"
           type="tel"
+          defaultValue={guestTel}
           placeholder="Phone Number"
           onChange={({ target: { value } }) => {
             inGuestTel.current = value;
