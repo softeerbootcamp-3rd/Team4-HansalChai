@@ -28,7 +28,7 @@ export function isPhoneNumber(input) {
 
 // 2022-02-08이라는 문자열을 넣으면 Date객체로 만들어주는 함수
 export function stringToDateObject(str) {
-  const parts = str.split(".");
+  const parts = str.split("-");
   const date = new Date(parts[0], parts[1] - 1, parts[2]);
   return date;
 }

@@ -15,9 +15,10 @@ import {
 } from "react-icons/io";
 import ToastMaker from "../../components/Toast/ToastMaker.jsx";
 import { UrlMap, ErrorMessageMap } from "../../data/GlobalVariable.js";
+import { signUpFun } from "../../repository/userRepository.js";
 
 const SignUP = () => {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const name = useRef("");
   const tel = useRef("");
   const email = useRef("");
@@ -47,7 +48,7 @@ const SignUP = () => {
     }
   };
 
-  const SignUpBtnFun = () => {
+  const SignUpBtnFun = async () => {
     if (!isPhoneNumber(tel.current)) {
       ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
       return;
@@ -55,7 +56,14 @@ const SignUP = () => {
     if (!isEmailForm) {
       ToastMaker({
         type: "error",
-        children: ErrorMessageMap.InvalidEmailformat
+        children: message
+      });
+      return;
+    }
+    if (password.current.length < 8) {
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.IsNotMinPasswordCount
       });
       return;
     }
@@ -64,7 +72,18 @@ const SignUP = () => {
       return;
     }
 
-    navigation(UrlMap.loginPageUrl);
+    const { success, message } = await signUpFun({
+      name: name.current,
+      tel: tel.current,
+      password: password.current,
+      email: email.current
+    });
+
+    if (success) {
+      navigate(UrlMap.loginPageUrl);
+    } else {
+      ToastMaker({ type: "error", children: message });
+    }
   };
 
   return (
