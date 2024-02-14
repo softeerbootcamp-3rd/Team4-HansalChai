@@ -48,7 +48,6 @@ const RouteMapBox = styled.div`
   height: "227px";
 `;
 
-
 const DetailInfo = ({
   srcCoordinate,
   srcName,
@@ -59,7 +58,6 @@ const DetailInfo = ({
   fee,
   time
 }) => {
-
   function changeTime(time) {
     if (time >= 1) {
       // 1시간 이상일 경우 소수점을 다 짤라서 반환
@@ -69,10 +67,9 @@ const DetailInfo = ({
       return Math.floor(time * 60);
     }
   }
-  function isOneOverFun(time){
-    return time>=1? true: false
+  function isOneOverFun(time) {
+    return time >= 1 ? true : false;
   }
-
 
   return (
     <DetailInfoBox>
@@ -150,7 +147,7 @@ const DetailInfo = ({
               <Typography font="bold24">{changeTime(time)}</Typography>
               <Margin width="6px" height="100%" />
               <Typography font="regular14" color="grayText">
-                {isOneOverFun(time)?"시간":"분"}
+                {isOneOverFun(time) ? "시간" : "분"}
               </Typography>
             </Flex>
           </Flex>
