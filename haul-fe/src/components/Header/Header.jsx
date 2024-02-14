@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { CgChevronLeft } from "react-icons/cg";
 import Margin from "../Margin/Margin.jsx";
-import Home from "../../assets/svgs/Home.svg";
+import Home from "../../assets/svgs/HomeIcon.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UrlMap } from "../../data/GlobalVariable.js";
 

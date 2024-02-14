@@ -28,6 +28,7 @@ const GlobalStyle = createGlobalStyle`
     scrollbar-width: none; /* 파이어폭스 */
     ::-webkit-scrollbar {
       display: none; /* 크롬, 사파리, 오페라, 엣지 */
+    }
   }
 
   a {
