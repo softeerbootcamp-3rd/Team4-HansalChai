@@ -126,9 +126,9 @@ const ChoiceLoadInfo = () => {
       specialNotes: inSpecialNotes
     });
 
-    const isMeber = getIsMember();
+    const isMember = getIsMember();
     //비회원이라면 guestInfo 페이지로 이동
-    if (isMeber === "false") {
+    if (isMember === "false") {
       navigation(UrlMap.guestInfoPageUrl);
       return;
     }
