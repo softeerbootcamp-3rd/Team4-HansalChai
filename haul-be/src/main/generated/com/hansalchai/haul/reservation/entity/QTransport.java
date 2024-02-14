@@ -35,7 +35,7 @@ public class QTransport extends EntityPathBase<Transport> {
     //inherited
     public final BooleanPath isDeleted = _super.isDeleted;
 
-    public final NumberPath<Integer> requiredTime = createNumber("requiredTime", Integer.class);
+    public final NumberPath<Double> requiredTime = createNumber("requiredTime", Double.class);
 
     public final NumberPath<Long> transportId = createNumber("transportId", Long.class);
 

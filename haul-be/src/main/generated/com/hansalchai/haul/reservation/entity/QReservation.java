@@ -35,8 +35,6 @@ public class QReservation extends EntityPathBase<Reservation> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final com.hansalchai.haul.customer.entity.QCustomer customer;
-
     public final DatePath<java.time.LocalDate> date = createDate("date", java.time.LocalDate.class);
 
     //inherited
@@ -49,12 +47,12 @@ public class QReservation extends EntityPathBase<Reservation> {
 
     public final NumberPath<Double> distance = createNumber("distance", Double.class);
 
-    public final com.hansalchai.haul.driver.entity.QDriver driver;
-
     //inherited
     public final BooleanPath isDeleted = _super.isDeleted;
 
     public final StringPath number = createString("number");
+
+    public final com.hansalchai.haul.owner.entity.QOwner owner;
 
     public final NumberPath<Long> reservationId = createNumber("reservationId", Long.class);
 
@@ -66,6 +64,8 @@ public class QReservation extends EntityPathBase<Reservation> {
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
+
+    public final com.hansalchai.haul.user.entity.QUsers user;
 
     public QReservation(String variable) {
         this(Reservation.class, forVariable(variable), INITS);
@@ -88,11 +88,11 @@ public class QReservation extends EntityPathBase<Reservation> {
         this.car = inits.isInitialized("car") ? new com.hansalchai.haul.car.entity.QCar(forProperty("car")) : null;
         this.cargo = inits.isInitialized("cargo") ? new QCargo(forProperty("cargo")) : null;
         this.cargoOption = inits.isInitialized("cargoOption") ? new QCargoOption(forProperty("cargoOption")) : null;
-        this.customer = inits.isInitialized("customer") ? new com.hansalchai.haul.customer.entity.QCustomer(forProperty("customer")) : null;
         this.destination = inits.isInitialized("destination") ? new QDestination(forProperty("destination")) : null;
-        this.driver = inits.isInitialized("driver") ? new com.hansalchai.haul.driver.entity.QDriver(forProperty("driver")) : null;
+        this.owner = inits.isInitialized("owner") ? new com.hansalchai.haul.owner.entity.QOwner(forProperty("owner"), inits.get("owner")) : null;
         this.source = inits.isInitialized("source") ? new QSource(forProperty("source")) : null;
         this.transport = inits.isInitialized("transport") ? new QTransport(forProperty("transport")) : null;
+        this.user = inits.isInitialized("user") ? new com.hansalchai.haul.user.entity.QUsers(forProperty("user")) : null;
     }
 
 }

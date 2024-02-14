@@ -5,21 +5,23 @@ import com.hansalchai.haul.user.entity.Users;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class CustomerSignUpDto {
 
 	@NotNull(message = "이름은 null일 수 없습니다.")
-	private final String name;
+	private String name;
 
 	@NotNull(message = "전화번호는 null일 수 없습니다.")
-	private final String tel;
+	private String tel;
 
 	@NotNull(message = "비밀번호는 null일 수 없습니다.")
-	private final String password;
+	private String password;
 
 	@NotNull(message = "이메일은 null일 수 없습니다.")
-	private final String email;
+	private String email;
 
 	public CustomerSignUpDto(String name, String tel, String password, String email) {
 		this.name = name;

@@ -69,4 +69,16 @@ public class Users extends BaseTime {
 		this.email = email;
 		this.password = password;
 	}
+
+	public static Users toEntity(String name, String tel, String password, String email, String photo, Role role) {
+		return Users.builder()
+			.name(name)
+			.tel(tel)
+			.password(password)
+			.email(email)
+			.photo(photo)
+			.role(role)
+			.build();
+	}
+
 }

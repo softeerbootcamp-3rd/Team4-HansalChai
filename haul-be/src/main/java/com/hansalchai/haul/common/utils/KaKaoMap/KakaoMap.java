@@ -25,12 +25,11 @@ public class KakaoMap {
 
 	/*
 	* 거리 m -> km
-	* 시간 sec -> hour
+	* 시간 sec -> min
 	* */
 	private DistanceDurationInfo convertUnit(DistanceDurationInfo info){
 		double distance = info.getDistance() / (double)1000;
-		int duration = (int)Math.round((double)info.getDuration() / 3600);
-
+		double duration = info.getDuration() / (double)3600;
 		return new DistanceDurationInfo(distance,duration);
 	}
 }
