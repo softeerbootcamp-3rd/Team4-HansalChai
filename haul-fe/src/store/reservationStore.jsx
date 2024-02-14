@@ -30,7 +30,9 @@ const initialState = {
     { note: "탑차", selected: false },
     { note: "가구", selected: false },
     { note: "리프트 필요", selected: false }
-  ]
+  ],
+  guestName: "",
+  guestTel: ""
 };
 
 const reservationStore = createContext(initialState);
@@ -54,6 +56,10 @@ const ReservationStoreProvider = ({ children }) => {
     dispatch({ type: "SET_RESERVATION_TIME", payload: { reservationTime } });
   };
 
+  const setGuestInfo = ({ guestName, guestTel }) => {
+    dispatch({ type: "SET_GUEST_INFO", payload: { guestName, guestTel } });
+  };
+
   const setSrcInfo = ({
     srcName,
     srcAddress,
@@ -75,8 +81,8 @@ const ReservationStoreProvider = ({ children }) => {
     });
   };
 
-  const getReservationState = () => {
-    return {
+  const getReservationState = () =>{
+    return({
       transportType: state.transportType,
       reservationDate: state.reservationDate,
       reservationTime: state.reservationTime,
@@ -94,9 +100,12 @@ const ReservationStoreProvider = ({ children }) => {
       cargoWidth: state.cargoWidth,
       cargoLength: state.cargoLength,
       cargoHeight: state.cargoHeight,
-      specialNotes: state.specialNotes
-    };
-  };
+      specialNotes: state.specialNotes,
+      guestName: state.guestName,
+      guestTel: state.guestTel
+    })
+  }
+
 
   const setDstInfo = ({
     dstName,
@@ -149,6 +158,7 @@ const ReservationStoreProvider = ({ children }) => {
         setSrcInfo,
         setDstInfo,
         setRoadInfo,
+        setGuestInfo,
         getReservationState
       }}
     >
@@ -210,6 +220,12 @@ const reducer = (state, action) => {
         cargoLength: action.payload.cargoLength,
         cargoHeight: action.payload.cargoHeight,
         specialNotes: action.payload.specialNotes
+      };
+    case "SET_GUEST_INFO":
+      return {
+        ...state,
+        guestName: action.payload.guestName,
+        guestTel: action.payload.guestTel
       };
     default:
       return state;
