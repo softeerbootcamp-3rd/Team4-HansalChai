@@ -6,6 +6,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hansalchai.haul.common.auth.jwt.Jwt;
 import com.hansalchai.haul.common.auth.service.AuthService;
 import com.hansalchai.haul.user.dto.CustomerSignUpDto;
+import com.hansalchai.haul.user.dto.ProfileDTO;
+import com.hansalchai.haul.user.dto.ProfileUpdateDTO;
 import com.hansalchai.haul.user.dto.UserLoginDto;
 import com.hansalchai.haul.user.entity.Users;
 import com.hansalchai.haul.user.repository.UsersRepository;
@@ -50,5 +52,18 @@ public class UsersService {
 		user.updateRefreshToken(jwt.getRefreshToken());
 
 		return jwt;
+	}
+
+	public ProfileDTO getProfile(Long userId) {
+		Users user = usersRepository.findById(userId)
+			.orElseThrow(() -> new RuntimeException("User not found"));
+		return new ProfileDTO(user);
+	}
+
+	public void putProfile(ProfileUpdateDTO profileUpdateDTO, Long userId) {
+		Users user = usersRepository.findById(userId)
+			.orElseThrow(() -> new RuntimeException("User not found"));
+
+		user.update(profileUpdateDTO.getName(), profileUpdateDTO.getEmail(), profileUpdateDTO.getPassword());
 	}
 }
