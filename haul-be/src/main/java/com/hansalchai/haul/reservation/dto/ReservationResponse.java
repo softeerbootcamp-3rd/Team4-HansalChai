@@ -126,6 +126,8 @@ public class ReservationResponse {
 		private final int cost;
 		@NotNull(message = "걸리는시간은 Null 일 수 없다.")
 		private final double requiredTime;
+		@NotNull(message = "현 상태는 Null 일 수 없다.")
+		private final String status;
 
 		@Getter
 		@Builder
@@ -207,6 +209,7 @@ public class ReservationResponse {
 				.build();
 			this.cost = reservation.getTransport().getFee();
 			this.requiredTime = reservation.getTransport().getRequiredTime();
+			this.status = TransportStatus.getCode(reservation.getTransport().getTransportStatus());
 		}
 
 		private String getSizeToString(Reservation reservation){
