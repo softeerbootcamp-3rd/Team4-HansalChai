@@ -33,3 +33,9 @@ export function isMemberLogin() {
   const accessToken = getAccessToken();
   return isMember === "true" && accessToken;
 }
+
+export function logoutFun() {
+  localStorage.removeItem("isMember");
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+}
