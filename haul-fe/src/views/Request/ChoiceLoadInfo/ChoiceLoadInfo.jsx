@@ -185,7 +185,14 @@ const ChoiceLoadInfo = () => {
     // 회원이라면 바로 결과 페이지로 이동
 
     const { success, data, message } =
-      await memberReservationFun(reservationState);
+      await memberReservationFun({
+        ...reservationState,  
+        cargoWeight: cargoWeightNum,
+        cargoWidth: cargoWidthNum,
+        cargoLength: cargoLengthNum,
+        cargoHeight: cargoHeightNum,
+        specialNotes: inSpecialNotes
+      });
     if (success) {
       navigate(UrlMap.resultPageUrl, { state: { data: data.data } });
     } else {
