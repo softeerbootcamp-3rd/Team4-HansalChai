@@ -1,8 +1,6 @@
 package com.hansalchai.haul.reservation.constants;
 
-import lombok.Getter;
 
-@Getter
 public enum TransportStatus {
 	NOT_RESERVATED("예약 전"),
 	PENDING("매칭 중"),
@@ -15,4 +13,11 @@ public enum TransportStatus {
 		this.code = code;
 	}
 
+	public String getCode() {
+		return code;
+	}
+
+	public static String getCode(TransportStatus status) {
+		return status.getCode();
+	}
 }
