@@ -141,11 +141,19 @@ public class ReservationService{
 		return new ReservationDetailDTO(reservation);
 	}
 
-	public void patchReservation(Long userId, Long id) {
-
+	public void patchReservation(Long id, Long userId) {
+		Reservation reservation = reservationRepository.findById(id)
+			.orElseThrow(() -> new RuntimeException("Reservation not found"));
+		changeReservationStatus(reservation);
 	}
 
 	public void patchGuestReservation(Long id) {
+		Reservation reservation = reservationRepository.findById(id)
+			.orElseThrow(() -> new RuntimeException("Reservation not found"));
+		changeReservationStatus(reservation);
+	}
 
+	public void changeReservationStatus(Reservation reservation){
+		reservation.getTransport().changeStatusReserved();
 	}
 }

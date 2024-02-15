@@ -61,5 +61,9 @@ public class Transport extends BaseTime {
 			.requiredTime(requiredTime)
 			.build();
 	}
+
+	public void changeStatusReserved(){
+		this.transportStatus = TransportStatus.PENDING;
+	}
 }
 

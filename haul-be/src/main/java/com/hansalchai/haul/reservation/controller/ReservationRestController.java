@@ -49,7 +49,7 @@ public class ReservationRestController {
 
 	@PatchMapping("/reservations/{id}")
 	public ResponseEntity<ApiResponse<Object>> patchCustomerReservation(
-		@RequestParam(value = "id") Long id,
+		@PathVariable("id") Long id,
 		HttpServletRequest request
 	){
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
@@ -65,9 +65,9 @@ public class ReservationRestController {
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
-	@PatchMapping("/reservations/{id}")
+	@PatchMapping("/reservations/guest/{id}")
 	public ResponseEntity<ApiResponse<Object>> patchGuestReservation(
-		@RequestParam(value = "id") Long id
+		@PathVariable("id") Long id
 	){
 		reservationService.patchGuestReservation(id);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, null));
