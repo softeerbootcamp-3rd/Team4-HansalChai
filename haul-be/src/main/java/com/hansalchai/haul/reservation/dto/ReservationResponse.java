@@ -211,9 +211,12 @@ public class ReservationResponse {
 				.latitude(reservation.getDestination().getLatitude())
 				.longitude(reservation.getDestination().getLongitude())
 				.build();
-			this.cost = reservation.getTransport().getFee();
+			this.cost = costCut(reservation.getTransport().getFee());
 			this.requiredTime = reservation.getTransport().getRequiredTime();
 			this.status = TransportStatus.getCode(reservation.getTransport().getTransportStatus());
+		}
+		public int costCut(int fee){
+			return fee/10000;
 		}
 
 		public String makeUserUrl(String photo){
