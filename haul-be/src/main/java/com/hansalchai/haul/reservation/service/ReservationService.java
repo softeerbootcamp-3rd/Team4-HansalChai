@@ -21,6 +21,7 @@ import com.hansalchai.haul.common.utils.CargoFeeTable;
 import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
 import com.hansalchai.haul.common.utils.MapUtils;
 import com.hansalchai.haul.common.utils.ReservationNumberGenerator;
+import com.hansalchai.haul.common.utils.S3Util;
 import com.hansalchai.haul.reservation.constants.TransportType;
 import com.hansalchai.haul.reservation.entity.Cargo;
 import com.hansalchai.haul.reservation.entity.CargoOption;
@@ -40,6 +41,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class ReservationService{
+	private final S3Util s3Util;
 	private final KakaoMap kakaoMap;
 	private final ReservationRepository reservationRepository;
 	private final UsersRepository usersRepository;
@@ -78,7 +80,7 @@ public class ReservationService{
 
 		Reservation saved = reservationRepository.save(reservation);
 
-		return new ReservationRecommendationDTO(saved);
+		return new ReservationRecommendationDTO(saved, s3Util);
 	}
 
 	public ReservationRecommendationDTO createGuestReservation(CreateReservationGuestDTO reservationDTO) {
@@ -108,7 +110,7 @@ public class ReservationService{
 
 		Reservation saved = reservationRepository.save(reservation);
 
-		return new ReservationRecommendationDTO(saved);
+		return new ReservationRecommendationDTO(saved, s3Util);
 	}
 
 	public ReservationDTO getReservation(int page, Long userId) {
@@ -134,13 +136,13 @@ public class ReservationService{
 	public ReservationDetailDTO getReservationDetail(Long id, Long userId) {
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("Reservation not found"));
-		return new ReservationDetailDTO(reservation);
+		return new ReservationDetailDTO(reservation, s3Util);
 	}
 
 	public ReservationDetailDTO getGuestReservationDetail(Long id) {
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("Reservation not found"));
-		return new ReservationDetailDTO(reservation);
+		return new ReservationDetailDTO(reservation, s3Util);
 	}
 
 	public void patchReservation(Long id, Long userId) {

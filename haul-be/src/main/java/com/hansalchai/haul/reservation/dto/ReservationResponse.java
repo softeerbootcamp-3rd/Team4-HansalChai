@@ -1,19 +1,18 @@
 package com.hansalchai.haul.reservation.dto;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
 import com.hansalchai.haul.car.entity.Car;
+import com.hansalchai.haul.common.utils.S3Util;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.reservation.constants.TransportStatus;
 import com.hansalchai.haul.reservation.entity.Reservation;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -46,14 +45,14 @@ public class ReservationResponse {
 
 
 		@Builder
-		public ReservationRecommendationDTO(Reservation reservation) {
+		public ReservationRecommendationDTO(Reservation reservation, S3Util s3Util) {
 			this.reservationId = reservation.getReservationId();
 			this.car = CarDTO.builder()
 				.count(reservation.getCount())
 				.model(reservation.getCar().getModel())
 				.capacity(reservation.getCar().getType().name())
 				.feature(getSizeToString(reservation))
-				.photo(reservation.getCar().getPhoto())
+				.photo(s3Util.getImage(makeUrl(reservation.getCar().getPhoto())))
 				.build();
 			this.cost = costCut(reservation.getTransport().getFee());
 			this.requiredTime = reservation.getTransport().getRequiredTime();
@@ -67,6 +66,10 @@ public class ReservationResponse {
 				car.getHeight(),
 				car.getLength());
 		}
+		public String makeUrl(String photo){
+			return "car/" + photo;
+		}
+
 
 		public int costCut(int fee){
 			return fee/10000;
@@ -177,21 +180,20 @@ public class ReservationResponse {
 		}
 
 		@Builder
-		public ReservationDetailDTO(Reservation reservation) {
+		public ReservationDetailDTO(Reservation reservation, S3Util s3Util) {
 			Optional.ofNullable(reservation.getOwner())
 				.map(Owner::getUser)
 				.ifPresent(user -> this.driver = DriverDTO.builder()
 					.name(user.getName())
 					.tel(user.getTel())
-					.photo(user.getPhoto())
+					.photo(s3Util.getImage(makeUserUrl(user.getPhoto())))
 					.build());
-
 			this.car = CarDTO.builder()
 				.count(reservation.getCount())
 				.model(reservation.getCar().getModel())
 				.capacity(reservation.getCar().getType().name())
 				.feature(getSizeToString(reservation))
-				.photo(reservation.getCar().getPhoto())
+				.photo(s3Util.getImage(makeCarUrl(reservation.getCar().getPhoto())))
 				.build();
 			this.src = SourceDTO.builder()
 				.name(reservation.getSource().getName())
@@ -207,6 +209,15 @@ public class ReservationResponse {
 				.build();
 			this.cost = reservation.getTransport().getFee();
 			this.requiredTime = reservation.getTransport().getRequiredTime();
+		}
+
+		public String makeUserUrl(String photo){
+			return "car/" + photo;
+		}
+
+
+		public String makeCarUrl(String photo){
+			return "car/" + photo;
 		}
 
 		private String getSizeToString(Reservation reservation){
