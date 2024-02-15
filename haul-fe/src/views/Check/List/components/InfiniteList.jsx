@@ -68,25 +68,25 @@ function useIntersectionObserver(callback) {
 }
 
 const InfiniteList = () => {
-  const [isEnd, setIsEnd] = useState(false); //데이터를 모두 불러왔으면 True
+  const [isEnd, setIsEnd] = useState(false); //데이터를 모두 불러왔으면 end를 트리거 시키기 위한 state
+  const realEndRef = useRef(false); //리스트를 모두 불러왔는지 확인하기 위한 ref
   const endRef = useRef(null); //마지막 요소를 참조하기 위한 ref
   const [page, setPage] = useState(0); //현재 불러와진 최종 페이지
-  const [isLoading, setIsLoading] = useState(false); //데이터를 불러오는 중이면 True
+  const [isLoading, setIsLoading] = useState(true); //데이터를 불러오는 중이면 True
   const [reservationList, setReservationList] = useState([]); //현재 불러와진 예약 리스트
 
   //IntersectionObserver에 마지막 요소가 잡히면 페이지를 1 증가시킴
   const [observe, unobserve, disconnect] = useIntersectionObserver(() => {
-    if (isEnd) return;
+    if (realEndRef.current) return;
     setPage(prev => prev + 1);
   });
 
   //페이지가 바뀔 때마다 새로운 데이터를 불러옴
   useEffect(
     () => async () => {
-      if (isEnd) return;
+      if (realEndRef.current) return;
       setIsLoading(true);
       const newPage = await getUserSummaryList({ page });
-      console.log("newPage: ", newPage);
       if (newPage.success !== true) {
         setIsEnd(true);
         ToastMaker({
@@ -109,23 +109,26 @@ const InfiniteList = () => {
 
   useEffect(() => {
     if (isEnd) {
-      disconnect();
       setIsLoading(true);
+      disconnect();
+      endRef.current = null;
+      realEndRef.current = true;
     }
   }, [isEnd]);
 
   useEffect(() => {
-    if (isEnd) return;
+    if (realEndRef.current) return;
     if (isLoading) unobserve(endRef.current);
     else observe(endRef.current);
   }, [isLoading]);
 
   useEffect(() => {
-    if (isEnd) return;
+    if (realEndRef.current) return setIsEnd(false);
     setIsLoading(false);
     return () => {
-      setReservationList([]);
       if (endRef.current) observe(endRef.current);
+      setReservationList([]);
+      setIsEnd(false);
     };
   }, []);
 
