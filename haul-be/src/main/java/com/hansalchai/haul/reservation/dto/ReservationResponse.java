@@ -73,7 +73,7 @@ public class ReservationResponse {
 
 		@Builder
 		public ReservationRecommendationDTO(Reservation reservation) {
-			this.reservationId = getReservationId();
+			this.reservationId = reservation.getReservationId();
 			this.car = CarDTO.builder()
 				.count(reservation.getCount())
 				.model(reservation.getCar().getModel())
@@ -93,7 +93,7 @@ public class ReservationResponse {
 				.latitude(reservation.getDestination().getLatitude())
 				.longitude(reservation.getDestination().getLongitude())
 				.build();
-			this.cost = reservation.getTransport().getFee();
+			this.cost = costCut(reservation.getTransport().getFee());
 			this.requiredTime = reservation.getTransport().getRequiredTime();
 			this.number = reservation.getNumber();
 		}
@@ -105,6 +105,11 @@ public class ReservationResponse {
 				car.getHeight(),
 				car.getLength());
 		}
+
+		public int costCut(int fee){
+			return fee/10000;
+		}
+
 	}
 
 	@Getter

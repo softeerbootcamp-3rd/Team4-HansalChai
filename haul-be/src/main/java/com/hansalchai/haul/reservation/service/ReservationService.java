@@ -76,9 +76,9 @@ public class ReservationService{
 				source, destination, transport, recommendedCar, reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
 				distanceDurationInfo.getDuration(), fee.getNumber());
 
-		reservationRepository.save(reservation);
+		Reservation saved = reservationRepository.save(reservation);
 
-		return new ReservationRecommendationDTO(reservation);
+		return new ReservationRecommendationDTO(saved);
 	}
 
 	public ReservationRecommendationDTO createGuestReservation(CreateReservationGuestDTO reservationDTO) {
@@ -106,7 +106,9 @@ public class ReservationService{
 		usersRepository.save(guest);
 		reservationRepository.save(reservation);
 
-		return new ReservationRecommendationDTO(reservation);
+		Reservation saved = reservationRepository.save(reservation);
+
+		return new ReservationRecommendationDTO(saved);
 	}
 
 	public ReservationDTO getReservation(int page, Long userId) {
