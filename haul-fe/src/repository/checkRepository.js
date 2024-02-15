@@ -34,7 +34,8 @@ export async function getUserSummaryList({ page }) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${getAccessToken()}`
+          "Authorization": `Bearer ${getAccessToken()}`,
+          "mode": "cors"
         }
       }
     );

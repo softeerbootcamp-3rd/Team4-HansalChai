@@ -14,6 +14,7 @@ import styled from "styled-components";
 import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 import Truck from "../../../assets/svgs/BigTruck.svg";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import { getGuestSummaryList } from "../../../repository/checkRepository.js";
 
 const TruckImg = styled.img`
   position: absolute;
@@ -54,7 +55,7 @@ const GuestCheck = () => {
   //TODO: 더미를 위해 임시로 1글자로 제한한 정규식을 바꿀 것
 
   const checkReservIDValidation = () => {
-    const reservNumRegEx = new RegExp("^([a-fA-F0-9])$");
+    const reservNumRegEx = new RegExp("^([a-fA-F0-9]{11})([a-fA-F0-9])$");
     return (
       reservationNumber.current.trim().length ===
         reservationNumber.current.length &&
@@ -72,28 +73,30 @@ const GuestCheck = () => {
     }
   }
 
-  //비동기 함수로 예약번호를 통해 예약 정보 조회(목업)
-  //TODO: API 연결 후 수정
-  //TODO: 목업 데이터를 받아올 때까지 스켈레톤 띄우기(근데 꼭 띄워야 할까?)
-  function updateReservationNumber(setter) {
-    setTimeout(() => {
-      const newReserv = dummySummary(reservationNumber.current);
-      setter(newReserv);
-      if (newReserv === undefined) {
-        ToastMaker({ type: "error", children: "예약 정보를 찾을 수 없어요." });
-      }
-    }, 1000);
-  }
+  //비동기 함수로 예약번호를 통해 예약 정보 조회(테스트 필요)
+  //TODO: 데이터를 받아올 때까지 스켈레톤 띄우기(근데 꼭 띄워야 할까?)
+  const updateReservationNumber = async setter => {
+    const newReserv = await getGuestSummaryList({
+      reservationSerial: reservationNumber.current
+    });
+    const newData = newReserv.success
+      ? newReserv.data.reservationInfoDTOS[0]
+      : undefined;
+    //undefined일 경우엔 다르게 렌더링 되므로 업데이트 필요
+    setter(() => newData);
+    if (newReserv.success === false) {
+      ToastMaker({ type: "error", children: "예약 정보를 찾을 수 없어요." });
+    }
+  };
 
   //비회원 예약 확인 버튼 클릭 시 함수 (정보 입력 완료 버튼) -> 예약번호를 통해 예약 정보 조회 후 있으면 요약 블록 띄우기
-  function guestCheckBtnFun(e) {
+  function guestCheckButtonHandler(e) {
     e.preventDefault();
     if (!checkReservIDValidation()) {
       //여기 도달할 일이 있을까?
       ToastMaker({ type: "error", children: "주문 번호를 잘못 입력했어요." });
     }
     reservationNumber.current = reservationNumber.current.toLowerCase();
-    //setReservationData(dummySummary(reservationNumber.current)); - 동기 버전
     updateReservationNumber(setReservationData);
   }
 
@@ -149,7 +152,7 @@ const GuestCheck = () => {
           disabled={isButtonDisabled}
           form="guestCheckReservForm"
           onClick={e => {
-            guestCheckBtnFun(e);
+            guestCheckButtonHandler(e);
           }}
         >
           예약 조회
