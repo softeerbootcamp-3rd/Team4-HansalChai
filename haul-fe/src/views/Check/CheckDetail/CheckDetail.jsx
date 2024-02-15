@@ -42,8 +42,8 @@ const dataSetter = async ({ reservationID, setDetailData, setIsLoaded }) => {
 
   const { car, src, dst, cost, requiredTime } = response.data;
   let { driver } = response.data;
-  const srcCoordinate = { latitude: src.latitude, longitude: src.longitude };
-  const dstCoordinate = { latitude: dst.latitude, longitude: dst.longitude };
+  const srcCoordinate = { lat: src.latitude, lng: src.longitude };
+  const dstCoordinate = { lat: dst.latitude, lng: dst.longitude };
 
   if (!driver) {
     driver = { name: null, tel: null, photo: null };
