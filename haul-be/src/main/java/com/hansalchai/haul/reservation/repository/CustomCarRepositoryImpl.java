@@ -25,9 +25,9 @@ public class CustomCarRepositoryImpl implements CustomCarRepository {
 		//TODO 짐을 회전시키는 방법도 고안해보자
 		return jpaQueryFactory.selectFrom(car)
 			.where(car.category.eq(carCategory)
-				.and(car.height.loe(cargo.getHeight()))
-				.and(car.length.loe(cargo.getLength()))
-				.and(car.width.loe(cargo.getWidth()))
+				.and(car.height.goe(cargo.getHeight()))
+				.and(car.length.goe(cargo.getLength()))
+				.and(car.width.goe(cargo.getWidth()))
 			)
 			.fetch();
 	}
