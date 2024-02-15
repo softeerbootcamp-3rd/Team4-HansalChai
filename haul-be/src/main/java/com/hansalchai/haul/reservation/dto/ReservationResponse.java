@@ -19,6 +19,7 @@ import lombok.Getter;
 public class ReservationResponse {
 	@Getter
 	public static class ReservationRecommendationDTO{
+		private final Long reservationId;
 		private final CarDTO car;
 		private final SourceDTO src;
 		private final DestinationDTO dst;
@@ -72,6 +73,7 @@ public class ReservationResponse {
 
 		@Builder
 		public ReservationRecommendationDTO(Reservation reservation) {
+			this.reservationId = getReservationId();
 			this.car = CarDTO.builder()
 				.count(reservation.getCount())
 				.model(reservation.getCar().getModel())

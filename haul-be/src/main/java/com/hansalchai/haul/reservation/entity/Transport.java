@@ -45,7 +45,7 @@ public class Transport extends BaseTime {
 	private double requiredTime;
 
 	@Enumerated(EnumType.STRING)
-	private TransportStatus transportStatus = TransportStatus.NOT_STARTED;
+	private TransportStatus transportStatus = TransportStatus.NOT_RESERVATED;
 
 	@Builder
 	public Transport(TransportType type, int fee, double requiredTime) {
