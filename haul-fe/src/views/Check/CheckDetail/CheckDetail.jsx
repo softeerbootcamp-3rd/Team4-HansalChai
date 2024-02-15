@@ -10,7 +10,7 @@ import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import { useLocation } from "react-router-dom";
 import { getGuestReservationDetails } from "../../../repository/checkRepository.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 
 const phaseMap = {
@@ -27,7 +27,7 @@ const ReservItemFrame = styled(Flex)`
   overflow-y: scroll;
 `;
 
-const dataSetter = async ({ reservationID, setDetailData }) => {
+const dataSetter = async ({ reservationID, setDetailData, setIsLoaded }) => {
   const response = await getGuestReservationDetails({ reservationID });
   console.log(response);
   if (!response.success) {
@@ -45,25 +45,34 @@ const dataSetter = async ({ reservationID, setDetailData }) => {
   const dstCoordinate = { latitude: dst.latitude, longitude: dst.longitude };
 
   if (!driver) {
-    driver = { phase: "before", name: null, tel: null, photo: null };
+    driver = { name: null, tel: null, photo: null };
   }
 
-  setDetailData({
-    driver,
-    car,
-    src,
-    dst,
-    srcCoordinate,
-    dstCoordinate,
-    cost,
-    requiredTime
+  setDetailData(() => {
+    return {
+      driver,
+      car,
+      src,
+      dst,
+      srcCoordinate,
+      dstCoordinate,
+      cost,
+      requiredTime,
+      phase: phaseMap[response.data.status]
+    };
   });
+
+  setIsLoaded(true);
 };
 
-const CheckDetail = async () => {
+const CheckDetail = () => {
   const [detailData, setDetailData] = useState({});
+  const [isLoaded, setIsLoaded] = useState(false);
   const reservationID = useLocation().pathname.split("/").pop();
-  dataSetter({ reservationID, setDetailData });
+
+  useEffect(() => {
+    dataSetter({ reservationID, setDetailData, setIsLoaded });
+  }, []);
 
   return (
     <MobileLayout>
@@ -73,37 +82,69 @@ const CheckDetail = async () => {
         </Typography>
       </Header>
       <Margin height="32px" />
-      <ReservItemFrame kind="flexColumn">
-        <DriverInfoBox
-          phase={detailData.driver.phase}
-          name={detailData.driver.name}
-          tel={detailData.driver.tel}
-          photo={detailData.driver.photo}
-        />
-        <Margin height="20px" />
-        <CarInfoBox
-          phase={detailData.car.phase}
-          type={detailData.car.model}
-          capacity={detailData.car.capacity}
-          volumn={detailData.car.feature}
-          quantity={detailData.car.count}
-          photo={detailData.car.photo}
-        />
-        <Margin height="20px" />
-        <DetailInfo
-          srcCoordinate={detailData.srcCoordinate}
-          srcAddress={detailData.src.address}
-          srcName={detailData.src.name}
-          dstCoordinate={detailData.dstCoordinate}
-          dstAddress={detailData.dst.address}
-          dstName={detailData.dst.name}
-          fee={detailData.cost}
-          time={detailData.requiredTime}
-        />
-      </ReservItemFrame>
+      {isLoaded ? (
+        <ReservItemFrame kind="flexColumn">
+          <DriverInfoBox
+            phase={detailData.phase}
+            name={detailData.driver.name}
+            tel={detailData.driver.tel}
+            photo={detailData.driver.photo}
+          />
+          <Margin height="20px" />
+          <CarInfoBox
+            phase={detailData.phase}
+            type={detailData.car.model}
+            capacity={detailData.car.capacity}
+            volumn={detailData.car.feature}
+            quantity={detailData.car.count}
+            photo={detailData.car.photo}
+          />
+          <Margin height="20px" />
+          <DetailInfo
+            srcCoordinate={detailData.srcCoordinate}
+            srcAddress={detailData.src.address}
+            srcName={detailData.src.name}
+            dstCoordinate={detailData.dstCoordinate}
+            dstAddress={detailData.dst.address}
+            dstName={detailData.dst.name}
+            fee={detailData.cost}
+            time={detailData.requiredTime}
+          />
+        </ReservItemFrame>
+      ) : (
+        <></>
+      )}
       <NavigationBar selected="check" />
     </MobileLayout>
   );
 };
 
 export default CheckDetail;
+
+/*
+{
+  "driver": null,
+  "car": {
+      "count": 1,
+      "model": "포터2",
+      "capacity": "TRUCK500",
+      "feature": "200 X 400 X 300",
+      "photo": "truck500_photo.jpg"
+  },
+  "src": {
+      "name": "인하대역시네마타워",
+      "address": "231",
+      "latitude": 37.445620228619,
+      "longitude": 126.65182310263
+  },
+  "dst": {
+      "name": "동암역 목동 휘버스아파트",
+      "address": "502호",
+      "latitude": 37.4721762726903,
+      "longitude": 126.705859185146
+  },
+  "cost": 20000,
+  "requiredTime": 0.5011111111111111,
+  "status": "매칭 중"
+}
+*/
