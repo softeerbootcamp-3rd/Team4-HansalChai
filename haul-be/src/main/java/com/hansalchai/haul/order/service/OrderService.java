@@ -1,6 +1,7 @@
 package com.hansalchai.haul.order.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hansalchai.haul.common.config.SmsUtil;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
