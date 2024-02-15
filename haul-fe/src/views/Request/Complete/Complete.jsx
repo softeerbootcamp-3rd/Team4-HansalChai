@@ -8,6 +8,7 @@ import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 import { useNavigate } from "react-router-dom";
+import { getIsMember } from "../../../utils/localStorage.js";
 
 const Complete = () => {
   const navigation = useNavigate();
@@ -28,6 +29,8 @@ const Complete = () => {
       <Typography font="bold24">잠시 후에 기사가</Typography>
       <Margin height="4px" />
       <Typography font="bold24">배정되는대로 알려드릴게요.</Typography>
+      <Margin height="8px" />
+      {getIsMember() === "false" && <Typography font="semi20" color="subColor">비회원의 경우, 기사님께 결제를 해주세요.</Typography>}
       <FixedCenterBox bottom="30px">
         <BottomButton
           role="main"
