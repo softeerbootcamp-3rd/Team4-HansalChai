@@ -9,7 +9,16 @@ import DriverInfoBox from "./components/DriverInfoBox.jsx";
 import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import { useLocation } from "react-router-dom";
-import { dummyDetail } from "../../../data/DummyData.js";
+import { getGuestReservationDetails } from "../../../repository/checkRepository.js";
+import { useState } from "react";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+
+const phaseMap = {
+  "매칭 중": "before",
+  "운송 전": "reserv",
+  "운송 중": "moving",
+  "운송 완료": "after"
+};
 
 const ReservItemFrame = styled(Flex)`
   width: 100%;
@@ -18,21 +27,43 @@ const ReservItemFrame = styled(Flex)`
   overflow-y: scroll;
 `;
 
-const CheckDetail = ({ driver, car, map }) => {
-
-  const location = useLocation();
-  const reservId = location.pathname.split("/").pop();
+const dataSetter = async ({ reservationID, setDetailData }) => {
+  const response = await getGuestReservationDetails({ reservationID });
+  console.log(response);
+  if (!response.success) {
+    //TODO: 실패 처리(토스트 등)
+    ToastMaker(
+      "error",
+      "예약 정보를 불러오는데 실패했습니다. 다시 시도해주세요."
+    );
+  }
 
   //TODO: 실제 데이터로 교체
+  const { car, src, dst, cost, requiredTime } = response.data;
+  let { driver } = response.data;
+  const srcCoordinate = { latitude: src.latitude, longitude: src.longitude };
+  const dstCoordinate = { latitude: dst.latitude, longitude: dst.longitude };
+
   if (!driver) {
-    ({ driver } = dummyDetail(reservId));
+    driver = { phase: "before", name: null, tel: null, photo: null };
   }
-  if (!car) {
-    ({ car } = dummyDetail(reservId));
-  }
-  if (!map) {
-    ({ map } = dummyDetail(reservId));
-  }
+
+  setDetailData({
+    driver,
+    car,
+    src,
+    dst,
+    srcCoordinate,
+    dstCoordinate,
+    cost,
+    requiredTime
+  });
+};
+
+const CheckDetail = async () => {
+  const [detailData, setDetailData] = useState({});
+  const reservationID = useLocation().pathname.split("/").pop();
+  dataSetter({ reservationID, setDetailData });
 
   return (
     <MobileLayout>
@@ -44,29 +75,30 @@ const CheckDetail = ({ driver, car, map }) => {
       <Margin height="32px" />
       <ReservItemFrame kind="flexColumn">
         <DriverInfoBox
-          phase={driver.phase}
-          name={driver.name}
-          tel={driver.tel}
-          picture={driver.picture}
+          phase={detailData.driver.phase}
+          name={detailData.driver.name}
+          tel={detailData.driver.tel}
+          photo={detailData.driver.photo}
         />
         <Margin height="20px" />
         <CarInfoBox
-          phase={car.phase}
-          type={car.type}
-          capacity={car.capacity}
-          volumn={car.volumn}
-          quantity={car.quantity}
+          phase={detailData.car.phase}
+          type={detailData.car.model}
+          capacity={detailData.car.capacity}
+          volumn={detailData.car.feature}
+          quantity={detailData.car.count}
+          photo={detailData.car.photo}
         />
         <Margin height="20px" />
         <DetailInfo
-          srcCoordinate={map.srcCoordinate}
-          srcAddress={map.srcAddress}
-          srcName={map.srcName}
-          dstCoordinate={map.dstCoordinate}
-          dstAddress={map.dstAddress}
-          dstName={map.dstName}
-          fee={map.fee}
-          time={map.time}
+          srcCoordinate={detailData.srcCoordinate}
+          srcAddress={detailData.src.address}
+          srcName={detailData.src.name}
+          dstCoordinate={detailData.dstCoordinate}
+          dstAddress={detailData.dst.address}
+          dstName={detailData.dst.name}
+          fee={detailData.cost}
+          time={detailData.requiredTime}
         />
       </ReservItemFrame>
       <NavigationBar selected="check" />
