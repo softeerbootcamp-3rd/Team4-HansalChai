@@ -4,12 +4,14 @@ import com.hansalchai.haul.common.auth.constants.Role;
 import com.hansalchai.haul.user.entity.Users;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class AuthenticatedUser {
 
-	private final Long userId;
-	private final Role role;
+	private Long userId;
+	private Role role;
 
 	public AuthenticatedUser(Long userId, Role role) {
 		this.userId = userId;
