@@ -59,7 +59,6 @@ const ToastFrame = styled.div`
   text-align: center;
   color: ${theme.colors.white};
   border: 1pt solid ${({ type }) => typeColor[type]};
-
   ${theme.flex.flexCenter};
   position: relative;
   animation: ${toastAnimation} 0.5s;
@@ -69,15 +68,16 @@ const ToastIcon = styled.div`
   position: absolute;
   width: 20px;
   height: 20px;
-  left: 30px;
+  left: 20px;
   top: 50%;
   transform: translateY(-50%);
 `;
 
 const ToastText = styled.div`
-  width: calc(100% - 80px);
+  width: calc(100% - 100px);
   display: flex;
   justify-content: center;
+  text-align: left;
   align-items: center;
   word-break: keep-all;
   line-break: loose;
