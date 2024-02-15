@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
 import Typography from "../../components/Typhography/Typhography.jsx";
@@ -19,6 +19,7 @@ import {
   setRefreshToken
 } from "../../utils/localStorage.js";
 import { loginFun } from "../../repository/userRepository.js";
+import { isMemberLogin } from "../../utils/localStorage.js";
 
 const GoSignUpBtn = styled.button`
   width: auto;
@@ -27,6 +28,13 @@ const GoSignUpBtn = styled.button`
 
 const Login = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // 로그인을 이미 했다면
+    if (isMemberLogin()) {
+      navigate(UrlMap.choiceTranportTypeUrl);
+    }
+  }, []);
 
   const tel = useRef("");
   const password = useRef("");

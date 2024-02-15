@@ -9,6 +9,9 @@ import BottomButton from "../../../components/Button/BottomButton.jsx";
 import { useState, useRef } from "react";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import { checkEmail } from "../../../utils/helper.js";
+import { logoutFun } from "../../../utils/localStorage.js";
+import { useNavigate } from "react-router-dom";
+import { UrlMap } from "../../../data/GlobalVariable.js";
 
 //TODO: 비밀번호 상세 규칙 통일할 것!!!!!!
 //TODO: 상세 규칙 정하고 정규식 바꾼 후 util로 보낼 것!!!!!!!
@@ -96,6 +99,7 @@ const AdvisorText = styled(Typography)`
 `;
 
 const UserInfo = () => {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
     name: "하울",
     email: "haul@haul.com",
@@ -124,6 +128,12 @@ const UserInfo = () => {
   const clickEditBtn = () => {
     setIsEdit(true);
   };
+
+  const clickLogoutBtn = () => {
+    logoutFun();
+    navigate(UrlMap.loginPageUrl);
+  };
+
   const clickSaveBtn = () => {
     setIsEdit(false);
     const newInfo = {
@@ -302,6 +312,10 @@ const UserInfo = () => {
           <FixedCenterBox bottom={"30px"}>
             <BottomButton onClick={clickEditBtn} role="main">
               수정하기
+            </BottomButton>
+            <Margin height="8px" />
+            <BottomButton onClick={clickLogoutBtn} role="sub">
+              로그아웃
             </BottomButton>
           </FixedCenterBox>
         </>

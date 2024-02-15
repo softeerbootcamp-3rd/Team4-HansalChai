@@ -26,7 +26,7 @@ export async function memberReservationFun({
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getAccessToken}`
+        Authorization: `Bearer ${getAccessToken()}`
       },
       body: JSON.stringify({
         transportType: transportType,
@@ -62,9 +62,9 @@ export async function memberReservationFun({
         }
       })
     });
-    console.log(response);
     if (response.ok) {
       const data = await response.json();
+      console.log(data);
       return {
         success: true,
         data
@@ -73,7 +73,35 @@ export async function memberReservationFun({
       return { success: false, message: "Reservation failed" };
     }
   } catch (error) {
-    console.error("Login error:", error);
+    console.error("Reservation failed error:", error);
+    return { success: false, message: error.toString() };
+  }
+}
+
+export async function memberReservationConfirmFun({ reservationId }) {
+  try {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/reservations/${reservationId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAccessToken()}`
+        }
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      return {
+        success: true,
+        data
+      };
+    } else {
+      return { success: false, message: "Member Confirm failed" };
+    }
+  } catch (error) {
+    console.error("Member Confirm failed error:", error);
     return { success: false, message: error.toString() };
   }
 }
@@ -155,7 +183,35 @@ export async function guestReservationFun({
       return { success: false, message: "Reservation failed" };
     }
   } catch (error) {
-    console.error("Login error:", error);
+    console.error("Reservation failed:", error);
+    return { success: false, message: error.toString() };
+  }
+}
+
+export async function guestReservationConfirmFun({ reservationId }) {
+  try {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/reservations/guest/${reservationId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      return {
+        success: true,
+        data
+      };
+    } else {
+      return { success: false, message: "Guest Confirm failed" };
+    }
+  } catch (error) {
+    console.error("Guest Confirm failed error:", error);
     return { success: false, message: error.toString() };
   }
 }
