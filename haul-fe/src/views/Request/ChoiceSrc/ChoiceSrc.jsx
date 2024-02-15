@@ -65,7 +65,7 @@ const ChoiceSrc = () => {
       latitude: srcCoordinate.srcLatitude,
       longitude: srcCoordinate.srcLongitude
     },
-    detailAddress: srcDetailAddress
+    detailAddress: srcAddress
   });
   const inSrcDetailAddress = useRef(srcDetailAddress);
   const inSrcTel = useRef(srcTel);
