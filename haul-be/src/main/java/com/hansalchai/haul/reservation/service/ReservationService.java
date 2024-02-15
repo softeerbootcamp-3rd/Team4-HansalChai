@@ -6,7 +6,6 @@ import static com.hansalchai.haul.reservation.dto.ReservationResponse.Reservatio
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -121,6 +120,7 @@ public class ReservationService{
 	}
 
 	public ReservationDTO getGuestReservation(String number) {
+		//TODO 예약 전 일때는 안되게
 		Reservation reservation = reservationRepository.findByNumber(number)
 			.orElseThrow(() -> new RuntimeException("Reservation not found"));
 		ReservationInfoDTO reservationInfoDTO = new ReservationInfoDTO(reservation);
@@ -139,5 +139,13 @@ public class ReservationService{
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("Reservation not found"));
 		return new ReservationDetailDTO(reservation);
+	}
+
+	public void patchReservation(Long userId, Long id) {
+
+	}
+
+	public void patchGuestReservation(Long id) {
+
 	}
 }

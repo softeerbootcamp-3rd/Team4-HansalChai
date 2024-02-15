@@ -6,9 +6,11 @@ import static com.hansalchai.haul.reservation.dto.ReservationRequest.*;
 import static com.hansalchai.haul.reservation.dto.ReservationResponse.*;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,12 +47,30 @@ public class ReservationRestController {
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
+	@PatchMapping("/reservations/{id}")
+	public ResponseEntity<ApiResponse<Object>> patchCustomerReservation(
+		@RequestParam(value = "id") Long id,
+		HttpServletRequest request
+	){
+		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
+		reservationService.patchReservation(id, auth.getUserId());
+		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, null));
+	}
+
 	@PostMapping("/reservations/guest")
 	public ResponseEntity<ApiResponse<ReservationRecommendationDTO>> postGuestReservation(
 		@Valid @RequestBody CreateReservationGuestDTO reservationDTO
 	) {
 		ReservationRecommendationDTO response = reservationService.createGuestReservation(reservationDTO);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
+	}
+
+	@PatchMapping("/reservations/{id}")
+	public ResponseEntity<ApiResponse<Object>> patchGuestReservation(
+		@RequestParam(value = "id") Long id
+	){
+		reservationService.patchGuestReservation(id);
+		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, null));
 	}
 
 	@GetMapping("/reservations")
