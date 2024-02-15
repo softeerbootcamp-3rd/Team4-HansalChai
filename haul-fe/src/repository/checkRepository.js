@@ -34,8 +34,7 @@ export async function getUserSummaryList({ page }) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${getAccessToken()}`,
-          "mode": "cors"
+          "Authorization": `Bearer ${getAccessToken()}`
         }
       }
     );
@@ -67,8 +66,6 @@ export async function getGuestReservationDetails({ reservationID }) {
         }
       }
     );
-
-    console.log(response);
 
     if (response.ok) {
       const body = await response.json();

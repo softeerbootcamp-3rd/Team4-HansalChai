@@ -2,7 +2,6 @@ import Margin from "../../../../components/Margin/Margin.jsx";
 import Typography from "../../../../components/Typhography/Typhography.jsx";
 import { Link } from "react-router-dom";
 import SummaryItemBox from "./SummaryItemBox.jsx";
-import { dummyPagedSummary } from "../../../../data/DummyData.js";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import Skeleton from "./Skeleton.jsx";
 import styled from "styled-components";
@@ -82,23 +81,30 @@ const InfiniteList = () => {
   });
 
   //페이지가 바뀔 때마다 새로운 데이터를 불러옴
-  useEffect(() => {
-    if (isEnd) return;
-    setIsLoading(true);
-    const newPage = getUserSummaryList({ page });
-    if(newPage.success !== true){
-      setIsEnd(true);
-      ToastMaker({ type: "error", children: "예약 정보를 불러오지 못했어요." });
-      return;
-    }
-    setIsEnd(newPage.lastPage);
-    setReservationList(prev => {
-      if (newPage.reservationInfoDTOS.length !== 0)
-        return prev.concat(newPage.reservationInfoDTOS);
-      return prev;
-    });
-    setIsLoading(false);
-  }, [page]);
+  useEffect(() => async () => {
+      if (isEnd) return;
+      setIsLoading(true);
+      const newPage = await getUserSummaryList({ page });
+      console.log("newPage: ", newPage);
+      if (newPage.success !== true) {
+        setIsEnd(true);
+        ToastMaker({
+          type: "error",
+          children: "예약 정보를 불러오지 못했어요."
+        });
+        return;
+      }
+
+      setIsEnd(newPage.data.lastPage);
+      setReservationList(prev => {
+        if (newPage.data.reservationInfoDTOS.length !== 0)
+          return prev.concat(newPage.data.reservationInfoDTOS);
+        return prev;
+      });
+      setIsLoading(false);
+    },
+    [page]
+  );
 
   useEffect(() => {
     if (isEnd) {
