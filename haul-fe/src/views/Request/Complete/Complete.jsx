@@ -30,7 +30,7 @@ const Complete = () => {
       <Margin height="4px" />
       <Typography font="bold24">배정되는대로 알려드릴게요.</Typography>
       <Margin height="8px" />
-      {getIsMember() === "false" && <Typography font="semi20" color="subColor">비회원의 경우, 기사님께 결제를 해주세요.</Typography>}
+      {getIsMember() === "false" && <Typography font="semi20" color="subColor">비회원의 경우, 기사님께 직접 결제를 해주세요.</Typography>}
       <FixedCenterBox bottom="30px">
         <BottomButton
           role="main"
