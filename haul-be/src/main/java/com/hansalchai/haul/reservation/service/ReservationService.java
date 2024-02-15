@@ -21,6 +21,7 @@ import com.hansalchai.haul.common.utils.CargoFeeTable;
 import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
 import com.hansalchai.haul.common.utils.MapUtils;
 import com.hansalchai.haul.common.utils.ReservationNumberGenerator;
+import com.hansalchai.haul.common.utils.S3Util;
 import com.hansalchai.haul.reservation.constants.TransportType;
 import com.hansalchai.haul.reservation.entity.Cargo;
 import com.hansalchai.haul.reservation.entity.CargoOption;
@@ -40,6 +41,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class ReservationService{
+	private final S3Util s3Util;
 	private final KakaoMap kakaoMap;
 	private final ReservationRepository reservationRepository;
 	private final UsersRepository usersRepository;
@@ -65,20 +67,24 @@ public class ReservationService{
 		MapUtils.Location srcLocation = new MapUtils.Location(source.getLatitude(), source.getLongitude());
 		MapUtils.Location dstLocation = new MapUtils.Location(destination.getLatitude(), destination.getLongitude());
 		MapUtils.DistanceDurationInfo distanceDurationInfo = kakaoMap.carPathFind(srcLocation, dstLocation);
-		CargoFeeTable.RequestedTruckInfo fee = CargoFeeTable.findCost(cargo.getWeight(), distanceDurationInfo.getDistance());
-
-		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), fee.getCost(),distanceDurationInfo.getDuration());
-
+		//추천차량 계산
+		List<Car> recommendedCars = customCarRepository.findProperCar(CarCategorySelector.selectCarCategory(cargoOption), cargo);
+		if(recommendedCars.isEmpty()){
+			throw new IllegalArgumentException("Recommended cars list is empty");
+		}
+		//차량을 기반으로 금액 계산
+		CargoFeeTable.RequestedTruckInfo getTruck = CargoFeeTable.findCost(recommendedCars, distanceDurationInfo.getDistance(), cargo.getWeight());
+		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(),distanceDurationInfo.getDuration());
+		//예약 번호
 		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
-		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption), cargo);
 
 		Reservation reservation = Reservation.toEntity(user, null, cargo, cargoOption,
-				source, destination, transport, recommendedCar, reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
-				distanceDurationInfo.getDuration(), fee.getNumber());
+				source, destination, transport, getTruck.getCar(), reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
+				distanceDurationInfo.getDuration(), getTruck.getNumber());
 
 		Reservation saved = reservationRepository.save(reservation);
 
-		return new ReservationRecommendationDTO(saved);
+		return new ReservationRecommendationDTO(saved, s3Util);
 	}
 
 	public ReservationRecommendationDTO createGuestReservation(CreateReservationGuestDTO reservationDTO) {
@@ -90,25 +96,30 @@ public class ReservationService{
 		MapUtils.Location srcLocation = new MapUtils.Location(source.getLatitude(), source.getLongitude());
 		MapUtils.Location dstLocation = new MapUtils.Location(destination.getLatitude(), destination.getLongitude());
 		MapUtils.DistanceDurationInfo distanceDurationInfo = kakaoMap.carPathFind(srcLocation, dstLocation);
-		CargoFeeTable.RequestedTruckInfo fee = CargoFeeTable.findCost(cargo.getWeight(), distanceDurationInfo.getDistance());
+		//추천차량 계산
+		List<Car> recommendedCars = customCarRepository.findProperCar(CarCategorySelector.selectCarCategory(cargoOption), cargo);
+		if(recommendedCars.isEmpty()){
+			throw new IllegalArgumentException("Recommended cars list is empty");
+		}
 
-		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), fee.getCost(),distanceDurationInfo.getDuration());
-
+		//차량을 기반으로 금액 계산
+		CargoFeeTable.RequestedTruckInfo getTruck = CargoFeeTable.findCost(recommendedCars, distanceDurationInfo.getDistance(), cargo.getWeight());
+		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(),distanceDurationInfo.getDuration());
+		//예약 번호
 		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
-		Car recommendedCar = customCarRepository.findProperCar(CarType.findByValue(fee.getType()), CarCategorySelector.selectCarCategory(cargoOption), cargo);
 
 		Users guest = Users.toEntity(reservationDTO.getUserInfo().getName(),reservationDTO.getUserInfo().getTel(),reservationNumber, null, null, Role.GUEST);
 
 		Reservation reservation = Reservation.toEntity(guest, null, cargo, cargoOption,
-			source, destination, transport, recommendedCar, reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
-			distanceDurationInfo.getDuration(), fee.getNumber());
+			source, destination, transport, getTruck.getCar(), reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
+			distanceDurationInfo.getDuration(), getTruck.getNumber());
 
 		usersRepository.save(guest);
 		reservationRepository.save(reservation);
 
 		Reservation saved = reservationRepository.save(reservation);
 
-		return new ReservationRecommendationDTO(saved);
+		return new ReservationRecommendationDTO(saved, s3Util);
 	}
 
 	public ReservationDTO getReservation(int page, Long userId) {
@@ -134,13 +145,13 @@ public class ReservationService{
 	public ReservationDetailDTO getReservationDetail(Long id, Long userId) {
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("Reservation not found"));
-		return new ReservationDetailDTO(reservation);
+		return new ReservationDetailDTO(reservation, s3Util);
 	}
 
 	public ReservationDetailDTO getGuestReservationDetail(Long id) {
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("Reservation not found"));
-		return new ReservationDetailDTO(reservation);
+		return new ReservationDetailDTO(reservation, s3Util);
 	}
 
 	public void patchReservation(Long id, Long userId) {

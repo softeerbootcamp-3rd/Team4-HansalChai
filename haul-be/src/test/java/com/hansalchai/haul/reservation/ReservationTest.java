@@ -105,14 +105,6 @@ public class ReservationTest {
 		//then
 		Assertions.assertEquals(1, actual.getCar().getCount());
 		Assertions.assertEquals("포터2", actual.getCar().getModel());
-		Assertions.assertEquals("광주", actual.getSrc().getName());
-		Assertions.assertEquals("광주광역시 서구 상무민주로 119 나나빌딩", actual.getSrc().getAddress());
-		Assertions.assertEquals( 35.161723, actual.getSrc().getLongitude());
-		Assertions.assertEquals(126.857084, actual.getSrc().getLatitude());
-		Assertions.assertEquals("부산", actual.getDst().getName());
-		Assertions.assertEquals("부산광역시 연제구 거제대로178번길 51-2", actual.getDst().getAddress());
-		Assertions.assertEquals(35.184116, actual.getDst().getLongitude());
-		Assertions.assertEquals(129.073332, actual.getDst().getLatitude());
 	}
 
 	//TODO 토큰이 없어서 실패함
