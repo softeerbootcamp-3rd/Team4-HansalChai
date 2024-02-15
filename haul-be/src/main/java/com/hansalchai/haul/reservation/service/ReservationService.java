@@ -53,7 +53,6 @@ public class ReservationService{
 	2. 트럭을 선택
 	3. 예약을 생성 후 데이터 반환
 	 */
-	@Transactional
 	public ReservationRecommendationDTO createReservation(CreateReservationDTO reservationDTO,
 		Long userId) {
 		Users user = usersRepository.findById(userId)
@@ -82,7 +81,7 @@ public class ReservationService{
 
 		return new ReservationRecommendationDTO(reservation);
 	}
-	@Transactional
+
 	public ReservationRecommendationDTO createGuestReservation(CreateReservationGuestDTO reservationDTO) {
 		Source source = reservationDTO.getSrc().build();
 		Destination destination = reservationDTO.getDst().build();
@@ -110,7 +109,7 @@ public class ReservationService{
 
 		return new ReservationRecommendationDTO(reservation);
 	}
-	@Transactional
+
 	public ReservationDTO getReservation(int page, Long userId) {
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
@@ -120,7 +119,7 @@ public class ReservationService{
 		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
 		return new ReservationDTO(reservationInfoDTOS, isLastPage);
 	}
-	@Transactional
+
 	public ReservationDTO getGuestReservation(String number) {
 		Reservation reservation = reservationRepository.findByNumber(number)
 			.orElseThrow(() -> new RuntimeException("Reservation not found"));
@@ -129,13 +128,13 @@ public class ReservationService{
 		reservationInfoDTOS.add(reservationInfoDTO);
 		return new ReservationDTO(reservationInfoDTOS, true);
 	}
-	@Transactional
+
 	public ReservationDetailDTO getReservationDetail(Long id, Long userId) {
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("Reservation not found"));
 		return new ReservationDetailDTO(reservation);
 	}
-	@Transactional
+
 	public ReservationDetailDTO getGuestReservationDetail(Long id) {
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("Reservation not found"));

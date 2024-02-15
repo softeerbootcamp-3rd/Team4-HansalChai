@@ -26,6 +26,8 @@ public class ReservationResponse {
 		private final int cost;
 		@NotNull(message = "걸리는시간은 Null 일 수 없다.")
 		private final double requiredTime;
+		//TODO
+		private final String number;
 
 		@Getter
 		@Builder
@@ -91,6 +93,7 @@ public class ReservationResponse {
 				.build();
 			this.cost = reservation.getTransport().getFee();
 			this.requiredTime = reservation.getTransport().getRequiredTime();
+			this.number = reservation.getNumber();
 		}
 
 		private String getSizeToString(Reservation reservation){

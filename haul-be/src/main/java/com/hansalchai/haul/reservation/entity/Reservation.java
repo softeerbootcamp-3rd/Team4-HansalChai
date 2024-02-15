@@ -60,7 +60,7 @@ public class Reservation extends BaseTime {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private Transport transport;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Car car;
 
 	@Column(nullable = false)
