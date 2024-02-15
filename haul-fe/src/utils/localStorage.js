@@ -27,3 +27,9 @@ export function isLoginFun() {
   const accessToken = getAccessToken();
   return isMember === "false" || accessToken !== null;
 }
+
+export function isMemberLogin() {
+  const isMember = getIsMember();
+  const accessToken = getAccessToken();
+  return isMember === "true" && accessToken;
+}
