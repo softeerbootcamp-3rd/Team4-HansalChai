@@ -22,7 +22,9 @@ public enum CarType {
 		}
 		throw new IllegalArgumentException("Invalid CarType value: " + value);
 	}
-
+	public int getValue(){
+		return this.value;
+	}
 	public String getCode() {
 		return this.code;
 	}
