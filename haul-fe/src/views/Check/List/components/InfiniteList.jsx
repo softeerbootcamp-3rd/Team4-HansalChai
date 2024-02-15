@@ -7,6 +7,8 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 import Skeleton from "./Skeleton.jsx";
 import styled from "styled-components";
 import Flex from "../../../../components/Flex/Flex.jsx";
+import { getUserSummaryList } from "../../../../repository/checkRepository.js";
+import ToastMaker from "../../../../components/Toast/ToastMaker.jsx";
 
 // eslint-disable-next-line react/display-name
 const LoadingSkeleton = forwardRef((props, ref) => {
@@ -83,7 +85,12 @@ const InfiniteList = () => {
   useEffect(() => {
     if (isEnd) return;
     setIsLoading(true);
-    const newPage = dummyPagedSummary(page);
+    const newPage = getUserSummaryList({ page });
+    if(newPage.success !== true){
+      setIsEnd(true);
+      ToastMaker({ type: "error", children: "예약 정보를 불러오지 못했어요." });
+      return;
+    }
     setIsEnd(newPage.lastPage);
     setReservationList(prev => {
       if (newPage.reservationInfoDTOS.length !== 0)
