@@ -56,7 +56,7 @@ const ChoiceTransport = () => {
       img: 미니용달
     },
     {
-      transportType: "비지니스 운송",
+      transportType: "비즈니스 운송",
       transportPlusInfo: "거래처 납부, 기업 운송",
       maxLoad: 10,
       boxEachColor: "#85C7EE",

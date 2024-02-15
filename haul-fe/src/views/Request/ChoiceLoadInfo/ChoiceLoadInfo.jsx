@@ -47,7 +47,7 @@ const SmallBtn = styled.button`
 `;
 
 const ChoiceLoadInfo = () => {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const {
     setRoadInfo,
@@ -65,7 +65,7 @@ const ChoiceLoadInfo = () => {
 
   useEffect(() => {
     if (!dstAddress) {
-      navigation(UrlMap.choiceDstPageUrl);
+      navigate(UrlMap.choiceDstPageUrl);
     }
     CheckSubmitDisabledFun();
   }, []);
@@ -129,16 +129,16 @@ const ChoiceLoadInfo = () => {
     const isMember = getIsMember();
     //비회원이라면 guestInfo 페이지로 이동
     if (isMember === "false") {
-      navigation(UrlMap.guestInfoPageUrl);
+      navigate(UrlMap.guestInfoPageUrl);
       return;
     }
+    const reservationState = getReservationState();
     // 회원이라면 바로 결과 페이지로 이동
-    const { success, data, message } = await memberReservationFun(
-      getReservationState()
-    );
+
+    const { success, data, message } =
+      await memberReservationFun(reservationState);
     if (success) {
-      console.log("성공");
-      //navigation(UrlMap.resultPageUrl);
+      navigate(UrlMap.resultPageUrl, { state: { data: data.data } });
     } else {
       ToastMaker({ type: "error", children: message });
     }

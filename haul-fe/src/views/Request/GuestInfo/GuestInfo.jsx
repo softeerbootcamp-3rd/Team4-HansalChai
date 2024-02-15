@@ -19,7 +19,7 @@ const GuestInfo = () => {
   const {
     setGuestInfo,
     getReservationState,
-    state: { guestName, guestTel }
+    state: { cargoWeight, guestName, guestTel }
   } = useContext(reservationStore);
 
   const inGuestName = useRef(guestName);
@@ -27,6 +27,9 @@ const GuestInfo = () => {
   const [isButtonDisabled, setButtonDisabled] = useState(true);
 
   useEffect(() => {
+    if (cargoWeight === 0) {
+      navigate(UrlMap.choiceLoadInfoPageUrl);
+    }
     checkGuestInfoAbled();
   }, []);
 
@@ -51,6 +54,7 @@ const GuestInfo = () => {
       guestName: inGuestName.current,
       guestTel: inGuestTel.current
     });
+
     const reservationState = getReservationState();
     const { success, data, message } = await guestReservationFun({
       ...reservationState,
@@ -63,7 +67,6 @@ const GuestInfo = () => {
     } else {
       ToastMaker({ type: "error", children: message });
     }
-    //navigate(UrlMap.resultPageUrl);
   }
 
   return (

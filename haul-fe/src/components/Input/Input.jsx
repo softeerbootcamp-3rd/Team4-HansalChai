@@ -21,6 +21,7 @@ const InputSection = styled.input`
   background-color: transparent;
   border: none;
   text-align: ${props => (props.textAlign === "right" ? "right" : "left")};
+  ime-mode: ${props => (props.type === "password" ? "disabled" : "auto")};
 `;
 
 const Unit = styled.span`

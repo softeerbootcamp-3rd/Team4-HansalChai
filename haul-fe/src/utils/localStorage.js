@@ -27,3 +27,15 @@ export function isLoginFun() {
   const accessToken = getAccessToken();
   return isMember === "false" || accessToken !== null;
 }
+
+export function isMemberLogin() {
+  const isMember = getIsMember();
+  const accessToken = getAccessToken();
+  return isMember === "true" && accessToken;
+}
+
+export function logoutFun() {
+  localStorage.removeItem("isMember");
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+}
