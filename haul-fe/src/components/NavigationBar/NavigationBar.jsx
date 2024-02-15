@@ -10,6 +10,7 @@ import SelectedCircleSvg from "../../assets/svgs/SelectedCircle.svg";
 import { useNavigate } from "react-router-dom";
 import Typography from "../Typhography/Typhography.jsx";
 import { MaxDeviceWidth, UrlMap } from "../../data/GlobalVariable.js";
+import { getIsMember } from "../../utils/localStorage.js";
 
 const NavigationBarFrame = styled.div`
   position: fixed;
@@ -70,7 +71,10 @@ const SelectedCircleImg = styled.img`
 const NavigationBar = ({ selected = "reserv" }) => {
   const navigator = useNavigate();
   const clickCheck = () => {
-    navigator(UrlMap.checkReservationPageUrl);
+    navigator(
+      getIsMember() === "true"
+        ? UrlMap.checkReservationPageUrl
+        : UrlMap.checkReservationGuestPageUrl);
   };
   const clickReserv = () => {
     navigator(UrlMap.choiceTranportTypeUrl);

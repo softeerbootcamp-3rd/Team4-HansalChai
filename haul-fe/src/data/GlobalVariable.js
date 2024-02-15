@@ -16,7 +16,8 @@ export const UrlMap = {
   completePageUrl: "/request/complete",
   morePageUrl: "/more/list",
   checkReservationPageUrl: "/check/list",
-  checkReservationDetailPageUrl: "/check/detail"
+  checkReservationDetailPageUrl: "/check/detail",
+  checkReservationGuestPageUrl: "/check/guest"
 };
 
 export const CompanyCallNumber = "01012341234";
