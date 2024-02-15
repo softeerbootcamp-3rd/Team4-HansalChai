@@ -6,11 +6,13 @@ import Margin from "../../../components/Margin/Margin.jsx";
 import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
 import { CompanyCallNumber, UrlMap } from "../../../data/GlobalVariable.js";
 import { getIsMember } from "../../../utils/localStorage.js";
+import { guestReservationConfirmFun } from "../../../repository/reservationRepository.js";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 
 const Result = () => {
   const navigation = useNavigate();
@@ -27,47 +29,29 @@ const Result = () => {
 
   const location = useLocation();
   const { data } = location.state;
-
-  const [resultData, setLesultData] = useState({
-    car: {
-      count: 0,
-      model: "string",
-      capacity: "string",
-      feature: "string",
-      photo: "string"
-    },
-    src: {
-      name: "string",
-      address: "string",
-      detailAddress: "string",
-      latitude: 0,
-      longitude: 0,
-      tel: "string"
-    },
-    dst: {
-      name: "string",
-      address: "string",
-      detailAddress: "string",
-      latitude: 0,
-      longitude: 0,
-      tel: "string"
-    },
-    cost: 0,
-    requiredTime: 0
-  });
-
+  console.log(data);
   function callCompany() {
     const phoneNumber = CompanyCallNumber;
     window.location.href = `tel:${phoneNumber}`;
   }
-
-  function decideBtnFun() {
+  async function decideBtnFun() {
     const isMember = getIsMember();
+    //비회원이라면 예약 확정 진행
     if (isMember === "false") {
-      navigation(UrlMap.completePageUrl);
+      const { success, dataConfirm, message } =
+        await guestReservationConfirmFun({
+          reservationId: data.reservationId
+        });
+      if (success) {
+        navigation(UrlMap.completePageUrl);
+      } else {
+        ToastMaker({ type: "error", children: message });
+      }
       return;
     }
-    navigation(UrlMap.choicePaymentPageUrl);
+    navigation(UrlMap.choicePaymentPageUrl, {
+      state: { reservationId: data.reservationId }
+    });
   }
 
   return (
