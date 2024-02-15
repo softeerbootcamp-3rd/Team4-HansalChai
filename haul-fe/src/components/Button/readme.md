@@ -17,4 +17,4 @@
 - children - any
   - 버튼 하위 요소를 나타내는 props - 텍스트만 쓸 것!
   - 가능한 값
-    - Text
+- Text
