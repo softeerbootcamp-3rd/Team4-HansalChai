@@ -1,4 +1,4 @@
-- Router 폴더 설명
+# Router 폴더 설명
 
 프로젝트에 Route에 대한 설정을 진행합니다.
 
@@ -49,5 +49,7 @@
 2. element
 
    페이지 컴포넌트를 입력
+
+# 참고 자료
 
 [Home v6.22.0](https://reactrouter.com/en/main)
