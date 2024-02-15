@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.owner.entity.Owner;
+import com.hansalchai.haul.reservation.constants.TransportStatus;
 import com.hansalchai.haul.reservation.entity.Reservation;
 
 import jakarta.annotation.Nullable;
@@ -21,13 +22,11 @@ public class ReservationResponse {
 	public static class ReservationRecommendationDTO{
 		private final Long reservationId;
 		private final CarDTO car;
-		private final SourceDTO src;
-		private final DestinationDTO dst;
 		@NotNull(message = "비용은 Null 일 수 없다.")
 		private final int cost;
 		@NotNull(message = "걸리는시간은 Null 일 수 없다.")
 		private final double requiredTime;
-		//TODO
+		//TODO 제거하기
 		private final String number;
 
 		@Getter
@@ -45,35 +44,10 @@ public class ReservationResponse {
 			private String photo;
 		}
 
-		@Getter
-		@Builder
-		public static class SourceDTO{
-			@NotNull(message = "출발지 이름은 Null 일 수 없다.")
-			private String name;
-			@NotNull(message = "출발지 주소는 Null 일 수 없다.")
-			private String address;
-			@NotNull(message = "출발지 위도는 Null 일 수 없다.")
-			private double latitude;
-			@NotNull(message = "출발지 경도는 Null 일 수 없다.")
-			private double longitude;
-		}
-
-		@Getter
-		@Builder
-		public static class DestinationDTO{
-			@NotNull(message = "출발지 이름은 Null 일 수 없다.")
-			private String name;
-			@NotNull(message = "출발지 주소는 Null 일 수 없다.")
-			private String address;
-			@NotNull(message = "출발지 위도는 Null 일 수 없다.")
-			private double latitude;
-			@NotNull(message = "출발지 경도는 Null 일 수 없다.")
-			private double longitude;
-		}
 
 		@Builder
 		public ReservationRecommendationDTO(Reservation reservation) {
-			this.reservationId = getReservationId();
+			this.reservationId = reservation.getReservationId();
 			this.car = CarDTO.builder()
 				.count(reservation.getCount())
 				.model(reservation.getCar().getModel())
@@ -81,19 +55,7 @@ public class ReservationResponse {
 				.feature(getSizeToString(reservation))
 				.photo(reservation.getCar().getPhoto())
 				.build();
-			this.src = SourceDTO.builder()
-				.name(reservation.getSource().getName())
-				.address(reservation.getSource().getAddress())
-				.latitude(reservation.getSource().getLatitude())
-				.longitude(reservation.getSource().getLongitude())
-				.build();
-			this.dst = DestinationDTO.builder()
-				.name(reservation.getDestination().getName())
-				.address(reservation.getDestination().getAddress())
-				.latitude(reservation.getDestination().getLatitude())
-				.longitude(reservation.getDestination().getLongitude())
-				.build();
-			this.cost = reservation.getTransport().getFee();
+			this.cost = costCut(reservation.getTransport().getFee());
 			this.requiredTime = reservation.getTransport().getRequiredTime();
 			this.number = reservation.getNumber();
 		}
@@ -105,6 +67,11 @@ public class ReservationResponse {
 				car.getHeight(),
 				car.getLength());
 		}
+
+		public int costCut(int fee){
+			return fee/10000;
+		}
+
 	}
 
 	@Getter
@@ -128,7 +95,7 @@ public class ReservationResponse {
 			public ReservationInfoDTO(Reservation reservation) {
 				this.id = reservation.getReservationId();
 				this.car = getCarToString(reservation.getCar());
-				this.status = reservation.getTransport().getTransportStatus().getCode();
+				this.status = TransportStatus.getCode(reservation.getTransport().getTransportStatus());
 				this.datetime = getDateTimeString(reservation.getDate(), reservation.getTime());
 				this.cost = costCut(reservation.getTransport().getFee());
 			}
@@ -159,6 +126,8 @@ public class ReservationResponse {
 		private final int cost;
 		@NotNull(message = "걸리는시간은 Null 일 수 없다.")
 		private final double requiredTime;
+		@NotNull(message = "현 상태는 Null 일 수 없다.")
+		private final String status;
 
 		@Getter
 		@Builder
@@ -240,6 +209,7 @@ public class ReservationResponse {
 				.build();
 			this.cost = reservation.getTransport().getFee();
 			this.requiredTime = reservation.getTransport().getRequiredTime();
+			this.status = TransportStatus.getCode(reservation.getTransport().getTransportStatus());
 		}
 
 		private String getSizeToString(Reservation reservation){
