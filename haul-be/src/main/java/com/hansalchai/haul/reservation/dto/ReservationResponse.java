@@ -104,6 +104,8 @@ public class ReservationResponse {
 			}
 
 			public int costCut(int fee){
+				if(fee < 10000)
+					fee = 10001;
 				return fee/10000;
 			}
 
@@ -212,7 +214,7 @@ public class ReservationResponse {
 		}
 
 		public String makeUserUrl(String photo){
-			return "car/" + photo;
+			return "driver-profile/" + photo;
 		}
 
 
