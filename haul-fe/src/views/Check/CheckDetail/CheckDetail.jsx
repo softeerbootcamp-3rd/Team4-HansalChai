@@ -15,6 +15,7 @@ import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { getIsMember } from "../../../utils/localStorage.js";
 
 const phaseMap = {
+  "예약 전": "before",
   "매칭 중": "before",
   "운송 전": "reserv",
   "운송 중": "moving",
