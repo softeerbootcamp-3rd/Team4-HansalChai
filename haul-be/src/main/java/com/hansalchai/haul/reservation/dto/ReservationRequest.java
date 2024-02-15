@@ -15,6 +15,7 @@ import com.hansalchai.haul.reservation.entity.Source;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,6 +42,7 @@ public class ReservationRequest {
 		@Getter
 		@Setter
 		@ToString
+		@Builder
 		public static class SourceDTO {
 			@NotNull(message = "출발지 이름은 Null 일 수 없다.")
 			private String name;
@@ -60,7 +62,7 @@ public class ReservationRequest {
 			@NotNull(message = "출발지 전화번호는 Null 일 수 없다.")
 			private String tel;
 
-			public Source build(){
+			public Source build() {
 				return Source.builder()
 					.name(name)
 					.address(address)
@@ -74,6 +76,7 @@ public class ReservationRequest {
 		@Getter
 		@Setter
 		@ToString
+		@Builder
 		public static class DestinationDTO {
 			@NotNull(message = "도착지 이름은 Null 일 수 없다.")
 			private String name;
@@ -107,6 +110,7 @@ public class ReservationRequest {
 		@Getter
 		@Setter
 		@ToString
+		@Builder
 		public static class CargoDTO {
 			@NotNull(message = "화물 가로는 Null 일 수 없다.")
 			@Range(min = 0, max = 1000, message = "화물 가로는 10m를 넘을 수 없다.")
@@ -136,6 +140,7 @@ public class ReservationRequest {
 		@Getter
 		@Setter
 		@ToString
+		@Builder
 		public static class CargoOptionDTO {
 			@JsonProperty("refrigerated")
 			@NotNull(message = "냉장여부는 Null 일 수 없다.")

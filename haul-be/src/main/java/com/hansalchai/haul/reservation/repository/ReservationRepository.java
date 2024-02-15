@@ -1,5 +1,6 @@
 package com.hansalchai.haul.reservation.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -16,4 +17,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
 	@Query(value = "select v from Reservation v where v.number = :number")
 	Optional<Reservation> findByNumber(@Param("number") String number);
+
+	@Query("select r from Reservation r where r.transport.transportStatus = 'PENDING' and r.car.carId = :carId")
+	List<Reservation> findAllOrders(@Param("carId") Long carId);
 }

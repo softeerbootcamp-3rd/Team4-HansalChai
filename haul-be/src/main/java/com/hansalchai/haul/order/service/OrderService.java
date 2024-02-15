@@ -1,19 +1,22 @@
 package com.hansalchai.haul.order.service;
 
+import java.util.List;
+
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.config.SmsUtil;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
+import com.hansalchai.haul.order.dto.OrderResponseDto;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
 import com.hansalchai.haul.reservation.entity.Reservation;
 import com.hansalchai.haul.reservation.entity.Transport;
 import com.hansalchai.haul.reservation.repository.ReservationRepository;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -23,6 +26,21 @@ public class OrderService {
 	private final ReservationRepository reservationRepository;
 	private final OwnerRepository ownerRepository;
 	private final SmsUtil smsUtil;
+
+	@Transactional(readOnly = true)
+	public List<OrderResponseDto> findAll(Long driverId) {
+
+		// 기사(Owner) 정보에 부합하는 오더 리스트 조회
+		Owner owner = ownerRepository.findByDriverId(driverId)
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 owner입니다."));
+		Car car = owner.getCar();
+		Long carId = car.getCarId();
+		List<Reservation> orders = reservationRepository.findAllOrders(carId);
+
+		return orders.stream()
+			.map(OrderResponseDto::new)
+			.toList();
+	}
 
 	@Transactional
 	public void approve(Long driverId, ApproveRequestDto approveRequestDto) {
