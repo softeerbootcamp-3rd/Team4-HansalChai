@@ -36,7 +36,7 @@ const ChoiceDst = () => {
       latitude: dstCoordinate.dstLatitude,
       longitude: dstCoordinate.dstLongitude
     },
-    detailAddress: dstDetailAddress
+    detailAddress: dstAddress
   });
   const inDstDetailAddress = useRef(dstDetailAddress);
   const inDstTel = useRef(dstTel);
