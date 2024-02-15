@@ -18,7 +18,7 @@ export const UrlMap = {
   checkReservationPageUrl: "/check/list"
 };
 
-export const CompanyCallNumber = "01012341234";
+export const CompanyCallNumber = "01096914119";
 
 export const ErrorMessageMap = {
   InvalidTelformat: "전화번호 형식이 아닙니다.",
