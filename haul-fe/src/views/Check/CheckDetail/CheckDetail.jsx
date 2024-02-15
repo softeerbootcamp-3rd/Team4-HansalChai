@@ -122,31 +122,3 @@ const CheckDetail = () => {
 };
 
 export default CheckDetail;
-
-/*
-{
-  "driver": null,
-  "car": {
-      "count": 1,
-      "model": "포터2",
-      "capacity": "TRUCK500",
-      "feature": "200 X 400 X 300",
-      "photo": "truck500_photo.jpg"
-  },
-  "src": {
-      "name": "인하대역시네마타워",
-      "address": "231",
-      "latitude": 37.445620228619,
-      "longitude": 126.65182310263
-  },
-  "dst": {
-      "name": "동암역 목동 휘버스아파트",
-      "address": "502호",
-      "latitude": 37.4721762726903,
-      "longitude": 126.705859185146
-  },
-  "cost": 20000,
-  "requiredTime": 0.5011111111111111,
-  "status": "매칭 중"
-}
-*/
