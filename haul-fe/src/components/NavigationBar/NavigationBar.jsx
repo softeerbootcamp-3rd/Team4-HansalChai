@@ -10,6 +10,7 @@ import SelectedCircleSvg from "../../assets/svgs/SelectedCircle.svg";
 import { useNavigate } from "react-router-dom";
 import Typography from "../Typhography/Typhography.jsx";
 import { MaxDeviceWidth, UrlMap } from "../../data/GlobalVariable.js";
+import { getIsMember } from "../../utils/localStorage.js";
 
 const NavigationBarFrame = styled.div`
   position: fixed;
@@ -45,14 +46,19 @@ const ItemFrame = styled.div`
 
 const TruckImg = styled.img`
   width: 42px;
-  height: 23px;
+  height: 30px;
   border: none;
   fill: ${props => props.theme.colors[props.fill]};
   color: red;
+  object-fit: scale-down;
+  object-position: center;
 `;
 
 const IconFrame = styled.div`
   color: ${props => props.theme.colors[props.fill]};
+  height: 30px;
+  object-fit: scale-down;
+  object-position: center;
 `;
 
 const SelectedCircleImg = styled.img`
@@ -65,7 +71,10 @@ const SelectedCircleImg = styled.img`
 const NavigationBar = ({ selected = "reserv" }) => {
   const navigator = useNavigate();
   const clickCheck = () => {
-    navigator(UrlMap.checkReservationPageUrl);
+    navigator(
+      getIsMember() === "true"
+        ? UrlMap.checkReservationPageUrl
+        : UrlMap.checkReservationGuestPageUrl);
   };
   const clickReserv = () => {
     navigator(UrlMap.choiceTranportTypeUrl);
@@ -89,7 +98,7 @@ const NavigationBar = ({ selected = "reserv" }) => {
           }
         />
         <IconFrame fill={selected === "check" ? "mainColor" : "unselectedGray"}>
-          <CheckSvg size={27} />
+          <CheckSvg size={30} />
         </IconFrame>
         <Typography
           color={selected === "check" ? "mainColor" : "unselectedGray"}
@@ -135,7 +144,7 @@ const NavigationBar = ({ selected = "reserv" }) => {
           }
         />
         <IconFrame fill={selected === "more" ? "mainColor" : "unselectedGray"}>
-          <MoreSvg size={28} />
+          <MoreSvg size={30} />
         </IconFrame>
         <Typography
           color={selected === "more" ? "mainColor" : "unselectedGray"}

@@ -34,6 +34,7 @@ const Purchase = () => {
    * false: 캐로셀에서 선택
    */
   const [isChoosing, setIsChoosing] = useState(true);
+  const [cost, setCost] = useState(0);
   const navigator = useNavigate();
 
   const cardList = [Card1, Card2, Card3];
@@ -52,6 +53,7 @@ const Purchase = () => {
     } else {
       ToastMaker({ type: "error", children: message });
     }
+    setCost(data.cost);
   };
 
   const resetIndex = () => {
@@ -94,7 +96,7 @@ const Purchase = () => {
       ) : (
         <FixedCenterBox bottom="20px">
           <BottomButton role="main" onClick={confirmSelectedIndex}>
-            {15 /* TODO: 실제 값으로 변경 */}만원 결제하기
+            {cost}만원 결제하기
           </BottomButton>
           <Margin height={"10px"} />
           <BottomButton role="sub" onClick={resetIndex}>

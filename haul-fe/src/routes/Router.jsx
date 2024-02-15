@@ -22,6 +22,7 @@ import Check from "../views/Check/List/Check.jsx";
 import UserPayments from "../views/More/UserPayments/UserPayments.jsx";
 import CheckDetail from "../views/Check/CheckDetail/CheckDetail.jsx";
 import Purchase from "../views/Request/Purchase/Purchase.jsx";
+import GuestCheck from "../views/Check/GuestCheck/GuestCheck.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -67,6 +68,7 @@ const Router = () => (
         <Route path="complete" element={<Complete />} />
       </Route>
       <Route path="/check" element={<Outlet />}>
+        <Route path="guest" element={<GuestCheck />} />
         <Route path="list" element={<Check />} />
         <Route
           path="detail/:reservid"

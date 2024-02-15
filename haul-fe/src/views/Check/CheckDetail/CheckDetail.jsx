@@ -9,6 +9,18 @@ import DriverInfoBox from "./components/DriverInfoBox.jsx";
 import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import { useLocation } from "react-router-dom";
+import { getGuestReservationDetails, getUserReservationDetails } from "../../../repository/checkRepository.js";
+import { useEffect, useState } from "react";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import { getIsMember } from "../../../utils/localStorage.js";
+
+const phaseMap = {
+  "예약 전": "before",
+  "매칭 중": "before",
+  "운송 전": "reserv",
+  "운송 중": "moving",
+  "운송 완료": "after"
+};
 
 const ReservItemFrame = styled(Flex)`
   width: 100%;
@@ -17,114 +29,124 @@ const ReservItemFrame = styled(Flex)`
   overflow-y: scroll;
 `;
 
-const CheckDetail = ({ driver, car, map }) => {
-  const dummyDriver = [
-    {
-      phase: "before",
-      name: null,
-      tel: null,
-      picture: null
-    },
-    {
-      phase: "reserv",
-      name: "김포터",
-      tel: "010-0000-0000",
-      picture: null
-    },
-    {
-      phase: "moving",
-      name: "김포터",
-      tel: "010-0000-0000",
-      picture: null
-    },
-    {
-      phase: "after",
-      name: "김포터",
-      tel: "010-0000-0000",
-      picture: null
-    }
-  ];
-  const dummyCar = [
-    {
-      type: "포터2",
-      phase: "before",
-      capacity: "1톤",
-      volumn: "10 X 15 X 3 M",
-      quantity: 1
-    },
-    {
-      type: "마이티3",
-      phase: "after",
-      capacity: "2.5톤",
-      volumn: "10 X 15 X 3 M",
-      quantity: 2
-    }
-  ];
-  const dummyMap = {
-    srcCoordinate: { lat: 37.4942643848404, lng: 127.028259839376 },
-    srcAddress: "서울특별시 강남구 강남대로 지하396 ",
-    srcName: "강남구 애니타워",
-    dstCoordinate: { lat: 37.4466225962954, lng: 126.65387634549 },
-    dstAddress: "부산광역시 금정구 부산대학로63번길 2",
-    dstName: "부산대학교",
-    fee: "15",
-    time: "04"
-  };
+const dataSetter = async ({ reservationID, setDetailData, setIsLoaded }) => {
+  const response = getIsMember()
+    ? await getUserReservationDetails({ reservationID })
+    : await getGuestReservationDetails({ reservationID });
+  console.log(response);
+  if (!response.success) {
+    ToastMaker(
+      "error",
+      "예약 정보를 불러오는데 실패했습니다. 다시 시도해주세요."
+    );
+  }
 
-  const location = useLocation();
-  const reservId = location.pathname.split("/").pop();
-  const dummyData = {
-    driver: dummyDriver[reservId],
-    car: dummyCar[reservId],
-    map: dummyMap
-  };
-  //TODO: 실제 데이터로 교체
+  const { car, src, dst, cost, requiredTime } = response.data;
+  let { driver } = response.data;
+  const srcCoordinate = { lat: src.latitude, lng: src.longitude };
+  const dstCoordinate = { lat: dst.latitude, lng: dst.longitude };
+
   if (!driver) {
-    ({ driver } = dummyData);
+    driver = { name: null, tel: null, photo: null };
   }
-  if (!car) {
-    ({ car } = dummyData);
-  }
-  if (!map) {
-    ({ map } = dummyData);
-  }
+
+  setDetailData(() => {
+    return {
+      driver,
+      car,
+      src,
+      dst,
+      srcCoordinate,
+      dstCoordinate,
+      cost,
+      requiredTime,
+      phase: phaseMap[response.data.status]
+    };
+  });
+
+  setIsLoaded(true);
+};
+
+const CheckDetail = () => {
+  const [detailData, setDetailData] = useState({});
+  const [isLoaded, setIsLoaded] = useState(false);
+  const reservationID = useLocation().pathname.split("/").pop();
+
+  useEffect(() => {
+    dataSetter({ reservationID, setDetailData, setIsLoaded });
+  }, []);
 
   return (
     <MobileLayout>
       <Header home={false} back={true}>
-        <Typography font={"semiBold24"}>예약 확인</Typography>
+        <Typography font={"semiBold24"} color={"mainColor"}>
+          예약 확인
+        </Typography>
       </Header>
       <Margin height="32px" />
-      <ReservItemFrame kind="flexColumn">
-        <DriverInfoBox
-          phase={driver.phase}
-          name={driver.name}
-          tel={driver.tel}
-          picture={driver.picture}
-        />
-        <Margin height="20px" />
-        <CarInfoBox
-          phase={car.phase}
-          type={car.type}
-          capacity={car.capacity}
-          volumn={car.volumn}
-          quantity={car.quantity}
-        />
-        <Margin height="20px" />
-        <DetailInfo
-          srcCoordinate={map.srcCoordinate}
-          srcAddress={map.srcAddress}
-          srcName={map.srcName}
-          dstCoordinate={map.dstCoordinate}
-          dstAddress={map.dstAddress}
-          dstName={map.dstName}
-          fee={map.fee}
-          time={map.time}
-        />
-      </ReservItemFrame>
+      {isLoaded ? (
+        <ReservItemFrame kind="flexColumn">
+          <DriverInfoBox
+            phase={detailData.phase}
+            name={detailData.driver.name}
+            tel={detailData.driver.tel}
+            photo={detailData.driver.photo}
+          />
+          <Margin height="20px" />
+          <CarInfoBox
+            phase={detailData.phase}
+            type={detailData.car.model}
+            capacity={detailData.car.capacity}
+            volumn={detailData.car.feature}
+            quantity={detailData.car.count}
+            photo={detailData.car.photo}
+          />
+          <Margin height="20px" />
+          <DetailInfo
+            srcCoordinate={detailData.srcCoordinate}
+            srcAddress={detailData.src.address}
+            srcName={detailData.src.name}
+            dstCoordinate={detailData.dstCoordinate}
+            dstAddress={detailData.dst.address}
+            dstName={detailData.dst.name}
+            fee={detailData.cost}
+            time={detailData.requiredTime}
+          />
+        </ReservItemFrame>
+      ) : (
+        <></>
+      )}
       <NavigationBar selected="check" />
     </MobileLayout>
   );
 };
 
 export default CheckDetail;
+
+/*
+{
+  "driver": null,
+  "car": {
+      "count": 1,
+      "model": "포터2",
+      "capacity": "TRUCK500",
+      "feature": "200 X 400 X 300",
+      "photo": "truck500_photo.jpg"
+  },
+  "src": {
+      "name": "인하대역시네마타워",
+      "address": "231",
+      "latitude": 37.445620228619,
+      "longitude": 126.65182310263
+  },
+  "dst": {
+      "name": "동암역 목동 휘버스아파트",
+      "address": "502호",
+      "latitude": 37.4721762726903,
+      "longitude": 126.705859185146
+  },
+  "cost": 20000,
+  "requiredTime": 0.5011111111111111,
+  "status": "매칭 중"
+}
+*/

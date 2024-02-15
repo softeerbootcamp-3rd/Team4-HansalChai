@@ -73,6 +73,7 @@ const Result = () => {
         capacity={data.car.capacity}
         volumn={data.car.feature}
         quantity={data.car.count}
+        photo={data.car.photo}
       />
       <Margin height="20px" />
 
