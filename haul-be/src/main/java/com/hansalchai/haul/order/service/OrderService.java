@@ -2,6 +2,7 @@ package com.hansalchai.haul.order.service;
 
 import org.springframework.stereotype.Service;
 
+import com.hansalchai.haul.common.config.SmsUtil;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
@@ -17,6 +18,7 @@ public class OrderService {
 
 	private final ReservationRepository reservationRepository;
 	private final OwnerRepository ownerRepository;
+	private final SmsUtil smsUtil;
 
 	@Transactional
 	public void approve(Long driverId, ApproveRequestDto approveRequestDto) {
@@ -32,6 +34,9 @@ public class OrderService {
 		// 3. 예약에 기사 배정 정보 저장
 		reservation.setDriver(owner);
 
-		// TODO : 해당 예약을 만든 고객에게 sms로 기사 배정 정보 전송
+		// 4. 배정 알림을 고객에게 sms로 전송
+		String customerTel = reservation.getUser().getTel();
+		String reservationNumber = reservation.getNumber();
+		smsUtil.send(customerTel, reservationNumber);
 	}
 }
