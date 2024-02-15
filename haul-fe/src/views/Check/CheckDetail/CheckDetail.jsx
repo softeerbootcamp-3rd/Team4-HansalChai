@@ -9,9 +9,10 @@ import DriverInfoBox from "./components/DriverInfoBox.jsx";
 import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import { useLocation } from "react-router-dom";
-import { getGuestReservationDetails } from "../../../repository/checkRepository.js";
+import { getGuestReservationDetails, getUserReservationDetails } from "../../../repository/checkRepository.js";
 import { useEffect, useState } from "react";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import { getIsMember } from "../../../utils/localStorage.js";
 
 const phaseMap = {
   "매칭 중": "before",
@@ -28,17 +29,17 @@ const ReservItemFrame = styled(Flex)`
 `;
 
 const dataSetter = async ({ reservationID, setDetailData, setIsLoaded }) => {
-  const response = await getGuestReservationDetails({ reservationID });
+  const response = getIsMember()
+    ? await getUserReservationDetails({ reservationID })
+    : await getGuestReservationDetails({ reservationID });
   console.log(response);
   if (!response.success) {
-    //TODO: 실패 처리(토스트 등)
     ToastMaker(
       "error",
       "예약 정보를 불러오는데 실패했습니다. 다시 시도해주세요."
     );
   }
 
-  //TODO: 실제 데이터로 교체
   const { car, src, dst, cost, requiredTime } = response.data;
   let { driver } = response.data;
   const srcCoordinate = { latitude: src.latitude, longitude: src.longitude };

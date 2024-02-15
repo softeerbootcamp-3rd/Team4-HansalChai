@@ -81,7 +81,8 @@ const InfiniteList = () => {
   });
 
   //페이지가 바뀔 때마다 새로운 데이터를 불러옴
-  useEffect(() => async () => {
+  useEffect(
+    () => async () => {
       if (isEnd) return;
       setIsLoading(true);
       const newPage = await getUserSummaryList({ page });

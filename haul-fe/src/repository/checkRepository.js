@@ -39,8 +39,6 @@ export async function getUserSummaryList({ page }) {
       }
     );
 
-    console.log(response);
-
     if (response.ok) {
       const body = await response.json();
       return {
@@ -93,8 +91,6 @@ export async function getUserReservationDetails({ reservationID }) {
         }
       }
     );
-
-    console.log(response);
 
     if (response.ok) {
       const body = await response.json();
