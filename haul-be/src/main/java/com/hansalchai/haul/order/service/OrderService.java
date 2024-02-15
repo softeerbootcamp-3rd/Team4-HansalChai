@@ -28,7 +28,7 @@ public class OrderService {
 			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약번호입니다."));
 
 		// 2. 기사 정보 가져오기
-		Owner owner = ownerRepository.findByDriverIdAndCarId(driverId, approveRequestDto.getCarId())
+		Owner owner = ownerRepository.findByDriverId(driverId)
 			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 owner입니다."));
 
 		// 3. 예약에 기사 배정 정보 저장
