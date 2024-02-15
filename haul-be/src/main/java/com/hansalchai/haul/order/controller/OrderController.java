@@ -5,7 +5,7 @@ import static com.hansalchai.haul.common.utils.ApiResponse.*;
 import static com.hansalchai.haul.common.utils.SuccessCode.*;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,8 +25,10 @@ public class OrderController {
 
 	private final OrderService orderService;
 
-	@PutMapping("/approve")
-	public ResponseEntity approveOrder(HttpServletRequest request, @Valid @RequestBody ApproveRequestDto approveRequestDto) {
+	@PatchMapping("/approve")
+	public ResponseEntity approveOrder(HttpServletRequest request,
+		@Valid @RequestBody ApproveRequestDto approveRequestDto) {
+
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		orderService.approve(auth.getUserId(), approveRequestDto);
 		return ResponseEntity.ok(success(GET_SUCCESS, null));

@@ -121,9 +121,8 @@ public class CargoFeeTable {
 			}
 
 			int num = weight / truckWeight;
-			if(num == 0){
-				num = 1;
-			}
+			if(weight % truckWeight > 0)
+				num++;
 			int cost = list.get(lo)[2];
 			if(num * cost < requestedTruckInfo.cost)
 				requestedTruckInfo = new RequestedTruckInfo(car, num,((num * cost) / 10000) * 10000 );

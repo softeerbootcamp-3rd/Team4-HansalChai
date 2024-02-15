@@ -65,5 +65,9 @@ public class Transport extends BaseTime {
 	public void changeStatusReserved(){
 		this.transportStatus = TransportStatus.PENDING;
 	}
+
+	public void updateTransportStatus(TransportStatus transportStatus) {
+		this.transportStatus = transportStatus;
+	}
 }
 
