@@ -1,5 +1,8 @@
-- 폴더 설명
-  프로젝트에 Route에 대한 설정을 진행합니다.
+- Router 폴더 설명
+
+프로젝트에 Route에 대한 설정을 진행합니다.
+
+---
 
 # **Project routing architecture**
 

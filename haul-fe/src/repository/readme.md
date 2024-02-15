@@ -53,8 +53,10 @@ const { success, data, message } = await loginFun({
 
 ```js
 const { success, data, message } = await signUpFun({
+  name: "김철수",
   tel: "01012341234",
   password: "12341234"
+  email: "haul1234@ddd.com"
 });
 ```
 
