@@ -2,7 +2,7 @@
 
 <img width="401" alt="image" src="https://github.com/softeerbootcamp-3rd/Team4-HansalChai/assets/100525337/c4fc4533-96df-4a09-b67f-98267402c586">
 
-이는 서비스에서 사용하는 내베게이션에 대한 컴포넌트입니다.
+이는 서비스에서 사용하는 내비게이션에 대한 컴포넌트입니다.
 
 # Props
 
