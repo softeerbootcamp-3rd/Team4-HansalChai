@@ -28,7 +28,9 @@ const UserPayments = () => {
   return (
     <MobileLayout>
       <Header>
-      <Typography font={"semiBold24"} color={"mainColor"}>내 결제수단</Typography>
+        <Typography font={"semiBold24"} color={"mainColor"}>
+          HAUL<span style={{ color: "#596FB7" }}>.</span>
+        </Typography>
       </Header>
       <Margin height="24px" />
       <CustomTypo>

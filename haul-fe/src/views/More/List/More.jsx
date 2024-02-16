@@ -35,7 +35,9 @@ const More = () => {
   return (
     <MobileLayout>
       <Header home={false} back={false}>
-        <Typography font={"semiBold24"} color={"mainColor"}>더보기</Typography>
+        <Typography font={"semiBold24"} color={"mainColor"}>
+          더보기
+        </Typography>
       </Header>
       <Margin height="32px" />
       <Flex kind="flexColumn">

@@ -64,7 +64,6 @@ export async function memberReservationFun({
     });
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       return {
         success: true,
         data
@@ -92,7 +91,6 @@ export async function memberReservationConfirmFun({ reservationId }) {
     );
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       return {
         success: true,
         data
@@ -202,7 +200,6 @@ export async function guestReservationConfirmFun({ reservationId }) {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       return {
         success: true,
         data

@@ -1,24 +1,6 @@
-/* eslint-disable no-undef */
-//kakao로 인해 eslint-disable no-undef 추가
 import { useEffect } from "react";
 
 const restApiKey = import.meta.env.VITE_KAKAO_MAP_REST_KEY;
-
-const loadKakaoMaps = drawdirection => {
-  const script = document.createElement("script");
-  script.type = "text/javascript";
-  script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${
-    import.meta.env.VITE_KAKAO_MAP_KEY
-  }&autoload=false&libraries=services`;
-
-  script.onload = () => {
-    window.kakao.maps.load(() => {
-      drawdirection();
-    });
-  };
-
-  document.head.appendChild(script);
-};
 
 // 지도, 출발지, 도착지 위도를 찍으면 지도에 경로를 그려주는 함수
 async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
@@ -69,7 +51,6 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
       bounds.extend(linePath[i]);
     }
     kakaoMap.setBounds(bounds);
-
     const polyline = new kakao.maps.Polyline({
       path: linePath,
       strokeWeight: 5,
@@ -83,9 +64,10 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
   }
 }
 
-const RouteMap = ({ origin, destination }) => {
-  const drawdirection = () => {
-    const mapContainer = document.getElementById("map");
+const drawdirection = (origin, destination) => {
+  const mapContainer = document.getElementById("map");
+
+  window.kakao.maps.load(() => {
     const mapOptions = {
       center: new kakao.maps.LatLng(origin.lat, origin.lng),
       level: 10
@@ -110,16 +92,23 @@ const RouteMap = ({ origin, destination }) => {
     originMarker.setMap(kakaoMap);
     destinationMaker.setMap(kakaoMap);
 
+    const bounds = new kakao.maps.LatLngBounds();
+    bounds.extend(originPosition);
+    bounds.extend(destinationPosition);
+    kakaoMap.setBounds(bounds);
+
     //경로 생성
     getCarDirection({
       kakaoMap: kakaoMap,
       srcCoordinate: origin,
       dstCoordinate: destination
     });
-  };
+  });
+};
 
+const RouteMap = ({ origin, destination }) => {
   useEffect(() => {
-    loadKakaoMaps(drawdirection);
+    drawdirection(origin, destination);
   }, []);
 
   return (
