@@ -29,7 +29,6 @@ const Result = () => {
 
   const location = useLocation();
   const { data } = location.state;
-  console.log(data);
   function callCompany() {
     const phoneNumber = CompanyCallNumber;
     window.location.href = `tel:${phoneNumber}`;

@@ -33,7 +33,6 @@ const dataSetter = async ({ reservationID, setDetailData, setIsLoaded }) => {
   const response = getIsMember()
     ? await getUserReservationDetails({ reservationID })
     : await getGuestReservationDetails({ reservationID });
-  console.log(response);
   if (!response.success) {
     ToastMaker(
       "error",
