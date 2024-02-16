@@ -50,7 +50,7 @@ const Result = () => {
       return;
     }
     navigation(UrlMap.choicePaymentPageUrl, {
-      state: { reservationId: data.reservationId }
+      state: { reservationId: data.reservationId, cost: data.cost }
     });
   }
 
