@@ -9,7 +9,10 @@ import DriverInfoBox from "./components/DriverInfoBox.jsx";
 import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import { useLocation } from "react-router-dom";
-import { getGuestReservationDetails, getUserReservationDetails } from "../../../repository/checkRepository.js";
+import {
+  getGuestReservationDetails,
+  getUserReservationDetails
+} from "../../../repository/checkRepository.js";
 import { useEffect, useState } from "react";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { getIsMember } from "../../../utils/localStorage.js";
@@ -33,7 +36,6 @@ const dataSetter = async ({ reservationID, setDetailData, setIsLoaded }) => {
   const response = getIsMember()
     ? await getUserReservationDetails({ reservationID })
     : await getGuestReservationDetails({ reservationID });
-  console.log(response);
   if (!response.success) {
     ToastMaker(
       "error",
@@ -116,37 +118,10 @@ const CheckDetail = () => {
       ) : (
         <></>
       )}
+      <Margin height="30px" />
       <NavigationBar selected="check" />
     </MobileLayout>
   );
 };
 
 export default CheckDetail;
-
-/*
-{
-  "driver": null,
-  "car": {
-      "count": 1,
-      "model": "포터2",
-      "capacity": "TRUCK500",
-      "feature": "200 X 400 X 300",
-      "photo": "truck500_photo.jpg"
-  },
-  "src": {
-      "name": "인하대역시네마타워",
-      "address": "231",
-      "latitude": 37.445620228619,
-      "longitude": 126.65182310263
-  },
-  "dst": {
-      "name": "동암역 목동 휘버스아파트",
-      "address": "502호",
-      "latitude": 37.4721762726903,
-      "longitude": 126.705859185146
-  },
-  "cost": 20000,
-  "requiredTime": 0.5011111111111111,
-  "status": "매칭 중"
-}
-*/

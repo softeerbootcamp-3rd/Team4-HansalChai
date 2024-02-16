@@ -8,7 +8,6 @@ import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import Header from "../../../components/Header/Header.jsx";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
-import { dummySummary } from "../../../data/DummyData.js";
 import SummaryItemBox from "../List/components/SummaryItemBox.jsx";
 import styled from "styled-components";
 import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
@@ -51,11 +50,9 @@ const GuestCheck = () => {
   const [isButtonDisabled, setButtonDisabled] = useState(true);
   const [reservationData, setReservationData] = useState(undefined);
 
-  //ReservationNumber 유효성 검사 - 예약번호는 UUID로 '-'만 없앰. 소문자로 통일해서 전송 -> ^([a-fA-F0-9]){35}([a-fA-F0-9])$
-  //TODO: 더미를 위해 임시로 1글자로 제한한 정규식을 바꿀 것
-
+  //예약번호 유효성 검사 - 12자리 숫자만 사용
   const checkReservIDValidation = () => {
-    const reservNumRegEx = new RegExp("^([a-fA-F0-9]{11})([a-fA-F0-9])$");
+    const reservNumRegEx = new RegExp("^([0-9]{12})$");
     return (
       reservationNumber.current.trim().length ===
         reservationNumber.current.length &&
@@ -73,8 +70,8 @@ const GuestCheck = () => {
     }
   }
 
-  //비동기 함수로 예약번호를 통해 예약 정보 조회(테스트 필요)
-  //TODO: 데이터를 받아올 때까지 스켈레톤 띄우기(근데 꼭 띄워야 할까?)
+  //비동기 함수로 예약번호를 통해 예약 정보 조회
+  //TODO: 데이터를 받아올 때까지 스켈레톤 띄우기(근데 꼭 띄워야 할만큼 느릴까?)
   const updateReservationNumber = async setter => {
     const newReserv = await getGuestSummaryList({
       reservationSerial: reservationNumber.current
@@ -96,7 +93,6 @@ const GuestCheck = () => {
       //여기 도달할 일이 있을까?
       ToastMaker({ type: "error", children: "주문 번호를 잘못 입력했어요." });
     }
-    reservationNumber.current = reservationNumber.current.toLowerCase();
     updateReservationNumber(setReservationData);
   }
 
@@ -128,9 +124,14 @@ const GuestCheck = () => {
       <Margin height="32px" />
       {reservationData === undefined ? (
         <AdvisorFrame>
-          <UpperTyphography font={"bold20"} color={"white"}>예약 번호를 확인해주세요!</UpperTyphography>
+          <UpperTyphography font={"bold20"} color={"white"}>
+            예약 번호를 확인해주세요!
+          </UpperTyphography>
           <Margin height="12px" />
-          <UpperTyphography font={"medium16"} color={"white"}>예약 번호는 36자리의 A에서 F까지의 영문자와 <br />숫자로 이루어져 있어요.</UpperTyphography>
+          <UpperTyphography font={"medium16"} color={"white"}>
+            예약 번호는 12자리의 <br />
+            숫자로 이루어져 있어요.
+          </UpperTyphography>
           <TruckImg src={Truck} height={50} width={80} fill="white" />
         </AdvisorFrame>
       ) : (

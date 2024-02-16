@@ -16,6 +16,10 @@ const Complete = () => {
     navigation(UrlMap.choiceTranportTypeUrl);
   }
   function goReservationList() {
+    if (getIsMember() === "false") {
+      navigation(UrlMap.checkReservationGuestPageUrl);
+      return;
+    }
     navigation(UrlMap.checkReservationPageUrl);
   }
 

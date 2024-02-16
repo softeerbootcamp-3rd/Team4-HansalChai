@@ -35,7 +35,7 @@ const Purchase = () => {
    */
   const [isChoosing, setIsChoosing] = useState(true);
   const navigator = useNavigate();
-  const cost = 10000;
+  const { cost } = location.state;
 
   const cardList = [Card1, Card2, Card3];
 
