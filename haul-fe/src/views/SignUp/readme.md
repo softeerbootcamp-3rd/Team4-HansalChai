@@ -1,8 +1,17 @@
 # SignUp
 
+<img width="200" alt="image" src="https://github.com/softeerbootcamp-3rd/Team4-HansalChai/assets/37495809/2cfd01a7-4e9a-430e-a958-6e6c565509f6">
+
+## 페이지 설명
 회원가입 화면입니다.<br />
 로그인 화면에서 접근할 수 있습니다.
 
 이름, 전화번호, 이메일, 비밀번호를 입력 받습니다.
 
-<img width="400" alt="image" src="https://github.com/softeerbootcamp-3rd/Team4-HansalChai/assets/37495809/2cfd01a7-4e9a-430e-a958-6e6c565509f6">
+## 기능 설명
+1. 이름을 입력받아 유효한 이름인지 검증합니다.
+2. 전화번호를 받아 000-0000-0000 나 00011118888 의 유효한 전화번호 형식인지 검증합니다.
+3. 이메일을 받아 test@test.com 등의 유효한 이메일 형식인지 검증합니다.
+4. 비밀번호를 받아 비밀번호 규칙인 8자 이상을 만족하는지 검사합니다.
+5. 각 검증을 통과하지 못하면 토스트 메세지로 알려줍니다.
+6. 각 검증을 통과하면 서버에 회원 등록 요청을 보냅니다.
