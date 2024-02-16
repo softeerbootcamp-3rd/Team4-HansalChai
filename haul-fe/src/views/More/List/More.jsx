@@ -8,6 +8,7 @@ import styled from "styled-components";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
 import { useNavigate } from "react-router-dom";
+import { isMemberLogin } from "../../../utils/localStorage.js";
 
 const ListItem = styled.div`
   width: 100%;
@@ -40,16 +41,20 @@ const More = () => {
       </Header>
       <Margin height="32px" />
       <Flex kind="flexColumn">
-        <ListItem id={"more__user-info"} onClick={clickUserInfo}>
-          <Typography font={"medium16"}>내 정보</Typography>
-          <ArrowIcon />
-        </ListItem>
-        <UnderBar />
-        <ListItem id={"more__user-payment"} onClick={clickUserPayment}>
-          <Typography font={"medium16"}>내 결제수단</Typography>
-          <ArrowIcon />
-        </ListItem>
-        <UnderBar />
+        {isMemberLogin() && (
+          <>
+            <ListItem id={"more__user-info"} onClick={clickUserInfo}>
+              <Typography font={"medium16"}>내 정보</Typography>
+              <ArrowIcon />
+            </ListItem>
+            <UnderBar />
+            <ListItem id={"more__user-payment"} onClick={clickUserPayment}>
+              <Typography font={"medium16"}>내 결제수단</Typography>
+              <ArrowIcon />
+            </ListItem>
+            <UnderBar />
+          </>
+        )}
         <ListItem id={"more__terms"} onClick={clickTerms}>
           <Typography font={"medium16"}>약관 및 정책</Typography>
           <ArrowIcon />
