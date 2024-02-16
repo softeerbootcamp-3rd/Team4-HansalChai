@@ -74,7 +74,8 @@ const NavigationBar = ({ selected = "reserv" }) => {
     navigator(
       getIsMember() === "true"
         ? UrlMap.checkReservationPageUrl
-        : UrlMap.checkReservationGuestPageUrl);
+        : UrlMap.checkReservationGuestPageUrl
+    );
   };
   const clickReserv = () => {
     navigator(UrlMap.choiceTranportTypeUrl);
