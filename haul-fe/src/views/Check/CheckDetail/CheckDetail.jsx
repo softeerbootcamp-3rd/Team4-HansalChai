@@ -115,6 +115,7 @@ const CheckDetail = () => {
       ) : (
         <></>
       )}
+      <Margin height="30px" />
       <NavigationBar selected="check" />
     </MobileLayout>
   );
