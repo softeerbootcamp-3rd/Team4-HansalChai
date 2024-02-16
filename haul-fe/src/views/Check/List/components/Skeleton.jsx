@@ -7,7 +7,6 @@ const LoadingAnimation = keyframes`
   0% {
     transform: translateX(calc(-10%));
   }
-  50%,
   100% {
     transform: translateX(calc(${MaxDeviceWidth}));
   }
