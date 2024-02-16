@@ -34,8 +34,8 @@ const Purchase = () => {
    * false: 캐로셀에서 선택
    */
   const [isChoosing, setIsChoosing] = useState(true);
-  const [cost, setCost] = useState(0);
   const navigator = useNavigate();
+  const cost = 10000;
 
   const cardList = [Card1, Card2, Card3];
 
@@ -48,12 +48,12 @@ const Purchase = () => {
     const { success, data, message } = await memberReservationConfirmFun({
       reservationId: reservationId
     });
+    console.log(success, data, message);
     if (success) {
       navigator(UrlMap.completePageUrl);
     } else {
       ToastMaker({ type: "error", children: message });
     }
-    setCost(data.cost);
   };
 
   const resetIndex = () => {
