@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.hansalchai.haul.car.entity.Car;
+
 import lombok.Getter;
 
 /*
@@ -100,12 +102,13 @@ public class CargoFeeTable {
 		});
 	}
 
-	public static RequestedTruckInfo findCost(int weight, double distance) {
+	public static RequestedTruckInfo findCost(List<Car> recommendedCar, double distance, int weight) {
 		int target = (int)Math.round(distance);
 		//몇kg 몇대 가격
-		RequestedTruckInfo requestedTruckInfo= new RequestedTruckInfo(0, 0, Integer.MAX_VALUE);
-		for(int truckWeight : truckLoadWeightArray){
-			List<int[]> list = feeTable.get(truckWeight);
+		RequestedTruckInfo requestedTruckInfo= new RequestedTruckInfo(null, 0, Integer.MAX_VALUE);
+		for(Car car : recommendedCar){
+			int truckWeight = car.getType().getValue();
+			List<int[]> list = feeTable.get(car.getType().getValue());
 			int hi = list.size() - 1;
 			int lo = 0;
 			while (lo < hi) {
@@ -117,22 +120,24 @@ public class CargoFeeTable {
 				}
 			}
 
-			int num = (weight + truckWeight - 1) / truckWeight;
+			int num = weight / truckWeight;
+			if(weight % truckWeight > 0)
+				num++;
 			int cost = list.get(lo)[2];
 			if(num * cost < requestedTruckInfo.cost)
-				requestedTruckInfo = new RequestedTruckInfo(truckWeight, num,((num * cost) / 10000) * 10000 );
+				requestedTruckInfo = new RequestedTruckInfo(car, num,((num * cost) / 10000) * 10000 );
 		}
 		return requestedTruckInfo;
 	}
 
 	@Getter
 	public static class RequestedTruckInfo{
-		private final int type;
+		private final Car car;
 		private final int number;
 		private final int cost;
 
-		public RequestedTruckInfo(int type, int number, int cost) {
-			this.type = type;
+		public RequestedTruckInfo(Car car, int number, int cost) {
+			this.car = car;
 			this.number = number;
 			this.cost = cost;
 		}

@@ -8,7 +8,6 @@ import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Range;
 
 import com.hansalchai.haul.car.entity.Car;
-import com.hansalchai.haul.common.auth.constants.Role;
 import com.hansalchai.haul.common.utils.BaseTime;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.user.entity.Users;
@@ -60,7 +59,7 @@ public class Reservation extends BaseTime {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private Transport transport;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Car car;
 
 	@Column(nullable = false)
@@ -117,5 +116,9 @@ public class Reservation extends BaseTime {
 				.distance(distance)
 				.count(count)
 				.build();
+	}
+
+	public void setDriver(Owner owner) {
+		this.owner = owner;
 	}
 }

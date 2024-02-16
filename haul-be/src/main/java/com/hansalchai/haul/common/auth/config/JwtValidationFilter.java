@@ -41,6 +41,12 @@ public class JwtValidationFilter implements Filter {
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
+		//http method가 preflight이면 토큰 유효성을 검증하지 않는다
+		if (isPrefilghtRequest(httpServletRequest)) {
+			chain.doFilter(request, response);
+			return;
+		}
+
 		// 토큰 유효성을 검증하지 않아도 되는 경우
 		if (whiteListCheck(httpServletRequest.getRequestURI())) {
 			chain.doFilter(request, response);
@@ -64,6 +70,13 @@ public class JwtValidationFilter implements Filter {
 		}
 
 		chain.doFilter(request, response);
+	}
+
+	private boolean isPrefilghtRequest(HttpServletRequest request) {
+		if (request.getMethod().equals("OPTIONS")) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean whiteListCheck(String uri) {

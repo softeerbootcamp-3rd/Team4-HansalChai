@@ -11,4 +11,15 @@ public enum TransportType {
 		this.code = code;
 	}
 
+
+
+	public static TransportType stringToEnum(String text) {
+		for (TransportType status : TransportType.values()) {
+			if (status.code.equalsIgnoreCase(text)) {
+				return status;
+			}
+		}
+		throw new IllegalArgumentException("No constant with code " + text + " found");
+	}
+
 }

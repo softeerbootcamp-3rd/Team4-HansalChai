@@ -2,6 +2,8 @@ package com.hansalchai.haul.reservation.repository;
 
 import static com.hansalchai.haul.car.entity.QCar.*;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.hansalchai.haul.car.constants.CarType;
@@ -19,12 +21,14 @@ public class CustomCarRepositoryImpl implements CustomCarRepository {
 	}
 
 	@Override
-	public Car findProperCar(CarType type, CarCategory carCategory, Cargo cargo) {
+	public List<Car> findProperCar(CarCategory carCategory, Cargo cargo) {
+		//TODO 짐을 회전시키는 방법도 고안해보자
 		return jpaQueryFactory.selectFrom(car)
-			.where(car.type.eq(type)
-				.and(car.category.eq(carCategory)))
-			//TODO 짐 크기에 맞는 차 추천 추가예정
-			//TODO 짐을 회전시키는 방법도 고안해보자
-			.fetchOne();
+			.where(car.category.eq(carCategory)
+				.and(car.height.goe(cargo.getHeight()))
+				.and(car.length.goe(cargo.getLength()))
+				.and(car.width.goe(cargo.getWidth()))
+			)
+			.fetch();
 	}
 }

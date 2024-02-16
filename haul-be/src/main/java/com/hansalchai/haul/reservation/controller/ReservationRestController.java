@@ -6,9 +6,11 @@ import static com.hansalchai.haul.reservation.dto.ReservationRequest.*;
 import static com.hansalchai.haul.reservation.dto.ReservationResponse.*;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,12 +32,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/reservations")
 @RequiredArgsConstructor
 public class ReservationRestController {
 	private final ReservationService reservationService;
 
-	@PostMapping("/reservations")
+	@PostMapping("")
 	public ResponseEntity<ApiResponse<ReservationRecommendationDTO>> postCustomerReservation(
 		@Valid @RequestBody CreateReservationDTO reservationDTO,
 		HttpServletRequest request
@@ -45,7 +47,17 @@ public class ReservationRestController {
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
-	@PostMapping("/reservations/guest")
+	@PatchMapping("/{id}")
+	public ResponseEntity<ApiResponse<Object>> patchCustomerReservation(
+		@PathVariable("id") Long id,
+		HttpServletRequest request
+	){
+		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
+		reservationService.patchReservation(id, auth.getUserId());
+		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, null));
+	}
+
+	@PostMapping("/guest")
 	public ResponseEntity<ApiResponse<ReservationRecommendationDTO>> postGuestReservation(
 		@Valid @RequestBody CreateReservationGuestDTO reservationDTO
 	) {
@@ -53,27 +65,35 @@ public class ReservationRestController {
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
-	@GetMapping("/reservations")
+	@PatchMapping("/guest/{id}")
+	public ResponseEntity<ApiResponse<Object>> patchGuestReservation(
+		@PathVariable("id") Long id
+	){
+		reservationService.patchGuestReservation(id);
+		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, null));
+	}
+
+	@GetMapping("")
 	public ResponseEntity<ApiResponse<ReservationDTO>> getCustomerReservation(@RequestParam(value = "page", defaultValue = "0") int page, HttpServletRequest request){
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		ReservationDTO response = reservationService.getReservation(page, auth.getUserId());
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
-	@GetMapping("/reservations/guest")
+	@GetMapping("/guest")
 	public ResponseEntity<ApiResponse<ReservationDTO>> getGuestReservation(@RequestParam(value = "number") String number){
 		ReservationDTO response = reservationService.getGuestReservation(number);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
-	@GetMapping("/reservations/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<ApiResponse<ReservationDetailDTO>> getCustomerReservationDetail(@PathVariable("id")Long id, HttpServletRequest request){
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		ReservationDetailDTO response = reservationService.getReservationDetail(id, auth.getUserId());
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
-	@GetMapping("/reservations/guest/{id}")
+	@GetMapping("/guest/{id}")
 	public ResponseEntity<ApiResponse<ReservationDetailDTO>> getGuestReservationDetail(@PathVariable("id")Long id){
 		ReservationDetailDTO response = reservationService.getGuestReservationDetail(id);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
