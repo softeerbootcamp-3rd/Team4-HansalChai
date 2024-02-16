@@ -126,7 +126,7 @@ const GuestCheck = () => {
         <AdvisorFrame>
           <UpperTyphography font={"bold20"} color={"white"}>예약 번호를 확인해주세요!</UpperTyphography>
           <Margin height="12px" />
-          <UpperTyphography font={"medium16"} color={"white"}>예약 번호는 36자리의 A에서 F까지의 영문자와 <br />숫자로 이루어져 있어요.</UpperTyphography>
+          <UpperTyphography font={"medium16"} color={"white"}>예약 번호는 12자리의 <br />숫자로 이루어져 있어요.</UpperTyphography>
           <TruckImg src={Truck} height={50} width={80} fill="white" />
         </AdvisorFrame>
       ) : (
