@@ -66,37 +66,37 @@ async function getCarDirection({ kakaoMap, srcCoordinate, dstCoordinate }) {
 
 const drawdirection = (origin, destination) => {
   const mapContainer = document.getElementById("map");
-  
+
   window.kakao.maps.load(() => {
     const mapOptions = {
       center: new kakao.maps.LatLng(origin.lat, origin.lng),
       level: 10
-    }
-  
+    };
+
     const kakaoMap = new kakao.maps.Map(mapContainer, mapOptions);
     const originPosition = new kakao.maps.LatLng(origin.lat, origin.lng);
     const destinationPosition = new kakao.maps.LatLng(
       destination.lat,
       destination.lng
     );
-  
+
     // 출발지, 도착지 마커 생성
     const originMarker = new kakao.maps.Marker({
       position: originPosition
     });
-  
+
     const destinationMaker = new kakao.maps.Marker({
       position: destinationPosition
     });
-  
+
     originMarker.setMap(kakaoMap);
     destinationMaker.setMap(kakaoMap);
-  
+
     const bounds = new kakao.maps.LatLngBounds();
     bounds.extend(originPosition);
     bounds.extend(destinationPosition);
     kakaoMap.setBounds(bounds);
-  
+
     //경로 생성
     getCarDirection({
       kakaoMap: kakaoMap,
@@ -105,8 +105,6 @@ const drawdirection = (origin, destination) => {
     });
   });
 };
-
-
 
 const RouteMap = ({ origin, destination }) => {
   useEffect(() => {

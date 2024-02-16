@@ -12,7 +12,6 @@ const statusColor = {
   "운송 완료": "rgba(133, 199, 238, 0.2)"
 };
 
-
 const ReservItemFrame = styled.div`
   width: 100%;
   ${({ theme }) => theme.flex.flexColumn};
