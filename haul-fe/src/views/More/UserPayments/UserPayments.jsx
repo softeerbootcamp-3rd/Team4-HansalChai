@@ -9,6 +9,7 @@ import Card1 from "../../../assets/pngs/card1.png";
 import Card2 from "../../../assets/pngs/card2.png";
 import Card3 from "../../../assets/pngs/card3.png";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import Typography from "../../../components/Typhography/Typhography.jsx";
 
 const CustomTypo = styled.p`
   ${({ theme }) => theme.font.bold24};
@@ -27,7 +28,7 @@ const UserPayments = () => {
   return (
     <MobileLayout>
       <Header>
-        HAUL<span style={{ color: "#596FB7" }}>.</span>
+      <Typography font={"semiBold24"} color={"mainColor"}>HAUL<span style={{ color: "#596FB7" }}>.</span></Typography>
       </Header>
       <Margin height="24px" />
       <CustomTypo>

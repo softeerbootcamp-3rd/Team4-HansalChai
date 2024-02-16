@@ -12,8 +12,10 @@ import Card3 from "../../../assets/pngs/card3.png";
 import { useState } from "react";
 import styled from "styled-components";
 import Flex from "../../../components/Flex/Flex.jsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { UrlMap } from "../../../data/GlobalVariable";
+import { memberReservationConfirmFun } from "../../../repository/reservationRepository.js";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 
 const ConfirmSelected = styled.img`
   width: fit-content;
@@ -21,6 +23,9 @@ const ConfirmSelected = styled.img`
 `;
 
 const Purchase = () => {
+  const location = useLocation();
+  //구매할 예약 번호
+  const reservationId = location.state?.reservationId;
   //선택된 카드의 인덱스
   //(number) : number 번째 인덱스의 카드가 선택됨(캐로셀 안보임)
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -30,6 +35,7 @@ const Purchase = () => {
    */
   const [isChoosing, setIsChoosing] = useState(true);
   const navigator = useNavigate();
+  const { cost } = location.state;
 
   const cardList = [Card1, Card2, Card3];
 
@@ -37,9 +43,16 @@ const Purchase = () => {
     setIsChoosing(() => false);
   };
 
-  const confirmSelectedIndex = () => {
-    //TODO: 실제 처리 후 넘어갈 것
-    navigator(UrlMap.completePageUrl);
+  const confirmSelectedIndex = async () => {
+    const { reservationId } = location.state;
+    const { success, data, message } = await memberReservationConfirmFun({
+      reservationId: reservationId
+    });
+    if (success) {
+      navigator(UrlMap.completePageUrl);
+    } else {
+      ToastMaker({ type: "error", children: message });
+    }
   };
 
   const resetIndex = () => {
@@ -82,7 +95,7 @@ const Purchase = () => {
       ) : (
         <FixedCenterBox bottom="20px">
           <BottomButton role="main" onClick={confirmSelectedIndex}>
-            {15 /* TODO: 실제 값으로 변경 */}만원 결제하기
+            {cost}만원 결제하기
           </BottomButton>
           <Margin height={"10px"} />
           <BottomButton role="sub" onClick={resetIndex}>

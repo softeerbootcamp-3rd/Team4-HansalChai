@@ -8,7 +8,7 @@ import Typography from "../../../../components/Typhography/Typhography.jsx";
 const ReservItemFrame = styled.div`
   width: 100%;
   ${({ theme }) => theme.flex.flexColumn};
-  align-items: left;
+  align-items: start;
   background-color: ${({ theme }) => theme.colors.cardBackground};
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.colors.cardBorder};
@@ -60,6 +60,7 @@ const IconedCaption = styled.div`
   gap: 4px;
 `;
 
+//API에 맞게 인자 이름을 고쳐야 하나?
 const SummaryItemBox = ({ model, status, time, fee }) => {
   return (
     <ReservItemFrame>

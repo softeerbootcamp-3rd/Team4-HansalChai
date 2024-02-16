@@ -38,7 +38,7 @@ const Terms = () => {
   return (
     <MobileLayout>
       <Header home={true} back={true}>
-        <Typography font={"semiBold24"}>약관 및 정책</Typography>
+        <Typography font={"semiBold24"} color={"mainColor"}>약관 및 정책</Typography>
       </Header>
       <Margin height="32px" />
       <Flex kind="flexColumn">

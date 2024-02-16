@@ -5,12 +5,6 @@ import Typography from "../Typhography/Typhography.jsx";
 import Margin from "../Margin/Margin.jsx";
 import UnderBar from "../UnderBar/UnderBar.jsx";
 
-//TODO: 차량이미지 백엔드로 넘길 것 - 지금은 mockup임
-const CarTypeImage = {
-  포터2: Porter,
-  마이티3: Mighty
-};
-
 const CarInfoDescription = {
   before: "이런 차량을 제공해드릴게요.",
   reserv: "이런 차량을 제공해드릴게요.",
@@ -58,7 +52,7 @@ const DescriptionTextArea = styled.div`
   ${({ theme }) => theme.flex.flexBetween};
 `;
 
-const CarInfoBox = ({ phase, type, capacity, volumn, quantity = 1 }) => {
+const CarInfoBox = ({ phase, type, capacity, volumn, photo, quantity = 1 }) => {
   return (
     <CarInfoFrame>
       <Typography font={"semiBold16"}>{CarInfoDescription[phase]}</Typography>
@@ -73,7 +67,7 @@ const CarInfoBox = ({ phase, type, capacity, volumn, quantity = 1 }) => {
             ""
           )}
         </QuantityBox>
-        <CarCardImage type={type} src={CarTypeImage[type]} />
+        <CarCardImage type={type} src={photo} />
       </CarCard>
       <Margin height="8px" />
       <DescriptionTextArea>
