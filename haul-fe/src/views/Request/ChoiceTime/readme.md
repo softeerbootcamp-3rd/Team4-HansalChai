@@ -1,7 +1,14 @@
 # ChoiceTime
 
+<img width="200" src="https://github.com/softeerbootcamp-3rd/Team4-HansalChai/assets/37495809/c105f32d-5810-4a8d-8bfe-5529569d7c04">
+
+## 페이지 설명
 운송할 시간을 선택하는 화면입니다.<br/>
-운종할 날짜를 선택하면 접근할 수 있습니다.<br/>
+운송할 날짜를 선택하면 접근할 수 있습니다.<br/>
 30분 단위로 9시부터 18시까지 선택할 수 있습니다.
 
-<img width="400" height="848" src="https://github.com/softeerbootcamp-3rd/Team4-HansalChai/assets/37495809/c105f32d-5810-4a8d-8bfe-5529569d7c04">
+운송 종류를 선택하거나 네비게이션 바를 이용해 다른 메뉴로 넘어갈 수 있습니다.
+
+## 기능 설명
+1. 시간을 선택하면 출발지 선택으로 넘어갈 수 있습니다.
+2. 네비게이션 바의 더보기를 누르면 더보기 메뉴 페이지로,<br/>예약 확인을 누르면 예약 확인 페이지로 넘어갈 수 있습니다.
