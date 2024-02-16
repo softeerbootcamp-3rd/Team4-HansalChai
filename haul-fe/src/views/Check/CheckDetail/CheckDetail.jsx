@@ -9,7 +9,10 @@ import DriverInfoBox from "./components/DriverInfoBox.jsx";
 import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import { useLocation } from "react-router-dom";
-import { getGuestReservationDetails, getUserReservationDetails } from "../../../repository/checkRepository.js";
+import {
+  getGuestReservationDetails,
+  getUserReservationDetails
+} from "../../../repository/checkRepository.js";
 import { useEffect, useState } from "react";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { getIsMember } from "../../../utils/localStorage.js";

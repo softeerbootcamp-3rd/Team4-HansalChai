@@ -4,7 +4,9 @@ const apiKey = import.meta.env.VITE_API_KEY;
 
 export async function getGuestSummaryList({ reservationSerial }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/reservations/guest?number=${reservationSerial}`, {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/reservations/guest?number=${reservationSerial}`,
+      {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
@@ -30,11 +32,13 @@ export async function getGuestSummaryList({ reservationSerial }) {
 
 export async function getUserSummaryList({ page }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/reservations?page=${page}`, {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/reservations?page=${page}`,
+      {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${getAccessToken()}`
+          Authorization: `Bearer ${getAccessToken()}`
         }
       }
     );
@@ -57,7 +61,9 @@ export async function getUserSummaryList({ page }) {
 
 export async function getGuestReservationDetails({ reservationID }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/reservations/guest/${reservationID}`, {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/reservations/guest/${reservationID}`,
+      {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
@@ -83,11 +89,13 @@ export async function getGuestReservationDetails({ reservationID }) {
 
 export async function getUserReservationDetails({ reservationID }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/reservations/${reservationID}`, {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/reservations/${reservationID}`,
+      {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${getAccessToken()}`
+          Authorization: `Bearer ${getAccessToken()}`
         }
       }
     );

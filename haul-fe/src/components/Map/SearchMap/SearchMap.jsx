@@ -23,7 +23,6 @@ const SearchMap = ({
   );
 
   useEffect(() => {
-
     window.kakao.maps.load(() => {
       const container = document.getElementById("map");
       const beforePos = new window.kakao.maps.LatLng(beforeLat, beforeLon);
@@ -40,7 +39,7 @@ const SearchMap = ({
       }
       setMap(map);
       setMarker(marker);
-    })
+    });
   }, []);
 
   const onClickAddr = () => {
