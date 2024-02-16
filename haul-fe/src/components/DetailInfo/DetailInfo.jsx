@@ -76,15 +76,15 @@ const DetailInfo = ({
       <Typography font="semiBold16">
         비용과 도착 시간을 알려드릴게요.
       </Typography>
-      <Margin height="8px" />
+      <Margin height="12px" />
       <UnderBar />
-      <Margin height="8px" />
+      <Margin height="12px" />
 
       <RouteMapBox>
         <RouteMap origin={srcCoordinate} destination={dstCoordinate} />
       </RouteMapBox>
 
-      <Margin height="8px" />
+      <Margin height="12px" />
 
       <InfoBox>
         <Flex kind="flexRow">
