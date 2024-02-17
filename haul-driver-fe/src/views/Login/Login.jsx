@@ -7,20 +7,20 @@ import Margin from "../../components/Margin/Margin.jsx";
 import Input from "../../components/Input/Input.jsx";
 import BottomButton from "../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
- import { ErrorMessageMap } from "../../data/GlobalVariable.js";
-import { isPhoneNumber } from "../../utils/helper.js";
+import { ErrorMessageMap } from "../../data/GlobalVariable.js";
+import { isPhoneNumber, deleteDash, isValueArr } from "../../utils/helper.js";
 import ToastMaker from "../../components/Toast/ToastMaker.jsx";
 
 const Login = () => {
-
   const tel = useRef("");
   const password = useRef("");
   const [isButtonDisabled, setButtonDisabled] = useState(true);
 
   function checkLoginAbled() {
-    const checkIsButtonDisabled = !(
-      tel.current.trim() && password.current.trim()
-    );
+    const checkIsButtonDisabled = !isValueArr([
+      tel.current.trim(),
+      password.current.trim()
+    ]);
     if (checkIsButtonDisabled !== isButtonDisabled) {
       setButtonDisabled(checkIsButtonDisabled);
     }
@@ -33,6 +33,7 @@ const Login = () => {
       ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
       return;
     }
+    tel.current = deleteDash(tel.current);
   }
 
   return (
@@ -50,7 +51,6 @@ const Login = () => {
       <Typography font="bold16" color="subColor">
         안녕하세요 기사님. 좋은 하루입니다.
       </Typography>
-
       <Margin height="36px" />
       <form>
         <Input

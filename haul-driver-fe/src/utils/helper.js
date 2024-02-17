@@ -25,3 +25,12 @@ export function isPhoneNumber(input) {
   }
   return false;
 }
+
+export function deleteDash(input) {
+  return input.split("-").join("");
+}
+
+// 배열 안에 값이 다 있다면 true, 하나라도 비어있다면 false
+export function isValueArr(checkArr) {
+  return checkArr.every(element => !isEmptyString(element));
+}
