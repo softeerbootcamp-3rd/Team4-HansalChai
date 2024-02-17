@@ -1,9 +1,3 @@
-SET REFERENTIAL_INTEGRITY FALSE;
-TRUNCATE TABLE users;
-TRUNCATE TABLE car;
-TRUNCATE TABLE reservation;
-SET REFERENTIAL_INTEGRITY TRUE;
-
 INSERT INTO users (name, tel, password, email, photo, role, created_at, updated_at)
 VALUES
     ('John Doe', '1234567890', 'password1', 'john@example.com', 'john.jpg', 'CUSTOMER', NOW(), NOW()),

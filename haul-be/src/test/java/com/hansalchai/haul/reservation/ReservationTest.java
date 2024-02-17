@@ -1,17 +1,17 @@
 package com.hansalchai.haul.reservation;
 
-
+import static com.hansalchai.haul.common.auth.jwt.JwtProvider.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hansalchai.haul.common.auth.constants.Role;
+import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
 import com.hansalchai.haul.common.utils.ReservationNumberGenerator;
-import com.hansalchai.haul.reservation.constants.TransportType;
 import com.hansalchai.haul.reservation.dto.ReservationRequest;
 import com.hansalchai.haul.reservation.dto.ReservationResponse;
 import com.hansalchai.haul.reservation.service.ReservationService;
@@ -74,7 +74,6 @@ public class ReservationTest {
 		Assertions.assertEquals("포터2", actual.getCar().getModel());
 	}
 
-	//TODO 토큰이 없어서 실패함
 	@Test
 	@DisplayName("고객은 화물차를 예약할 수 있습니다.")
 	void ReservationMVCTest() throws Exception {
@@ -86,6 +85,7 @@ public class ReservationTest {
 		// when
 		ResultActions resultActions = mvc.perform(
 			post("/api/v1/reservations")
+				.requestAttr(AUTHENTICATE_USER, new AuthenticatedUser(1L, Role.CUSTOMER))
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(jsonContent)
 		);
