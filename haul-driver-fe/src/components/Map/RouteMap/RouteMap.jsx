@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-//kakao로 인해 eslint-disable no-undef 추가
 import { useEffect } from "react";
 
 const restApiKey = import.meta.env.VITE_KAKAO_MAP_REST_KEY;
@@ -109,6 +108,11 @@ const RouteMap = ({ origin, destination }) => {
 
     originMarker.setMap(kakaoMap);
     destinationMaker.setMap(kakaoMap);
+
+    const bounds = new kakao.maps.LatLngBounds();
+    bounds.extend(originPosition);
+    bounds.extend(destinationPosition);
+    kakaoMap.setBounds(bounds);
 
     //경로 생성
     getCarDirection({

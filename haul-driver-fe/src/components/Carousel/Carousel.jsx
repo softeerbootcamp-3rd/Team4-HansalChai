@@ -217,14 +217,10 @@ const Carousel = ({ carouselList, setSelectedIndex, initialIndex = 0 }) => {
           </CarouselBtn>
 
           <RefedCarouselList id={"carouselList"} ref={carouselRef}>
-            {currentCarouselList?.map((image, idx) => {
+            {currentCarouselList?.map((item, idx) => {
               return (
                 <CarouselItem key={`carouselItem${idx}`} id={"carouselItem"}>
-                  <CarouselImg
-                    src={image}
-                    alt="carousel-img"
-                    draggable={false}
-                  />
+                  {item}
                 </CarouselItem>
               );
             })}
@@ -241,7 +237,7 @@ const Carousel = ({ carouselList, setSelectedIndex, initialIndex = 0 }) => {
         </CarouselWrapper>
       </Container>
       <RadioContainer>
-        {carouselList?.map((_, idx) => {
+        {carouselList?.map((item, idx) => {
           return (
             <input
               key={`radio${idx}`}
