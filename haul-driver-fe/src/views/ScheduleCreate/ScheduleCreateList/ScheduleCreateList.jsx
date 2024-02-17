@@ -20,9 +20,10 @@ const ScheduleCreateList = () => {
   return (
     <MobileLayout>
       <Header home={false} back={false}>
-      <Typography font="bold24">
-        <TypographySpan color="subColor">{driverName}기사</TypographySpan>님을 위한 일정잡기
-      </Typography>
+        <Typography font="bold24">
+          <TypographySpan color="subColor">{driverName}기사</TypographySpan>님을
+          위한 일정잡기
+        </Typography>
       </Header>
       <Margin height="32px" />
       <TabBar
