@@ -14,6 +14,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 	@Query(value = "select v from Reservation v where v.user.userId = :userId order by v.date, v.time")
 	Page<Reservation> findByUserId(@Param("userId") Long userId, Pageable pageable);
 
+	@Query(value = "select v from Reservation v where v.owner.user.userId = :userId order by v.date, v.time")
+	Page<Reservation> findByDriverId(@Param("userId") Long userId, Pageable pageable);
+
 	@Query(value = "select v from Reservation v where v.number = :number")
 	Optional<Reservation> findByNumber(@Param("number") String number);
 }
