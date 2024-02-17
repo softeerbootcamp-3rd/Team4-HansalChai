@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
@@ -30,9 +31,11 @@ public class OrderController {
 	private final OrderService orderService;
 
 	@GetMapping("")
-	public ResponseEntity findAll(HttpServletRequest request) {
+	public ResponseEntity findAll(
+			HttpServletRequest request,
+			@RequestParam("sort") String sort) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		List<OrderResponseDto> orders = orderService.findAll(auth.getUserId());
+		List<OrderResponseDto> orders = orderService.findAll(auth.getUserId(), sort);
 		return ResponseEntity.ok(success(GET_SUCCESS, orders));
 	}
 

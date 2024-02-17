@@ -18,6 +18,27 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 	@Query(value = "select v from Reservation v where v.number = :number")
 	Optional<Reservation> findByNumber(@Param("number") String number);
 
-	@Query("select r from Reservation r where r.transport.transportStatus = 'PENDING' and r.car.carId = :carId")
-	List<Reservation> findAllOrders(@Param("carId") Long carId);
+	@Query("select r "
+		+ "from Reservation r "
+		+ "where r.transport.transportStatus = 'PENDING' "
+			+ "and r.car.carId = :carId "
+			+ "and cast(r.date || ' ' || r.time AS timestamp) > current_timestamp ")
+	List<Reservation> findAllOrders(@Param("carId") Long carId);  // 오더 접수순으로 정렬
+
+	@Query("select r "
+		+ "from Reservation r join Transport t "
+		+ "on r.transport.transportId = t.transportId "
+		+ "where r.transport.transportStatus = 'PENDING' "							 // 기사 배정 전의 오더만 노출
+			+ "and r.car.carId = :carId "											 // 기사가 가진 차에 해당하는 오더만 노출
+			+ "and cast(r.date || ' ' || r.time AS timestamp) > current_timestamp "	 // 날짜가 지난 오더 제외
+		+ "order by t.fee desc")
+	List<Reservation> findAllOrderByFee(@Param("carId") Long carId);
+
+	@Query("select r "
+		+ "from Reservation r "
+		+ "where r.transport.transportStatus = 'PENDING' "
+			+ "and r.car.carId = :carId "
+			+ "and cast(r.date || ' ' || r.time AS timestamp) > current_timestamp "
+		+ "order by r.date, r.time")
+	List<Reservation> findAllOrderByDateTime(@Param("carId") Long carId);
 }

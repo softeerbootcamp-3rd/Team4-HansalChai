@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.config.SmsUtil;
+import com.hansalchai.haul.order.constants.OrderFilter;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.OrderResponseDto;
 import com.hansalchai.haul.owner.entity.Owner;
@@ -28,15 +29,19 @@ public class OrderService {
 	private final SmsUtil smsUtil;
 
 	@Transactional(readOnly = true)
-	public List<OrderResponseDto> findAll(Long driverId) {
+	public List<OrderResponseDto> findAll(Long driverId, String sort) {
 
-		// 기사(Owner) 정보에 부합하는 오더 리스트 조회
+		// 오더 리스트 조회를 위해 기사(Owner)의 차 id 탐색
 		Owner owner = ownerRepository.findByDriverId(driverId)
 			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 owner입니다."));
 		Car car = owner.getCar();
 		Long carId = car.getCarId();
-		List<Reservation> orders = reservationRepository.findAllOrders(carId);
 
+		// 리스트 정렬 기준에 맞는 쿼리를 실행해 오더 리스트 조회
+		OrderFilter orderFilter = OrderFilter.findFilter(sort);
+		List<Reservation> orders = orderFilter.execute(reservationRepository, carId);
+
+		// 응답 형태로 변환해서 반환
 		return orders.stream()
 			.map(OrderResponseDto::new)
 			.toList();
