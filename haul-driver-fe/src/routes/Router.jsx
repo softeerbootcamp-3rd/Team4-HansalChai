@@ -1,11 +1,14 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import Login from "../views/Login/Login.jsx";
-import Plan from "../views/Plan/List/Plan.jsx";
-import PlanDetail from "../views/Plan/PlanDetail/PlanDetail.jsx";
 import Check from "../views/Check/List/Check.jsx";
 import CheckDetail from "../views/Check/CheckDetail/CheckDetail.jsx";
+import Splash from "../views/Splash/Splash";
+import Complete from "../views/ScheduleCreate/Complete/Complete";
+import ScheduleCreateDetail from "../views/ScheduleCreate/ScheduleCreateDetail/ScheduleCreateDetail";
+import ScheduleCheckDetail from "../views/ScheduleCheck/ScheduleCheckDetail/ScheduleCheckDetail";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -19,14 +22,17 @@ const Router = () => (
   <BrowserRouter>
     <ScrollToTop />
     <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/plan" element={<Outlet />}>
-        <Route path="" element={<Plan />} />
-        <Route path="detail/:id" element={<PlanDetail />} />
+      <Route path="/" element={<Splash />} />
+      <Route path="/login" element={<Login />} />
+
+      <Route path="/schedule-create" element={<Outlet />}>
+        <Route path=":reservationId" element={<ScheduleCreateDetail />} />
+        <Route path="complete" element={<Complete />} />
       </Route>
+
       <Route path="/schedule-check" element={<Outlet />}>
+        <Route path=":reservationId" element={<ScheduleCheckDetail />} />
         <Route path="" element={<Check />} />
-        <Route path="detail/:id" element={<CheckDetail />} />
       </Route>
     </Routes>
   </BrowserRouter>
