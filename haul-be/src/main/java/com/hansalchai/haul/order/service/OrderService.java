@@ -49,4 +49,8 @@ public class OrderService {
 	public OrderResponse getOrder(Long userId) {
 		return null;
 	}
+
+	public OrderResponse.OrderDetailDTO getOrderDetail(Long id, Long userId) {
+		return null;
+	}
 }
