@@ -8,7 +8,7 @@ import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import { useState, useRef } from "react";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
-import { checkEmail } from "../../../utils/helper.js";
+import { useNavigate } from "react-router-dom";
 
 //TODO: 비밀번호 상세 규칙 통일할 것!!!!!!
 //TODO: 상세 규칙 정하고 정규식 바꾼 후 util로 보낼 것!!!!!!!
@@ -34,10 +34,7 @@ const checkPassword = password => {
   return { result: true, message: "" };
 };
 
-const checkForm = ({ name, email, password, passwordConfirm }) => {
-  //이름, 이메일 규칙과 어긋날 시 저장 안함
-  if (name === false) return false;
-  if (email === false) return false;
+const checkForm = ({ password, passwordConfirm }) => {
   //비밀번호 미 입력 시 변경 안함
   if (password === null && passwordConfirm === null) {
     return true;
@@ -96,13 +93,12 @@ const AdvisorText = styled(Typography)`
 `;
 
 const UserInfo = () => {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
     name: "하울",
     email: "haul@haul.com",
     tel: "010-0000-0000"
   });
-  const userRef = useRef(userInfo.name);
-  const emailRef = useRef(userInfo.email);
   const passwordRef = useRef("");
   const passwordConfirmRef = useRef("");
 
@@ -115,8 +111,7 @@ const UserInfo = () => {
    * 2. true: 올바른 형식으로 입력한 상태
    * 3. false: 올바르지 않은 형식으로 입력한 상태
    */
-  const [isNameCorrect, setIsNameCorrect] = useState(null);
-  const [isEmailCorrect, setIsEmailCorrect] = useState(null);
+
   const [isPasswordCorrect, setIsPasswordCorrect] = useState(null);
   const [isPasswordConfirmCorrect, setIsPasswordConfirmCorrect] =
     useState(null);
@@ -124,14 +119,13 @@ const UserInfo = () => {
   const clickEditBtn = () => {
     setIsEdit(true);
   };
+
   const clickSaveBtn = () => {
     setIsEdit(false);
     const newInfo = {
       ...userInfo
     };
-    if (isNameCorrect) newInfo.name = userRef.current;
-    if (isEmailCorrect) newInfo.email = emailRef.current;
-    //if(isPasswordCorrect) newInfo.password = passwordRef.current;
+    if(isPasswordCorrect) newInfo.password = passwordRef.current;
     //TODO: 저장 로직 만들 것!!!!!!
     //TODO: 비밀번호 변경 시 로직 만들 것!!!!!!
     setUserInfo({
@@ -142,66 +136,14 @@ const UserInfo = () => {
   return (
     <MobileLayout>
       <Header home={true} back={true}>
-        <Typography font={"semiBold24"}>더보기</Typography>
+        <Typography font={"semiBold24"} color={"mainColor"}>
+          더보기
+        </Typography>
       </Header>
       <Margin height="32px" />
       {isEdit ? (
         <>
           <Flex kind="flexColumn">
-            <ListItem id={"user-info__name"}>
-              <TextLabel align={"left"} htmlFor={"userName"}>
-                이름
-              </TextLabel>
-              <TextInput
-                id={"userName"}
-                defaultValue={userInfo.name}
-                onBlur={e => {
-                  userRef.current = e.target.value;
-                  setIsNameCorrect(() => userRef.current.trim().length !== 0);
-                }}
-              />
-            </ListItem>
-            <InputAdvisor>
-              {isNameCorrect === null ? (
-                <AdvisorText font="medium12" color="successGreen"></AdvisorText>
-              ) : isNameCorrect ? (
-                <AdvisorText font="medium12" color="successGreen">
-                  사용할 수 있는 이름이에요
-                </AdvisorText>
-              ) : (
-                <AdvisorText font="medium12" color="alertRed">
-                  이름을 입력해주세요
-                </AdvisorText>
-              )}
-            </InputAdvisor>
-            <UnderBar />
-            <ListItem id={"user-info__email"}>
-              <TextLabel align={"left"} htmlFor={"userEmail"}>
-                이메일
-              </TextLabel>
-              <TextInput
-                id={"userEmail"}
-                defaultValue={userInfo.email}
-                onBlur={e => {
-                  emailRef.current = e.target.value;
-                  setIsEmailCorrect(() => checkEmail(emailRef.current));
-                }}
-              />
-            </ListItem>
-            <InputAdvisor>
-              {isEmailCorrect === null ? (
-                <AdvisorText font="medium12" color="successGreen"></AdvisorText>
-              ) : isEmailCorrect ? (
-                <AdvisorText font="medium12" color="successGreen">
-                  사용할 수 있는 이메일이에요
-                </AdvisorText>
-              ) : (
-                <AdvisorText font="medium12" color="alertRed">
-                  올바른 이메일을 입력해주세요
-                </AdvisorText>
-              )}
-            </InputAdvisor>
-            <UnderBar />
             <ListItem id={"user-info__new-password"}>
               <TextLabel align={"left"} htmlFor={"password"}>
                 새 비밀번호
@@ -267,8 +209,6 @@ const UserInfo = () => {
             <BottomButton
               onClick={() => {
                 checkForm({
-                  name: isNameCorrect,
-                  email: isEmailCorrect,
                   password: isPasswordCorrect,
                   passwordConfirm: isPasswordConfirmCorrect
                 }) && clickSaveBtn();
