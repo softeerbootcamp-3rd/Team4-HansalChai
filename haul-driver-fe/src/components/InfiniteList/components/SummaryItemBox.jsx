@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { LuClock4 } from "react-icons/lu";
-import Margin from "../..//Margin/Margin.jsx";
+import Margin from "../../Margin/Margin.jsx";
 import UnderBar from "../../UnderBar/UnderBar.jsx";
 import Typography from "../../Typhography/Typhography.jsx";
 import MoveSvg from "../../../assets/svgs/MoveIcon.svg";
