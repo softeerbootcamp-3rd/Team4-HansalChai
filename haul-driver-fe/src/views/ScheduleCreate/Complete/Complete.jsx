@@ -1,13 +1,13 @@
-import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
-import Typography from "../../components/Typhography/Typhography.jsx";
-import TypographySpan from "../../components/Typhography/TyphographySpan.jsx";
-import Margin from "../../components/Margin/Margin.jsx";
+import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
+import Typography from "../../../components/Typhography/Typhography.jsx";
+import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
+import Margin from "../../../components/Margin/Margin.jsx";
 import Lottie from "lottie-react";
-import Loading_Truck from "../../assets/gifs/LoadingTruck.json";
-import BottomButton from "../../components/Button/BottomButton.jsx";
-import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
-import Flex from "../../components/Flex/Flex.jsx";
-import { UrlMap } from "../../data/GlobalVariable.js";
+import Loading_Truck from "../../../assets/gifs/LoadingTruck.json";
+import BottomButton from "../../../components/Button/BottomButton.jsx";
+import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
+import Flex from "../../../components/Flex/Flex.jsx";
+import { UrlMap } from "../../../data/GlobalVariable.js";
 import { useNavigate } from "react-router-dom";
 
 const Complete = () => {
