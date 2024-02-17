@@ -1,6 +1,5 @@
 package com.hansalchai.haul.reservation.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -23,7 +22,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 		+ "where r.transport.transportStatus = 'PENDING' "
 			+ "and r.car.carId = :carId "
 			+ "and cast(r.date || ' ' || r.time AS timestamp) > current_timestamp ")
-	List<Reservation> findAllOrders(@Param("carId") Long carId);  // 오더 접수순으로 정렬
+	Page<Reservation> findAllOrders(@Param("carId") Long carId, Pageable pageable);  // 오더 접수순으로 정렬
 
 	@Query("select r "
 		+ "from Reservation r join Transport t "
@@ -32,7 +31,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 			+ "and r.car.carId = :carId "											 // 기사가 가진 차에 해당하는 오더만 노출
 			+ "and cast(r.date || ' ' || r.time AS timestamp) > current_timestamp "	 // 날짜가 지난 오더 제외
 		+ "order by t.fee desc")
-	List<Reservation> findAllOrderByFee(@Param("carId") Long carId);
+	Page<Reservation> findAllOrderByFee(@Param("carId") Long carId, Pageable pageable);
 
 	@Query("select r "
 		+ "from Reservation r "
@@ -40,5 +39,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 			+ "and r.car.carId = :carId "
 			+ "and cast(r.date || ' ' || r.time AS timestamp) > current_timestamp "
 		+ "order by r.date, r.time")
-	List<Reservation> findAllOrderByDateTime(@Param("carId") Long carId);
+	Page<Reservation> findAllOrderByDateTime(@Param("carId") Long carId, Pageable pageable);
 }

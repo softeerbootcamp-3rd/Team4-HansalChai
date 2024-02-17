@@ -4,8 +4,6 @@ import static com.hansalchai.haul.common.auth.jwt.JwtProvider.*;
 import static com.hansalchai.haul.common.utils.ApiResponse.*;
 import static com.hansalchai.haul.common.utils.SuccessCode.*;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,11 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
-import com.hansalchai.haul.order.dto.OrderResponseDto;
+import com.hansalchai.haul.order.dto.OrderSearchResponse;
 import com.hansalchai.haul.order.service.OrderService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -33,9 +32,10 @@ public class OrderController {
 	@GetMapping("")
 	public ResponseEntity findAll(
 			HttpServletRequest request,
-			@RequestParam("sort") String sort) {
+			@RequestParam("sort") String sort,
+			@PositiveOrZero @RequestParam("page") int page) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		List<OrderResponseDto> orders = orderService.findAll(auth.getUserId(), sort);
+		OrderSearchResponse orders = orderService.findAll(auth.getUserId(), sort, page);
 		return ResponseEntity.ok(success(GET_SUCCESS, orders));
 	}
 
