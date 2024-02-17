@@ -62,13 +62,13 @@ const SelectedCircleImg = styled.img`
   color: red;
 `;
 
-const NavigationBar = ({ selected = "reserv" }) => {
+const NavigationBar = ({ selected = "create" }) => {
   const navigator = useNavigate();
   const clickCheck = () => {
-    navigator(UrlMap.checkReservationPageUrl);
+    navigator(UrlMap.scheduleCheckPageUrl);
   };
-  const clickReserv = () => {
-    navigator(UrlMap.choiceTranportTypeUrl);
+  const clickCreate = () => {
+    navigator(UrlMap.scheduleCreateDetailPageUrl);
   };
   const clickMore = () => {
     navigator(UrlMap.morePageUrl);
@@ -99,27 +99,27 @@ const NavigationBar = ({ selected = "reserv" }) => {
       </ItemFrame>
 
       <ItemFrame
-        id="navigator__reserv"
+        id="navigator__create"
         className="navBarItem"
         onClick={() => {
-          clickReserv();
+          clickCreate();
         }}
       >
         <SelectedCircleImg
           src={
-            selected === "reserv"
+            selected === "create"
               ? SelectedCircleSelectedSvg
               : SelectedCircleSvg
           }
         />
         <TruckImg
-          src={selected === "reserv" ? TruckSelectedSvg : TruckSvg}
-          fill={selected === "reserv" ? "mainColor" : "unselectedGray"}
+          src={selected === "create" ? TruckSelectedSvg : TruckSvg}
+          fill={selected === "create" ? "mainColor" : "unselectedGray"}
         />
         <Typography
-          color={selected === "reserv" ? "mainColor" : "unselectedGray"}
+          color={selected === "create" ? "mainColor" : "unselectedGray"}
         >
-          용달 신청
+          일정 잡기
         </Typography>
       </ItemFrame>
       <ItemFrame
