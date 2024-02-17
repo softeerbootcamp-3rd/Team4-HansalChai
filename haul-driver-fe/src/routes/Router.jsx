@@ -29,7 +29,7 @@ const Router = () => (
       <Route path="/login" element={<Login />} />
 
       <Route path="/schedule-create" element={<Outlet />}>
-        <Route path="" element={<ScheduleCreateList />}/>
+        <Route path="" element={<ScheduleCreateList />} />
         <Route path=":reservationId" element={<ScheduleCreateDetail />} />
         <Route path="complete" element={<Complete />} />
       </Route>

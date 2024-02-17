@@ -113,7 +113,7 @@ const UserInfo = () => {
     const newInfo = {
       ...userInfo
     };
-    if(isPasswordCorrect) newInfo.password = passwordRef.current;
+    if (isPasswordCorrect) newInfo.password = passwordRef.current;
     //TODO: 저장 로직 만들 것!!!!!!
     //TODO: 비밀번호 변경 시 로직 만들 것!!!!!!
     setUserInfo({
