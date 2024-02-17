@@ -1,3 +1,7 @@
+import ToastMaker from "../components/Toast/ToastMaker";
+import { ErrorMessageMap } from "../data/GlobalVariable";
+import { getAccessToken } from "../utils/localStorage";
+
 const apiKey = import.meta.env.VITE_API_KEY;
 
 export async function loginFun({ tel, password }) {
@@ -45,6 +49,58 @@ export async function signUpFun({ name, tel, password, email }) {
     }
   } catch (error) {
     console.error("Sign Up error:", error);
+    return { success: false, message: error.toString() };
+  }
+}
+
+export async function getUserProfile() {
+  try {
+    const response = await fetch(`http://${apiKey}/api/v1/users/profile`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${getAccessToken()}`
+      }
+    });
+
+    if (response.ok) {
+      const body = await response.json();
+      return {
+        success: true,
+        data: body.data
+      };
+    } else {
+      return { success: false, message: ErrorMessageMap.NoUserFound };
+    }
+  } catch (error) {
+    console.error("Get Profile error:", error);
+    ToastMaker({ type: "error", children: ErrorMessageMap.TryLater });
+    return { success: false, message: error.toString() };
+  }
+}
+
+export async function putPassword({ password }) {
+  try {
+    const response = await fetch(`http://${apiKey}/api/v1/users/profile`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${getAccessToken()}`
+      },
+      body: JSON.stringify({ password })
+    });
+
+    if (response.ok) {
+      return {
+        success: true,
+        message: "비밀번호 변경에 성공했어요"
+      };
+    } else {
+      return { success: false, message: ErrorMessageMap.ChangePasswordFailed };
+    }
+  } catch (error) {
+    console.error("Put Password error:", error);
+    ToastMaker({ type: "error", children: ErrorMessageMap.TryLater });
     return { success: false, message: error.toString() };
   }
 }

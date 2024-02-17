@@ -48,7 +48,6 @@ const Purchase = () => {
     const { success, data, message } = await memberReservationConfirmFun({
       reservationId: reservationId
     });
-    console.log(success, data, message);
     if (success) {
       navigator(UrlMap.completePageUrl);
     } else {
