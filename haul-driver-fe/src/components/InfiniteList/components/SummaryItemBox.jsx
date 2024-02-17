@@ -4,6 +4,7 @@ import { LuClock4 } from "react-icons/lu";
 import Margin from "../..//Margin/Margin.jsx";
 import UnderBar from "../../UnderBar/UnderBar.jsx";
 import Typography from "../../Typhography/Typhography.jsx";
+import MoveSvg from "../../../assets/svgs/MoveIcon.svg";
 
 const ReservItemFrame = styled.div`
   width: 100%;
@@ -74,6 +75,7 @@ const SummaryItemBox = ({ src, dst, time, fee }) => {
             {src}
           </Typography>
         </TextSetFrame>
+        <img src={MoveSvg} alt="dotdotdot" />
         <TextSetFrame align={"end"}>
           <Typography font={"regular12"} color={"upperTextColor"}>
             도착지
