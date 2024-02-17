@@ -23,9 +23,9 @@ const ScheduleCreateDetail = () => {
       <Margin height="24px" />
       <Carousel 
         carouselList={[
-            <UserInfoBox kind='user' name='주시현님' tel='010-3977-2337' />,
-            <UserInfoBox kind='src' tel='010-3977-2337' />,
-            <UserInfoBox kind='dst' tel='010-3977-2337' />
+            <UserInfoBox kind='user' name='주시현님' tel='010-1234-1234' />,
+            <UserInfoBox kind='src' tel='010-1234-1234' />,
+            <UserInfoBox kind='dst' tel='010-1234-1234' />
         ]}
         initialIndex={0}
         
