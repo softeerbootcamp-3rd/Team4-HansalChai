@@ -24,7 +24,7 @@ const Router = () => (
 
       <Route path="/schedule-create" element={<Outlet />}>
         <Route path=":reservationId" element={<ScheduleCreateDetail />} />
-        <Route path="/complete" element={<Complete />} />
+        <Route path="complete" element={<Complete />} />
       </Route>
     </Routes>
   </BrowserRouter>

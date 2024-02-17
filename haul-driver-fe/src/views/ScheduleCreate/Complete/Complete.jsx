@@ -3,7 +3,7 @@ import Typography from "../../../components/Typhography/Typhography.jsx";
 import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import Lottie from "lottie-react";
-import Loading_Truck from "../../../assets/gifs/LoadingTruck.json";
+import LoadingTruck from "../../../assets/gifs/LoadingTruck.json";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
@@ -24,7 +24,7 @@ const Complete = () => {
       <Margin height="60px" />
       <Typography font="bold24">일정 잡기를 완료했어요.</Typography>
       <Flex kind="flexCenter">
-        <Lottie animationData={Loading_Truck} style={{ maxWidth: "500px" }} />
+        <Lottie animationData={LoadingTruck} style={{ maxWidth: "500px" }} />
       </Flex>
       <Typography font="bold24">
         고객님에게 이{" "}
