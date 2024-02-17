@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.hansalchai.haul.common.config.SmsUtil;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
+import com.hansalchai.haul.order.dto.OrderResponseDTO;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
 import com.hansalchai.haul.reservation.entity.Reservation;
@@ -43,5 +44,9 @@ public class OrderService {
 		String customerTel = reservation.getUser().getTel();
 		String reservationNumber = reservation.getNumber();
 		smsUtil.send(customerTel, reservationNumber);
+	}
+
+	public OrderResponseDTO getOrder(Long userId) {
+		return null;
 	}
 }
