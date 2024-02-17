@@ -10,8 +10,11 @@ import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
 import { ErrorMessageMap } from "../../data/GlobalVariable.js";
 import { isPhoneNumber, deleteDash, isValueArr } from "../../utils/helper.js";
 import ToastMaker from "../../components/Toast/ToastMaker.jsx";
+import { useNavigate } from "react-router-dom";
+import { UrlMap } from "../../data/GlobalVariable.js";
 
 const Login = () => {
+  const navigate = useNavigate();
   const tel = useRef("");
   const password = useRef("");
   const [isButtonDisabled, setButtonDisabled] = useState(true);
@@ -34,6 +37,7 @@ const Login = () => {
       return;
     }
     tel.current = deleteDash(tel.current);
+    navigate(UrlMap.scheduleCreateDetailPageUrl);
   }
 
   return (
