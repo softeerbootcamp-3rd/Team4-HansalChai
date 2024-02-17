@@ -85,7 +85,11 @@ const InfiniteList = ({ fetcher, baseURL, fetcherIndex = null }) => {
     () => async () => {
       if (realEndRef.current) return;
       setIsLoading(true);
-      const newPage = await fetcher({ page });
+      const newPage =
+        fetcherIndex === null
+          ? await fetcher({ page })
+          : await fetcher[fetcherIndex]({ page });
+
       if (newPage.success !== true) {
         setIsEnd(true);
         ToastMaker({
