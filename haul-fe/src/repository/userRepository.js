@@ -1,4 +1,5 @@
 import ToastMaker from "../components/Toast/ToastMaker";
+import { ErrorMessageMap } from "../data/GlobalVariable";
 import { getAccessToken } from "../utils/localStorage";
 
 const apiKey = import.meta.env.VITE_API_KEY;
@@ -69,16 +70,16 @@ export async function getUserProfile() {
         data: body.data
       };
     } else {
-      return { success: false, message: "사용자 정보를 찾을 수 없었어요" };
+      return { success: false, message: ErrorMessageMap.NoUserFound };
     }
   } catch (error) {
     console.error("Get Profile error:", error);
-    ToastMaker({ type: "error", children: "잠시 후 다시 시도해주세요" });
+    ToastMaker({ type: "error", children: ErrorMessageMap.TryLater });
     return { success: false, message: error.toString() };
   }
 }
 
-export async function putPassword({password}) {
+export async function putPassword({ password }) {
   try {
     const response = await fetch(`http://${apiKey}/api/v1/users/profile`, {
       method: "PUT",
@@ -95,11 +96,11 @@ export async function putPassword({password}) {
         message: "비밀번호 변경에 성공했어요"
       };
     } else {
-      return { success: false, message: "잠시 후 다시 시도해주세요" };
+      return { success: false, message: ErrorMessageMap.ChangePasswordFailed };
     }
   } catch (error) {
     console.error("Put Password error:", error);
-    ToastMaker({ type: "error", children: "잠시 후 다시 시도해주세요" });
+    ToastMaker({ type: "error", children: ErrorMessageMap.TryLater });
     return { success: false, message: error.toString() };
   }
 }
