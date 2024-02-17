@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useState, useEffect } from "react";
 import Input from "../../Input/Input.jsx";
 import Margin from "../../Margin/Margin.jsx";
@@ -22,8 +23,47 @@ const SearchMap = ({
     initialAddressFun(beforeName, beforeAddress)
   );
 
+  const [isKakaoMapLoaded, setIsKakaoMapLoaded] = useState(false);
+  const [isPostcodeLoaded, setIsPostcodeLoaded] = useState(false);
+
+  const loadKakaoMaps = () => {
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${
+      import.meta.env.VITE_KAKAO_MAP_KEY
+    }&autoload=false&libraries=services`;
+
+    script.onload = () => {
+      window.kakao.maps.load(() => {
+        setIsKakaoMapLoaded(true);
+      });
+    };
+
+    document.head.appendChild(script);
+  };
+
+  const loadPostcode = () => {
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src =
+      "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    script.onload = () => {
+      setIsPostcodeLoaded(true);
+    };
+    document.head.appendChild(script);
+  };
+
   useEffect(() => {
-    window.kakao.maps.load(() => {
+    if (!isKakaoMapLoaded) {
+      loadKakaoMaps();
+    }
+    if (!isPostcodeLoaded) {
+      loadPostcode();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isKakaoMapLoaded) {
       const container = document.getElementById("map");
       const beforePos = new window.kakao.maps.LatLng(beforeLat, beforeLon);
       const options = {
@@ -39,10 +79,13 @@ const SearchMap = ({
       }
       setMap(map);
       setMarker(marker);
-    });
-  }, []);
+    }
+  }, [isKakaoMapLoaded]);
 
   const onClickAddr = () => {
+    if (!isKakaoMapLoaded || !isPostcodeLoaded) {
+      return;
+    }
     new window.daum.Postcode({
       oncomplete: function (addrData) {
         const geocoder = new window.kakao.maps.services.Geocoder();
