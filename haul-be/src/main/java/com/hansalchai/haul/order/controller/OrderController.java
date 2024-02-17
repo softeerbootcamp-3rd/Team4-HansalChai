@@ -9,16 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
 import com.hansalchai.haul.common.utils.ApiResponse;
-import com.hansalchai.haul.common.utils.SuccessCode;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
-import com.hansalchai.haul.order.dto.OrderResponseDTO;
+import com.hansalchai.haul.order.dto.OrderResponse;
 import com.hansalchai.haul.order.service.OrderService;
-import com.hansalchai.haul.reservation.dto.ReservationResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -41,9 +38,9 @@ public class OrderController {
 	}
 
 	@GetMapping("/mine")
-	public ResponseEntity<ApiResponse<OrderResponseDTO>> getMyOrder(HttpServletRequest request){
+	public ResponseEntity<ApiResponse<OrderResponse>> getMyOrder(HttpServletRequest request){
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		OrderResponseDTO response = orderService.getOrder(auth.getUserId());
+		OrderResponse response = orderService.getOrder(auth.getUserId());
 		return ResponseEntity.ok(success(GET_SUCCESS, response));
 	}
 }
