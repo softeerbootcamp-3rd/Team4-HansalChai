@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Login from "../views/Login/Login";
+import Splash from "../views/Splash/Splash";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -15,7 +16,8 @@ const Router = () => (
   <BrowserRouter>
     <ScrollToTop />
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<Splash />} />
+      <Route path="/login" element={<Login />} />
     </Routes>
   </BrowserRouter>
 );
