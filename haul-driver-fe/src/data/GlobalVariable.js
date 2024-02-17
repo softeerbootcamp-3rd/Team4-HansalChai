@@ -2,7 +2,7 @@ export const MaxDeviceWidth = "400px";
 
 export const UrlMap = {
   loginPageUrl: "/login",
-  completePageUrl: "/complete"
+  completePageUrl: "/schedule-create/complete"
 };
 
 export const CompanyCallNumber = "01012341234";
