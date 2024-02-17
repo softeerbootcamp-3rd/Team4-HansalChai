@@ -4,19 +4,26 @@ import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx"
 import Margin from "../../../components/Margin/Margin.jsx";
 import UserInfoBox from "../../../components/UserInfoBox/UserInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
+import DriveTimeBox from "../../../components/DriveTimeBox/DriveTimeBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import Carousel from "../../../components/Carousel/Carousel.jsx";
+import { useNavigate } from "react-router-dom";
+import { UrlMap } from "../../../data/GlobalVariable.js";
 
 const ScheduleCreateDetail = () => {
   const driverName = "시현";
   const srcCoordinate = { lat: 37.497259947611596, lng: 127.03218978408303 };
   const dstCoordinate = { lat: 37.450354677762, lng: 126.65915614333 };
+  const navigate = useNavigate();
+  function createScheduleBtnFun() {
+    navigate(UrlMap.completePageUrl);
+  }
 
   return (
     <MobileLayout>
       <Header>
         <TypographySpan color="subColor">
-          {driverName}
+          {driverName}기사
           <TypographySpan>님을 위한 일정잡기</TypographySpan>
         </TypographySpan>
       </Header>
@@ -36,6 +43,9 @@ const ScheduleCreateDetail = () => {
       />
 
       <Margin height="24px" />
+
+      <DriveTimeBox arriveTime="2023.11.28 14:50" />
+      <Margin height="24px" />
       <DetailInfo
         srcCoordinate={srcCoordinate}
         srcAddress="서울특별시 강남구 강남대로 지하396 "
@@ -47,7 +57,9 @@ const ScheduleCreateDetail = () => {
         time="04"
       />
       <Margin height="30px" />
-      <BottomButton role="main">일정 잡기</BottomButton>
+      <BottomButton role="main" onClick={createScheduleBtnFun}>
+        일정 잡기
+      </BottomButton>
       <Margin height="30px" />
     </MobileLayout>
   );
