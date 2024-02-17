@@ -1,7 +1,9 @@
 export const MaxDeviceWidth = "400px";
 
 export const UrlMap = {
-  loginPageUrl: "/login"
+  loginPageUrl: "/login",
+  checkPageUrl: "/schedule-check",
+  planPageUrl: "/plan"
 };
 
 export const CompanyCallNumber = "01012341234";

@@ -65,10 +65,10 @@ const SelectedCircleImg = styled.img`
 const NavigationBar = ({ selected = "reserv" }) => {
   const navigator = useNavigate();
   const clickCheck = () => {
-    navigator(UrlMap.checkReservationPageUrl);
+    navigator(UrlMap.checkPageUrl);
   };
   const clickReserv = () => {
-    navigator(UrlMap.choiceTranportTypeUrl);
+    navigator(UrlMap.planPageUrl);
   };
   const clickMore = () => {
     navigator(UrlMap.morePageUrl);
@@ -119,7 +119,7 @@ const NavigationBar = ({ selected = "reserv" }) => {
         <Typography
           color={selected === "reserv" ? "mainColor" : "unselectedGray"}
         >
-          용달 신청
+          일정 잡기
         </Typography>
       </ItemFrame>
       <ItemFrame
