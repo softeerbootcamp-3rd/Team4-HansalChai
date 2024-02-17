@@ -21,10 +21,10 @@ const Router = () => (
     <Routes>
       <Route path="/" element={<Splash />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/complete" element={<Complete />} />
-      
+
       <Route path="/schedule-create" element={<Outlet />}>
         <Route path=":reservationId" element={<ScheduleCreateDetail />} />
+        <Route path="/complete" element={<Complete />} />
       </Route>
     </Routes>
   </BrowserRouter>
