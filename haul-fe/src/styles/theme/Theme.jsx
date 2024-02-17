@@ -34,7 +34,8 @@ const colors = {
   infoColor: "#afafaf",
   subButtonBackground: "#F3EDC8",
   upperTextColor: "#10101080",
-  radioUnchecked: "#89939e33"
+  radioUnchecked: "#89939e33",
+  tabBarEntry: "#00000033"
 };
 
 const font = {
