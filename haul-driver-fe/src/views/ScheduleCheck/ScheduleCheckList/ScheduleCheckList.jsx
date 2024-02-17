@@ -12,7 +12,7 @@ import { getUserSummaryList } from "../../../repository/checkRepository.jsx";
 
 
 //TODO: API가 운송상태를 구별하여 가져올 수 있게 변경된 후 리스트 수정할 것!
-const Check = () => {
+const ScheduleCheckList = () => {
   const [selectedStatus, setSelectedStatus] = useState(0);
 
   const statusList = ["운송 전", "운송 중", "운송 완료"];
@@ -32,11 +32,11 @@ const Check = () => {
       />
       <UnderBar />
       <Margin height="20px" />
-      <InfiniteList fetcher={getUserSummaryList} baseURL={"/schedule-check/detail"} />
+      <InfiniteList fetcher={getUserSummaryList} baseURL={"/schedule-check"} />
       <Flex kind="flexColumn"></Flex>
       <NavigationBar selected="check" />
     </MobileLayout>
   );
 };
 
-export default Check;
+export default ScheduleCheckList;
