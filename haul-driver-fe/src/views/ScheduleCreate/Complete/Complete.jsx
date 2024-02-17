@@ -13,10 +13,10 @@ import { useNavigate } from "react-router-dom";
 const Complete = () => {
   const navigation = useNavigate();
   function goHome() {
-    //navigation(UrlMap.choiceTranportTypeUrl);
+    navigation(UrlMap.scheduleCreateDetailPageUrl);
   }
   function goReservationList() {
-    //navigation(UrlMap.checkReservationPageUrl);
+    navigation(UrlMap.scheduleCheckPageUrl);
   }
 
   return (
