@@ -1,5 +1,4 @@
 import { forwardRef, useEffect, useRef, useState } from "react";
-
 import {
   IoIosArrowBack as BackIcon,
   IoIosArrowForward as ForwardIcon
@@ -93,11 +92,6 @@ const CarouselItem = styled.li`
       border-left: 2px solid colors.$GRAY2;
     }
   }
-`;
-
-const CarouselImg = styled.img`
-  width: fit-content;
-  height: fit-content;
 `;
 
 const Carousel = ({ carouselList, setSelectedIndex, initialIndex = 0 }) => {
