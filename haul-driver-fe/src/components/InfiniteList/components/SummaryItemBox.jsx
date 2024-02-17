@@ -1,22 +1,15 @@
 import styled from "styled-components";
-import Margin from "../../Margin/Margin.jsx";
-import UnderBar from "../../UnderBar/UnderBar.jsx";
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { LuClock4 } from "react-icons/lu";
+import Margin from "../..//Margin/Margin.jsx";
+import UnderBar from "../../UnderBar/UnderBar.jsx";
 import Typography from "../../Typhography/Typhography.jsx";
-
-const statusColor = {
-  "매칭 중": "rgba(217, 199, 231, 0.2)",
-  "운송 전": "rgba(255, 154, 98, 0.2)",
-  "운송 중": "rgba(251, 192, 45, 0.2)",
-  "운송 완료": "rgba(133, 199, 238, 0.2)"
-};
 
 const ReservItemFrame = styled.div`
   width: 100%;
   ${({ theme }) => theme.flex.flexColumn};
   align-items: start;
-  background-color: ${({ status }) => statusColor[status]};
+  background-color: ${({ theme }) => theme.colors.cardBackground};
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.colors.cardBorder};
   padding: 15px;
@@ -68,26 +61,26 @@ const IconedCaption = styled.div`
 `;
 
 //API에 맞게 인자 이름을 고쳐야 하나?
-const SummaryItemBox = ({ model, status, time, fee }) => {
+const SummaryItemBox = ({ src, dst, time, fee }) => {
   return (
-    <ReservItemFrame status={status}>
+    <ReservItemFrame>
       <DescriptionTextArea>
         <TextSetFrame align={"start"}>
           <Typography font={"regular12"} color={"upperTextColor"}>
-            운송수단
+            출발지
           </Typography>
           <Margin height="4px" />
           <Typography font={"bold20"} color={"realBlack"}>
-            {model}
+            {src}
           </Typography>
         </TextSetFrame>
         <TextSetFrame align={"end"}>
           <Typography font={"regular12"} color={"upperTextColor"}>
-            운송상태
+            도착지
           </Typography>
           <Margin height="4px" />
           <Typography font={"bold20"} color={"realBlack"}>
-            {status}
+            {dst}
           </Typography>
         </TextSetFrame>
       </DescriptionTextArea>
