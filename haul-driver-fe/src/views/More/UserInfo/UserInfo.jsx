@@ -10,8 +10,7 @@ import { useState, useRef } from "react";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import { useNavigate } from "react-router-dom";
 
-//TODO: 비밀번호 상세 규칙 통일할 것!!!!!!
-//TODO: 상세 규칙 정하고 정규식 바꾼 후 util로 보낼 것!!!!!!!
+//TODO: 문제 없다면 정규식으로 만들고 util로 보낼 것!!!!!!!
 const checkPassword = password => {
   if (password.length === 0) return null;
   if (password.length !== password.trim().length)
@@ -20,17 +19,6 @@ const checkPassword = password => {
     return { result: false, message: "비밀번호는 8글자 이상이어야 해요" };
   if (password.length > 20)
     return { result: false, message: "비밀번호는 20글자 이하여야 해요" };
-  /*
-    const reg = new RegExp(
-    "^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$"
-  );
-  if (!reg.test(password)) {
-    return {
-      result: false,
-      message: "비밀번호는 영문, 숫자, 특수문자를 포함해야 합니다",
-    };
-  }
-  */
   return { result: true, message: "" };
 };
 
