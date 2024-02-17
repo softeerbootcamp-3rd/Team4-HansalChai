@@ -1,13 +1,11 @@
 package com.hansalchai.haul.reservation.dto;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 import org.hibernate.validator.constraints.Range;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hansalchai.haul.reservation.constants.TransportType;
 import com.hansalchai.haul.reservation.entity.Cargo;
 import com.hansalchai.haul.reservation.entity.CargoOption;
 import com.hansalchai.haul.reservation.entity.Destination;
@@ -15,6 +13,7 @@ import com.hansalchai.haul.reservation.entity.Source;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -39,8 +38,8 @@ public class ReservationRequest {
 		private CargoOptionDTO cargoOption;
 
 		@Getter
-		@Setter
 		@ToString
+		@NoArgsConstructor
 		public static class SourceDTO {
 			@NotNull(message = "출발지 이름은 Null 일 수 없다.")
 			private String name;
@@ -60,7 +59,18 @@ public class ReservationRequest {
 			@NotNull(message = "출발지 전화번호는 Null 일 수 없다.")
 			private String tel;
 
-			public Source build(){
+			@Builder
+			public SourceDTO(String name, String address, String detailAddress, double latitude, double longitude,
+				String tel) {
+				this.name = name;
+				this.address = address;
+				this.detailAddress = detailAddress;
+				this.latitude = latitude;
+				this.longitude = longitude;
+				this.tel = tel;
+			}
+
+			public Source build() {
 				return Source.builder()
 					.name(name)
 					.address(address)
@@ -71,9 +81,10 @@ public class ReservationRequest {
 					.build();
 			}
 		}
+
 		@Getter
-		@Setter
 		@ToString
+		@NoArgsConstructor
 		public static class DestinationDTO {
 			@NotNull(message = "도착지 이름은 Null 일 수 없다.")
 			private String name;
@@ -93,6 +104,17 @@ public class ReservationRequest {
 			@NotNull(message = "도착지 전화번호는 Null 일 수 없다.")
 			private String tel;
 
+			@Builder
+			public DestinationDTO(String name, String address, String detailAddress, double latitude, double longitude,
+				String tel) {
+				this.name = name;
+				this.address = address;
+				this.detailAddress = detailAddress;
+				this.latitude = latitude;
+				this.longitude = longitude;
+				this.tel = tel;
+			}
+
 			public Destination build(){
 				return Destination.builder()
 					.name(name)
@@ -104,9 +126,10 @@ public class ReservationRequest {
 					.build();
 			}
 		}
+
 		@Getter
-		@Setter
 		@ToString
+		@NoArgsConstructor
 		public static class CargoDTO {
 			@NotNull(message = "화물 가로는 Null 일 수 없다.")
 			@Range(min = 0, max = 1000, message = "화물 가로는 10m를 넘을 수 없다.")
@@ -124,6 +147,14 @@ public class ReservationRequest {
 			@Range(min = 0, max = 1000000, message = "화물 무게는 1000T를 넘을 수 없다.")
 			private int weight;
 
+			@Builder
+			public CargoDTO(int width, int length, int height, int weight) {
+				this.width = width;
+				this.length = length;
+				this.height = height;
+				this.weight = weight;
+			}
+
 			public Cargo build(){
 				return Cargo.builder()
 					.width(width)
@@ -133,9 +164,10 @@ public class ReservationRequest {
 					.build();
 			}
 		}
+
 		@Getter
-		@Setter
 		@ToString
+		@NoArgsConstructor
 		public static class CargoOptionDTO {
 			@JsonProperty("refrigerated")
 			@NotNull(message = "냉장여부는 Null 일 수 없다.")
@@ -152,6 +184,15 @@ public class ReservationRequest {
 			@JsonProperty("liftRequired")
 			@NotNull(message = "리프트필요여부는 Null 일 수 없다.")
 			private boolean isLiftRequired;
+
+			@Builder
+			public CargoOptionDTO(boolean isRefrigerated, boolean isFrozen, boolean isFurniture,
+				boolean isLiftRequired) {
+				this.isRefrigerated = isRefrigerated;
+				this.isFrozen = isFrozen;
+				this.isFurniture = isFurniture;
+				this.isLiftRequired = isLiftRequired;
+			}
 
 			public CargoOption build(){
 				return CargoOption.builder()
