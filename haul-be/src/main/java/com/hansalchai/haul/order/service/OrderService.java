@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hansalchai.haul.common.config.SmsUtil;
+import com.hansalchai.haul.order.constant.OrderStatusCategory;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO.OrderInfoDTO;
@@ -57,11 +58,12 @@ public class OrderService {
 		smsUtil.send(customerTel, reservationNumber);
 	}
 
-	public OrderDTO getOrder(int page, Long userId) {
+	public OrderDTO getOrder(String keyword, int page, Long userId) {
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
 		Pageable pageable = PageRequest.of(page,PAGECUT);
-		Page<Reservation> pageContent = reservationRepository.findByDriverId(user.getUserId(), pageable);
+		Page<Reservation> pageContent = OrderStatusCategory.valueOf(keyword).execute(user.getUserId(), pageable, reservationRepository);
+		//Page<Reservation> pageContent = reservationRepository.findByDriverId(user.getUserId(), pageable);
 		List<OrderInfoDTO> orderInfoDTOS = pageContent.getContent().stream().map(
 			OrderInfoDTO::new).collect(Collectors.toList());
 		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;

@@ -44,9 +44,9 @@ public class OrderController {
 	}
 
 	@GetMapping("/mine")
-	public ResponseEntity<ApiResponse<OrderDTO>> getMyOrder(@RequestParam(value = "page", defaultValue = "0") int page, HttpServletRequest request){
+	public ResponseEntity<ApiResponse<OrderDTO>> getMyOrder(@RequestParam(value = "keyword", defaultValue = "배송 전") String keyword, @RequestParam(value = "page", defaultValue = "0") int page, HttpServletRequest request){
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		OrderDTO response = orderService.getOrder(page, auth.getUserId());
+		OrderDTO response = orderService.getOrder(keyword, page, auth.getUserId());
 		return ResponseEntity.ok(success(GET_SUCCESS, response));
 	}
 
