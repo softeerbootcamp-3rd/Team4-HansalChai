@@ -8,7 +8,7 @@ import BottomButton from "../../../components/Button/BottomButton.jsx";
 import Carousel from "../../../components/Carousel/Carousel.jsx";
 
 const ScheduleCreateDetail = () => {
-  const driverName ="시현"
+  const driverName = "시현";
   const srcCoordinate = { lat: 37.497259947611596, lng: 127.03218978408303 };
   const dstCoordinate = { lat: 37.450354677762, lng: 126.65915614333 };
 
@@ -21,16 +21,15 @@ const ScheduleCreateDetail = () => {
         </TypographySpan>
       </Header>
       <Margin height="24px" />
-      <Carousel 
+      <Carousel
         carouselList={[
-            <UserInfoBox kind='user' name='주시현님' tel='010-1234-1234' />,
-            <UserInfoBox kind='src' tel='010-1234-1234' />,
-            <UserInfoBox kind='dst' tel='010-1234-1234' />
+          <UserInfoBox kind="user" name="주시현님" tel="010-1234-1234" />,
+          <UserInfoBox kind="src" tel="010-1234-1234" />,
+          <UserInfoBox kind="dst" tel="010-1234-1234" />
         ]}
         initialIndex={0}
-        
       />
-      
+
       <Margin height="24px" />
       <DetailInfo
         srcCoordinate={srcCoordinate}

@@ -57,14 +57,24 @@ const UserInfoBox = ({ kind, name, tel }) => {
           <Flex kind="flexColumnBetween" style={{ margin: "10px 0px" }}>
             <Typography font="semiBold16">{name}</Typography>
             <Typography font="medium16">
-              <a href="{telForm}" style={{color:"black", textDecoration:"underline"}}>{tel}</a>
+              <a
+                href="{telForm}"
+                style={{ color: "black", textDecoration: "underline" }}
+              >
+                {tel}
+              </a>
             </Typography>
           </Flex>
         ) : (
           <Flex kind="flexCenter" style={{ margin: "10px 0px" }}>
             <Typography font="semiBold16">{name}</Typography>
             <Typography font="medium16">
-              <a href="{telForm}" style={{color:"black", textDecoration:"underline"}}>{tel}</a>
+              <a
+                href="{telForm}"
+                style={{ color: "black", textDecoration: "underline" }}
+              >
+                {tel}
+              </a>
             </Typography>
           </Flex>
         )}
