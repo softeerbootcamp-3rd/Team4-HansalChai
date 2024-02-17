@@ -39,7 +39,8 @@ const Result = () => {
     if (isMember === "false") {
       const { success, dataConfirm, message } =
         await guestReservationConfirmFun({
-          reservationId: data.reservationId
+          reservationId: data.reservationId,
+          cost: data.cost
         });
       if (success) {
         navigation(UrlMap.completePageUrl);
