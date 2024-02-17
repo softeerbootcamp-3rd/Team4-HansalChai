@@ -24,6 +24,7 @@ const colors = {
   inputGrayDark: "rgba(0, 0, 0, 0.06)",
   grayText: "rgba(16, 16, 16, 0.5)",
   selectCircle: "#596FB7",
+  tabBarEntry: "rgba(0, 0, 0, 0.2)",
   successBackground: "#0d927519",
   errorBackground: "#d83b3b19",
   warningBackground: "#e6be0019",
