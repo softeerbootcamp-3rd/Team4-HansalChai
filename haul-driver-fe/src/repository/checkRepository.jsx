@@ -105,7 +105,7 @@ export async function getDriverDummySummaryList({ page, sortBy }) {
   }
 }
 
-export async function getDriverSummaryList({ page, keyword = "배송 전" }) {
+export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
   try {
     const response = await fetch(`http://43.201.240.238:8080/api/v1/orders/mine?keyword=${keyword}&page=${page}`,
       {
