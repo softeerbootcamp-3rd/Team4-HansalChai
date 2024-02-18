@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
 import Typography from "../../components/Typhography/Typhography.jsx";
 import TypographySpan from "../../components/Typhography/TyphographySpan.jsx";
@@ -7,16 +7,10 @@ import Margin from "../../components/Margin/Margin.jsx";
 import Input from "../../components/Input/Input.jsx";
 import BottomButton from "../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
-import { ErrorMessageMap, UrlMap } from "../../data/GlobalVariable.js";
-import { isPhoneNumber, deleteDash, isValueArr } from "../../utils/helper.js";
-import ToastMaker from "../../components/Toast/ToastMaker.jsx";
+import { checkLoginAbled, loginBtnFun } from "./index.jsx";
+import { isLoginFun } from "../../utils/localStorage.js";
 import { useNavigate } from "react-router-dom";
-import { loginFun } from "../../repository/userRepository.jsx";
-import {
-  setAccessToken,
-  setRefreshToken,
-  setUserName
-} from "../../utils/localStorage.js";
+import { UrlMap } from "../../data/GlobalVariable.js";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -24,38 +18,10 @@ const Login = () => {
   const password = useRef("");
   const [isButtonDisabled, setButtonDisabled] = useState(true);
 
-  function checkLoginAbled() {
-    const checkIsButtonDisabled = !isValueArr([
-      tel.current.trim(),
-      password.current.trim()
-    ]);
-    if (checkIsButtonDisabled !== isButtonDisabled) {
-      setButtonDisabled(checkIsButtonDisabled);
-    }
-  }
-
-  //로그인 버튼 클릭 시 실행 함수
-  async function loginBtnFun() {
-    tel.current = deleteDash(tel.current);
-    //전화번호 형식 예외처리
-    if (!isPhoneNumber(tel.current)) {
-      ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
-      return;
-    }
-    const { success, data, message } = await loginFun({
-      tel: tel.current,
-      password: password.current
-    });
-    if (success) {
-      setAccessToken(data.data.jwt.accessToken);
-      setRefreshToken(data.data.jwt.refreshToken);
-      setUserName(data.data.name);
-      navigate(UrlMap.scheduleCreateDetailPageUrl);
-    } else {
-      //FIXME: 로그인 실패 예외처리
-      ToastMaker({ type: "error", children: message });
-    }
-  }
+  useEffect(() => {
+    const isLogin = isLoginFun();
+    if (isLogin) navigate(UrlMap.scheduleCreatePageUrl);
+  });
 
   return (
     <MobileLayout>
@@ -80,7 +46,12 @@ const Login = () => {
           placeholder="Phone Number "
           onChange={({ target: { value } }) => {
             tel.current = value;
-            checkLoginAbled();
+            checkLoginAbled({
+              tel: tel.current,
+              password: password.current,
+              isButtonDisabled: isButtonDisabled,
+              setButtonDisabled: setButtonDisabled
+            });
           }}
         />
         <Margin height="20px" />
@@ -90,7 +61,12 @@ const Login = () => {
           placeholder="Password "
           onChange={({ target: { value } }) => {
             password.current = value;
-            checkLoginAbled();
+            checkLoginAbled({
+              tel: tel.current,
+              password: password.current,
+              isButtonDisabled: isButtonDisabled,
+              setButtonDisabled: setButtonDisabled
+            });
           }}
         />
       </form>
@@ -100,7 +76,7 @@ const Login = () => {
           role="main"
           disabled={isButtonDisabled}
           onClick={() => {
-            loginBtnFun();
+            loginBtnFun({ tel: tel.current, password: password.current });
           }}
         >
           로그인하기

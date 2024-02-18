@@ -68,7 +68,7 @@ const NavigationBar = ({ selected = "create" }) => {
     navigator(UrlMap.scheduleCheckPageUrl);
   };
   const clickCreate = () => {
-    navigator(UrlMap.scheduleCreateDetailPageUrl);
+    navigator(UrlMap.scheduleCreatePageUrl);
   };
   const clickMore = () => {
     navigator(UrlMap.morePageUrl);
