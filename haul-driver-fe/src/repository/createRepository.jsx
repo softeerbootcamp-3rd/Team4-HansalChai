@@ -92,16 +92,18 @@ export async function getUserReservationDetails({ planID }) {
   }
 }
 
-
 export async function orderDetail({ orderId }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/orders/mine/${orderId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getAccessToken()}`
+    const response = await fetch(
+      `http://${apiKey}/api/v1/orders/mine/${orderId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAccessToken()}`
+        }
       }
-    });
+    );
     if (response.ok) {
       const data = await response.json();
       return {
@@ -116,11 +118,6 @@ export async function orderDetail({ orderId }) {
     return { success: false, message: error.toString() };
   }
 }
-
-
-
-
-
 
 //오더 승인 API 연결함수
 export async function orderApprove({ orderId }) {
