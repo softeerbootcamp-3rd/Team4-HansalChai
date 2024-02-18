@@ -1,7 +1,5 @@
 package com.hansalchai.haul.reservation.constants;
 
-import java.util.Arrays;
-
 public enum TransportStatus {
 	NOT_RESERVATED("예약 전"),
 	PENDING("매칭 중"),
@@ -23,22 +21,17 @@ public enum TransportStatus {
 		return status.getCode();
 	}
 
-	public static TransportStatus getNextStatus(String currentStatus) {
+	// 다음 단계의 운송 상태를 반환
+	public static TransportStatus getNextStatus(TransportStatus currentStatus) {
 
-		// 문자열 형태의 운송 상태를 enum 상수로 변환
-		TransportStatus transportStatus = getTransportStatus(currentStatus);
-
-		// 다음 운송 상태를 반환
-		if (transportStatus == NOT_STARTED) {
+		if (currentStatus == NOT_STARTED) {
 			return IN_PROGRESS;
 		}
-		return DONE;
-	}
 
-	private static TransportStatus getTransportStatus(String input) {
-		return Arrays.stream(TransportStatus.values())
-			.filter(transportStatus -> transportStatus.code.equals(input))
-			.findAny()
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 운송 상태입니다."));
+		if (currentStatus == IN_PROGRESS) {
+			return DONE;
+		}
+
+		return currentStatus;
 	}
 }

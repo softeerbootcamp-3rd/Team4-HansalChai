@@ -17,9 +17,6 @@ public class TransportStatusChange {
 
 		@NotNull(message = "오더 id는 null일 수 없다.")
 		private Long id; //오더 id
-
-		@NotNull(message = "운송 상태는 null일 수 없다.")
-		private String transportStatus;
 	}
 
 	// 운송 상태 변경 응답 dto

@@ -121,11 +121,10 @@ public class OrderService {
 			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 오더 id입니다."));
 
 		// 2. 다음 단계의 운송 상태 가져오기(운송 전 -> 운송 중, 운송 중 -> 운송 완료)
-		String currentStatus = requestDto.getTransportStatus();
-		TransportStatus nextStatus = TransportStatus.getNextStatus(currentStatus);
+		Transport transport = reservation.getTransport();
+		TransportStatus nextStatus = TransportStatus.getNextStatus(transport.getTransportStatus());
 
 		// 3. 운송 상태 업데이트
-		Transport transport = reservation.getTransport();
 		transport.updateTransportStatus(nextStatus);
 
 		return new TransportStatusChange.ResponseDto(reservation);
