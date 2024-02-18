@@ -32,7 +32,7 @@ const Container = styled.div`
 const CarouselWrapper = styled.div`
   position: relative;
   width: 100%;
-  padding: 0 10%;
+  padding: 0;
   overflow: hidden;
   &:hover {
     button {
@@ -51,6 +51,7 @@ const CarouselWrapper = styled.div`
   }
   li {
     flex: none;
+    width: 100%;
     object-fit: contain;
   }
 `;
