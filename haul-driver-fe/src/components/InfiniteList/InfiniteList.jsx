@@ -69,8 +69,7 @@ function useIntersectionObserver(callback) {
 const InfiniteList = ({
   fetcher,
   baseURL,
-  fetcherIndex = null,
-  selectedStatus = null
+  listStatus = null
 }) => {
   const [isEnd, setIsEnd] = useState(false); //데이터를 모두 불러왔으면 end를 트리거 시키기 위한 state
   const realEndRef = useRef(false); //리스트를 모두 불러왔는지 확인하기 위한 ref
@@ -91,10 +90,9 @@ const InfiniteList = ({
       if (realEndRef.current) return;
       setIsLoading(true);
       const newPage =
-        fetcherIndex === null
+        typeof fetcher === "function"
           ? await fetcher({ page })
-          : await fetcher[fetcherIndex]({ page });
-
+          : await fetcher[listStatus]({ page });
       if (newPage.success !== true) {
         setIsEnd(true);
         ToastMaker({
@@ -106,8 +104,8 @@ const InfiniteList = ({
 
       setIsEnd(newPage.data.lastPage);
       setReservationList(prev => {
-        if (newPage.data.reservationInfoDTOS.length !== 0)
-          return prev.concat(newPage.data.reservationInfoDTOS);
+        if (newPage.data.list.length !== 0)
+          return prev.concat(newPage.data.list);
         return prev;
       });
       setIsLoading(false);
@@ -144,14 +142,14 @@ const InfiniteList = ({
     <ListFrame>
       {reservationList.map((data, index) => (
         <div key={`reserv${index}`}>
-          <Link to={`${baseURL}/${data.id}`} key={`reserv${index}`}>
+          <Link to={`${baseURL}/${data.orderId}`} key={`reserv${index}`}>
             <SummaryItemBox
               index={index}
-              selectedStatus={selectedStatus}
+              selectedStatus={listStatus}
               status={data.status}
               src={data.src}
               dst={data.dst}
-              time={data.datetime}
+              time={data.time}
               fee={data.cost}
             />
           </Link>

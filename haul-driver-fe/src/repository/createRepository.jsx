@@ -29,7 +29,7 @@ const dummyPlanData = [
   }
 ];
 
-export async function getUserSummaryList({ page, sortBy }) {
+export async function getDriverDummySummaryList({ page, sortBy }) {
   try {
     return {
       success: true,
@@ -45,6 +45,42 @@ export async function getUserSummaryList({ page, sortBy }) {
     };
   } catch (error) {
     console.error(error);
+  }
+}
+
+export async function getDriverSummaryList({ page, sortBy = "default" }) {
+  try {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/orders?sort=${sortBy}&page=${page}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`
+        }
+      }
+    );
+    if (!response.ok) {
+      return { success: false, message: "정보를 불러오지 못했어요." };
+    }
+    const body = await response.json();
+    const list = body.data.orderSearchDtos.map(orderSummaryInfo => {
+      return {
+        orderId: orderSummaryInfo.id,
+        src: orderSummaryInfo.srcSimpleAddress,
+        dst: orderSummaryInfo.dstSimpleAddress,
+        time: orderSummaryInfo.transportDatetime,
+        cost: orderSummaryInfo.cost
+      };
+    });
+    return {
+      success: true,
+      data: {
+        list,
+        lastPage: body.data.lastPage
+      }
+    };
+  } catch (error) {
+    return { success: false, error, message: "정보를 불러오지 못했어요." };
   }
 }
 

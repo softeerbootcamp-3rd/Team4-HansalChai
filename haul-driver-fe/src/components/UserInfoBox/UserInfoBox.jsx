@@ -8,6 +8,7 @@ import UserIcon from "../../assets/svgs/UserCheck.svg";
 
 const Box = styled.div`
   height: auto;
+  width: 100%;
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.colors.grayBoxBorder};
   background: ${({ theme }) => theme.colors.grayBoxBackground};

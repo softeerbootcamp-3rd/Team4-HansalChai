@@ -1,4 +1,5 @@
 import { getAccessToken } from "../utils/localStorage";
+
 const apiKey = import.meta.env.VITE_API_KEY;
 
 const dummyPlanData = [
@@ -99,7 +100,7 @@ const dummyDetailData = id => {
   };
 };
 
-export async function getUserSummaryList({ page, sortBy }) {
+export async function getDriverDummySummaryList({ page, keyword }) {
   try {
     return {
       success: true,
@@ -115,6 +116,42 @@ export async function getUserSummaryList({ page, sortBy }) {
     };
   } catch (error) {
     console.error(error);
+  }
+}
+
+export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
+  try {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/orders/mine?keyword=${keyword}&page=${page}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`
+        }
+      }
+    );
+    if (!response.ok) {
+      return { success: false, message: "정보를 불러오지 못했어요." };
+    }
+    const body = await response.json();
+    const list = body.data.orderInfoDTOS.map(orderSummaryInfo => {
+      return {
+        orderId: orderSummaryInfo.id,
+        src: orderSummaryInfo.src,
+        dst: orderSummaryInfo.dst,
+        time: orderSummaryInfo.datetime,
+        cost: orderSummaryInfo.cost
+      };
+    });
+    return {
+      success: true,
+      data: {
+        list,
+        lastPage: body.data.lastPage
+      }
+    };
+  } catch (error) {
+    return { success: false, error, message: "정보를 불러오지 못했어요." };
   }
 }
 
