@@ -1,4 +1,4 @@
-package com.hansalchai.haul.order.constant;
+package com.hansalchai.haul.order.constants;
 
 import org.apache.commons.lang3.function.TriFunction;
 import org.springframework.data.domain.Page;
@@ -25,5 +25,14 @@ public enum OrderStatusCategory {
 
 	public Page<Reservation> execute(Long id, Pageable pageable, ReservationRepository repository) {
 		return function.apply(id, pageable, repository);
+	}
+
+	public static OrderStatusCategory findOrderByCode(String code) {
+		for (OrderStatusCategory category : OrderStatusCategory.values()) {
+			if (category.getCode().equals(code)) {
+				return category;
+			}
+		}
+		throw new IllegalArgumentException("No constant with code " + code + " found");
 	}
 }

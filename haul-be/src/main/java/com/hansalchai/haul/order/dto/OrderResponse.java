@@ -1,5 +1,7 @@
 package com.hansalchai.haul.order.dto;
 
+import static com.hansalchai.haul.common.utils.AddressUtil.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -31,9 +33,8 @@ public class OrderResponse {
 			@Builder
 			public OrderInfoDTO(Reservation reservation) {
 				this.id = reservation.getReservationId();
-				//TODO 수정 필요 지애님 코드 받고 수정하기
-				this.src = reservation.getSource().getAddress();
-				this.dst = reservation.getDestination().getAddress();
+				this.src = toSimpleAddress(reservation.getSource().getAddress());
+				this.dst = toSimpleAddress(reservation.getDestination().getAddress());
 				this.datetime = getDateTimeString(reservation.getDate(), reservation.getTime());
 				this.cost = costCut(reservation.getTransport().getFee());
 			}

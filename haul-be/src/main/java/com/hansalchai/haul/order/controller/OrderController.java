@@ -20,11 +20,14 @@ import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.OrderResponse;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDetailDTO;
+import com.hansalchai.haul.order.dto.ApproveRequestDto;
+import com.hansalchai.haul.order.dto.OrderSearchResponse;
 import com.hansalchai.haul.order.service.OrderService;
 import com.hansalchai.haul.reservation.dto.ReservationResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -34,8 +37,18 @@ public class OrderController {
 
 	private final OrderService orderService;
 
+	@GetMapping("")
+	public ResponseEntity<ApiResponse<OrderSearchResponse>> findAll(
+			HttpServletRequest request,
+			@RequestParam("sort") String sort,
+			@PositiveOrZero @RequestParam("page") int page) {
+		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
+		OrderSearchResponse orders = orderService.findAll(auth.getUserId(), sort, page);
+		return ResponseEntity.ok(success(GET_SUCCESS, orders));
+	}
+
 	@PatchMapping("/approve")
-	public ResponseEntity approveOrder(HttpServletRequest request,
+	public ResponseEntity<ApiResponse<Object>> approveOrder(HttpServletRequest request,
 		@Valid @RequestBody ApproveRequestDto approveRequestDto) {
 
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
@@ -51,7 +64,7 @@ public class OrderController {
 	}
 
 	@GetMapping("/mine/{id}")
-	public ResponseEntity<ApiResponse<OrderDetailDTO>> getMyOrderDetauk(@PathVariable("id")Long id, HttpServletRequest request){
+	public ResponseEntity<ApiResponse<OrderDetailDTO>> getMyOrderDetail(@PathVariable("id")Long id, HttpServletRequest request){
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		OrderDetailDTO response = orderService.getOrderDetail(id, auth.getUserId());
 		return ResponseEntity.ok(success(GET_SUCCESS, response));
