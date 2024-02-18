@@ -51,7 +51,7 @@ export async function getDriverDummySummaryList({ page, sortBy }) {
 export async function getDriverSummaryList({ page, sortBy = "default" }) {
   try {
     const response = await fetch(
-      `http://43.201.240.238:8080/api/v1/orders?sort=${sortBy}&page=${page}`,
+      `http://${apiKey}/api/v1/orders?sort=${sortBy}&page=${page}`,
       {
         method: "GET",
         headers: {
