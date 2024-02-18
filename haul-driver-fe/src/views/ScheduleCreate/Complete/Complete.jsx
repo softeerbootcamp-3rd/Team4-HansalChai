@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
@@ -8,7 +9,6 @@ import BottomButton from "../../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
 import { UrlMap } from "../../../data/GlobalVariable.js";
-import { useNavigate } from "react-router-dom";
 
 const Complete = () => {
   const navigation = useNavigate();
@@ -35,18 +35,14 @@ const Complete = () => {
       <FixedCenterBox bottom="30px">
         <BottomButton
           role="main"
-          onClick={() => {
-            goHome();
-          }}
+          onClick={goHome}
         >
           다른 일정 잡기
         </BottomButton>
         <Margin height="10px" />
         <BottomButton
           role="sub"
-          onClick={() => {
-            goReservationList();
-          }}
+          onClick={goReservationList}
         >
           일정 확인 하기
         </BottomButton>
