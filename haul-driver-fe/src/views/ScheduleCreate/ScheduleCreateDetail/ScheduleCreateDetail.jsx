@@ -6,12 +6,10 @@ import Margin from "../../../components/Margin/Margin.jsx";
 import UserInfoBox from "../../../components/UserInfoBox/UserInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import HaulInfoBox from "../../../components/HaulInfoBox/HaulInfoBox.jsx";
-import DriveTimeBox from "../../../components/DriveTimeBox/DriveTimeBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import Carousel from "../../../components/Carousel/Carousel.jsx";
 import { useNavigate } from "react-router-dom";
 import { UrlMap } from "../../../data/GlobalVariable.js";
-import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
 
 const ScheduleCreateDetail = () => {
   const driverName = "시현";

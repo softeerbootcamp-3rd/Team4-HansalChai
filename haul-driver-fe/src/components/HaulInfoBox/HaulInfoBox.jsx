@@ -78,9 +78,7 @@ const HaulInfoBox = ({
             <Margin height="4px" />
             <Typography font="bold16">출발지</Typography>
             <Margin height="4px" />
-            <Typography font="medium12">
-              {srcAddres}
-            </Typography>
+            <Typography font="medium12">{srcAddres}</Typography>
             <Typography font="medium12" color="grayText">
               {srcName}, {srcDetailAddress}
             </Typography>
@@ -95,15 +93,12 @@ const HaulInfoBox = ({
             <Margin height="4px" />
             <Typography font="bold16">도착지</Typography>
             <Margin height="4px" />
-            <Typography font="medium12">
-              {dstAddress}
-            </Typography>
+            <Typography font="medium12">{dstAddress}</Typography>
             <Typography font="medium12" color="grayText">
               {dstName}, {dstDetailAddress}
             </Typography>
           </Flex>
         </Flex>
-
 
         <Flex kind="flexRow">
           <IconBox>
@@ -125,7 +120,9 @@ const HaulInfoBox = ({
             <Margin height="4px" />
             <Typography font="bold16">크기</Typography>
             <Margin height="6px" />
-            <Typography font="medium14">{width} X {length} X {height} M</Typography>
+            <Typography font="medium14">
+              {width} X {length} X {height} M
+            </Typography>
           </Flex>
         </Flex>
       </HaulInfoBoxFlex>
