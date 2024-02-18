@@ -10,14 +10,9 @@ import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import HaulInfoBox from "../../../components/HaulInfoBox/HaulInfoBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import Carousel from "../../../components/Carousel/Carousel.jsx";
-import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
-import { UrlMap } from "../../../data/GlobalVariable.js";
 import Loading from "../../Loading/Loading.jsx";
-import {
-  orderApprove,
-  orderDetail
-} from "../../../repository/createRepository.jsx";
 import { getUserName } from "../../../utils/localStorage.js";
+import { showDetailFun, createScheduleBtnFun } from "./index.jsx";
 
 const ScheduleCreateDetail = () => {
   const { orderId } = useParams();
@@ -27,31 +22,12 @@ const ScheduleCreateDetail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    showDetailFun();
+    showDetailFun({
+      orderId: orderId,
+      setOrderData: setOrderData,
+      navigate: navigate
+    });
   }, []);
-
-  async function showDetailFun() {
-    const { success, data, message } = await orderDetail({ orderId: orderId });
-    if (success) {
-      setOrderData(data.data);
-    } else {
-      //FIXME: 예외처리 생성 시 적용
-      ToastMaker({ type: "error", children: message });
-      navigate(-1);
-    }
-  }
-
-  async function createScheduleBtnFun() {
-    setLoadingStatus(true);
-    const { success, data, message } = await orderApprove({ orderId: orderId });
-    if (success) {
-      navigate(UrlMap.completePageUrl);
-    } else {
-      //FIXME: 예외처리 생성 시 적용
-      ToastMaker({ type: "error", children: message });
-      setLoadingStatus(false);
-    }
-  }
 
   if (!orderData || loadingStatus) {
     return <Loading />;
@@ -112,7 +88,16 @@ const ScheduleCreateDetail = () => {
         time={orderData.requiredTime}
       />
       <Margin height="30px" />
-      <BottomButton role="main" onClick={createScheduleBtnFun}>
+      <BottomButton
+        role="main"
+        onClick={() => {
+          createScheduleBtnFun({
+            orderId: orderId,
+            setLoadingStatus: setLoadingStatus,
+            navigate: navigate
+          });
+        }}
+      >
         일정 잡기
       </BottomButton>
       <Margin height="30px" />
