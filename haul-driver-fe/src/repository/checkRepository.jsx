@@ -188,3 +188,30 @@ export async function orderStatusChage({ orderId }) {
     return { success: false, message: error.toString() };
   }
 }
+
+export async function checkOrderDetail({ orderId }) {
+  try {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/orders/mine/${orderId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAccessToken()}`
+        }
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      return {
+        success: true,
+        data
+      };
+    } else {
+      return { success: false, message: "Approve failed" };
+    }
+  } catch (error) {
+    console.error("Approve error:", error);
+    return { success: false, message: error.toString() };
+  }
+}
