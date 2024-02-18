@@ -11,7 +11,6 @@ import { getDriverSummaryList } from "../../../repository/createRepository.jsx";
 import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 import { functionBinder } from "../../../utils/helper.js";
 
-
 //TODO: API가 운송상태를 구별하여 가져올 수 있게 변경된 후 리스트 수정할 것!
 const ScheduleCreateList = () => {
   const [selectedStatus, setSelectedStatus] = useState(0);

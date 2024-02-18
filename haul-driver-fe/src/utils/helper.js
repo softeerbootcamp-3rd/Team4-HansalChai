@@ -39,4 +39,4 @@ export function functionBinder(func, bindargs) {
   return function ({ ...args }) {
     return func({ ...bindargs, ...args });
   };
-};
+}

@@ -85,7 +85,7 @@ const InfiniteList = ({ fetcher, baseURL, fetcherIndex = null }) => {
     () => async () => {
       if (realEndRef.current) return;
       setIsLoading(true);
-      console.log(fetcher)
+      console.log(fetcher);
       const newPage =
         typeof fetcher === "function"
           ? await fetcher({ page })

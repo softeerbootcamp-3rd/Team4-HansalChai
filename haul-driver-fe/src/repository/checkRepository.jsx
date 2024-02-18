@@ -1,28 +1,28 @@
 const dummyPlanData = [
-  { 
+  {
     id: 0,
     status: "before",
     src: "학동역",
     dst: "교대역",
     datetime: "2024.3.3 12:12:12",
-    cost: "10000" 
+    cost: "10000"
   },
-  { 
+  {
     id: 1,
     status: "moving",
     src: "학동역",
     dst: "교대역",
     datetime: "2024.3.3 12:12:12",
-    cost: "5000" 
+    cost: "5000"
   },
-  { 
+  {
     id: 2,
     status: "after",
     src: "학동역",
     dst: "교대역",
     datetime: "2024.3.3 12:12:12",
-    cost: "1" 
-  },
+    cost: "1"
+  }
 ];
 
 const dummyCustomerList = [
@@ -94,12 +94,22 @@ const dummyDetailData = id => {
     requiredTime: dummyMapList[id].time,
     phase: "before"
   };
-
 };
 
 export async function getDriverDummySummaryList({ page, sortBy }) {
   try {
-    return {success: true, data: {lastPage: false, list: [...dummyPlanData, ...dummyPlanData, ...dummyPlanData, dummyPlanData[0]]}};
+    return {
+      success: true,
+      data: {
+        lastPage: false,
+        list: [
+          ...dummyPlanData,
+          ...dummyPlanData,
+          ...dummyPlanData,
+          dummyPlanData[0]
+        ]
+      }
+    };
   } catch (error) {
     console.error(error);
   }
@@ -107,7 +117,8 @@ export async function getDriverDummySummaryList({ page, sortBy }) {
 
 export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
   try {
-    const response = await fetch(`http://43.201.240.238:8080/api/v1/orders/mine?keyword=${keyword}&page=${page}`,
+    const response = await fetch(
+      `http://43.201.240.238:8080/api/v1/orders/mine?keyword=${keyword}&page=${page}`,
       {
         method: "GET",
         headers: {
@@ -116,7 +127,7 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
       }
     );
     if (!response.ok) {
-      return {success: false, message: "정보를 불러오지 못했어요."};
+      return { success: false, message: "정보를 불러오지 못했어요." };
     }
     const body = await response.json();
     const list = body.data.orderSearchDtos.map(v => {
@@ -136,13 +147,13 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
       }
     };
   } catch (error) {
-    return {success: false, error, message: "정보를 불러오지 못했어요."};
+    return { success: false, error, message: "정보를 불러오지 못했어요." };
   }
 }
 
 export async function getUserReservationDetails({ checkID }) {
   try {
-    return {success: true, data: {...dummyDetailData(checkID)}};
+    return { success: true, data: { ...dummyDetailData(checkID) } };
   } catch (error) {
     console.error(error);
   }

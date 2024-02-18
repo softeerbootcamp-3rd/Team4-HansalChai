@@ -11,7 +11,6 @@ import { getDriverSummaryList } from "../../../repository/checkRepository.jsx";
 import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 import { functionBinder } from "../../../utils/helper.js";
 
-
 //TODO: API가 운송상태를 구별하여 가져올 수 있게 변경된 후 리스트 수정할 것!
 const ScheduleCheckList = () => {
   const [selectedStatus, setSelectedStatus] = useState(0);
@@ -39,7 +38,11 @@ const ScheduleCheckList = () => {
       />
       <UnderBar />
       <Margin height="20px" />
-      <InfiniteList fetcher={fetcherList} fetcherIndex={selectedStatus} baseURL={"/schedule-check"} />
+      <InfiniteList
+        fetcher={fetcherList}
+        fetcherIndex={selectedStatus}
+        baseURL={"/schedule-check"}
+      />
       <Flex kind="flexColumn"></Flex>
       <NavigationBar selected="check" />
     </MobileLayout>
