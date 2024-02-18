@@ -95,7 +95,9 @@ const DetailInfo = ({
                 {srcName}
               </Typography>
               <Margin height="4px" />
-              <Typography font="semiBold12">{srcAddress}</Typography>
+              <Typography font="semiBold12">
+                {srcAddress}
+              </Typography>
             </PlaceInfo>
 
             <PlaceInfo>
@@ -103,6 +105,7 @@ const DetailInfo = ({
                 {dstName}
               </Typography>
               <Margin height="4px" />
+
               <Typography font="semiBold12">{dstAddress}</Typography>
             </PlaceInfo>
           </Flex>

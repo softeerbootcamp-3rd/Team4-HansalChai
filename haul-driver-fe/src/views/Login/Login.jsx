@@ -7,11 +7,15 @@ import Margin from "../../components/Margin/Margin.jsx";
 import Input from "../../components/Input/Input.jsx";
 import BottomButton from "../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
-import { ErrorMessageMap } from "../../data/GlobalVariable.js";
+import { ErrorMessageMap, UrlMap } from "../../data/GlobalVariable.js";
 import { isPhoneNumber, deleteDash, isValueArr } from "../../utils/helper.js";
 import ToastMaker from "../../components/Toast/ToastMaker.jsx";
+import { useNavigate } from "react-router-dom";
+import { loginFun } from "../../repository/userRepository.jsx";
+import { setAccessToken, setRefreshToken } from "../../utils/localStorage.js";
 
 const Login = () => {
+  const navigate = useNavigate();
   const tel = useRef("");
   const password = useRef("");
   const [isButtonDisabled, setButtonDisabled] = useState(true);
@@ -27,13 +31,25 @@ const Login = () => {
   }
 
   //로그인 버튼 클릭 시 실행 함수
-  function loginBtnFun() {
+  async function loginBtnFun() {
+    tel.current = deleteDash(tel.current);
     //전화번호 형식 예외처리
     if (!isPhoneNumber(tel.current)) {
       ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
       return;
     }
-    tel.current = deleteDash(tel.current);
+    const { success, data, message } = await loginFun({
+      tel: tel.current,
+      password: password.current
+    });
+    if (success) {
+      setAccessToken(data.data.accessToken);
+      setRefreshToken(data.data.refreshToken);
+      navigate(UrlMap.scheduleCreateDetailPageUrl);
+    } else {
+      //FIXME: 로그인 실패 예외처리
+      ToastMaker({ type: "error", children: message });
+    }
   }
 
   return (

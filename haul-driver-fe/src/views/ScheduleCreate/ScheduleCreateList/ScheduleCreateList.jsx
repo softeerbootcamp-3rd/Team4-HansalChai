@@ -10,6 +10,7 @@ import TabBar from "../../../components/TabBar/TabBar.jsx";
 import { getDriverSummaryList } from "../../../repository/createRepository.jsx";
 import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 import { functionBinder } from "../../../utils/helper.js";
+import Typography from "../../../components/Typhography/Typhography.jsx";
 
 //TODO: API가 운송상태를 구별하여 가져올 수 있게 변경된 후 리스트 수정할 것!
 const ScheduleCreateList = () => {
@@ -26,10 +27,10 @@ const ScheduleCreateList = () => {
   return (
     <MobileLayout>
       <Header home={false} back={false}>
-        <TypographySpan color="subColor">
-          {driverName}기사
-          <TypographySpan>님을 위한 일정잡기</TypographySpan>
-        </TypographySpan>
+        <Typography font="bold24">
+          <TypographySpan color="subColor">{driverName}기사</TypographySpan>님을
+          위한 일정잡기<TypographySpan color="subColor"> .</TypographySpan>
+        </Typography>
       </Header>
       <Margin height="32px" />
       <TabBar

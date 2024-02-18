@@ -102,7 +102,7 @@ export async function getDriverDummySummaryList({ page, keyword }) {
       success: true,
       data: {
         lastPage: false,
-        list: [
+        reservationInfoDTOS: [
           ...dummyPlanData,
           ...dummyPlanData,
           ...dummyPlanData,

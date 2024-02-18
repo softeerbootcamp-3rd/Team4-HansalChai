@@ -6,11 +6,21 @@ import UnderBar from "../../UnderBar/UnderBar.jsx";
 import Typography from "../../Typhography/Typhography.jsx";
 import MoveSvg from "../../../assets/svgs/MoveIcon.svg";
 
+const statusColor = [
+  "rgba(217, 199, 231, 0.15)",
+  "rgba(251, 192, 45, 0.15)",
+  "rgba(133, 199, 238, 0.15)",
+  "rgba(255, 154, 98, 0.15)"
+];
+
 const ReservItemFrame = styled.div`
   width: 100%;
   ${({ theme }) => theme.flex.flexColumn};
   align-items: start;
-  background-color: ${({ theme }) => theme.colors.cardBackground};
+  background-color: ${({ index, selectedStatus }) =>
+    selectedStatus !== null
+      ? statusColor[selectedStatus]
+      : statusColor[index % 4]};
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.colors.cardBorder};
   padding: 15px;
@@ -62,9 +72,17 @@ const IconedCaption = styled.div`
 `;
 
 //API에 맞게 인자 이름을 고쳐야 하나?
-const SummaryItemBox = ({ src, dst, time, fee }) => {
+const SummaryItemBox = ({
+  index,
+  selectedStatus,
+  status,
+  src,
+  dst,
+  time,
+  fee
+}) => {
   return (
-    <ReservItemFrame>
+    <ReservItemFrame index={index} selectedStatus={selectedStatus}>
       <DescriptionTextArea>
         <TextSetFrame align={"start"}>
           <Typography font={"regular12"} color={"upperTextColor"}>
