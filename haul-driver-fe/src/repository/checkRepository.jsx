@@ -132,7 +132,7 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
     const body = await response.json();
     const list = body.data.orderInfoDTOS.map(v => {
       return {
-        orderId: v.orderId,
+        orderId: v.id,
         src: v.src,
         dst: v.dst,
         time: v.datetime,
