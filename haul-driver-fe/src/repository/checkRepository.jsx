@@ -96,7 +96,7 @@ const dummyDetailData = id => {
   };
 };
 
-export async function getDriverDummySummaryList({ page, sortBy }) {
+export async function getDriverDummySummaryList({ page, keyword }) {
   try {
     return {
       success: true,
@@ -130,7 +130,7 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
       return { success: false, message: "정보를 불러오지 못했어요." };
     }
     const body = await response.json();
-    const list = body.data.orderSearchDtos.map(v => {
+    const list = body.data.orderInfoDTOS.map(v => {
       return {
         orderId: v.orderId,
         src: v.src,
@@ -139,6 +139,7 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
         cost: v.cost
       };
     });
+    //console.log(list);
     return {
       success: true,
       data: {
