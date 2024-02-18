@@ -47,6 +47,15 @@ public class OrderController {
 		return ResponseEntity.ok(success(GET_SUCCESS, orders));
 	}
 
+	@GetMapping("/{id}")
+	public ResponseEntity<ApiResponse<OrderDetailDTO>> findById(
+		@PathVariable("id") Long id,
+		HttpServletRequest request) {
+		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
+		OrderDetailDTO response = orderService.getOrderDetail(id, auth.getUserId());
+		return ResponseEntity.ok(success(GET_SUCCESS, response));
+	}
+
 	@PatchMapping("/approve")
 	public ResponseEntity<ApiResponse<Object>> approveOrder(HttpServletRequest request,
 		@Valid @RequestBody ApproveRequestDto approveRequestDto) {
