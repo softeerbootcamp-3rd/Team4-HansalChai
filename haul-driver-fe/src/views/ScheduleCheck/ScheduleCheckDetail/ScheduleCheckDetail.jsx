@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout";
 import Header from "../../../components/Header/Header.jsx";
 import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
@@ -8,12 +10,9 @@ import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import HaulInfoBox from "../../../components/HaulInfoBox/HaulInfoBox.jsx";
 import Carousel from "../../../components/Carousel/Carousel.jsx";
 import DriverStatusButton from "./components/DriverStatusButton.jsx";
-import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import Loading from "../../Loading/Loading.jsx";
-import { useParams, useNavigate } from "react-router-dom";
-import { checkOrderDetail } from "../../../repository/checkRepository.jsx";
-import { useState, useEffect } from "react";
 import { getUserName } from "../../../utils/localStorage.js";
+import { showDetailFun } from "./index.jsx";
 
 const ScheduleCheckDetail = () => {
   const { orderId } = useParams();
@@ -22,21 +21,12 @@ const ScheduleCheckDetail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    showDetailFun();
-  }, []);
-
-  async function showDetailFun() {
-    const { success, data, message } = await checkOrderDetail({
-      orderId: orderId
+    showDetailFun({
+      orderId: orderId,
+      setOrderData: setOrderData,
+      navigate: navigate
     });
-    if (success) {
-      setOrderData(data.data);
-    } else {
-      //FIXME: 예외처리 생성 시 적용
-      ToastMaker({ type: "error", children: message });
-      navigate(-1);
-    }
-  }
+  }, []);
 
   if (!orderData) {
     return <Loading />;
@@ -78,7 +68,6 @@ const ScheduleCheckDetail = () => {
         length={orderData.cargo.length}
         height={orderData.cargo.height}
       />
-
       <Margin height="24px" />
       <DetailInfo
         srcCoordinate={{
@@ -97,7 +86,6 @@ const ScheduleCheckDetail = () => {
         time={orderData.requiredTime}
       />
       <Margin height="30px" />
-
       <DriverStatusButton
         orderId={orderId}
         status={orderData.transportStatus}

@@ -3,7 +3,7 @@ export const MaxDeviceWidth = "400px";
 export const UrlMap = {
   loginPageUrl: "/login",
   completePageUrl: "/schedule-create/complete",
-  scheduleCreateDetailPageUrl: "/schedule-create",
+  scheduleCreatePageUrl: "/schedule-create",
   scheduleCheckPageUrl: "/schedule-check",
   morePageUrl: "/more"
 };
