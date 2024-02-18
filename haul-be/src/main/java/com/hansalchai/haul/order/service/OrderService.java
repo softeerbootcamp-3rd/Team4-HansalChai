@@ -4,6 +4,7 @@ import java.util.List;
 
 import static com.hansalchai.haul.order.dto.OrderSearchResponse.*;
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
+import static com.hansalchai.haul.reservation.service.ReservationService.*;
 
 import java.util.stream.Collectors;
 
@@ -24,8 +25,10 @@ import com.hansalchai.haul.order.dto.OrderResponse.OrderDetailDTO;
 
 import com.hansalchai.haul.order.constants.OrderFilter;
 import com.hansalchai.haul.order.dto.OrderSearchResponse;
+import com.hansalchai.haul.order.dto.TransportStatusChange;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
+import com.hansalchai.haul.reservation.constants.TransportStatus;
 import com.hansalchai.haul.reservation.entity.Reservation;
 import com.hansalchai.haul.reservation.entity.Transport;
 import com.hansalchai.haul.reservation.repository.ReservationRepository;
@@ -37,12 +40,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class OrderService {
+
 	private final UsersRepository usersRepository;
 	private final ReservationRepository reservationRepository;
 	private final OwnerRepository ownerRepository;
 	private final SmsUtil smsUtil;
 
-	private final int PAGECUT = 10;
 	@Transactional(readOnly = true)
 	public OrderSearchResponse findAll(Long driverId, String sort, int page) {
 
@@ -108,5 +111,23 @@ public class OrderService {
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("Reservation not found"));
 		return new OrderDetailDTO(reservation);
+	}
+
+	@Transactional
+	public TransportStatusChange.ResponseDto changeTransportStatus(TransportStatusChange.RequestDto requestDto) {
+
+		// 1. 예약 정보 가져오기
+		Reservation reservation = reservationRepository.findById(requestDto.getId())
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 오더 id입니다."));
+
+		// 2. 다음 단계의 운송 상태 가져오기(운송 전 -> 운송 중, 운송 중 -> 운송 완료)
+		String currentStatus = requestDto.getTransportStatus();
+		TransportStatus nextStatus = TransportStatus.getNextStatus(currentStatus);
+
+		// 3. 운송 상태 업데이트
+		Transport transport = reservation.getTransport();
+		transport.updateTransportStatus(nextStatus);
+
+		return new TransportStatusChange.ResponseDto(reservation);
 	}
 }

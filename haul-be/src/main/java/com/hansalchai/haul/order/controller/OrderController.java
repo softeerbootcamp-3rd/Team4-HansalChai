@@ -15,15 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
 import com.hansalchai.haul.common.utils.ApiResponse;
-import com.hansalchai.haul.common.utils.SuccessCode;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
-import com.hansalchai.haul.order.dto.OrderResponse;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDetailDTO;
-import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.OrderSearchResponse;
+import com.hansalchai.haul.order.dto.TransportStatusChange;
 import com.hansalchai.haul.order.service.OrderService;
-import com.hansalchai.haul.reservation.dto.ReservationResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -68,5 +65,12 @@ public class OrderController {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		OrderDetailDTO response = orderService.getOrderDetail(id, auth.getUserId());
 		return ResponseEntity.ok(success(GET_SUCCESS, response));
+	}
+
+	@PatchMapping("/status")
+	public ResponseEntity<ApiResponse<TransportStatusChange.ResponseDto>> changeTransportStatus(
+			@Valid @RequestBody TransportStatusChange.RequestDto requestDto) {
+		TransportStatusChange.ResponseDto responseDto = orderService.changeTransportStatus(requestDto);
+		return ResponseEntity.ok(success(GET_SUCCESS, responseDto));
 	}
 }
