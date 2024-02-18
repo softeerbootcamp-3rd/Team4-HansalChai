@@ -7,7 +7,7 @@ import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import InfiniteList from "../../../components/InfiniteList/InfiniteList.jsx";
 import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
 import TabBar from "../../../components/TabBar/TabBar.jsx";
-import { getUserSummaryList } from "../../../repository/checkRepository.jsx";
+import { getDriverSummaryList } from "../../../repository/createRepository.jsx";
 import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 
 
@@ -33,7 +33,7 @@ const ScheduleCreateList = () => {
       />
       <UnderBar />
       <Margin height="20px" />
-      <InfiniteList fetcher={getUserSummaryList} baseURL={"/schedule-create"} />
+      <InfiniteList fetcher={getDriverSummaryList} baseURL={"/schedule-create"} />
       <Flex kind="flexColumn"></Flex>
       <NavigationBar selected="create" />
     </MobileLayout>
