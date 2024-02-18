@@ -59,7 +59,7 @@ export async function getUserProfile() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${getAccessToken()}`
+        Authorization: `Bearer ${getAccessToken()}`
       }
     });
 
