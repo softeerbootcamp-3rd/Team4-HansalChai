@@ -12,7 +12,11 @@ import { isPhoneNumber, deleteDash, isValueArr } from "../../utils/helper.js";
 import ToastMaker from "../../components/Toast/ToastMaker.jsx";
 import { useNavigate } from "react-router-dom";
 import { loginFun } from "../../repository/userRepository.jsx";
-import { setAccessToken, setRefreshToken } from "../../utils/localStorage.js";
+import {
+  setAccessToken,
+  setRefreshToken,
+  setUserName
+} from "../../utils/localStorage.js";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -45,6 +49,7 @@ const Login = () => {
     if (success) {
       setAccessToken(data.data.jwt.accessToken);
       setRefreshToken(data.data.jwt.refreshToken);
+      setUserName(data.data.name);
       navigate(UrlMap.scheduleCreateDetailPageUrl);
     } else {
       //FIXME: 로그인 실패 예외처리

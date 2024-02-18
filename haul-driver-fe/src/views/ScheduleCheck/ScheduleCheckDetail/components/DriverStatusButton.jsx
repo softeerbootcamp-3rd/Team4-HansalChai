@@ -11,7 +11,6 @@ const DriverStatusButton = ({ orderId, status }) => {
     const { success, data, message } = await orderStatusChage({
       orderId: orderId
     });
-    console.log(data);
     if (success) {
       setDriverStatus("운송 중");
       ToastMaker({ type: "success", children: "안전 운전 되세요." });
