@@ -52,11 +52,9 @@ const DetailInfo = ({
   srcCoordinate,
   srcName,
   srcAddress,
-  srcDetailAddress,
   dstCoordinate,
   dstName,
   dstAddress,
-  dstDetailAddress,
   fee,
   time
 }) => {
@@ -93,11 +91,11 @@ const DetailInfo = ({
           <Icon src={RouteIcon} />
           <Flex kind="flexColumnBetween">
             <PlaceInfo>
-              <Typography font="medium10" color="grayText" singleLine={true}>
+              <Typography font="medium10" color="grayText">
                 {srcName}
               </Typography>
               <Margin height="4px" />
-              <Typography font="semiBold12" singleLine={true}>
+              <Typography font="semiBold12">
                 {srcAddress}
               </Typography>
             </PlaceInfo>
