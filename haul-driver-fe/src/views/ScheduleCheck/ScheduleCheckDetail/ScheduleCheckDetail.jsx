@@ -60,14 +60,14 @@ const ScheduleCheckDetail = () => {
             name={orderData.user.name}
             tel={orderData.user.tel}
           />,
-          <UserInfoBox key="src" kind="src" tel={orderData.user.tel} />,
-          <UserInfoBox key="dst" kind="dst" tel={orderData.user.tel} />
+          <UserInfoBox key="src" kind="src" tel={orderData.src.tel} />,
+          <UserInfoBox key="dst" kind="dst" tel={orderData.dst.tel} />
         ]}
         initialIndex={0}
       />
       <Margin height="20px" />
       <HaulInfoBox
-        time="2023.11.28 13:50"
+        time={orderData.datetime}
         srcName={orderData.src.name}
         srcAddres={orderData.src.address}
         srcDetailAddress={orderData.src.detailAddress}
