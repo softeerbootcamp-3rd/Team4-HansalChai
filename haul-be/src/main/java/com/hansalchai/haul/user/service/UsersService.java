@@ -1,10 +1,13 @@
 package com.hansalchai.haul.user.service;
 
+import static com.hansalchai.haul.common.utils.ErrorCode.*;
+
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hansalchai.haul.common.auth.jwt.Jwt;
 import com.hansalchai.haul.common.auth.service.AuthService;
+import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.user.dto.CustomerSignUpDto;
 import com.hansalchai.haul.user.dto.ProfileDTO;
 import com.hansalchai.haul.user.dto.ProfileUpdateDTO;
@@ -27,7 +30,7 @@ public class UsersService {
 		//중복 회원가입 검증
 		String tel = signUpDto.getTel();
 		if (usersRepository.findByTel(tel).isPresent()) {
-			throw new IllegalArgumentException("이미 가입된 전화번호입니다.");
+			throw new ConflictException(ACCOUNT_ALREADY_EXISTS);
 		}
 
 		return usersRepository.save(signUpDto.toEntity()).getUserId();

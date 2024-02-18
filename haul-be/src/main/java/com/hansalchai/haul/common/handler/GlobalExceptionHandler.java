@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.common.exceptions.GeneralException;
 import com.hansalchai.haul.common.utils.ApiResponse;
 import com.hansalchai.haul.common.utils.ErrorCode;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
 	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -33,6 +35,14 @@ public class GlobalExceptionHandler {
 		String message = exception.getBindingResult().getAllErrors().get(0).getDefaultMessage();
 		logInfo(request, HttpStatus.BAD_REQUEST, message);
 		return ApiResponse.error(ErrorCode.MethodArgumentNotValidException);
+	}
+
+	@ExceptionHandler(ConflictException.class)
+	protected ApiResponse<Object> handleConflictException(
+			ConflictException exception,
+			HttpServletRequest request) {
+		logInfo(request, HttpStatus.CONFLICT, exception.getMessage());
+		return ApiResponse.error(exception.getCode());
 	}
 
 	private void logInfo(HttpServletRequest request, HttpStatus status, String message) {
