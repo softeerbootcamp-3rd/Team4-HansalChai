@@ -29,7 +29,7 @@ public class OrderSearchResponse {
 	@NoArgsConstructor
 	public static class OrderSearchResponseDto {
 
-		private Long orderId;
+		private Long id;
 		private String srcSimpleAddress;
 		private String dstSimpleAddress;
 		private String transportDatetime;
@@ -41,7 +41,7 @@ public class OrderSearchResponse {
 			Destination destination = reservation.getDestination();
 			Transport transport = reservation.getTransport();
 
-			orderId = reservation.getReservationId();
+			id = reservation.getReservationId();
 			srcSimpleAddress = toSimpleAddress(source.getAddress());
 			dstSimpleAddress = toSimpleAddress(destination.getAddress());
 			transportDatetime = dateTimeToString(reservation.getDate(), reservation.getTime());

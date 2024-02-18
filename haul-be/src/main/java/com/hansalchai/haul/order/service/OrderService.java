@@ -77,7 +77,7 @@ public class OrderService {
 	public void approve(Long driverId, ApproveRequestDto approveRequestDto) {
 
 		// 1. 예약 정보 가져오기
-		Reservation reservation = reservationRepository.findById(approveRequestDto.getReservationId())
+		Reservation reservation = reservationRepository.findById(approveRequestDto.getId())
 			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약번호입니다."));
 
 		// 2. 기사 정보 가져오기
