@@ -66,7 +66,12 @@ function useIntersectionObserver(callback) {
   return [observe, unobserve, disconnect];
 }
 
-const InfiniteList = ({ fetcher, baseURL, fetcherIndex = null }) => {
+const InfiniteList = ({
+  fetcher,
+  baseURL,
+  fetcherIndex = null,
+  selectedStatus = null
+}) => {
   const [isEnd, setIsEnd] = useState(false); //데이터를 모두 불러왔으면 end를 트리거 시키기 위한 state
   const realEndRef = useRef(false); //리스트를 모두 불러왔는지 확인하기 위한 ref
   const endRef = useRef(null); //마지막 요소를 참조하기 위한 ref
@@ -141,6 +146,8 @@ const InfiniteList = ({ fetcher, baseURL, fetcherIndex = null }) => {
         <div key={`reserv${index}`}>
           <Link to={`${baseURL}/${data.id}`} key={`reserv${index}`}>
             <SummaryItemBox
+              index={index}
+              selectedStatus={selectedStatus}
               status={data.status}
               src={data.src}
               dst={data.dst}
