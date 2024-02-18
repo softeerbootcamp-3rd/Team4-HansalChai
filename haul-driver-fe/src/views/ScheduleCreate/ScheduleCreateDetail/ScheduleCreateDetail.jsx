@@ -11,6 +11,8 @@ import Carousel from "../../../components/Carousel/Carousel.jsx";
 import { useNavigate } from "react-router-dom";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 import { orderApprove } from "../../../repository/createRepository.jsx";
+import { useParams } from "react-router-dom";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 
 const ScheduleCreateDetail = () => {
   const { orderId } = useParams();
@@ -19,8 +21,7 @@ const ScheduleCreateDetail = () => {
   const dstCoordinate = { lat: 37.450354677762, lng: 126.65915614333 };
   const navigate = useNavigate();
   async function createScheduleBtnFun() {
-    const { success, data, message } = await orderApprove({orderId : orderId});
-    console.log(data);
+    const { success, data, message } = await orderApprove({ orderId: orderId });
     if (success) {
       navigate(UrlMap.completePageUrl);
     } else {

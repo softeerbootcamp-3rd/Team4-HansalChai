@@ -1,5 +1,6 @@
-const apiKey = import.meta.env.VITE_API_KEY;
 import { getAccessToken } from "../utils/localStorage";
+
+const apiKey = import.meta.env.VITE_API_KEY;
 
 const dummyPlanData = [
   {
@@ -55,17 +56,16 @@ export async function getUserReservationDetails({ planID }) {
   }
 }
 
-
 //오더 승인 API 연결함수
-export async function orderApprove({orderId}){
+export async function orderApprove({ orderId }) {
   try {
     const response = await fetch(`http://${apiKey}/api/v1/orders/approve`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${getAccessToken()}`
+        Authorization: `Bearer ${getAccessToken()}`
       },
-      body: JSON.stringify({ id : orderId })
+      body: JSON.stringify({ id: orderId })
     });
     if (response.ok) {
       const data = await response.json();
