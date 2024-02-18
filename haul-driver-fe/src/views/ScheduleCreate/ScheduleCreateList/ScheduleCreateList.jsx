@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Header from "../../../components/Header/Header.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
@@ -12,10 +12,11 @@ import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx"
 import { functionBinder } from "../../../utils/helper.js";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import { getUserName } from "../../../utils/localStorage.js";
+import EmptyListHolder from "./EmptyListHolder.jsx";
 
 //TODO: API가 운송상태를 구별하여 가져올 수 있게 변경된 후 리스트 수정할 것!
 const ScheduleCreateList = () => {
-  const [selectedStatus, setSelectedStatus] = useState(0);
+  const [selectedStatus, setSelectedStatus] = useState(()=>0);
   const driverName = getUserName();
   const statusList = ["추천", "가격", "날짜", "거리"];
   const fetcherList = [
@@ -45,6 +46,7 @@ const ScheduleCreateList = () => {
         fetcher={fetcherList}
         listStatus={selectedStatus}
         baseURL={"/schedule-create"}
+        emptyListView={EmptyListHolder()}
       />
       <Flex kind="flexColumn"></Flex>
       <NavigationBar selected="create" />

@@ -7,6 +7,7 @@ import SummaryItemBox from "./components/SummaryItemBox.jsx";
 import Skeleton from "./components/Skeleton.jsx";
 import Flex from "../Flex/Flex.jsx";
 import ToastMaker from "../Toast/ToastMaker.jsx";
+import EmptyIcon from "../../assets/svgs/EmptyIcon.svg";
 
 // eslint-disable-next-line react/display-name
 const LoadingSkeleton = forwardRef((props, ref) => {
@@ -69,8 +70,7 @@ function useIntersectionObserver(callback) {
   return [observe, unobserve, disconnect];
 }
 
-//TODO: 상태 최대한 줄일 것!
-const InfiniteList = ({ fetcher, baseURL, listStatus }) => {
+const InfiniteList = ({ fetcher, baseURL, listStatus, emptyListView = (<></>)}) => {
   const [isEnd, setIsEnd] = useState(() => false); //데이터를 모두 불러왔으면 end를 트리거 시키기 위한 state
   const realEndRef = useRef(false); //리스트를 모두 불러왔는지 확인하기 위한 ref
   const endRef = useRef(null); //마지막 요소를 참조하기 위한 ref
@@ -88,9 +88,9 @@ const InfiniteList = ({ fetcher, baseURL, listStatus }) => {
         if (realEndRef.current) return;
 
         isLoading.current = true;
-        (async () => {
+        setTimeout(async () => {
           await runFetcher();
-        })();
+        }, 0);
 
         isLoading.current = false;
       })();
@@ -127,9 +127,9 @@ const InfiniteList = ({ fetcher, baseURL, listStatus }) => {
       setIsEnd(false);
 
       isLoading.current = true;
-      (async () => {
+      setTimeout(async () => {
         await runFetcher();
-      })();
+      }, 0);
       isLoading.current = false;
     })();
   }, [listStatus]);
@@ -144,36 +144,42 @@ const InfiniteList = ({ fetcher, baseURL, listStatus }) => {
   }, [isEnd]);
 
   useEffect(() => {
-    if (realEndRef.current) return setIsEnd(() => false);
+    if (realEndRef.current) return setIsEnd(prev => false);
     isLoading.current = false;
     return () => {
       if (endRef.current) observe(endRef.current);
       setReservationList([]);
-      setIsEnd(() => false);
+      setIsEnd(prev => false);
     };
   }, []);
 
   return (
     <ListFrame>
-      {reservationList.map((data, index) => (
-        <div key={`reserv${index}`}>
-          <Link to={`${baseURL}/${data.orderId}`} key={`reserv${index}`}>
-            <SummaryItemBox
-              index={index}
-              selectedStatus={listStatus}
-              status={data.status}
-              src={data.src}
-              dst={data.dst}
-              time={data.time}
-              fee={data.cost}
-            />
-          </Link>
-          <Margin height="20px" />
-        </div>
-      ))}
-      {isEnd ? <ListEnd /> : <LoadingSkeleton ref={endRef} />}
+      {reservationList.length === 0 ? (
+        emptyListView
+      ) : (
+        reservationList.map((data, index) => (
+          <div key={`reserv${index}`}>
+            <Link to={`${baseURL}/${data.orderId}`} key={`reserv${index}`}>
+              <SummaryItemBox
+                index={index}
+                selectedStatus={listStatus}
+                status={data.status}
+                src={data.src}
+                dst={data.dst}
+                time={data.time}
+                fee={data.cost}
+              />
+            </Link>
+            <Margin height="20px" />
+          </div>
+        ))
+      )}
+      {isEnd ? (reservationList.length === 0 ? <></> : <ListEnd />) : <LoadingSkeleton ref={endRef} />}
     </ListFrame>
   );
 };
 
 export default InfiniteList;
+
+
