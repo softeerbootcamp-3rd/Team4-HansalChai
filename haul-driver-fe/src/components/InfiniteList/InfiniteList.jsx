@@ -69,8 +69,7 @@ function useIntersectionObserver(callback) {
 const InfiniteList = ({
   fetcher,
   baseURL,
-  fetcherIndex = null,
-  selectedStatus = null
+  listStatus = null
 }) => {
   const [isEnd, setIsEnd] = useState(false); //데이터를 모두 불러왔으면 end를 트리거 시키기 위한 state
   const realEndRef = useRef(false); //리스트를 모두 불러왔는지 확인하기 위한 ref
@@ -93,7 +92,7 @@ const InfiniteList = ({
       const newPage =
         typeof fetcher === "function"
           ? await fetcher({ page })
-          : await fetcher[fetcherIndex]({ page });
+          : await fetcher[listStatus]({ page });
       if (newPage.success !== true) {
         setIsEnd(true);
         ToastMaker({
@@ -146,7 +145,7 @@ const InfiniteList = ({
           <Link to={`${baseURL}/${data.orderId}`} key={`reserv${index}`}>
             <SummaryItemBox
               index={index}
-              selectedStatus={selectedStatus}
+              selectedStatus={listStatus}
               status={data.status}
               src={data.src}
               dst={data.dst}

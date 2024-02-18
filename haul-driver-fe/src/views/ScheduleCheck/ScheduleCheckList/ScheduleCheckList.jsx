@@ -41,7 +41,7 @@ const ScheduleCheckList = () => {
       <Margin height="20px" />
       <InfiniteList
         fetcher={fetcherList}
-        fetcherIndex={selectedStatus}
+        listStatus={selectedStatus}
         baseURL={"/schedule-check"}
       />
       <Flex kind="flexColumn"></Flex>
