@@ -1,3 +1,6 @@
+import { getAccessToken } from "../utils/localStorage";
+const apiKey = import.meta.env.VITE_API_KEY;
+
 const dummyPlanData = [
   {
     id: 0,
@@ -156,5 +159,31 @@ export async function getUserReservationDetails({ checkID }) {
     return { success: true, data: { ...dummyDetailData(checkID) } };
   } catch (error) {
     console.error(error);
+  }
+}
+
+// 운송 상태 변경
+export async function orderStatusChage({ orderId }) {
+  try {
+    const response = await fetch(`http://${apiKey}/api/v1/orders/status`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getAccessToken()}`
+      },
+      body: JSON.stringify({ id: orderId })
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return {
+        success: true,
+        data
+      };
+    } else {
+      return { success: false, message: "OrderStatusChage failed" };
+    }
+  } catch (error) {
+    console.error("OrderStatusChage error:", error);
+    return { success: false, message: error.toString() };
   }
 }

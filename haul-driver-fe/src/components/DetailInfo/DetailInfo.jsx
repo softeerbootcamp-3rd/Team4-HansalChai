@@ -95,9 +95,7 @@ const DetailInfo = ({
                 {srcName}
               </Typography>
               <Margin height="4px" />
-              <Typography font="semiBold12">
-                {srcAddress}
-              </Typography>
+              <Typography font="semiBold12">{srcAddress}</Typography>
             </PlaceInfo>
 
             <PlaceInfo>

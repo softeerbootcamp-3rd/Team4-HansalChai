@@ -105,6 +105,11 @@ const font = {
     font-size: 16px;
     line-height: 16px;
   `,
+  medium14: `
+    font-family: 'medium';
+    font-size: 14px;
+    line-height: 14px;
+  `,
   medium12: `
     font-family: 'medium';
     font-size: 12px;

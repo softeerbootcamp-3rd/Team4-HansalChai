@@ -39,13 +39,13 @@ const Router = () => (
       <Route element={<LoginCheckRoute />}>
         <Route path="/schedule-create" element={<Outlet />}>
           <Route path="" element={<ScheduleCreateList />} />
-          <Route path=":reservationId" element={<ScheduleCreateDetail />} />
+          <Route path=":orderId" element={<ScheduleCreateDetail />} />
           <Route path="complete" element={<Complete />} />
         </Route>
 
         <Route path="/schedule-check" element={<Outlet />}>
           <Route path="" element={<ScheduleCheckList />} />
-          <Route path=":reservationId" element={<ScheduleCheckDetail />} />
+          <Route path=":orderId" element={<ScheduleCheckDetail />} />
         </Route>
 
         <Route path="/more" element={<Outlet />}>
