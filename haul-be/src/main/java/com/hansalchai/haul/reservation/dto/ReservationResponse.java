@@ -69,9 +69,9 @@ public class ReservationResponse {
 		public String makeUrl(String photo){
 			return "car/" + photo;
 		}
-
-
 		public int costCut(int fee){
+			if(fee < 10000)
+				return 1;
 			return fee/10000;
 		}
 
@@ -105,7 +105,7 @@ public class ReservationResponse {
 
 			public int costCut(int fee){
 				if(fee < 10000)
-					fee = 10001;
+					return 1;
 				return fee/10000;
 			}
 
@@ -216,8 +216,11 @@ public class ReservationResponse {
 			this.status = TransportStatus.getCode(reservation.getTransport().getTransportStatus());
 		}
 		public int costCut(int fee){
+			if(fee < 10000)
+				return 1;
 			return fee/10000;
 		}
+
 
 		public String makeUserUrl(String photo){
 			return "driver-profile/" + photo;
