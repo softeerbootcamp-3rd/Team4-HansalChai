@@ -9,7 +9,7 @@ import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
 import TabBar from "../../../components/TabBar/TabBar.jsx";
 import { getUserSummaryList } from "../../../repository/checkRepository.jsx";
 import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
-
+import Typography from "../../../components/Typhography/Typhography.jsx";
 
 //TODO: API가 운송상태를 구별하여 가져올 수 있게 변경된 후 리스트 수정할 것!
 const ScheduleCheckList = () => {
@@ -21,10 +21,10 @@ const ScheduleCheckList = () => {
   return (
     <MobileLayout>
       <Header home={false} back={false}>
-        <TypographySpan font="semiBold24" color="subColor">
-          {driverName}기사
-          <TypographySpan>님의 일정</TypographySpan>
-        </TypographySpan>
+        <Typography font="bold24">
+          <TypographySpan color="subColor">{driverName}기사</TypographySpan>님의
+          일정<TypographySpan color="subColor"> .</TypographySpan>
+        </Typography>
       </Header>
       <Margin height="32px" />
       <TabBar
@@ -34,7 +34,11 @@ const ScheduleCheckList = () => {
       />
       <UnderBar />
       <Margin height="20px" />
-      <InfiniteList fetcher={getUserSummaryList} baseURL={"/schedule-check"} />
+      <InfiniteList
+        fetcher={getUserSummaryList}
+        baseURL={"/schedule-check"}
+        selectedStatus={selectedStatus}
+      />
       <Flex kind="flexColumn"></Flex>
       <NavigationBar selected="check" />
     </MobileLayout>

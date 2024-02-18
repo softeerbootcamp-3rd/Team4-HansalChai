@@ -1,28 +1,28 @@
 const dummyPlanData = [
-  { 
+  {
     id: 0,
     status: "before",
     src: "학동역",
     dst: "교대역",
     datetime: "2024.3.3 12:12:12",
-    cost: "10000" 
+    cost: "10000"
   },
-  { 
+  {
     id: 1,
     status: "moving",
     src: "학동역",
     dst: "교대역",
     datetime: "2024.3.3 12:12:12",
-    cost: "5000" 
+    cost: "5000"
   },
-  { 
+  {
     id: 2,
     status: "after",
     src: "학동역",
     dst: "교대역",
     datetime: "2024.3.3 12:12:12",
-    cost: "1" 
-  },
+    cost: "1"
+  }
 ];
 
 const dummyCustomerList = [
@@ -94,21 +94,30 @@ const dummyDetailData = id => {
     requiredTime: dummyMapList[id].time,
     phase: "before"
   };
-
 };
 
 export async function getUserSummaryList({ page, sortBy }) {
   try {
-    return {success: true, data: {lastPage: false, reservationInfoDTOS: [...dummyPlanData, ...dummyPlanData, ...dummyPlanData, dummyPlanData[0]]}};
+    return {
+      success: true,
+      data: {
+        lastPage: false,
+        reservationInfoDTOS: [
+          ...dummyPlanData,
+          ...dummyPlanData,
+          ...dummyPlanData,
+          dummyPlanData[0]
+        ]
+      }
+    };
   } catch (error) {
     console.error(error);
   }
-
 }
 
 export async function getUserReservationDetails({ checkID }) {
   try {
-    return {success: true, data: {...dummyDetailData(checkID)}};
+    return { success: true, data: { ...dummyDetailData(checkID) } };
   } catch (error) {
     console.error(error);
   }

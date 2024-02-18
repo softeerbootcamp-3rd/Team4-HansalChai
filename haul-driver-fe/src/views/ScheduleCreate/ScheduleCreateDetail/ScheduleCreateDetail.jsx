@@ -1,6 +1,7 @@
 import MobileLayout from "../../../components/MobileLayout/MobileLayout";
 import Header from "../../../components/Header/Header.jsx";
 import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
+import Typography from "../../../components/Typhography/Typhography.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import UserInfoBox from "../../../components/UserInfoBox/UserInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
@@ -22,10 +23,10 @@ const ScheduleCreateDetail = () => {
   return (
     <MobileLayout>
       <Header>
-        <TypographySpan color="subColor">
-          {driverName}기사
-          <TypographySpan>님을 위한 일정잡기</TypographySpan>
-        </TypographySpan>
+        <Typography font="bold24">
+          <TypographySpan color="subColor">{driverName}</TypographySpan>님을
+          위한 일정잡기<TypographySpan color="subColor"> .</TypographySpan>
+        </Typography>
       </Header>
       <Margin height="24px" />
       <Carousel

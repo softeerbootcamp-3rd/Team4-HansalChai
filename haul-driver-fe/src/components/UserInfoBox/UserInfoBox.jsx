@@ -32,8 +32,8 @@ const UserInfoBox = ({ kind, name, tel }) => {
     <Box>
       {kind == "user" && (
         <Typography font="semiBold16">
-          일을 맡겨주신 <TypographySpan color="subColor">이용자</TypographySpan>{" "}
-          분을 소개할게요.
+          신청하신 <TypographySpan color="subColor">이용자</TypographySpan> 분을
+          소개할게요.
         </Typography>
       )}
       {kind == "src" && (

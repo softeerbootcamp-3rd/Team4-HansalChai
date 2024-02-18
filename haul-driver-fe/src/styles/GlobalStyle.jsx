@@ -54,6 +54,8 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     outline: none;
     background: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
   
   img {
