@@ -43,8 +43,8 @@ const Login = () => {
       password: password.current
     });
     if (success) {
-      setAccessToken(data.data.accessToken);
-      setRefreshToken(data.data.refreshToken);
+      setAccessToken(data.data.jwt.accessToken);
+      setRefreshToken(data.data.jwt.refreshToken);
       navigate(UrlMap.scheduleCreateDetailPageUrl);
     } else {
       //FIXME: 로그인 실패 예외처리
