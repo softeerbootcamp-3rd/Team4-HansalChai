@@ -7,8 +7,7 @@ import UserInfoBox from "../../../components/UserInfoBox/UserInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import HaulInfoBox from "../../../components/HaulInfoBox/HaulInfoBox.jsx";
 import Carousel from "../../../components/Carousel/Carousel.jsx";
-import BottomButton from "../../../components/Button/BottomButton.jsx";
-import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
+import DriverStatusButton from "./components/DriverStatusButton.jsx";
 import { useParams } from "react-router-dom";
 
 const ScheduleCheckDetail = () => {
@@ -16,8 +15,7 @@ const ScheduleCheckDetail = () => {
   const srcCoordinate = { lat: 37.497259947611596, lng: 127.03218978408303 };
   const dstCoordinate = { lat: 37.450354677762, lng: 126.65915614333 };
   const status = "운송 전";
-  const { reservationId } = useParams();
-
+  const { orderId } = useParams();
   return (
     <MobileLayout>
       <Header>
@@ -71,10 +69,8 @@ const ScheduleCheckDetail = () => {
         time="04"
       />
       <Margin height="30px" />
-      <FixedCenterBox bottom="30px">
-        <BottomButton role="main">운송 출발</BottomButton>
-      </FixedCenterBox>
-      
+
+      <DriverStatusButton orderId={orderId} status={status} />
       <Margin height="70px" />
     </MobileLayout>
   );
