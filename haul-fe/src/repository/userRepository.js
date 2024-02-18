@@ -85,7 +85,7 @@ export async function putPassword({ password }) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${getAccessToken()}`
+        Authorization: `Bearer ${getAccessToken()}`
       },
       body: JSON.stringify({ password })
     });
