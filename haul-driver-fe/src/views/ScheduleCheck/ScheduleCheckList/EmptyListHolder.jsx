@@ -4,6 +4,7 @@ import Flex from "../../../components/Flex/Flex.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import EmptyIcon from "../../../assets/svgs/EmptyIcon.svg";
+import { UrlMap } from "../../../data/GlobalVariable.js";
 
 const ToCreateButton = styled.button`
   width: 100px;
@@ -14,11 +15,11 @@ const ToCreateButton = styled.button`
   ${({ theme }) => theme.font.semiBold16};
 `;
 
-const EmptyListHolder = (selectedIndex) => {
+const EmptyListHolder = selectedIndex => {
   const navigate = useNavigate();
 
   const clickGoButton = () => {
-    navigate("/schedule-create");
+    navigate(UrlMap.scheduleCreatePageUrl);
   };
 
   const messages = [

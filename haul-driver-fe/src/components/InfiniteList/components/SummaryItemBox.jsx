@@ -72,15 +72,7 @@ const IconedCaption = styled.div`
 `;
 
 //API에 맞게 인자 이름을 고쳐야 하나?
-const SummaryItemBox = ({
-  index,
-  selectedStatus,
-  status,
-  src,
-  dst,
-  time,
-  fee
-}) => {
+const SummaryItemBox = ({ index, selectedStatus, src, dst, time, fee }) => {
   return (
     <ReservItemFrame index={index} selectedStatus={selectedStatus}>
       <DescriptionTextArea>
