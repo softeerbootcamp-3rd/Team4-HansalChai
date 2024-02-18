@@ -5,14 +5,18 @@ import Typography from "../../../components/Typhography/Typhography.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import UserInfoBox from "../../../components/UserInfoBox/UserInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
-import DriveTimeBox from "../../../components/DriveTimeBox/DriveTimeBox.jsx";
+import HaulInfoBox from "../../../components/HaulInfoBox/HaulInfoBox.jsx";
 import Carousel from "../../../components/Carousel/Carousel.jsx";
+import BottomButton from "../../../components/Button/BottomButton.jsx";
+import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
+import { useParams } from "react-router-dom";
 
 const ScheduleCheckDetail = () => {
   const driverName = "시현";
   const srcCoordinate = { lat: 37.497259947611596, lng: 127.03218978408303 };
   const dstCoordinate = { lat: 37.450354677762, lng: 126.65915614333 };
   const status = "운송 전";
+  const { reservationId } = useParams();
 
   return (
     <MobileLayout>
@@ -39,13 +43,21 @@ const ScheduleCheckDetail = () => {
       />
 
       <Margin height="24px" />
-      {status === "운송 전" && (
-        <>
-          <DriveTimeBox arriveTime="2023.11.28 14:50" />
-          <Margin height="24px" />
-        </>
-      )}
+      <HaulInfoBox
+        time="2023.11.28 13:50"
+        srcName="강남구 애니타워"
+        srcAddres="서울특별시 강남구 강남대로 지하396"
+        srcDetailAddress="1900호"
+        dstName="강남구 애니타워2"
+        dstAddress="서울특별시 강남구 강남대로 지하296"
+        dstDetailAddress="1900호"
+        load={1000}
+        width={10}
+        length={20}
+        height={12}
+      />
 
+      <Margin height="20px" />
       <DetailInfo
         srcCoordinate={srcCoordinate}
         srcAddress="서울특별시 강남구 강남대로 지하396 "
@@ -59,6 +71,11 @@ const ScheduleCheckDetail = () => {
         time="04"
       />
       <Margin height="30px" />
+      <FixedCenterBox bottom="30px">
+        <BottomButton role="main">운송 출발</BottomButton>
+      </FixedCenterBox>
+      
+      <Margin height="70px" />
     </MobileLayout>
   );
 };

@@ -7,6 +7,7 @@ const FixedCenterBox = styled.div`
   position: fixed;
   padding: 0 20px;
   left: 50%;
+  z-index: 99;
   transform: translateX(-50%);
   ${({ bottom }) =>
     bottom &&
