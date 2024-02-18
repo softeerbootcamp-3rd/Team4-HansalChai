@@ -22,6 +22,7 @@ import { getUserName } from "../../../utils/localStorage.js";
 const ScheduleCreateDetail = () => {
   const { orderId } = useParams();
   const [orderData, setOrderData] = useState(null);
+  const [loadingStatus, setLoadingStatus] = useState(false);
   const driverName = getUserName();
   const navigate = useNavigate();
 
@@ -33,7 +34,6 @@ const ScheduleCreateDetail = () => {
     const { success, data, message } = await orderDetail({ orderId: orderId });
     if (success) {
       setOrderData(data.data);
-      console.log(data.data);
     } else {
       //FIXME: 예외처리 생성 시 적용
       ToastMaker({ type: "error", children: message });
@@ -42,16 +42,18 @@ const ScheduleCreateDetail = () => {
   }
 
   async function createScheduleBtnFun() {
+    setLoadingStatus(true);
     const { success, data, message } = await orderApprove({ orderId: orderId });
     if (success) {
       navigate(UrlMap.completePageUrl);
     } else {
       //FIXME: 예외처리 생성 시 적용
       ToastMaker({ type: "error", children: message });
+      setLoadingStatus(false);
     }
   }
 
-  if (!orderData) {
+  if (!orderData || loadingStatus) {
     return <Loading />;
   }
 

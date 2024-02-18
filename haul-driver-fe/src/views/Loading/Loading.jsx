@@ -12,7 +12,7 @@ const LoadingPage = styled.div`
 `;
 
 const ImgBox = styled.img`
-  width: 30%;
+  width: 20%;
 `;
 
 const Loading = () => {

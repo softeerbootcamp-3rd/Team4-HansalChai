@@ -18,7 +18,6 @@ import { getUserName } from "../../../utils/localStorage.js";
 const ScheduleCheckDetail = () => {
   const { orderId } = useParams();
   const driverName = getUserName();
-  console.log(driverName);
   const [orderData, setOrderData] = useState(null);
   const navigate = useNavigate();
 
