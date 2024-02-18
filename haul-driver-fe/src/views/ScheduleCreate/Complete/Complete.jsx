@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 const Complete = () => {
   const navigation = useNavigate();
   function goHome() {
-    navigation(UrlMap.scheduleCreateDetailPageUrl);
+    navigation(UrlMap.scheduleCreatePageUrl);
   }
   function goReservationList() {
     navigation(UrlMap.scheduleCheckPageUrl);
