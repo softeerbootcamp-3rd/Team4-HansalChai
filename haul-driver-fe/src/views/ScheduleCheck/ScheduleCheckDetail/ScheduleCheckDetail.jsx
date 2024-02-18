@@ -8,69 +8,100 @@ import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import HaulInfoBox from "../../../components/HaulInfoBox/HaulInfoBox.jsx";
 import Carousel from "../../../components/Carousel/Carousel.jsx";
 import DriverStatusButton from "./components/DriverStatusButton.jsx";
-import { useParams } from "react-router-dom";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import Loading from "../../Loading/Loading.jsx";
+import { useParams, useNavigate } from "react-router-dom";
+import { checkOrderDetail } from "../../../repository/checkRepository.jsx";
+import { useState, useEffect } from "react";
+import { getUserName } from "../../../utils/localStorage.js";
 
 const ScheduleCheckDetail = () => {
-  const driverName = "시현";
-  const srcCoordinate = { lat: 37.497259947611596, lng: 127.03218978408303 };
-  const dstCoordinate = { lat: 37.450354677762, lng: 126.65915614333 };
-  const status = "운송 전";
   const { orderId } = useParams();
+  const driverName = getUserName();
+  const [orderData, setOrderData] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    showDetailFun();
+  }, []);
+
+  async function showDetailFun() {
+    const { success, data, message } = await checkOrderDetail({
+      orderId: orderId
+    });
+    if (success) {
+      setOrderData(data.data);
+    } else {
+      //FIXME: 예외처리 생성 시 적용
+      ToastMaker({ type: "error", children: message });
+      navigate(-1);
+    }
+  }
+
+  if (!orderData) {
+    return <Loading />;
+  }
+
   return (
     <MobileLayout>
       <Header>
         <Typography font="bold24">
-          <TypographySpan color="subColor">{driverName}기사</TypographySpan>님의
+          <TypographySpan color="subColor">{driverName}</TypographySpan>님의
           일정<TypographySpan color="subColor"> .</TypographySpan>
         </Typography>
       </Header>
-
       <Margin height="24px" />
       <Carousel
         carouselList={[
           <UserInfoBox
             key="user"
             kind="user"
-            name="주시현님"
-            tel="010-1234-1234"
+            name={orderData.user.name}
+            tel={orderData.user.tel}
           />,
-          <UserInfoBox key="src" kind="src" tel="010-1234-1234" />,
-          <UserInfoBox key="dst" kind="dst" tel="010-1234-1234" />
+          <UserInfoBox key="src" kind="src" tel={orderData.src.tel} />,
+          <UserInfoBox key="dst" kind="dst" tel={orderData.dst.tel} />
         ]}
         initialIndex={0}
       />
-
-      <Margin height="24px" />
+      <Margin height="20px" />
       <HaulInfoBox
-        time="2023.11.28 13:50"
-        srcName="강남구 애니타워"
-        srcAddres="서울특별시 강남구 강남대로 지하396"
-        srcDetailAddress="1900호"
-        dstName="강남구 애니타워2"
-        dstAddress="서울특별시 강남구 강남대로 지하296"
-        dstDetailAddress="1900호"
-        load={1000}
-        width={10}
-        length={20}
-        height={12}
+        time={orderData.datetime}
+        srcName={orderData.src.name}
+        srcAddres={orderData.src.address}
+        srcDetailAddress={orderData.src.detailAddress}
+        dstName={orderData.dst.name}
+        dstAddress={orderData.dst.address}
+        dstDetailAddress={orderData.dst.detailAddress}
+        load={orderData.cargo.weight}
+        width={orderData.cargo.width}
+        length={orderData.cargo.length}
+        height={orderData.cargo.height}
       />
 
-      <Margin height="20px" />
+      <Margin height="24px" />
       <DetailInfo
-        srcCoordinate={srcCoordinate}
-        srcAddress="서울특별시 강남구 강남대로 지하396 "
-        srcName="강남구 애니타워"
-        srcDetailAddress="3층 오피스텔"
-        dstCoordinate={dstCoordinate}
-        dstAddress="부산광역시 금정구 부산대학로63번길 2"
-        dstName="부산대학교"
-        dstDetailAddress="컴퓨공학과 이진걸 교수님 연구실"
-        fee="15"
-        time="04"
+        srcCoordinate={{
+          lat: orderData.src.latitude,
+          lng: orderData.src.longitude
+        }}
+        srcAddress={orderData.src.address}
+        srcName={orderData.src.name}
+        dstCoordinate={{
+          lat: orderData.dst.latitude,
+          lng: orderData.dst.longitude
+        }}
+        dstAddress={orderData.dst.address}
+        dstName={orderData.dst.name}
+        fee={orderData.cost}
+        time={orderData.requiredTime}
       />
       <Margin height="30px" />
 
-      <DriverStatusButton orderId={orderId} status={status} />
+      <DriverStatusButton
+        orderId={orderId}
+        status={orderData.transportStatus}
+      />
       <Margin height="70px" />
     </MobileLayout>
   );
