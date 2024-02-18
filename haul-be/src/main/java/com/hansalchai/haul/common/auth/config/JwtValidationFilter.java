@@ -12,7 +12,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hansalchai.haul.common.auth.constants.JwtExceptionType;
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
+import com.hansalchai.haul.common.auth.handler.FilterExceptionHandler;
 import com.hansalchai.haul.common.auth.jwt.JwtProvider;
+import com.hansalchai.haul.common.utils.ErrorCode;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.Filter;
@@ -55,7 +57,7 @@ public class JwtValidationFilter implements Filter {
 
 		// 요청 헤더에 토큰이 없는 경우
 		if (!isContainToken(httpServletRequest)) {
-			httpServletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "인증 오류");
+			FilterExceptionHandler.sendError(httpServletResponse, ErrorCode.TOKEN_NOT_FOUND);
 			return;
 		}
 
