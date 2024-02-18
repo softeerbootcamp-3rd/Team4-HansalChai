@@ -139,7 +139,6 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
         cost: v.cost
       };
     });
-    //console.log(list);
     return {
       success: true,
       data: {
