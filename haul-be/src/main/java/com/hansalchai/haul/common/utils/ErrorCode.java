@@ -13,6 +13,9 @@ public enum ErrorCode {
 	NO_ID(BAD_REQUEST, "40001", "존재하지 않는 id 입니다"),
 	MethodArgumentNotValidException(BAD_REQUEST,"20002002","MethodArgumentNotValidException"),
 
+	//공통
+	PAGE_NOT_FOUND(NOT_FOUND, "1003", "요청한 페이지를 찾을 수 없습니다."),
+
 	// 토큰, 유저
 	TOKEN_NOT_FOUND(UNAUTHORIZED, "2001", "요청 헤더에 토큰이 없습니다."),
 	INVALID_TOKEN(UNAUTHORIZED, "2002", "토큰 유효성 검증에 실패했습니다."),

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.common.exceptions.GeneralException;
+import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.common.exceptions.UnauthorizedException;
 import com.hansalchai.haul.common.utils.ApiResponse;
 import com.hansalchai.haul.common.utils.ErrorCode;
@@ -44,6 +45,16 @@ public class GlobalExceptionHandler {
 			UnauthorizedException exception,
 			HttpServletRequest request) {
 		logInfo(request, HttpStatus.UNAUTHORIZED, exception.getMessage());
+		return ApiResponse.error(exception.getCode());
+	}
+
+	//404 Not Found
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(NotFoundException.class)
+	protected ApiResponse<Object> handleNotFoundException(
+			NotFoundException exception,
+			HttpServletRequest request) {
+		logInfo(request, HttpStatus.NOT_FOUND, exception.getMessage());
 		return ApiResponse.error(exception.getCode());
 	}
 
