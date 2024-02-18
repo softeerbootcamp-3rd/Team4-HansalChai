@@ -35,7 +35,7 @@ export function isValueArr(checkArr) {
   return checkArr.every(element => !isEmptyString(element));
 }
 
-export function functionBinder(func, ...bindargs) {
+export function functionBinder(func, bindargs) {
   return function ({ ...args }) {
     return func({ ...bindargs, ...args });
   };
