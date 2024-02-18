@@ -4,13 +4,11 @@ import static com.hansalchai.haul.common.auth.jwt.JwtProvider.*;
 
 import java.io.IOException;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.PatternMatchUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hansalchai.haul.common.auth.constants.JwtExceptionType;
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
 import com.hansalchai.haul.common.auth.handler.FilterExceptionHandler;
 import com.hansalchai.haul.common.auth.jwt.JwtProvider;
@@ -61,15 +59,12 @@ public class JwtValidationFilter implements Filter {
 			return;
 		}
 
+		// 토큰 복호화 및 검증
 		String accessToken = jwtProvider.resolveToken(httpServletRequest);
-		JwtExceptionType jwtException = jwtProvider.validateToken(accessToken);
+		jwtProvider.validateToken(accessToken);
 
-		if (jwtException == JwtExceptionType.VALID_JWT_TOKEN) {
-			request.setAttribute(AUTHENTICATE_USER, getAuthenticateUser(accessToken));
-		} else if (jwtException == JwtExceptionType.EXPIRED_JWT_TOKEN) {
-			httpServletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "토큰 만료");
-			return;
-		}
+		// 검증 성공 시, 요청에 AUTHENTICATE_USER attribute 추가
+		request.setAttribute(AUTHENTICATE_USER, getAuthenticateUser(accessToken));
 
 		chain.doFilter(request, response);
 	}
