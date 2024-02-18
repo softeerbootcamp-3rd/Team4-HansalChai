@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hansalchai.haul.common.auth.jwt.Jwt;
 import com.hansalchai.haul.common.auth.service.AuthService;
 import com.hansalchai.haul.common.exceptions.ConflictException;
+import com.hansalchai.haul.common.exceptions.UnauthorizedException;
 import com.hansalchai.haul.user.dto.CustomerSignUpDto;
 import com.hansalchai.haul.user.dto.ProfileDTO;
 import com.hansalchai.haul.user.dto.ProfileUpdateDTO;
@@ -41,7 +42,7 @@ public class UsersService {
 
 		// db에 있는(회원가입한) 유저인지 검증
 		Users user = usersRepository.findByTel(loginDto.getTel())
-			.orElseThrow(() -> new IllegalArgumentException("회원가입하지 않은 유저입니다."));
+			.orElseThrow(() -> new UnauthorizedException(UNREGISTERED_USER_ID));
 
 		// 비밀번호 검증
 		if (!loginDto.getPassword().equals(user.getPassword())) {

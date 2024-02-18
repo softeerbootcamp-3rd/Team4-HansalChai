@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.common.exceptions.GeneralException;
+import com.hansalchai.haul.common.exceptions.UnauthorizedException;
 import com.hansalchai.haul.common.utils.ApiResponse;
 import com.hansalchai.haul.common.utils.ErrorCode;
 
@@ -37,6 +38,16 @@ public class GlobalExceptionHandler {
 		return ApiResponse.error(ErrorCode.MethodArgumentNotValidException);
 	}
 
+	//401 Unauthorized
+	@ExceptionHandler(UnauthorizedException.class)
+	protected ApiResponse<Object> handleUnauthorizedException(
+			UnauthorizedException exception,
+			HttpServletRequest request) {
+		logInfo(request, HttpStatus.UNAUTHORIZED, exception.getMessage());
+		return ApiResponse.error(exception.getCode());
+	}
+
+	// 409 Conflict
 	@ExceptionHandler(ConflictException.class)
 	protected ApiResponse<Object> handleConflictException(
 			ConflictException exception,
