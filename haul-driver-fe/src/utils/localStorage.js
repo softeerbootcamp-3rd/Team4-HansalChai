@@ -18,3 +18,9 @@ export function isLoginFun() {
   const accessToken = getAccessToken();
   return accessToken !== null;
 }
+
+export function logoutFun() {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+  localStorage.setItem("isMember", "false");
+}

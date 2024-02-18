@@ -9,6 +9,7 @@ import BottomButton from "../../../components/Button/BottomButton.jsx";
 import { useState } from "react";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import { useNavigate } from "react-router-dom";
+import { logoutFun } from "../../../utils/localStorage.js";
 
 const ListItem = styled.div`
   width: 100%;
@@ -40,7 +41,7 @@ const UserInfo = () => {
   const navigate = useNavigate();
 
   const clickLogout = () => {
-    localStorage.removeItem("accessToken");
+    logoutFun();
     navigate("/login");
   };
 
