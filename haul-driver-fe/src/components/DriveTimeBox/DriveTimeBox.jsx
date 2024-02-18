@@ -29,13 +29,14 @@ const IconBlueBox = styled.div`
 const DriveTimeBox = ({ arriveTime }) => {
   return (
     <Box>
+      <Margin height="6px" />
       <Typography font="semiBold16">
         이때까지 <TypographySpan color="subColor">출발지</TypographySpan>에
         도착해주세요.
       </Typography>
-      <Margin height="10px" />
+      <Margin height="12px" />
       <UnderBar />
-      <Margin height="10px" />
+      <Margin height="12px" />
       <IconedCaption>
         <IconBlueBox>
           <LuClock4 style={{ width: 16, color: "white" }} />
@@ -44,8 +45,9 @@ const DriveTimeBox = ({ arriveTime }) => {
           운송일시
         </Typography>
       </IconedCaption>
-      <Margin height="2px" />
+      <Margin height="6px" />
       <Typography font="bold20">{arriveTime}</Typography>
+      <Margin height="6px" />
     </Box>
   );
 };

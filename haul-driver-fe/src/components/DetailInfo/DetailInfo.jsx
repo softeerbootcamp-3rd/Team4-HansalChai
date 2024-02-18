@@ -28,6 +28,8 @@ const InfoBox = styled.div`
 const PlaceInfo = styled.div`
   width: 100%;
   height: auto;
+  position: relative;
+  top: 3px;
 `;
 
 const Icon = styled.img`
@@ -52,9 +54,11 @@ const DetailInfo = ({
   srcCoordinate,
   srcName,
   srcAddress,
+  srcDetailAddress,
   dstCoordinate,
   dstName,
   dstAddress,
+  dstDetailAddress,
   fee,
   time
 }) => {
@@ -91,19 +95,22 @@ const DetailInfo = ({
           <Icon src={RouteIcon} />
           <Flex kind="flexColumnBetween">
             <PlaceInfo>
-              <Typography font="medium10" color="grayText">
-                {srcName}
+              <Typography font="semiBold12" singleLine={true}>
+                {srcAddress}
               </Typography>
               <Margin height="4px" />
-              <Typography font="semiBold12">{srcAddress}</Typography>
+              <Typography font="medium10" color="grayText" singleLine={true}>
+                {`${srcName}, ${srcDetailAddress}`}
+              </Typography>
             </PlaceInfo>
 
             <PlaceInfo>
-              <Typography font="medium10" color="grayText">
-                {dstName}
-              </Typography>
-              <Margin height="4px" />
               <Typography font="semiBold12">{dstAddress}</Typography>
+              <Margin height="4px" />
+
+              <Typography font="medium10" color="grayText">
+                {`${dstName}, ${dstDetailAddress}`}
+              </Typography>
             </PlaceInfo>
           </Flex>
         </Flex>
