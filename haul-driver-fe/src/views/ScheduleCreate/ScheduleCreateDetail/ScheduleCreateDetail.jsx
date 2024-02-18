@@ -10,14 +10,23 @@ import BottomButton from "../../../components/Button/BottomButton.jsx";
 import Carousel from "../../../components/Carousel/Carousel.jsx";
 import { useNavigate } from "react-router-dom";
 import { UrlMap } from "../../../data/GlobalVariable.js";
+import { orderApprove } from "../../../repository/createRepository.jsx";
 
 const ScheduleCreateDetail = () => {
+  const { orderId } = useParams();
   const driverName = "시현";
   const srcCoordinate = { lat: 37.497259947611596, lng: 127.03218978408303 };
   const dstCoordinate = { lat: 37.450354677762, lng: 126.65915614333 };
   const navigate = useNavigate();
-  function createScheduleBtnFun() {
-    navigate(UrlMap.completePageUrl);
+  async function createScheduleBtnFun() {
+    const { success, data, message } = await orderApprove({orderId : orderId});
+    console.log(data);
+    if (success) {
+      navigate(UrlMap.completePageUrl);
+    } else {
+      //FIXME: 예외처리 생성 시 적용
+      ToastMaker({ type: "error", children: message });
+    }
   }
 
   return (
