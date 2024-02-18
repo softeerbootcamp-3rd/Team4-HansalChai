@@ -48,7 +48,7 @@ public class ReservationService{
 
 	//querydsl
 	private final CustomCarRepositoryImpl customCarRepository;
-	private final int PAGECUT = 10;
+	public static final int PAGECUT = 10;
 	/*
 	1. 예약 dto에서 받아온 데이터로
 	2. 트럭을 선택
