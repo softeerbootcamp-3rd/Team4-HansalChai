@@ -6,7 +6,7 @@ import static com.hansalchai.haul.common.utils.SuccessCode.*;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +40,7 @@ public class OrderController {
 		return ResponseEntity.ok(success(GET_SUCCESS, orders));
 	}
 
-	@PutMapping("/approve")
+	@PatchMapping("/approve")
 	public ResponseEntity<ApiResponse<Object>> approveOrder(HttpServletRequest request,
 		@Valid @RequestBody ApproveRequestDto approveRequestDto) {
 
