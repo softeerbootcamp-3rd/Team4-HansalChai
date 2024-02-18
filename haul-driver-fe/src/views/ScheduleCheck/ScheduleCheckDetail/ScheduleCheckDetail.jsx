@@ -8,13 +8,17 @@ import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import HaulInfoBox from "../../../components/HaulInfoBox/HaulInfoBox.jsx";
 import Carousel from "../../../components/Carousel/Carousel.jsx";
 import DriverStatusButton from "./components/DriverStatusButton.jsx";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import Loading from "../../Loading/Loading.jsx";
 import { useParams, useNavigate } from "react-router-dom";
 import { checkOrderDetail } from "../../../repository/checkRepository.jsx";
 import { useState, useEffect } from "react";
+import { getUserName } from "../../../utils/localStorage.js";
 
 const ScheduleCheckDetail = () => {
-  const driverName = "시현";
   const { orderId } = useParams();
+  const driverName = getUserName();
+  console.log(driverName);
   const [orderData, setOrderData] = useState(null);
   const navigate = useNavigate();
 
@@ -36,7 +40,7 @@ const ScheduleCheckDetail = () => {
   }
 
   if (!orderData) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

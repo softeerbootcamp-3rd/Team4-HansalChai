@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout";
 import Header from "../../../components/Header/Header.jsx";
@@ -12,15 +12,17 @@ import BottomButton from "../../../components/Button/BottomButton.jsx";
 import Carousel from "../../../components/Carousel/Carousel.jsx";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { UrlMap } from "../../../data/GlobalVariable.js";
+import Loading from "../../Loading/Loading.jsx";
 import {
   orderApprove,
   orderDetail
 } from "../../../repository/createRepository.jsx";
+import { getUserName } from "../../../utils/localStorage.js";
 
 const ScheduleCreateDetail = () => {
   const { orderId } = useParams();
   const [orderData, setOrderData] = useState(null);
-  const driverName = "시현";
+  const driverName = getUserName();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +33,7 @@ const ScheduleCreateDetail = () => {
     const { success, data, message } = await orderDetail({ orderId: orderId });
     if (success) {
       setOrderData(data.data);
+      console.log(data.data);
     } else {
       //FIXME: 예외처리 생성 시 적용
       ToastMaker({ type: "error", children: message });
@@ -49,7 +52,7 @@ const ScheduleCreateDetail = () => {
   }
 
   if (!orderData) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
@@ -69,14 +72,14 @@ const ScheduleCreateDetail = () => {
             name={orderData.user.name}
             tel={orderData.user.tel}
           />,
-          <UserInfoBox key="src" kind="src" tel={orderData.user.tel} />,
-          <UserInfoBox key="dst" kind="dst" tel={orderData.user.tel} />
+          <UserInfoBox key="src" kind="src" tel={orderData.src.tel} />,
+          <UserInfoBox key="dst" kind="dst" tel={orderData.dst.tel} />
         ]}
         initialIndex={0}
       />
       <Margin height="20px" />
       <HaulInfoBox
-        time="2023.11.28 13:50"
+        time={orderData.datetime}
         srcName={orderData.src.name}
         srcAddres={orderData.src.address}
         srcDetailAddress={orderData.src.detailAddress}

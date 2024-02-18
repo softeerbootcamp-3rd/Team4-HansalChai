@@ -6,12 +6,20 @@ export function setRefreshToken(refreshToken) {
   localStorage.setItem("refreshToken", refreshToken);
 }
 
+export function setUserName(userName) {
+  localStorage.setItem("userName", userName);
+}
+
 export function getAccessToken() {
   return localStorage.getItem("accessToken");
 }
 
 export function getRefreshToken() {
   return localStorage.getItem("refreshToken");
+}
+
+export function getUserName() {
+  return localStorage.getItem("userName");
 }
 
 export function isLoginFun() {
