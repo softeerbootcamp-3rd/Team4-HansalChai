@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
+import com.hansalchai.haul.common.utils.ApiResponse;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.OrderSearchResponse;
 import com.hansalchai.haul.order.service.OrderService;
@@ -30,7 +31,7 @@ public class OrderController {
 	private final OrderService orderService;
 
 	@GetMapping("")
-	public ResponseEntity findAll(
+	public ResponseEntity<ApiResponse<OrderSearchResponse>> findAll(
 			HttpServletRequest request,
 			@RequestParam("sort") String sort,
 			@PositiveOrZero @RequestParam("page") int page) {
@@ -40,7 +41,7 @@ public class OrderController {
 	}
 
 	@PutMapping("/approve")
-	public ResponseEntity approveOrder(HttpServletRequest request,
+	public ResponseEntity<ApiResponse<Object>> approveOrder(HttpServletRequest request,
 		@Valid @RequestBody ApproveRequestDto approveRequestDto) {
 
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
