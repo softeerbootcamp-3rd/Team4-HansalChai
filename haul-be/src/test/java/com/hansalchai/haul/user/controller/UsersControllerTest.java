@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hansalchai.haul.common.auth.constants.Role;
 import com.hansalchai.haul.user.dto.CustomerSignUpDto;
-import com.hansalchai.haul.user.dto.UserLoginDto;
+import com.hansalchai.haul.user.dto.UserLogin;
 import com.hansalchai.haul.user.entity.Users;
 import com.hansalchai.haul.user.repository.UsersRepository;
 
@@ -63,15 +63,16 @@ class UsersControllerTest {
 		usersRepository.save(user);
 
 		//when, then
-		String content = objectMapper.writeValueAsString(new UserLoginDto("01012341234", "password"));
+		String content
+			= objectMapper.writeValueAsString(new UserLogin.RequestDto("01012341234", "password"));
 
 		mockMvc.perform(post("/api/v1/users/sign-in")
 				.content(content)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.data.accessToken").exists())
-			.andExpect(jsonPath("$.data.refreshToken").exists())
+			.andExpect(jsonPath("$.data.jwt.accessToken").exists())
+			.andExpect(jsonPath("$.data.jwt.refreshToken").exists())
 			.andDo(print());
 	}
 }

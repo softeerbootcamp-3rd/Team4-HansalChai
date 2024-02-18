@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.hansalchai.haul.common.auth.constants.Role;
 import com.hansalchai.haul.common.auth.jwt.Jwt;
 import com.hansalchai.haul.user.dto.CustomerSignUpDto;
-import com.hansalchai.haul.user.dto.UserLoginDto;
+import com.hansalchai.haul.user.dto.UserLogin;
 import com.hansalchai.haul.user.entity.Users;
 import com.hansalchai.haul.user.repository.UsersRepository;
 
@@ -76,11 +76,12 @@ class UsersServiceTest {
 		usersRepository.save(user);
 
 		//when
-		UserLoginDto loginDto = new UserLoginDto("01012341234", "password");
+		UserLogin.RequestDto requestDto = new UserLogin.RequestDto("01012341234", "password");
 
 		//then
-		Jwt jwt = assertDoesNotThrow(() -> usersService.signIn(loginDto));  // 로그인 성공 시, 어떤 예외도 발생하지 않는다
-		assertThat(jwt).isInstanceOf(Jwt.class);
+		UserLogin.ResponseDto responseDto
+			= assertDoesNotThrow(() -> usersService.signIn(requestDto));// 로그인 성공 시, 어떤 예외도 발생하지 않는다
+		assertThat(responseDto.getJwt()).isInstanceOf(Jwt.class);
 	}
 
 	@Test
@@ -88,10 +89,10 @@ class UsersServiceTest {
 	void signInFailTest1() {
 
 		//given
-		UserLoginDto loginDto = new UserLoginDto("01012341234", "password");
+		UserLogin.RequestDto requestDto = new UserLogin.RequestDto("01012341234", "password");
 
 		//when, then
-		assertThatThrownBy(() -> usersService.signIn(loginDto))
+		assertThatThrownBy(() -> usersService.signIn(requestDto))
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("회원가입하지 않은 유저입니다.");
 	}
@@ -110,10 +111,10 @@ class UsersServiceTest {
 			.build();
 		usersRepository.save(user);
 
-		UserLoginDto loginDto = new UserLoginDto("01012341234", "wrongPassword");
+		UserLogin.RequestDto requestDto = new UserLogin.RequestDto("01012341234", "wrongPassword");
 
 		//when, then
-		assertThatThrownBy(() -> usersService.signIn(loginDto))
+		assertThatThrownBy(() -> usersService.signIn(requestDto))
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("비밀번호가 일치하지 않습니다.");
 	}

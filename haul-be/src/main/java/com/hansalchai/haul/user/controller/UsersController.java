@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
-import com.hansalchai.haul.common.auth.jwt.Jwt;
 import com.hansalchai.haul.common.utils.ApiResponse;
 import com.hansalchai.haul.common.utils.SuccessCode;
 import com.hansalchai.haul.user.dto.CustomerSignUpDto;
 import com.hansalchai.haul.user.dto.ProfileDTO;
 import com.hansalchai.haul.user.dto.ProfileUpdateDTO;
-import com.hansalchai.haul.user.dto.UserLoginDto;
+import com.hansalchai.haul.user.dto.UserLogin;
 import com.hansalchai.haul.user.service.UsersService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,10 +39,10 @@ public class UsersController {
 	}
 
 	@PostMapping("/sign-in")
-	public ResponseEntity<ApiResponse<Jwt>> signIn(@Valid @RequestBody UserLoginDto loginDto) throws
-		JsonProcessingException {
-		Jwt jwt = usersService.signIn(loginDto);
-		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, jwt));
+	public ResponseEntity<ApiResponse<UserLogin.ResponseDto>> signIn(
+			@Valid @RequestBody UserLogin.RequestDto requestDto) throws JsonProcessingException {
+		UserLogin.ResponseDto responseDto = usersService.signIn(requestDto);
+		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, responseDto));
 	}
 
 	@GetMapping("/profile")

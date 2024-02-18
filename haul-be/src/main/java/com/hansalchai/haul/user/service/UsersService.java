@@ -8,7 +8,7 @@ import com.hansalchai.haul.common.auth.service.AuthService;
 import com.hansalchai.haul.user.dto.CustomerSignUpDto;
 import com.hansalchai.haul.user.dto.ProfileDTO;
 import com.hansalchai.haul.user.dto.ProfileUpdateDTO;
-import com.hansalchai.haul.user.dto.UserLoginDto;
+import com.hansalchai.haul.user.dto.UserLogin;
 import com.hansalchai.haul.user.entity.Users;
 import com.hansalchai.haul.user.repository.UsersRepository;
 
@@ -34,14 +34,14 @@ public class UsersService {
 	}
 
 	@Transactional
-	public Jwt signIn(UserLoginDto loginDto) throws JsonProcessingException {
+	public UserLogin.ResponseDto signIn(UserLogin.RequestDto requestDto) throws JsonProcessingException {
 
 		// db에 있는(회원가입한) 유저인지 검증
-		Users user = usersRepository.findByTel(loginDto.getTel())
+		Users user = usersRepository.findByTel(requestDto.getTel())
 			.orElseThrow(() -> new IllegalArgumentException("회원가입하지 않은 유저입니다."));
 
 		// 비밀번호 검증
-		if (!loginDto.getPassword().equals(user.getPassword())) {
+		if (!requestDto.getPassword().equals(user.getPassword())) {
 			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
 		}
 
@@ -51,7 +51,7 @@ public class UsersService {
 		// refreshToken 저장
 		user.updateRefreshToken(jwt.getRefreshToken());
 
-		return jwt;
+		return new UserLogin.ResponseDto(jwt, user.getName());
 	}
 
 	public ProfileDTO getProfile(Long userId) {
