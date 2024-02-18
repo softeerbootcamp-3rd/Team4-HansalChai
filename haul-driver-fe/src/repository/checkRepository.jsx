@@ -208,10 +208,10 @@ export async function checkOrderDetail({ orderId }) {
         data
       };
     } else {
-      return { success: false, message: "Approve failed" };
+      return { success: false, message: "CheckOrderDetail failed" };
     }
   } catch (error) {
-    console.error("Approve error:", error);
+    console.error("CheckOrderDetail error:", error);
     return { success: false, message: error.toString() };
   }
 }

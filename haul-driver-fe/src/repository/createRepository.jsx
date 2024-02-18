@@ -111,10 +111,10 @@ export async function orderDetail({ orderId }) {
         data
       };
     } else {
-      return { success: false, message: "Approve failed" };
+      return { success: false, message: "OrderDetail failed" };
     }
   } catch (error) {
-    console.error("Approve error:", error);
+    console.error("OrderDetail error:", error);
     return { success: false, message: error.toString() };
   }
 }
