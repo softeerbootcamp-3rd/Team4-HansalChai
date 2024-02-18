@@ -46,7 +46,7 @@ public class UsersService {
 
 		// 비밀번호 검증
 		if (!loginDto.getPassword().equals(user.getPassword())) {
-			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+			throw new UnauthorizedException(INCORRECT_PASSWORD);
 		}
 
 		// 토큰 생성
