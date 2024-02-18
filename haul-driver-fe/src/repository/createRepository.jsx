@@ -55,7 +55,7 @@ export async function getDriverSummaryList({ page, sortBy = "default" }) {
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+          Authorization: `Bearer ${getAccessToken()}`
         }
       }
     );
@@ -63,13 +63,13 @@ export async function getDriverSummaryList({ page, sortBy = "default" }) {
       return { success: false, message: "정보를 불러오지 못했어요." };
     }
     const body = await response.json();
-    const list = body.data.orderSearchDtos.map(v => {
+    const list = body.data.orderSearchDtos.map(orderSummaryInfo => {
       return {
-        orderId: v.id,
-        src: v.srcSimpleAddress,
-        dst: v.dstSimpleAddress,
-        time: v.transportDatetime,
-        cost: v.cost
+        orderId: orderSummaryInfo.id,
+        src: orderSummaryInfo.srcSimpleAddress,
+        dst: orderSummaryInfo.dstSimpleAddress,
+        time: orderSummaryInfo.transportDatetime,
+        cost: orderSummaryInfo.cost
       };
     });
     return {

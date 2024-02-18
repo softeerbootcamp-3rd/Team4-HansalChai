@@ -126,7 +126,7 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+          Authorization: `Bearer ${getAccessToken()}`
         }
       }
     );
@@ -134,13 +134,13 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
       return { success: false, message: "정보를 불러오지 못했어요." };
     }
     const body = await response.json();
-    const list = body.data.orderInfoDTOS.map(v => {
+    const list = body.data.orderInfoDTOS.map(orderSummaryInfo => {
       return {
-        orderId: v.id,
-        src: v.src,
-        dst: v.dst,
-        time: v.datetime,
-        cost: v.cost
+        orderId: orderSummaryInfo.id,
+        src: orderSummaryInfo.src,
+        dst: orderSummaryInfo.dst,
+        time: orderSummaryInfo.datetime,
+        cost: orderSummaryInfo.cost
       };
     });
     return {
