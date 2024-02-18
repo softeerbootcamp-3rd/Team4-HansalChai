@@ -13,7 +13,6 @@ const statusColor = [
   "rgba(255, 154, 98, 0.15)"
 ];
 
-
 const ReservItemFrame = styled.div`
   width: 100%;
   ${({ theme }) => theme.flex.flexColumn};

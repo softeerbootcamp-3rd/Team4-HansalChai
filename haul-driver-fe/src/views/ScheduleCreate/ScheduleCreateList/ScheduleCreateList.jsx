@@ -22,7 +22,7 @@ const ScheduleCreateList = () => {
       <Header home={false} back={false}>
         <Typography font="bold24">
           <TypographySpan color="subColor">{driverName}기사</TypographySpan>님을
-          위한 일정잡기
+          위한 일정잡기<TypographySpan color="subColor"> .</TypographySpan>
         </Typography>
       </Header>
       <Margin height="32px" />
