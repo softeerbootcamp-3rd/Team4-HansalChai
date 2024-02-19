@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Range;
 
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.utils.BaseTime;
+import com.hansalchai.haul.common.utils.ReservationNumberGenerator;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.user.entity.Users;
 
@@ -22,6 +23,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -63,6 +65,7 @@ public class Reservation extends BaseTime {
 	private Car car;
 
 	@Column(nullable = false)
+	@Size(min = ReservationNumberGenerator.LENGTH, max = ReservationNumberGenerator.LENGTH)
 	private String number;
 
 	@Column(nullable = false)

@@ -15,6 +15,9 @@ import com.hansalchai.haul.common.utils.ReservationNumberGenerator;
 import com.hansalchai.haul.reservation.dto.ReservationRequest;
 import com.hansalchai.haul.reservation.dto.ReservationResponse;
 import com.hansalchai.haul.reservation.service.ReservationService;
+import com.hansalchai.haul.user.entity.Users;
+import com.hansalchai.haul.user.repository.UsersRepository;
+import com.hansalchai.haul.user.service.UsersService;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +47,8 @@ public class ReservationTest {
 
 	@Autowired
 	private ReservationService reservationService;
+	@Autowired
+	private UsersRepository usersRepository;
 	private MockMvc mvc;
 
 	@BeforeEach
@@ -64,11 +69,19 @@ public class ReservationTest {
 	@Test
 	@DisplayName("예약 service 테스트")
 	void ReservationServiceTest() throws Exception {
+		Users user = Users.builder()
+			.name("haul")
+			.tel("01012341234")
+			.password("password")
+			.email("haul@gmail.com")
+			.role(Role.CUSTOMER)
+			.build();
+		Users saved = usersRepository.save(user);
 		// given
 		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTO();
 		//when
 		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO,
-			1L);
+			saved.getUserId());
 		//then
 		Assertions.assertEquals(1, actual.getCar().getCount());
 		Assertions.assertEquals("포터2", actual.getCar().getModel());

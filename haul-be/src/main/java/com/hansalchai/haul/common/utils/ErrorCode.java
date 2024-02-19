@@ -22,7 +22,7 @@ public enum ErrorCode {
 	ORDER_NOT_FOUND(NOT_FOUND, "1105", "해당하는 주문을 찾을 수 없습니다."),
 
 	//DB Error
-	USER_NOT_SAVED(INTERNAL_SERVER_ERROR, "1202", "사용자가 저장 되지 않았습니다."),
+	USER_NOT_SAVED(INTERNAL_SERVER_ERROR, "1201", "사용자가 저장 되지 않았습니다."),
 	RESERVATION_NOT_SAVED(INTERNAL_SERVER_ERROR, "1202", "예약이 저장 되지 않았습니다."),
 
 	// 토큰, 유저
