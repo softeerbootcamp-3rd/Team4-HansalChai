@@ -191,7 +191,7 @@ public class ReservationService{
 		changeReservationStatus(reservation);
 	}
 
-	private String generateUniqueReservationNumber(ReservationRepository reservationRepository) {
+	private String generateUniqueReservationNumber() {
 		while (true) {
 			String generatedNumber = ReservationNumberGenerator.generateUniqueId();
 			if (reservationRepository.findByNumber(generatedNumber).isEmpty()) {
