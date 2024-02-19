@@ -67,8 +67,8 @@ const Login = () => {
     });
     if (success) {
       setIsMember(true);
-      setAccessToken(data.data.accessToken);
-      setRefreshToken(data.data.refreshToken);
+      setAccessToken(data.data.jwt.accessToken);
+      setRefreshToken(data.data.jwt.refreshToken);
       navigate(UrlMap.choiceTranportTypeUrl);
     } else {
       //FIXME: 로그인 실패 예외처리

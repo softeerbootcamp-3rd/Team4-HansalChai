@@ -1,18 +1,19 @@
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import Margin from "../../../../components/Margin/Margin.jsx";
 import Typography from "../../../../components/Typhography/Typhography.jsx";
-import { Link } from "react-router-dom";
 import SummaryItemBox from "./SummaryItemBox.jsx";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import Skeleton from "./Skeleton.jsx";
-import styled from "styled-components";
+import Skeleton from "./Skeleton.jsx"
 import Flex from "../../../../components/Flex/Flex.jsx";
-import { getUserSummaryList } from "../../../../repository/checkRepository.js";
 import ToastMaker from "../../../../components/Toast/ToastMaker.jsx";
+import { UrlMap } from "../../../../data/GlobalVariable.js";
+import { getUserSummaryList } from "../../../../repository/checkRepository.js";
 
 // eslint-disable-next-line react/display-name
 const LoadingSkeleton = forwardRef((props, ref) => {
   return (
-    <div ref={ref}>
+    <div ref={ref} id="loadingskeleton">
       <Skeleton />
     </div>
   );
@@ -20,14 +21,14 @@ const LoadingSkeleton = forwardRef((props, ref) => {
 
 const ListFrame = styled.div`
   width: 100%;
-  height: 100%;
+  height: fit-content;
   ${({ theme }) => theme.flex.flexColumn};
   padding-bottom: 100px;
 `;
 
 const ListEnd = () => {
   return (
-    <div>
+    <div id="listend">
       <Flex kind="flexColumn" align="center">
         <Typography font={"medium16"} color={"upperTextColor"}>
           모두 보여드렸어요
@@ -39,18 +40,21 @@ const ListEnd = () => {
 
 //IntersectionObserver를 훅으로 만들어서 사용
 function useIntersectionObserver(callback) {
-  const observer = useRef(
-    new IntersectionObserver(
+  //useEffect를 통해 컴포넌트 생성시에만 observer를 생성하고, 컴포넌트가 사라질 때에만 observer를 제거함
+  const observer = useRef();
+  useEffect(() => {
+    observer.current = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            callback();
-          }
+          if (!entry.isIntersecting) return;
+          entry.target.style.display = "none";
+          callback();
         });
       },
       { threshold: 0 }
-    )
-  );
+    );
+    return () => observer.current.disconnect();
+  }, []);
 
   const observe = element => {
     observer.current.observe(element);
@@ -64,80 +68,75 @@ function useIntersectionObserver(callback) {
     observer.current.disconnect();
   };
 
-  return [observe, unobserve, disconnect];
+  return { observe, unobserve, disconnect };
 }
 
-const InfiniteList = () => {
+const InfiniteList = ({ listStatus, emptyListView = <></> }) => {
   const [isEnd, setIsEnd] = useState(false); //데이터를 모두 불러왔으면 end를 트리거 시키기 위한 state
-  const realEndRef = useRef(false); //리스트를 모두 불러왔는지 확인하기 위한 ref
   const endRef = useRef(null); //마지막 요소를 참조하기 위한 ref
-  const [page, setPage] = useState(0); //현재 불러와진 최종 페이지
-  const [isLoading, setIsLoading] = useState(true); //데이터를 불러오는 중이면 True
+  const page = useRef(0); //현재 불러와진 최종 페이지
+  const isLoading = useRef(false); //데이터를 불러오는 중이면 True
+  //const [isLoading, setIsLoading] = useState(true); //데이터를 불러오는 중이면 True
   const [reservationList, setReservationList] = useState([]); //현재 불러와진 예약 리스트
 
   //IntersectionObserver에 마지막 요소가 잡히면 페이지를 1 증가시킴
-  const [observe, unobserve, disconnect] = useIntersectionObserver(() => {
-    if (realEndRef.current) return;
-    setPage(prev => prev + 1);
+  const { observe, disconnect } = useIntersectionObserver(() => {
+    if (isLoading.current) return;
+
+    page.current += 1;
+    (async () => {
+      await runFetcher();
+    })();
   });
 
-  //페이지가 바뀔 때마다 새로운 데이터를 불러옴
-  useEffect(
-    () => async () => {
-      if (realEndRef.current) return;
-      setIsLoading(true);
-      const newPage = await getUserSummaryList({ page });
-      if (newPage.success !== true) {
-        setIsEnd(true);
-        ToastMaker({
-          type: "error",
-          children: "예약 정보를 불러오지 못했어요."
-        });
-        return;
-      }
-
-      setIsEnd(newPage.data.lastPage);
-      setReservationList(prev => {
-        if (newPage.data.reservationInfoDTOS.length !== 0)
-          return prev.concat(newPage.data.reservationInfoDTOS);
-        return prev;
+  const runFetcher = async () => {
+    if (isLoading.current) return;
+    isLoading.current = true;
+    const newPage = await getUserSummaryList({ page: page.current });
+    if (newPage.success !== true) {
+      setIsEnd(true);
+      ToastMaker({
+        type: "error",
+        children: "예약 정보를 불러오지 못했어요."
       });
-      setIsLoading(false);
-    },
-    [page]
-  );
-
-  useEffect(() => {
-    if (isEnd) {
-      setIsLoading(true);
-      disconnect();
-      endRef.current = null;
-      realEndRef.current = true;
+      return;
     }
-  }, [isEnd]);
+    setReservationList(prev => prev.concat(newPage.data.reservationInfoDTOS));
+    setIsEnd(newPage.data.lastPage);
+    endRef.current.style.display = newPage.data.lastPage ? "none" : "";
+    isLoading.current = false;
+  };
 
   useEffect(() => {
-    if (realEndRef.current) return;
-    if (isLoading) unobserve(endRef.current);
-    else observe(endRef.current);
-  }, [isLoading]);
+    page.current = 0;
+    setReservationList([]);
+    setIsEnd(false);
+    (async () => {
+      await runFetcher();
+    })();
+  }, [listStatus]);
 
   useEffect(() => {
-    if (realEndRef.current) return setIsEnd(false);
-    setIsLoading(false);
-    return () => {
-      if (endRef.current) observe(endRef.current);
-      setReservationList([]);
-      setIsEnd(false);
-    };
+    observe(endRef.current);
+    return () => disconnect();
   }, []);
+
+  const ListTail = () => {
+    console.log(reservationList.length, isEnd);
+    if (isEnd) {
+      if (reservationList.length === 0) return emptyListView;
+      return ListEnd();
+    }
+  };
 
   return (
     <ListFrame>
       {reservationList.map((data, index) => (
         <div key={`reserv${index}`}>
-          <Link to={`/check/detail/${data.id}`} key={`reserv${index}`}>
+          <Link to={`${UrlMap.checkReservationDetailPageUrl}/${data.id}`} key={`reserv${index}`}>
             <SummaryItemBox
+              index={index}
+              selectedStatus={listStatus}
               model={data.car}
               status={data.status}
               time={data.datetime}
@@ -147,7 +146,8 @@ const InfiniteList = () => {
           <Margin height="20px" />
         </div>
       ))}
-      {isEnd ? <ListEnd /> : <LoadingSkeleton ref={endRef} />}
+      <ListTail />
+      <LoadingSkeleton ref={endRef} />
     </ListFrame>
   );
 };
