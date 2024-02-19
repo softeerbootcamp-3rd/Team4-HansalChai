@@ -19,6 +19,7 @@ import com.hansalchai.haul.car.constants.CarType;
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.auth.constants.Role;
 import com.hansalchai.haul.common.exceptions.ForbiddenException;
+import com.hansalchai.haul.common.exceptions.InternalServerError;
 import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.common.utils.CarCategorySelector;
 import com.hansalchai.haul.common.utils.CargoFeeTable;
@@ -63,32 +64,36 @@ public class ReservationService{
 	public ReservationRecommendationDTO createReservation(CreateReservationDTO reservationDTO,
 		Long userId) {
 		Users user = usersRepository.findById(userId)
-			.orElseThrow(() -> new RuntimeException("User not found"));
+			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 		Source source = reservationDTO.getSrc().build();
 		Destination destination = reservationDTO.getDst().build();
 		Cargo cargo = reservationDTO.getCargo().build();
 		CargoOption cargoOption = reservationDTO.getCargoOption().build();
 
-		//TODO 리팩토링 도움
 		MapUtils.Location srcLocation = new MapUtils.Location(source.getLatitude(), source.getLongitude());
 		MapUtils.Location dstLocation = new MapUtils.Location(destination.getLatitude(), destination.getLongitude());
 		MapUtils.DistanceDurationInfo distanceDurationInfo = kakaoMap.carPathFind(srcLocation, dstLocation);
 		//추천차량 계산
 		List<Car> recommendedCars = customCarRepository.findProperCar(CarCategorySelector.selectCarCategory(cargoOption), cargo);
 		if(recommendedCars.isEmpty()){
-			throw new IllegalArgumentException("Recommended cars list is empty");
+			throw new NotFoundException(CAR_NOT_FOUND);
 		}
 		//차량을 기반으로 금액 계산
 		CargoFeeTable.RequestedTruckInfo getTruck = CargoFeeTable.findCost(recommendedCars, distanceDurationInfo.getDistance(), cargo.getWeight());
 		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(),distanceDurationInfo.getDuration());
 		//예약 번호
-		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
+		String reservationNumber = generateUniqueReservationNumber(reservationRepository);
 
 		Reservation reservation = Reservation.toEntity(user, null, cargo, cargoOption,
 				source, destination, transport, getTruck.getCar(), reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
 				distanceDurationInfo.getDuration(), getTruck.getNumber());
 
-		Reservation saved = reservationRepository.save(reservation);
+		Reservation saved;
+		try {
+			saved = reservationRepository.save(reservation);
+		} catch (Exception e) {
+			throw new InternalServerError(RESERVATION_NOT_SAVED);
+		}
 
 		return new ReservationRecommendationDTO(saved, s3Util);
 	}
@@ -105,14 +110,14 @@ public class ReservationService{
 		//추천차량 계산
 		List<Car> recommendedCars = customCarRepository.findProperCar(CarCategorySelector.selectCarCategory(cargoOption), cargo);
 		if(recommendedCars.isEmpty()){
-			throw new IllegalArgumentException("Recommended cars list is empty");
+			throw new NotFoundException(CAR_NOT_FOUND);
 		}
 
 		//차량을 기반으로 금액 계산
 		CargoFeeTable.RequestedTruckInfo getTruck = CargoFeeTable.findCost(recommendedCars, distanceDurationInfo.getDistance(), cargo.getWeight());
 		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(),distanceDurationInfo.getDuration());
 		//예약 번호
-		String reservationNumber = ReservationNumberGenerator.generateUniqueId();
+		String reservationNumber = generateUniqueReservationNumber(reservationRepository);
 
 		Users guest = Users.toEntity(reservationDTO.getUserInfo().getName(),reservationDTO.getUserInfo().getTel(),reservationNumber, null, null, Role.GUEST);
 
@@ -120,10 +125,19 @@ public class ReservationService{
 			source, destination, transport, getTruck.getCar(), reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
 			distanceDurationInfo.getDuration(), getTruck.getNumber());
 
-		usersRepository.save(guest);
-		reservationRepository.save(reservation);
 
-		Reservation saved = reservationRepository.save(reservation);
+		try {
+			usersRepository.save(guest);
+		} catch (Exception e) {
+			throw new InternalServerError(USER_NOT_SAVED);
+		}
+
+		Reservation saved;
+		try {
+			saved = reservationRepository.save(reservation);
+		} catch (Exception e) {
+			throw new InternalServerError(RESERVATION_NOT_SAVED);
+		}
 
 		return new ReservationRecommendationDTO(saved, s3Util);
 	}
@@ -195,6 +209,15 @@ public class ReservationService{
 		}
 
 		changeReservationStatus(reservation);
+	}
+
+	private String generateUniqueReservationNumber(ReservationRepository reservationRepository) {
+		while (true) {
+			String generatedNumber = ReservationNumberGenerator.generateUniqueId();
+			if (reservationRepository.findByNumber(generatedNumber).isEmpty()) {
+				return generatedNumber;
+			}
+		}
 	}
 
 	public void changeReservationStatus(Reservation reservation){
