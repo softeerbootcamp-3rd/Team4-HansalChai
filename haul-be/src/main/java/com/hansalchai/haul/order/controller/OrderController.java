@@ -37,8 +37,8 @@ public class OrderController {
 	@GetMapping("")
 	public ResponseEntity<ApiResponse<OrderSearchResponse>> findAll(
 			HttpServletRequest request,
-			@RequestParam("sort") String sort,
-			@PositiveOrZero @RequestParam("page") int page) {
+			@RequestParam(value = "sort", defaultValue = "default") String sort,
+			@PositiveOrZero @RequestParam(value = "page", defaultValue = "0") int page) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		OrderSearchResponse orders = orderService.findAll(auth.getUserId(), sort, page);
 		return ResponseEntity.ok(success(GET_SUCCESS, orders));
