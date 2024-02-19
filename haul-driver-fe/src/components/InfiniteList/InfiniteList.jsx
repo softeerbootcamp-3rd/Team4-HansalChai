@@ -19,7 +19,7 @@ const LoadingSkeleton = forwardRef((props, ref) => {
 
 const ListFrame = styled.div`
   width: 100%;
-  height: 100%;
+  height: fit-content;
   ${({ theme }) => theme.flex.flexColumn};
   padding-bottom: 100px;
 `;
