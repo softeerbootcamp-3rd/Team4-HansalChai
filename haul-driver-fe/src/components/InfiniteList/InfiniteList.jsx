@@ -79,7 +79,8 @@ const InfiniteList = ({
   const realEndRef = useRef(false); //리스트를 모두 불러왔는지 확인하기 위한 ref
   const endRef = useRef(null); //마지막 요소를 참조하기 위한 ref
   const page = useRef(0); //현재 불러와진 최종 페이지
-  const isLoading = useRef(true); //데이터를 불러오는 중이면 True
+  //const isLoading = useRef(true); //데이터를 불러오는 중이면 True
+  const [isLoading, setIsLoading] = useState(true); //데이터를 불러오는 중이면 True
   const [reservationList, setReservationList] = useState([]); //현재 불러와진 예약 리스트
 
   //IntersectionObserver에 마지막 요소가 잡히면 페이지를 1 증가시킴
@@ -91,12 +92,13 @@ const InfiniteList = ({
       (async () => {
         if (realEndRef.current) return;
 
-        isLoading.current = true;
-        setTimeout(async () => {
+        setIsLoading(true);
+        //isLoading.current = true;
+        (async () => {
           await runFetcher();
-        }, 0);
-
-        isLoading.current = false;
+        })();
+        //isLoading.current = false;
+        setIsLoading(false);
       })();
   });
 
@@ -124,23 +126,28 @@ const InfiniteList = ({
 
   useEffect(() => {
     (async () => {
+      disconnect();
+      //isLoading.current = true;
+      setIsLoading(true);
       setReservationList([]);
 
       page.current = 0;
       realEndRef.current = false;
       setIsEnd(false);
 
-      isLoading.current = true;
-      setTimeout(async () => {
+      (async () => {
         await runFetcher();
-      }, 0);
-      isLoading.current = false;
+      })();
+      setIsLoading(false);
+      //isLoading.current = false;
+      //observe(endRef.current);
     })();
   }, [listStatus]);
 
   useEffect(() => {
     if (isEnd) {
-      isLoading.current = true;
+      //setIsLoading(true);
+      //isLoading.current = false;
       disconnect();
       endRef.current = null;
       realEndRef.current = true;
@@ -149,7 +156,8 @@ const InfiniteList = ({
 
   useEffect(() => {
     if (realEndRef.current) return setIsEnd(() => false);
-    isLoading.current = false;
+    //setIsLoading(false);
+    //isLoading.current = false;
     return () => {
       if (endRef.current) observe(endRef.current);
       setReservationList([]);
@@ -159,29 +167,25 @@ const InfiniteList = ({
 
   return (
     <ListFrame>
-      {reservationList.length === 0
-        ? emptyListView
-        : reservationList.map((data, index) => (
-            <div key={`reserv${index}`}>
-              <Link to={`${baseURL}/${data.orderId}`} key={`reserv${index}`}>
-                <SummaryItemBox
-                  index={index}
-                  selectedStatus={listStatus}
-                  src={data.src}
-                  dst={data.dst}
-                  time={data.time}
-                  fee={data.cost}
-                />
-              </Link>
-              <Margin height="20px" />
-            </div>
-          ))}
-      {isEnd ? (
-        reservationList.length === 0 ? (
-          <></>
-        ) : (
-          <ListEnd />
-        )
+      {reservationList.map((data, index) => (
+        <div key={`reserv${index}`}>
+          <Link to={`${baseURL}/${data.orderId}`} key={`reserv${index}`}>
+            <SummaryItemBox
+              index={index}
+              selectedStatus={listStatus}
+              src={data.src}
+              dst={data.dst}
+              time={data.time}
+              fee={data.cost}
+            />
+          </Link>
+          <Margin height="20px" />
+        </div>
+      ))}
+      {reservationList.length === 0 && isEnd ? (
+        emptyListView
+      ) : isEnd ? (
+        <ListEnd />
       ) : (
         <LoadingSkeleton ref={endRef} />
       )}
