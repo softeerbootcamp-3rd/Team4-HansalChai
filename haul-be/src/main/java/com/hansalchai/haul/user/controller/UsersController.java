@@ -33,7 +33,7 @@ public class UsersController {
 	private final UsersService usersService;
 
 	@PostMapping("/sign-up")
-	public ResponseEntity<ApiResponse<String>> signUp(@Valid @RequestBody CustomerSignUpDto signUpDto) {
+	public ResponseEntity<ApiResponse<Object>> signUp(@Valid @RequestBody CustomerSignUpDto signUpDto) {
 		usersService.signUp(signUpDto);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, null));
 	}
