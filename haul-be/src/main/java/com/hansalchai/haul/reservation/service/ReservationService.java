@@ -22,6 +22,8 @@ import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
 import com.hansalchai.haul.common.utils.MapUtils;
 import com.hansalchai.haul.common.utils.ReservationNumberGenerator;
 import com.hansalchai.haul.common.utils.S3Util;
+import com.hansalchai.haul.order.constants.OrderStatusCategory;
+import com.hansalchai.haul.reservation.constants.TransportStatus;
 import com.hansalchai.haul.reservation.constants.TransportType;
 import com.hansalchai.haul.reservation.entity.Cargo;
 import com.hansalchai.haul.reservation.entity.CargoOption;
@@ -122,18 +124,17 @@ public class ReservationService{
 		return new ReservationRecommendationDTO(saved, s3Util);
 	}
 
-	public ReservationDTO getReservation(int page, Long userId) {
+	public ReservationDTO getReservation(String keyword, int page, Long userId) {
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
 		Pageable pageable = PageRequest.of(page,PAGECUT);
-		Page<Reservation> pageContent = reservationRepository.findByUserId(user.getUserId(), pageable);
+		Page<Reservation> pageContent = TransportStatus.findStatusByCode(keyword).execute(user.getUserId(), pageable, reservationRepository);
 		List<ReservationInfoDTO> reservationInfoDTOS = pageContent.getContent().stream().map(ReservationInfoDTO::new).collect(Collectors.toList());
 		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
 		return new ReservationDTO(reservationInfoDTOS, isLastPage);
 	}
 
 	public ReservationDTO getGuestReservation(String number) {
-		//TODO 예약 전 일때는 안되게
 		Reservation reservation = reservationRepository.findByNumber(number)
 			.orElseThrow(() -> new RuntimeException("Reservation not found"));
 		ReservationInfoDTO reservationInfoDTO = new ReservationInfoDTO(reservation);

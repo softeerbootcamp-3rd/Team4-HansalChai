@@ -99,6 +99,29 @@ public class ReservationTest {
 	}
 
 	@Test
+	@DisplayName("비회원은 화물차를 예약할 수 있습니다.")
+	void GuestReservationMVCTest() throws Exception {
+		// given
+		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTO();
+
+		String jsonContent = om.writeValueAsString(createReservationDTO);
+		logger.info(jsonContent);
+		// when
+		ResultActions resultActions = mvc.perform(
+			post("/api/v1/reservations/guest")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(jsonContent)
+		);
+
+		// console
+		String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+		logger.info("테스트 정보 확인: "+responseBody);
+
+		// verify
+		resultActions.andExpect(jsonPath("$.status").value(200));
+	}
+
+	@Test
 	@DisplayName("번호 생성테스트")
 	void GenerateNumberTest() throws Exception {
 		for(int i = 0;i<30;i++){
