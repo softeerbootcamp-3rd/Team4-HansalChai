@@ -13,8 +13,24 @@ import { functionBinder } from "../../../utils/helper.js";
 import { getUserName } from "../../../utils/localStorage.js";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import EmptyListHolder from "./EmptyListHolder.jsx";
+import styled from "styled-components";
 
-//TODO: API가 운송상태를 구별하여 가져올 수 있게 변경된 후 리스트 수정할 것!
+const Floater = styled.div`
+  overflow: visible;
+  height: fit-content;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  background-color: white;
+`;
+
+const HorizontalLine = styled(UnderBar)`
+  width: 100%;
+  left: -20px;
+  position: relative;
+`;
+
 const ScheduleCheckList = () => {
   const [selectedStatus, setSelectedStatus] = useState(0);
   const driverName = getUserName();
@@ -27,20 +43,22 @@ const ScheduleCheckList = () => {
 
   return (
     <MobileLayout>
-      <Header home={false} back={false}>
-        <Typography font="bold24">
-          <TypographySpan color="subColor">{driverName}</TypographySpan>님의
-          일정<TypographySpan color="subColor"> .</TypographySpan>
-        </Typography>
-      </Header>
-      <Margin height="32px" />
-      <TabBar
-        tabBarList={statusList}
-        setSelected={setSelectedStatus}
-        selected={selectedStatus}
-      />
-      <UnderBar />
-      <Margin height="20px" />
+      <Floater>
+        <Header home={false} back={false}>
+          <Typography font="bold24">
+            <TypographySpan color="subColor">{driverName}</TypographySpan>님의
+            일정<TypographySpan color="subColor"> .</TypographySpan>
+          </Typography>
+        </Header>
+        <Margin height="32px" />
+        <TabBar
+          tabBarList={statusList}
+          setSelected={setSelectedStatus}
+          selected={selectedStatus}
+        />
+        <HorizontalLine />
+      </Floater>
+      <Margin height="110px" />
       <InfiniteList
         fetcher={fetcherList}
         listStatus={selectedStatus}

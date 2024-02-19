@@ -11,7 +11,7 @@ import ToastMaker from "../Toast/ToastMaker.jsx";
 // eslint-disable-next-line react/display-name
 const LoadingSkeleton = forwardRef((props, ref) => {
   return (
-    <div ref={ref}>
+    <div ref={ref} id="loadingskeleton">
       <Skeleton />
     </div>
   );
@@ -19,14 +19,14 @@ const LoadingSkeleton = forwardRef((props, ref) => {
 
 const ListFrame = styled.div`
   width: 100%;
-  height: 100%;
+  height: fit-content;
   ${({ theme }) => theme.flex.flexColumn};
   padding-bottom: 100px;
 `;
 
 const ListEnd = () => {
   return (
-    <div>
+    <div id="listend">
       <Flex kind="flexColumn" align="center">
         <Typography font={"medium16"} color={"upperTextColor"}>
           모두 보여드렸어요
@@ -45,7 +45,7 @@ function useIntersectionObserver(callback) {
       (entries, observer) => {
         entries.forEach(entry => {
           if (!entry.isIntersecting) return;
-          observer.unobserve(entry.target);
+          entry.target.style.display = "none";
           callback();
         });
       },
@@ -75,37 +75,30 @@ const InfiniteList = ({
   listStatus,
   emptyListView = <></>
 }) => {
-  const [isEnd, setIsEnd] = useState(() => false); //데이터를 모두 불러왔으면 end를 트리거 시키기 위한 state
-  const realEndRef = useRef(false); //리스트를 모두 불러왔는지 확인하기 위한 ref
+  const [isEnd, setIsEnd] = useState(false); //데이터를 모두 불러왔으면 end를 트리거 시키기 위한 state
   const endRef = useRef(null); //마지막 요소를 참조하기 위한 ref
   const page = useRef(0); //현재 불러와진 최종 페이지
-  const isLoading = useRef(true); //데이터를 불러오는 중이면 True
+  const isLoading = useRef(false); //데이터를 불러오는 중이면 True
+  //const [isLoading, setIsLoading] = useState(true); //데이터를 불러오는 중이면 True
   const [reservationList, setReservationList] = useState([]); //현재 불러와진 예약 리스트
 
   //IntersectionObserver에 마지막 요소가 잡히면 페이지를 1 증가시킴
   const { observe, disconnect } = useIntersectionObserver(() => {
-    if (realEndRef.current) return;
+    if (isLoading.current) return;
 
     page.current += 1;
-    () =>
-      (async () => {
-        if (realEndRef.current) return;
-
-        isLoading.current = true;
-        setTimeout(async () => {
-          await runFetcher();
-        }, 0);
-
-        isLoading.current = false;
-      })();
+    (async () => {
+      await runFetcher();
+    })();
   });
 
   const runFetcher = async () => {
-    const fetcherIndex = () => listStatus;
+    if (isLoading.current) return;
+    isLoading.current = true;
     const newPage =
       typeof fetcher === "function"
         ? await fetcher({ page: page.current })
-        : await fetcher[fetcherIndex()]({ page: page.current });
+        : await fetcher[listStatus]({ page: page.current });
     if (newPage.success !== true) {
       setIsEnd(true);
       ToastMaker({
@@ -114,77 +107,52 @@ const InfiniteList = ({
       });
       return;
     }
-
+    setReservationList(prev => prev.concat(newPage.data.list));
     setIsEnd(newPage.data.lastPage);
-    setReservationList(prev => {
-      if (newPage.data.list.length !== 0) return prev.concat(newPage.data.list);
-      return prev;
-    });
+    endRef.current.style.display = newPage.data.lastPage ? "none" : "";
+    isLoading.current = false;
   };
 
   useEffect(() => {
+    page.current = 0;
+    setReservationList([]);
+    setIsEnd(false);
     (async () => {
-      setReservationList([]);
-
-      page.current = 0;
-      realEndRef.current = false;
-      setIsEnd(false);
-
-      isLoading.current = true;
-      setTimeout(async () => {
-        await runFetcher();
-      }, 0);
-      isLoading.current = false;
+      await runFetcher();
     })();
   }, [listStatus]);
 
   useEffect(() => {
-    if (isEnd) {
-      isLoading.current = true;
-      disconnect();
-      endRef.current = null;
-      realEndRef.current = true;
-    }
-  }, [isEnd]);
-
-  useEffect(() => {
-    if (realEndRef.current) return setIsEnd(() => false);
-    isLoading.current = false;
-    return () => {
-      if (endRef.current) observe(endRef.current);
-      setReservationList([]);
-      setIsEnd(() => false);
-    };
+    observe(endRef.current);
+    return () => disconnect();
   }, []);
+
+  const ListTail = () => {
+    if (isEnd) {
+      if (reservationList.length === 0) return emptyListView;
+      return ListEnd();
+    }
+  };
 
   return (
     <ListFrame>
-      {reservationList.length === 0
-        ? emptyListView
-        : reservationList.map((data, index) => (
-            <div key={`reserv${index}`}>
-              <Link to={`${baseURL}/${data.orderId}`} key={`reserv${index}`}>
-                <SummaryItemBox
-                  index={index}
-                  selectedStatus={listStatus}
-                  src={data.src}
-                  dst={data.dst}
-                  time={data.time}
-                  fee={data.cost}
-                />
-              </Link>
-              <Margin height="20px" />
-            </div>
-          ))}
-      {isEnd ? (
-        reservationList.length === 0 ? (
-          <></>
-        ) : (
-          <ListEnd />
-        )
-      ) : (
-        <LoadingSkeleton ref={endRef} />
-      )}
+      {reservationList.map((data, index) => (
+        <div key={`reserv${index}`}>
+          <Link to={`${baseURL}/${data.orderId}`} key={`reserv${index}`}>
+            <SummaryItemBox
+              index={index}
+              selectedStatus={listStatus}
+              src={data.src}
+              dst={data.dst}
+              time={data.time}
+              fee={data.cost}
+            />
+          </Link>
+          <Margin height="20px" />
+        </div>
+      ))}
+      <ListTail />
+      <LoadingSkeleton ref={endRef} />
     </ListFrame>
   );
 };
