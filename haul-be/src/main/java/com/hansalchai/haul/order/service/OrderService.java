@@ -2,6 +2,7 @@ package com.hansalchai.haul.order.service;
 
 import java.util.List;
 
+import static com.hansalchai.haul.common.utils.ErrorCode.*;
 import static com.hansalchai.haul.order.dto.OrderSearchResponse.*;
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
 import static com.hansalchai.haul.reservation.service.ReservationService.*;
@@ -17,6 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.config.SmsUtil;
 
+import com.hansalchai.haul.common.exceptions.BadRequestException;
+import com.hansalchai.haul.common.exceptions.ConflictException;
+import com.hansalchai.haul.common.exceptions.NotFoundException;
+import com.hansalchai.haul.common.exceptions.UnauthorizedException;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
@@ -51,7 +56,7 @@ public class OrderService {
 
 		// 오더 리스트 조회를 위해 기사(Owner)의 차 id 탐색
 		Owner owner = ownerRepository.findByDriverId(driverId)
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 owner입니다."));
+			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
 		Car car = owner.getCar();
 		Long carId = car.getCarId();
 
@@ -72,17 +77,21 @@ public class OrderService {
 		return new OrderSearchResponse(orders, isLastPage);
 	}
 
-
 	@Transactional
 	public void approve(Long driverId, ApproveRequestDto approveRequestDto) {
 
 		// 1. 예약 정보 가져오기
 		Reservation reservation = reservationRepository.findById(approveRequestDto.getId())
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약번호입니다."));
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+
+		// 1.5. 기사가 배정되어있으면 오더 승인 불가
+		if (reservation.getOwner() != null) {
+			throw new ConflictException(ALREADY_ASSIGNED_DRIVER);
+		}
 
 		// 2. 기사 정보 가져오기
 		Owner owner = ownerRepository.findByDriverId(driverId)
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 owner입니다."));
+			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
 
 		// 3. 예약에 기사 배정 정보 저장, 운송 상태를 '운송 전'으로 변경
 		reservation.setDriver(owner);
@@ -113,17 +122,27 @@ public class OrderService {
 	}
 
 	@Transactional
-	public TransportStatusChange.ResponseDto changeTransportStatus(TransportStatusChange.RequestDto requestDto) {
+	public TransportStatusChange.ResponseDto changeTransportStatus(Long userId, TransportStatusChange.RequestDto requestDto) {
 
-		// 1. 예약 정보 가져오기
 		Reservation reservation = reservationRepository.findById(requestDto.getId())
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 오더 id입니다."));
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
 
-		// 2. 다음 단계의 운송 상태 가져오기(운송 전 -> 운송 중, 운송 중 -> 운송 완료)
+		//요청한 유저 id가 예약 ownerId랑 같아야 운송 상태를 변경할 수 있다.
+		Owner owner = reservation.getOwner();
+		if (!userId.equals(owner.getOwnerId())) {
+			throw new UnauthorizedException(UNAUTHORIZED_ACCESS);
+		}
+
+		// 다음 단계의 운송 상태 가져오기(운송 전 -> 운송 중, 운송 중 -> 운송 완료)
 		Transport transport = reservation.getTransport();
-		TransportStatus nextStatus = TransportStatus.getNextStatus(transport.getTransportStatus());
+		TransportStatus transportStatus = transport.getTransportStatus();
 
-		// 3. 운송 상태 업데이트
+		//이미 운송 완료된 오더는 운송 상태를 변경할 수 없다
+		if (transportStatus.equals(DONE)) {
+			throw new BadRequestException(ALREADY_DELIVERED);
+		}
+		TransportStatus nextStatus = TransportStatus.getNextStatus(transportStatus);
+
 		transport.updateTransportStatus(nextStatus);
 
 		return new TransportStatusChange.ResponseDto(reservation);

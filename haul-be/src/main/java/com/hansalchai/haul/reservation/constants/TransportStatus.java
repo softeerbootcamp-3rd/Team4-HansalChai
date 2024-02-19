@@ -46,15 +46,9 @@ public enum TransportStatus {
 
 	// 다음 단계의 운송 상태를 반환
 	public static TransportStatus getNextStatus(TransportStatus currentStatus) {
-
 		if (currentStatus == NOT_STARTED) {
 			return IN_PROGRESS;
 		}
-
-		if (currentStatus == IN_PROGRESS) {
-			return DONE;
-		}
-
-		return currentStatus;
+		return DONE;
 	}
 }
