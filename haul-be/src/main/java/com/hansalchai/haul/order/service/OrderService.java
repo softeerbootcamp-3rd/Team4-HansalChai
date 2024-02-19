@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.config.SmsUtil;
 
+import com.hansalchai.haul.common.exceptions.BadRequestException;
 import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
@@ -123,15 +124,19 @@ public class OrderService {
 	@Transactional
 	public TransportStatusChange.ResponseDto changeTransportStatus(TransportStatusChange.RequestDto requestDto) {
 
-		// 1. 예약 정보 가져오기
 		Reservation reservation = reservationRepository.findById(requestDto.getId())
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 오더 id입니다."));
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
 
-		// 2. 다음 단계의 운송 상태 가져오기(운송 전 -> 운송 중, 운송 중 -> 운송 완료)
+		// 다음 단계의 운송 상태 가져오기(운송 전 -> 운송 중, 운송 중 -> 운송 완료)
 		Transport transport = reservation.getTransport();
-		TransportStatus nextStatus = TransportStatus.getNextStatus(transport.getTransportStatus());
+		TransportStatus transportStatus = transport.getTransportStatus();
 
-		// 3. 운송 상태 업데이트
+		//이미 운송 완료된 오더는 운송 상태를 변경할 수 없다
+		if (transportStatus.equals(DONE)) {
+			throw new BadRequestException(ALREADY_DELIVERED);
+		}
+		TransportStatus nextStatus = TransportStatus.getNextStatus(transportStatus);
+
 		transport.updateTransportStatus(nextStatus);
 
 		return new TransportStatusChange.ResponseDto(reservation);
