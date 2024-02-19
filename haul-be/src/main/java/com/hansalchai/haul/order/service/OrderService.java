@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.config.SmsUtil;
 
+import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
@@ -74,17 +75,21 @@ public class OrderService {
 		return new OrderSearchResponse(orders, isLastPage);
 	}
 
-
 	@Transactional
 	public void approve(Long driverId, ApproveRequestDto approveRequestDto) {
 
 		// 1. 예약 정보 가져오기
 		Reservation reservation = reservationRepository.findById(approveRequestDto.getId())
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약번호입니다."));
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+
+		// 1.5. 기사가 배정되어있으면 오더 승인 불가
+		if (reservation.getOwner() != null) {
+			throw new ConflictException(ALREADY_ASSIGNED_DRIVER);
+		}
 
 		// 2. 기사 정보 가져오기
 		Owner owner = ownerRepository.findByDriverId(driverId)
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 owner입니다."));
+			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
 
 		// 3. 예약에 기사 배정 정보 저장, 운송 상태를 '운송 전'으로 변경
 		reservation.setDriver(owner);
