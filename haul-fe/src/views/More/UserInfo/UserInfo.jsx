@@ -8,7 +8,7 @@ import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import { useState, useRef, useEffect } from "react";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
-import { logoutFun } from "../../../utils/localStorage.js";
+import { logoutFun, setUserName } from "../../../utils/localStorage.js";
 import { useNavigate } from "react-router-dom";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 import { getUserProfile, putPassword } from "../../../repository/userRepository.js";
@@ -93,6 +93,7 @@ const getUserInfo = async () => {
     ToastMaker({ type: "error", children: response.message });
     return;
   }
+  setUserName(response.data.name);
   return response.data;
 };
 
