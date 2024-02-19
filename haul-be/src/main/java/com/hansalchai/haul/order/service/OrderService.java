@@ -94,7 +94,7 @@ public class OrderService {
 		String reservationNumber = reservation.getNumber();
 		smsUtil.send(customerTel, reservationNumber);
 	}
-
+	@Transactional
 	public OrderDTO getOrder(String keyword, int page, Long userId) {
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
@@ -105,7 +105,7 @@ public class OrderService {
 		boolean isLastPage = pageContent.getNumberOfElements() <= PAGECUT;
 		return new OrderDTO(orderInfoDTOS, isLastPage);
 	}
-
+	@Transactional
 	public OrderDetailDTO getOrderDetail(Long id, Long userId) {
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("Reservation not found"));
