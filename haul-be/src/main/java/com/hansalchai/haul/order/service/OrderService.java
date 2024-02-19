@@ -66,7 +66,7 @@ public class OrderService {
 		List<OrderSearchResponseDto> orders = pages.getContent().stream()
 			.map(OrderSearchResponseDto::new)
 			.toList();
-		boolean isLastPage = pages.getNumberOfElements() <= PAGECUT;
+		boolean isLastPage = pages.getNumberOfElements() < PAGECUT;
 
 		// 응답 형태로 변환해서 반환
 		return new OrderSearchResponse(orders, isLastPage);
@@ -94,7 +94,7 @@ public class OrderService {
 		String reservationNumber = reservation.getNumber();
 		smsUtil.send(customerTel, reservationNumber);
 	}
-
+	@Transactional
 	public OrderDTO getOrder(String keyword, int page, Long userId) {
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
@@ -102,10 +102,10 @@ public class OrderService {
 		Page<Reservation> pageContent = OrderStatusCategory.findOrderByCode(keyword).execute(user.getUserId(), pageable, reservationRepository);
 		List<OrderInfoDTO> orderInfoDTOS = pageContent.getContent().stream().map(
 			OrderInfoDTO::new).collect(Collectors.toList());
-		boolean isLastPage = pageContent.getNumberOfElements() <= PAGECUT;
+		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
 		return new OrderDTO(orderInfoDTOS, isLastPage);
 	}
-
+	@Transactional
 	public OrderDetailDTO getOrderDetail(Long id, Long userId) {
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("Reservation not found"));

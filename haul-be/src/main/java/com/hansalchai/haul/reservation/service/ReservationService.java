@@ -130,7 +130,7 @@ public class ReservationService{
 		Pageable pageable = PageRequest.of(page,PAGECUT);
 		Page<Reservation> pageContent = TransportStatus.findStatusByCode(keyword).execute(user.getUserId(), pageable, reservationRepository);
 		List<ReservationInfoDTO> reservationInfoDTOS = pageContent.getContent().stream().map(ReservationInfoDTO::new).collect(Collectors.toList());
-		boolean isLastPage = pageContent.getNumberOfElements() <= PAGECUT;
+		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
 		return new ReservationDTO(reservationInfoDTOS, isLastPage);
 	}
 
