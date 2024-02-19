@@ -30,7 +30,7 @@ public class UsersService {
 	public Long signUp(CustomerSignUpDto signUpDto) {
 		//중복 회원가입 검증
 		String tel = signUpDto.getTel();
-		if (usersRepository.findByTel(tel).isPresent()) {
+		if (usersRepository.findUserByTel(tel).isPresent()) {
 			throw new ConflictException(ACCOUNT_ALREADY_EXISTS);
 		}
 
@@ -41,7 +41,7 @@ public class UsersService {
 	public UserLogin.ResponseDto signIn(UserLogin.RequestDto requestDto) throws JsonProcessingException {
 
 		// db에 있는(회원가입한) 유저인지 검증
-		Users user = usersRepository.findByTel(requestDto.getTel())
+		Users user = usersRepository.findUserByTel(requestDto.getTel())
 			.orElseThrow(() -> new UnauthorizedException(UNREGISTERED_USER_ID));
 
 		// 비밀번호 검증
