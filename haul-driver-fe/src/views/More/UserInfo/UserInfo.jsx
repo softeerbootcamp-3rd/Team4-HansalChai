@@ -12,6 +12,7 @@ import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import { logoutFun } from "../../../utils/localStorage.js";
 import { getUserProfile } from "../../../repository/userRepository.jsx";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import { UrlMap } from "../../../data/GlobalVariable.js";
 
 const ListItem = styled.div`
   width: 100%;
@@ -53,7 +54,7 @@ const UserInfo = () => {
 
   const clickLogout = () => {
     logoutFun();
-    navigate("/login");
+    navigate(UrlMap.loginPageUrl);
   };
 
   useEffect(() => {
