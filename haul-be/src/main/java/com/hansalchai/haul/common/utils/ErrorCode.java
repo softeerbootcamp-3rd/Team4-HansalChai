@@ -12,6 +12,7 @@ public enum ErrorCode {
 	//공통
 	PAGE_NOT_FOUND(NOT_FOUND, "1003", "요청한 페이지를 찾을 수 없습니다."),
 	UNAUTHORIZED_ACCESS(UNAUTHORIZED, "1004", "리소스 접근 권한이 없습니다."),
+	UNSUPPORTED_QUERY_VALUE(BAD_REQUEST, "1008", "지원하지 않는 쿼리스트링 값입니다."),
 
 	// 토큰, 유저
 	TOKEN_NOT_FOUND(UNAUTHORIZED, "2001", "요청 헤더에 토큰이 없습니다."),
@@ -27,7 +28,6 @@ public enum ErrorCode {
 	INCORRECT_PASSWORD(UNAUTHORIZED, "2010", "비밀번호가 일치하지 않습니다."),
 
 	// 오더
-	UNSUPPORTED_QUERY_VALUE(BAD_REQUEST, "5001", "지원하지 않는 쿼리스트링 값입니다."),
 	OWNER_NOT_FOUND(NOT_FOUND, "5002", "기사 정보를 찾을 수 없습니다."),
 	RESERVATION_NOT_FOUND(NOT_FOUND, "5003", "예약 정보를 찾을 수 없습니다."),
 	ALREADY_ASSIGNED_DRIVER(CONFLICT, "5004", "이미 드라이버가 배정된 예약입니다."),

@@ -30,16 +30,6 @@ public class GlobalExceptionHandler {
 		return ApiResponse.error(exception.getCode());
 	}
 
-	// @RequestBody valid 에러
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	protected ApiResponse handleMethodArgNotValidException(MethodArgumentNotValidException exception,
-		HttpServletRequest request) {
-		String message = exception.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-		logInfo(request, HttpStatus.BAD_REQUEST, message);
-		return ApiResponse.error(ErrorCode.MethodArgumentNotValidException);
-	}
-
 	@ExceptionHandler(BadRequestException.class)
 	protected ApiResponse handleBadRequestException(BadRequestException exception, HttpServletRequest request) {
 		logInfo(request, exception.getCode().getStatus(), exception.getCode().getMessage());
