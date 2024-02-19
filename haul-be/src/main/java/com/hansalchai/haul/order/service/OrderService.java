@@ -114,10 +114,6 @@ public class OrderService {
 		List<OrderInfoDTO> orderInfoDTOS = pageContent.getContent().stream().map(
 			OrderInfoDTO::new).collect(Collectors.toList());
 
-		if(orderInfoDTOS.isEmpty()){
-			throw new NotFoundException(ORDER_NOT_FOUND);
-		}
-
 		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
 		return new OrderDTO(orderInfoDTOS, isLastPage);
 	}

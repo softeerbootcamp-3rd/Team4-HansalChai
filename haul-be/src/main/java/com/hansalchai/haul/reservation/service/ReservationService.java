@@ -88,12 +88,7 @@ public class ReservationService{
 				source, destination, transport, getTruck.getCar(), reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
 				distanceDurationInfo.getDuration(), getTruck.getNumber());
 
-		Reservation saved;
-		try {
-			saved = reservationRepository.save(reservation);
-		} catch (Exception e) {
-			throw new InternalServerError(RESERVATION_NOT_SAVED);
-		}
+		Reservation saved = reservationRepository.save(reservation);
 
 		return new ReservationRecommendationDTO(saved, s3Util);
 	}
@@ -125,19 +120,8 @@ public class ReservationService{
 			source, destination, transport, getTruck.getCar(), reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
 			distanceDurationInfo.getDuration(), getTruck.getNumber());
 
-
-		try {
-			usersRepository.save(guest);
-		} catch (Exception e) {
-			throw new InternalServerError(USER_NOT_SAVED);
-		}
-
-		Reservation saved;
-		try {
-			saved = reservationRepository.save(reservation);
-		} catch (Exception e) {
-			throw new InternalServerError(RESERVATION_NOT_SAVED);
-		}
+		usersRepository.save(guest);
+		Reservation saved = reservationRepository.save(reservation);
 
 		return new ReservationRecommendationDTO(saved, s3Util);
 	}
@@ -149,10 +133,6 @@ public class ReservationService{
 		Pageable pageable = PageRequest.of(page,PAGECUT);
 		Page<Reservation> pageContent = TransportStatus.findStatusByCode(keyword).execute(user.getUserId(), pageable, reservationRepository);
 		List<ReservationInfoDTO> reservationInfoDTOS = pageContent.getContent().stream().map(ReservationInfoDTO::new).collect(Collectors.toList());
-
-		if(reservationInfoDTOS.isEmpty()){
-			throw new NotFoundException(RESERVATION_NOT_FOUND);
-		}
 
 		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
 		return new ReservationDTO(reservationInfoDTOS, isLastPage);
