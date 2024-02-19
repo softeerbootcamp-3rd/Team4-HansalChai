@@ -8,10 +8,6 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorCode {
-	/* 400 BAD REQUEST */
-	// general
-	NO_ID(BAD_REQUEST, "40001", "존재하지 않는 id 입니다"),
-	MethodArgumentNotValidException(BAD_REQUEST,"20002002","MethodArgumentNotValidException"),
 
 	//공통
 	PAGE_NOT_FOUND(NOT_FOUND, "1003", "요청한 페이지를 찾을 수 없습니다."),
@@ -31,7 +27,6 @@ public enum ErrorCode {
 	INCORRECT_PASSWORD(UNAUTHORIZED, "2010", "비밀번호가 일치하지 않습니다."),
 
 	// 오더
-	// - 전체 오더 리스트 탐색
 	UNSUPPORTED_QUERY_VALUE(BAD_REQUEST, "5001", "지원하지 않는 쿼리스트링 값입니다."),
 	OWNER_NOT_FOUND(NOT_FOUND, "5002", "기사 정보를 찾을 수 없습니다."),
 	RESERVATION_NOT_FOUND(NOT_FOUND, "5003", "예약 정보를 찾을 수 없습니다."),
