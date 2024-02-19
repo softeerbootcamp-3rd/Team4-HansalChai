@@ -53,13 +53,13 @@ public class UsersService {
 
 		return new UserLogin.ResponseDto(jwt, user.getName());
 	}
-
+	@Transactional
 	public ProfileDTO getProfile(Long userId) {
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
 		return new ProfileDTO(user);
 	}
-
+	@Transactional
 	public void putProfile(ProfileUpdateDTO profileUpdateDTO, Long userId) {
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new RuntimeException("User not found"));
