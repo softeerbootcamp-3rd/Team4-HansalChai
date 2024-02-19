@@ -11,7 +11,7 @@ import ToastMaker from "../Toast/ToastMaker.jsx";
 // eslint-disable-next-line react/display-name
 const LoadingSkeleton = forwardRef((props, ref) => {
   return (
-    <div ref={ref}>
+    <div ref={ref} id="loadingskeleton">
       <Skeleton />
     </div>
   );
@@ -26,7 +26,7 @@ const ListFrame = styled.div`
 
 const ListEnd = () => {
   return (
-    <div>
+    <div id="listend">
       <Flex kind="flexColumn" align="center">
         <Typography font={"medium16"} color={"upperTextColor"}>
           모두 보여드렸어요
@@ -76,10 +76,9 @@ const InfiniteList = ({
   emptyListView = <></>
 }) => {
   const [isEnd, setIsEnd] = useState(false); //데이터를 모두 불러왔으면 end를 트리거 시키기 위한 state
-  const realEndRef = useRef(false); //리스트를 모두 불러왔는지 확인하기 위한 ref
   const endRef = useRef(null); //마지막 요소를 참조하기 위한 ref
   const page = useRef(0); //현재 불러와진 최종 페이지
-  const isLoading = useRef(true); //데이터를 불러오는 중이면 True
+  const isLoading = useRef(false); //데이터를 불러오는 중이면 True
   //const [isLoading, setIsLoading] = useState(true); //데이터를 불러오는 중이면 True
   const [reservationList, setReservationList] = useState([]); //현재 불러와진 예약 리스트
 
@@ -88,13 +87,14 @@ const InfiniteList = ({
     if (isLoading.current) return;
 
     page.current += 1;
-    if (isLoading.current) return;
     (async () => {
       await runFetcher();
     })();
   });
 
   const runFetcher = async () => {
+    if (isLoading.current) return;
+    isLoading.current = true;
     const newPage =
       typeof fetcher === "function"
         ? await fetcher({ page: page.current })
@@ -109,13 +109,13 @@ const InfiniteList = ({
     }
     setReservationList(prev => prev.concat(newPage.data.list));
     setIsEnd(newPage.data.lastPage);
-    endRef.current.style.display = (newPage.data.lastPage ? "none" : "");
+    endRef.current.style.display = newPage.data.lastPage ? "none" : "";
+    isLoading.current = false;
   };
 
   useEffect(() => {
     page.current = 0;
     setReservationList([]);
-    isLoading.current = false;
     setIsEnd(false);
     (async () => {
       await runFetcher();
@@ -123,14 +123,16 @@ const InfiniteList = ({
   }, [listStatus]);
 
   useEffect(() => {
-    if (isEnd) {
-      //endRef.current = null;
-    }
-  }, [isEnd]);
-
-  useEffect(() => {
     observe(endRef.current);
+    return () => disconnect();
   }, []);
+
+  const ListTail = () => {
+    if (isEnd) {
+      if (reservationList.length === 0) return emptyListView;
+      return ListEnd();
+    }
+  };
 
   return (
     <ListFrame>
@@ -149,9 +151,7 @@ const InfiniteList = ({
           <Margin height="20px" />
         </div>
       ))}
-      {reservationList.length === 0 && isEnd
-        ? emptyListView
-        : isEnd && <ListEnd />}
+      <ListTail />
       <LoadingSkeleton ref={endRef} />
     </ListFrame>
   );
