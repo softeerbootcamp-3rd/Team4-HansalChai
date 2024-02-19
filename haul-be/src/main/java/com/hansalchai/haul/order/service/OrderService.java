@@ -107,18 +107,30 @@ public class OrderService {
 	@Transactional
 	public OrderDTO getOrder(String keyword, int page, Long userId) {
 		Users user = usersRepository.findById(userId)
-			.orElseThrow(() -> new RuntimeException("User not found"));
+			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+
 		Pageable pageable = PageRequest.of(page,PAGECUT);
 		Page<Reservation> pageContent = OrderStatusCategory.findOrderByCode(keyword).execute(user.getUserId(), pageable, reservationRepository);
 		List<OrderInfoDTO> orderInfoDTOS = pageContent.getContent().stream().map(
 			OrderInfoDTO::new).collect(Collectors.toList());
+
+		if(orderInfoDTOS.isEmpty()){
+			throw new NotFoundException(ORDER_NOT_FOUND);
+		}
+
 		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
 		return new OrderDTO(orderInfoDTOS, isLastPage);
 	}
 	@Transactional
 	public OrderDetailDTO getOrderDetail(Long id, Long userId) {
 		Reservation reservation = reservationRepository.findById(id)
-			.orElseThrow(() -> new RuntimeException("Reservation not found"));
+			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+
+		Owner owner = reservation.getOwner();
+		if(!userId.equals(owner.getUser().getUserId())){
+			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
+		}
+
 		return new OrderDetailDTO(reservation);
 	}
 
@@ -130,7 +142,7 @@ public class OrderService {
 
 		//요청한 유저 id가 예약 ownerId랑 같아야 운송 상태를 변경할 수 있다.
 		Owner owner = reservation.getOwner();
-		if (!userId.equals(owner.getOwnerId())) {
+		if (!userId.equals(owner.getUser().getUserId())) {
 			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
 		}
 

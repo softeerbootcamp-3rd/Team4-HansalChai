@@ -19,6 +19,7 @@ public enum ErrorCode {
 	OWNER_NOT_FOUND(NOT_FOUND, "1102", "기사 정보를 찾을 수 없습니다."),
 	RESERVATION_NOT_FOUND(NOT_FOUND, "1103", "예약 정보를 찾을 수 없습니다."),
 	CAR_NOT_FOUND(NOT_FOUND, "1104", "해당하는 자동차를 찾을 수 없습니다."),
+	ORDER_NOT_FOUND(NOT_FOUND, "1105", "해당하는 주문을 찾을 수 없습니다."),
 
 	//DB Error
 	USER_NOT_SAVED(INTERNAL_SERVER_ERROR, "1202", "사용자가 저장 되지 않았습니다."),
