@@ -27,7 +27,11 @@ public enum ErrorCode {
 	ACCOUNT_ALREADY_EXISTS(CONFLICT, "2007", "이미 가입된 전화번호입니다."),
 	UNREGISTERED_USER_ID(UNAUTHORIZED, "2008", "존재하지 않는 아이디입니다."),
 	USER_NOT_FOUND(NOT_FOUND, "2009", "사용자를 찾을 수 없습니다."),
-	INCORRECT_PASSWORD(UNAUTHORIZED, "2010", "비밀번호가 일치하지 않습니다.");
+	INCORRECT_PASSWORD(UNAUTHORIZED, "2010", "비밀번호가 일치하지 않습니다."),
+
+	// 오더
+	// - 전체 오더 리스트 탐색
+	UNSUPPORTED_QUERY_VALUE(BAD_REQUEST, "5001", "지원하지 않는 쿼리스트링 값입니다.");
 
 	private final HttpStatus status;
 	private final String code;

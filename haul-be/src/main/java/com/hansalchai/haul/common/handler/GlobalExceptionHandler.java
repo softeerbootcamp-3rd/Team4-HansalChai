@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.hansalchai.haul.common.exceptions.BadRequestException;
 import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.common.exceptions.GeneralException;
 import com.hansalchai.haul.common.exceptions.NotFoundException;
@@ -37,6 +38,12 @@ public class GlobalExceptionHandler {
 		String message = exception.getBindingResult().getAllErrors().get(0).getDefaultMessage();
 		logInfo(request, HttpStatus.BAD_REQUEST, message);
 		return ApiResponse.error(ErrorCode.MethodArgumentNotValidException);
+	}
+
+	@ExceptionHandler(BadRequestException.class)
+	protected ApiResponse handleBadRequestException(BadRequestException exception, HttpServletRequest request) {
+		logInfo(request, exception.getCode().getStatus(), exception.getCode().getMessage());
+		return ApiResponse.error(exception.getCode());
 	}
 
 	//401 Unauthorized
