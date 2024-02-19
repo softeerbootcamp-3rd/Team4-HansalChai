@@ -1,10 +1,14 @@
 package com.hansalchai.haul.user.service;
 
+import static com.hansalchai.haul.common.utils.ErrorCode.*;
+
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hansalchai.haul.common.auth.jwt.Jwt;
 import com.hansalchai.haul.common.auth.service.AuthService;
+import com.hansalchai.haul.common.exceptions.ConflictException;
+import com.hansalchai.haul.common.exceptions.UnauthorizedException;
 import com.hansalchai.haul.user.dto.CustomerSignUpDto;
 import com.hansalchai.haul.user.dto.ProfileDTO;
 import com.hansalchai.haul.user.dto.ProfileUpdateDTO;
@@ -27,7 +31,7 @@ public class UsersService {
 		//중복 회원가입 검증
 		String tel = signUpDto.getTel();
 		if (usersRepository.findByTel(tel).isPresent()) {
-			throw new IllegalArgumentException("이미 가입된 전화번호입니다.");
+			throw new ConflictException(ACCOUNT_ALREADY_EXISTS);
 		}
 
 		return usersRepository.save(signUpDto.toEntity()).getUserId();
@@ -38,11 +42,11 @@ public class UsersService {
 
 		// db에 있는(회원가입한) 유저인지 검증
 		Users user = usersRepository.findByTel(requestDto.getTel())
-			.orElseThrow(() -> new IllegalArgumentException("회원가입하지 않은 유저입니다."));
+			.orElseThrow(() -> new UnauthorizedException(UNREGISTERED_USER_ID));
 
 		// 비밀번호 검증
 		if (!requestDto.getPassword().equals(user.getPassword())) {
-			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+			throw new UnauthorizedException(INCORRECT_PASSWORD);
 		}
 
 		// 토큰 생성
