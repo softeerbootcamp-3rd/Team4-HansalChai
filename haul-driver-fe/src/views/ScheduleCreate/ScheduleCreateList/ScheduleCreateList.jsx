@@ -12,6 +12,7 @@ import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx"
 import { functionBinder } from "../../../utils/helper.js";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import { getUserName } from "../../../utils/localStorage.js";
+import EmptyListHolder from "./EmptyListHolder.jsx";
 
 //TODO: API가 운송상태를 구별하여 가져올 수 있게 변경된 후 리스트 수정할 것!
 const ScheduleCreateList = () => {
@@ -45,6 +46,7 @@ const ScheduleCreateList = () => {
         fetcher={fetcherList}
         listStatus={selectedStatus}
         baseURL={"/schedule-create"}
+        emptyListView={EmptyListHolder()}
       />
       <Flex kind="flexColumn"></Flex>
       <NavigationBar selected="create" />

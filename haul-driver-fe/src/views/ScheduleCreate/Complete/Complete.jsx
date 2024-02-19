@@ -33,17 +33,11 @@ const Complete = () => {
       <Margin height="4px" />
       <Typography font="bold24">전달해드릴게요.</Typography>
       <FixedCenterBox bottom="30px">
-        <BottomButton
-          role="main"
-          onClick={goHome}
-        >
+        <BottomButton role="main" onClick={goHome}>
           다른 일정 잡기
         </BottomButton>
         <Margin height="10px" />
-        <BottomButton
-          role="sub"
-          onClick={goReservationList}
-        >
+        <BottomButton role="sub" onClick={goReservationList}>
           일정 확인 하기
         </BottomButton>
       </FixedCenterBox>

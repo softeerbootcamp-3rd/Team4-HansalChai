@@ -1,15 +1,18 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import Header from "../../../components/Header/Header.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
-import styled from "styled-components";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
-import { useState } from "react";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
-import { useNavigate } from "react-router-dom";
 import { logoutFun } from "../../../utils/localStorage.js";
+import { getUserProfile } from "../../../repository/userRepository.jsx";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import { UrlMap } from "../../../data/GlobalVariable.js";
 
 const ListItem = styled.div`
   width: 100%;
@@ -31,19 +34,34 @@ const TextLabel = styled.label`
   justify-content: end;
 `;
 
+const getUserInfo = async () => {
+  const response = await getUserProfile();
+  if (!response.success) {
+    ToastMaker({ type: "error", children: response.message });
+    return { data: { name: "", email: "", tel: "" } };
+  }
+  return response.data;
+};
+
 const UserInfo = () => {
   const [userInfo, setUserInfo] = useState({
-    name: "하울",
-    email: "haul@haul.com",
-    tel: "010-0000-0000"
+    name: "",
+    email: "",
+    tel: ""
   });
 
   const navigate = useNavigate();
 
   const clickLogout = () => {
     logoutFun();
-    navigate("/login");
+    navigate(UrlMap.loginPageUrl);
   };
+
+  useEffect(() => {
+    getUserInfo().then(data => {
+      setUserInfo(data);
+    });
+  }, []);
 
   return (
     <MobileLayout>
