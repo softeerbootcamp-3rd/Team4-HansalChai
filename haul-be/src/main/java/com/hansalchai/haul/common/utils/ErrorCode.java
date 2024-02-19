@@ -31,7 +31,8 @@ public enum ErrorCode {
 
 	// 오더
 	// - 전체 오더 리스트 탐색
-	UNSUPPORTED_QUERY_VALUE(BAD_REQUEST, "5001", "지원하지 않는 쿼리스트링 값입니다.");
+	UNSUPPORTED_QUERY_VALUE(BAD_REQUEST, "5001", "지원하지 않는 쿼리스트링 값입니다."),
+	OWNER_NOT_FOUND(NOT_FOUND, "5002", "기사 정보를 찾을 수 없습니다.");
 
 	private final HttpStatus status;
 	private final String code;

@@ -2,6 +2,7 @@ package com.hansalchai.haul.order.service;
 
 import java.util.List;
 
+import static com.hansalchai.haul.common.utils.ErrorCode.*;
 import static com.hansalchai.haul.order.dto.OrderSearchResponse.*;
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
 import static com.hansalchai.haul.reservation.service.ReservationService.*;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.config.SmsUtil;
 
+import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
@@ -51,7 +53,7 @@ public class OrderService {
 
 		// 오더 리스트 조회를 위해 기사(Owner)의 차 id 탐색
 		Owner owner = ownerRepository.findByDriverId(driverId)
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 owner입니다."));
+			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
 		Car car = owner.getCar();
 		Long carId = car.getCarId();
 
