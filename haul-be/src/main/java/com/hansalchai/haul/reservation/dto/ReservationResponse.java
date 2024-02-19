@@ -17,7 +17,7 @@ import lombok.Getter;
 
 public class ReservationResponse {
 	@Getter
-	public static class ReservationRecommendationDTO{
+	public static class ReservationRecommendationDTO {
 		private final Long reservationId;
 		private final CarDTO car;
 		@NotNull(message = "비용은 Null 일 수 없다.")
@@ -42,7 +42,6 @@ public class ReservationResponse {
 			private String photo;
 		}
 
-
 		@Builder
 		public ReservationRecommendationDTO(Reservation reservation, S3Util s3Util) {
 			this.reservationId = reservation.getReservationId();
@@ -60,7 +59,7 @@ public class ReservationResponse {
 	}
 
 	@Getter
-	public static class ReservationDTO{
+	public static class ReservationDTO {
 		List<ReservationInfoDTO> reservationInfoDTOS;
 		boolean isLastPage;
 
@@ -70,12 +69,13 @@ public class ReservationResponse {
 		}
 
 		@Getter
-		public static class ReservationInfoDTO{
+		public static class ReservationInfoDTO {
 			private final Long id;
 			private final String car;
 			private final String status;
 			private final String datetime;
 			private final int cost;
+
 			@Builder
 			public ReservationInfoDTO(Reservation reservation) {
 				this.id = reservation.getReservationId();
@@ -88,7 +88,7 @@ public class ReservationResponse {
 	}
 
 	@Getter
-	public static class ReservationDetailDTO{
+	public static class ReservationDetailDTO {
 		private DriverDTO driver;
 		private final CarDTO car;
 		private final SourceDTO src;
@@ -102,7 +102,7 @@ public class ReservationResponse {
 
 		@Getter
 		@Builder
-		public static class DriverDTO{
+		public static class DriverDTO {
 			private String name;
 			private String tel;
 			private String photo;
@@ -125,7 +125,7 @@ public class ReservationResponse {
 
 		@Getter
 		@Builder
-		public static class SourceDTO{
+		public static class SourceDTO {
 			@NotNull(message = "출발지 이름은 Null 일 수 없다.")
 			private String name;
 			@NotNull(message = "출발지 주소는 Null 일 수 없다.")
@@ -138,7 +138,7 @@ public class ReservationResponse {
 
 		@Getter
 		@Builder
-		public static class DestinationDTO{
+		public static class DestinationDTO {
 			@NotNull(message = "출발지 이름은 Null 일 수 없다.")
 			private String name;
 			@NotNull(message = "출발지 주소는 Null 일 수 없다.")

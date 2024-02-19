@@ -78,10 +78,9 @@ public class Reservation extends BaseTime {
 	@Column(nullable = false)
 	private double distance;
 
-
 	@Builder
 	public Reservation(Users user, Owner owner, Cargo cargo, CargoOption cargoOption, Source source,
-		Destination destination, Transport transport,Car car, String number, LocalDate date, LocalTime time, int count,
+		Destination destination, Transport transport, Car car, String number, LocalDate date, LocalTime time, int count,
 		double distance) {
 		this.user = user;
 		this.owner = owner;
@@ -98,24 +97,24 @@ public class Reservation extends BaseTime {
 		this.distance = distance;
 	}
 
-	public static Reservation toEntity(Users user, Owner owner,Cargo cargo, CargoOption cargoOption, Source source,
-		Destination destination, Transport transport,Car car, String number, LocalDate date, LocalTime time,
-		double distance, int count){
+	public static Reservation toEntity(Users user, Owner owner, Cargo cargo, CargoOption cargoOption, Source source,
+		Destination destination, Transport transport, Car car, String number, LocalDate date, LocalTime time,
+		double distance, int count) {
 		return Reservation.builder()
-				.user(user)
-				.owner(owner)
-				.cargo(cargo)
-				.cargoOption(cargoOption)
-				.source(source)
-				.destination(destination)
-				.transport(transport)
-				.car(car)
-				.number(number)
-				.date(date)
-				.time(time)
-				.distance(distance)
-				.count(count)
-				.build();
+			.user(user)
+			.owner(owner)
+			.cargo(cargo)
+			.cargoOption(cargoOption)
+			.source(source)
+			.destination(destination)
+			.transport(transport)
+			.car(car)
+			.number(number)
+			.date(date)
+			.time(time)
+			.distance(distance)
+			.count(count)
+			.build();
 	}
 
 	public void setDriver(Owner owner) {

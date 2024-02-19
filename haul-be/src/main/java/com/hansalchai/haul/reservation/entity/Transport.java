@@ -54,7 +54,7 @@ public class Transport extends BaseTime {
 		this.requiredTime = requiredTime;
 	}
 
-	public static Transport toEntity(TransportType type, int fee, double requiredTime){
+	public static Transport toEntity(TransportType type, int fee, double requiredTime) {
 		return Transport.builder()
 			.type(type)
 			.fee(fee)
@@ -62,7 +62,7 @@ public class Transport extends BaseTime {
 			.build();
 	}
 
-	public void changeStatusReserved(){
+	public void changeStatusReserved() {
 		this.transportStatus = TransportStatus.PENDING;
 	}
 

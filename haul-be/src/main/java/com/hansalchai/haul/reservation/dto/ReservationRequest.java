@@ -115,7 +115,7 @@ public class ReservationRequest {
 				this.tel = tel;
 			}
 
-			public Destination build(){
+			public Destination build() {
 				return Destination.builder()
 					.name(name)
 					.address(address)
@@ -155,7 +155,7 @@ public class ReservationRequest {
 				this.weight = weight;
 			}
 
-			public Cargo build(){
+			public Cargo build() {
 				return Cargo.builder()
 					.width(width)
 					.length(length)
@@ -179,7 +179,7 @@ public class ReservationRequest {
 
 			@JsonProperty("furniture")
 			@NotNull(message = "가구여부는 Null 일 수 없다.")
-			private boolean	isFurniture;
+			private boolean isFurniture;
 
 			@JsonProperty("liftRequired")
 			@NotNull(message = "리프트필요여부는 Null 일 수 없다.")
@@ -194,7 +194,7 @@ public class ReservationRequest {
 				this.isLiftRequired = isLiftRequired;
 			}
 
-			public CargoOption build(){
+			public CargoOption build() {
 				return CargoOption.builder()
 					.isRefrigerated(isRefrigerated)
 					.isFrozen(isFrozen)
@@ -210,7 +210,7 @@ public class ReservationRequest {
 	@ToString
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class CreateReservationGuestDTO{
+	public static class CreateReservationGuestDTO {
 		@NotNull(message = "운송수단은 Null 일 수 없다.")
 		private String transportType;
 		@NotNull(message = "예약 날짜는 Null 일 수 없다.")
@@ -245,7 +245,7 @@ public class ReservationRequest {
 			@NotNull(message = "출발지 전화번호는 Null 일 수 없다.")
 			private String tel;
 
-			public Source build(){
+			public Source build() {
 				return Source.builder()
 					.name(name)
 					.address(address)
@@ -256,6 +256,7 @@ public class ReservationRequest {
 					.build();
 			}
 		}
+
 		@Getter
 		@Setter
 		@ToString
@@ -278,7 +279,7 @@ public class ReservationRequest {
 			@NotNull(message = "도착지 전화번호는 Null 일 수 없다.")
 			private String tel;
 
-			public Destination build(){
+			public Destination build() {
 				return Destination.builder()
 					.name(name)
 					.address(address)
@@ -289,6 +290,7 @@ public class ReservationRequest {
 					.build();
 			}
 		}
+
 		@Getter
 		@Setter
 		@ToString
@@ -309,7 +311,7 @@ public class ReservationRequest {
 			@Range(min = 0, max = 1000000, message = "화물 무게는 1000T를 넘을 수 없다.")
 			private int weight;
 
-			public Cargo build(){
+			public Cargo build() {
 				return Cargo.builder()
 					.width(width)
 					.length(length)
@@ -318,6 +320,7 @@ public class ReservationRequest {
 					.build();
 			}
 		}
+
 		@Getter
 		@Setter
 		@ToString
@@ -332,13 +335,13 @@ public class ReservationRequest {
 
 			@JsonProperty("furniture")
 			@NotNull(message = "가구여부는 Null 일 수 없다.")
-			private boolean	isFurniture;
+			private boolean isFurniture;
 
 			@JsonProperty("liftRequired")
 			@NotNull(message = "리프트필요여부는 Null 일 수 없다.")
 			private boolean isLiftRequired;
 
-			public CargoOption build(){
+			public CargoOption build() {
 				return CargoOption.builder()
 					.isRefrigerated(isRefrigerated)
 					.isFrozen(isFrozen)
@@ -347,10 +350,11 @@ public class ReservationRequest {
 					.build();
 			}
 		}
+
 		@Getter
 		@Setter
 		@ToString
-		public static class UserInfoDTO{
+		public static class UserInfoDTO {
 			@NotNull(message = "비회원 유저 이름은 Null일 수 없다.")
 			private String name;
 
