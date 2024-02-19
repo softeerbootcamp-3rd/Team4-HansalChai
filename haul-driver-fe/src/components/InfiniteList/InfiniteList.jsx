@@ -45,7 +45,7 @@ function useIntersectionObserver(callback) {
       (entries, observer) => {
         entries.forEach(entry => {
           if (!entry.isIntersecting) return;
-          observer.unobserve(entry.target);
+          entry.target.style.display = "none";
           callback();
         });
       },
@@ -75,39 +75,30 @@ const InfiniteList = ({
   listStatus,
   emptyListView = <></>
 }) => {
-  const [isEnd, setIsEnd] = useState(() => false); //데이터를 모두 불러왔으면 end를 트리거 시키기 위한 state
+  const [isEnd, setIsEnd] = useState(false); //데이터를 모두 불러왔으면 end를 트리거 시키기 위한 state
   const realEndRef = useRef(false); //리스트를 모두 불러왔는지 확인하기 위한 ref
   const endRef = useRef(null); //마지막 요소를 참조하기 위한 ref
   const page = useRef(0); //현재 불러와진 최종 페이지
-  //const isLoading = useRef(true); //데이터를 불러오는 중이면 True
-  const [isLoading, setIsLoading] = useState(true); //데이터를 불러오는 중이면 True
+  const isLoading = useRef(true); //데이터를 불러오는 중이면 True
+  //const [isLoading, setIsLoading] = useState(true); //데이터를 불러오는 중이면 True
   const [reservationList, setReservationList] = useState([]); //현재 불러와진 예약 리스트
 
   //IntersectionObserver에 마지막 요소가 잡히면 페이지를 1 증가시킴
   const { observe, disconnect } = useIntersectionObserver(() => {
-    if (realEndRef.current) return;
+    if (isLoading.current) return;
 
     page.current += 1;
-    () =>
-      (async () => {
-        if (realEndRef.current) return;
-
-        setIsLoading(true);
-        //isLoading.current = true;
-        (async () => {
-          await runFetcher();
-        })();
-        //isLoading.current = false;
-        setIsLoading(false);
-      })();
+    if (isLoading.current) return;
+    (async () => {
+      await runFetcher();
+    })();
   });
 
   const runFetcher = async () => {
-    const fetcherIndex = () => listStatus;
     const newPage =
       typeof fetcher === "function"
         ? await fetcher({ page: page.current })
-        : await fetcher[fetcherIndex()]({ page: page.current });
+        : await fetcher[listStatus]({ page: page.current });
     if (newPage.success !== true) {
       setIsEnd(true);
       ToastMaker({
@@ -116,53 +107,29 @@ const InfiniteList = ({
       });
       return;
     }
-
+    setReservationList(prev => prev.concat(newPage.data.list));
     setIsEnd(newPage.data.lastPage);
-    setReservationList(prev => {
-      if (newPage.data.list.length !== 0) return prev.concat(newPage.data.list);
-      return prev;
-    });
+    endRef.current.style.display = (newPage.data.lastPage ? "none" : "");
   };
 
   useEffect(() => {
+    page.current = 0;
+    setReservationList([]);
+    isLoading.current = false;
+    setIsEnd(false);
     (async () => {
-      disconnect();
-      //isLoading.current = true;
-      setIsLoading(true);
-      setReservationList([]);
-
-      page.current = 0;
-      realEndRef.current = false;
-      setIsEnd(false);
-
-      (async () => {
-        await runFetcher();
-      })();
-      setIsLoading(false);
-      //isLoading.current = false;
-      //observe(endRef.current);
+      await runFetcher();
     })();
   }, [listStatus]);
 
   useEffect(() => {
     if (isEnd) {
-      //setIsLoading(true);
-      //isLoading.current = false;
-      disconnect();
-      endRef.current = null;
-      realEndRef.current = true;
+      //endRef.current = null;
     }
   }, [isEnd]);
 
   useEffect(() => {
-    if (realEndRef.current) return setIsEnd(() => false);
-    //setIsLoading(false);
-    //isLoading.current = false;
-    return () => {
-      if (endRef.current) observe(endRef.current);
-      setReservationList([]);
-      setIsEnd(() => false);
-    };
+    observe(endRef.current);
   }, []);
 
   return (
@@ -182,13 +149,10 @@ const InfiniteList = ({
           <Margin height="20px" />
         </div>
       ))}
-      {reservationList.length === 0 && isEnd ? (
-        emptyListView
-      ) : isEnd ? (
-        <ListEnd />
-      ) : (
-        <LoadingSkeleton ref={endRef} />
-      )}
+      {reservationList.length === 0 && isEnd
+        ? emptyListView
+        : isEnd && <ListEnd />}
+      <LoadingSkeleton ref={endRef} />
     </ListFrame>
   );
 };
