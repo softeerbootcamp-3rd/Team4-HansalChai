@@ -1,11 +1,10 @@
 package com.hansalchai.haul.reservation.dto;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import static com.hansalchai.haul.common.utils.ReservationUtil.*;
+
 import java.util.List;
 import java.util.Optional;
 
-import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.utils.S3Util;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.reservation.constants.TransportStatus;
@@ -52,29 +51,12 @@ public class ReservationResponse {
 				.model(reservation.getCar().getModel())
 				.capacity(reservation.getCar().getType().name())
 				.feature(getSizeToString(reservation))
-				.photo(s3Util.getImage(makeUrl(reservation.getCar().getPhoto())))
+				.photo(s3Util.getImage(makeCarUrl(reservation.getCar().getPhoto())))
 				.build();
-			this.cost = costCut(reservation.getTransport().getFee());
+			this.cost = cutCost(reservation.getTransport().getFee());
 			this.requiredTime = reservation.getTransport().getRequiredTime();
 			this.number = reservation.getNumber();
 		}
-
-		private String getSizeToString(Reservation reservation){
-			Car car = reservation.getCar();
-			return String.format("%.1f X %.1f X %.1f",
-				car.getWidth() / 100.0,
-				car.getHeight() / 100.0,
-				car.getLength()/ 100.0);
-		}
-		public String makeUrl(String photo){
-			return "car/" + photo;
-		}
-		public int costCut(int fee){
-			if(fee < 10000)
-				return 1;
-			return fee/10000;
-		}
-
 	}
 
 	@Getter
@@ -100,23 +82,7 @@ public class ReservationResponse {
 				this.car = getCarToString(reservation.getCar());
 				this.status = TransportStatus.getCode(reservation.getTransport().getTransportStatus());
 				this.datetime = getDateTimeString(reservation.getDate(), reservation.getTime());
-				this.cost = costCut(reservation.getTransport().getFee());
-			}
-
-			public int costCut(int fee){
-				if(fee < 10000)
-					return 1;
-				return fee/10000;
-			}
-
-			public String getCarToString(Car car){
-				return String.format("%s(%s)",
-					car.getType().getCode(),
-					car.getModel());
-			}
-
-			public String getDateTimeString(LocalDate date, LocalTime time) {
-				return date.toString() + " " + time.toString();
+				this.cost = cutCost(reservation.getTransport().getFee());
 			}
 		}
 	}
@@ -211,32 +177,9 @@ public class ReservationResponse {
 				.latitude(reservation.getDestination().getLatitude())
 				.longitude(reservation.getDestination().getLongitude())
 				.build();
-			this.cost = costCut(reservation.getTransport().getFee());
+			this.cost = cutCost(reservation.getTransport().getFee());
 			this.requiredTime = reservation.getTransport().getRequiredTime();
 			this.status = TransportStatus.getCode(reservation.getTransport().getTransportStatus());
-		}
-		public int costCut(int fee){
-			if(fee < 10000)
-				return 1;
-			return fee/10000;
-		}
-
-
-		public String makeUserUrl(String photo){
-			return "driver-profile/" + photo;
-		}
-
-
-		public String makeCarUrl(String photo){
-			return "car/" + photo;
-		}
-
-		private String getSizeToString(Reservation reservation){
-			Car car = reservation.getCar();
-			return String.format("%.1f X %.1f X %.1f",
-				car.getWidth() / 100.0,
-				car.getHeight() / 100.0,
-				car.getLength()/ 100.0);
 		}
 	}
 }
