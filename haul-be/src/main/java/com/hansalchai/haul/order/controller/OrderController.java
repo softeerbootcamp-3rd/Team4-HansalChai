@@ -78,8 +78,10 @@ public class OrderController {
 
 	@PatchMapping("/status")
 	public ResponseEntity<ApiResponse<TransportStatusChange.ResponseDto>> changeTransportStatus(
+			HttpServletRequest request,
 			@Valid @RequestBody TransportStatusChange.RequestDto requestDto) {
-		TransportStatusChange.ResponseDto responseDto = orderService.changeTransportStatus(requestDto);
+		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
+		TransportStatusChange.ResponseDto responseDto = orderService.changeTransportStatus(auth.getUserId(), requestDto);
 		return ResponseEntity.ok(success(GET_SUCCESS, responseDto));
 	}
 }

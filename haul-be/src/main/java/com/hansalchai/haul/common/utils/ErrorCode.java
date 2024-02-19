@@ -15,6 +15,7 @@ public enum ErrorCode {
 
 	//공통
 	PAGE_NOT_FOUND(NOT_FOUND, "1003", "요청한 페이지를 찾을 수 없습니다."),
+	UNAUTHORIZED_ACCESS(UNAUTHORIZED, "1004", "리소스 접근 권한이 없습니다."),
 
 	// 토큰, 유저
 	TOKEN_NOT_FOUND(UNAUTHORIZED, "2001", "요청 헤더에 토큰이 없습니다."),
@@ -46,5 +47,4 @@ public enum ErrorCode {
 		this.code = code;
 		this.message = message;
 	}
-
 }
