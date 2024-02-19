@@ -61,10 +61,10 @@ public class ReservationResponse {
 
 		private String getSizeToString(Reservation reservation){
 			Car car = reservation.getCar();
-			return String.format("%d X %d X %d",
-				car.getWidth(),
-				car.getHeight(),
-				car.getLength());
+			return String.format("%.1f X %.1f X %.1f",
+				car.getWidth() / 100.0,
+				car.getHeight() / 100.0,
+				car.getLength()/ 100.0);
 		}
 		public String makeUrl(String photo){
 			return "car/" + photo;
@@ -233,10 +233,10 @@ public class ReservationResponse {
 
 		private String getSizeToString(Reservation reservation){
 			Car car = reservation.getCar();
-			return String.format("%d X %d X %d",
-				car.getWidth(),
-				car.getHeight(),
-				car.getLength());
+			return String.format("%.1f X %.1f X %.1f",
+				car.getWidth() / 100.0,
+				car.getHeight() / 100.0,
+				car.getLength()/ 100.0);
 		}
 	}
 }
