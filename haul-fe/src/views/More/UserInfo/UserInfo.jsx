@@ -136,7 +136,6 @@ const UserInfo = () => {
 
   useEffect(() => {
     getUserInfo().then(data => {
-      console.log(data);
       setUserInfo(data);
     });
   }, []);
