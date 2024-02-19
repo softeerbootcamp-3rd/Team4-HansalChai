@@ -74,9 +74,9 @@ public class ReservationRestController {
 	}
 
 	@GetMapping("")
-	public ResponseEntity<ApiResponse<ReservationDTO>> getCustomerReservation(@RequestParam(value = "page", defaultValue = "0") int page, HttpServletRequest request){
+	public ResponseEntity<ApiResponse<ReservationDTO>> getCustomerReservation(@RequestParam(value = "keyword", defaultValue = "매칭 중") String keyword,@RequestParam(value = "page", defaultValue = "0") int page, HttpServletRequest request){
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		ReservationDTO response = reservationService.getReservation(page, auth.getUserId());
+		ReservationDTO response = reservationService.getReservation(keyword, page, auth.getUserId());
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 

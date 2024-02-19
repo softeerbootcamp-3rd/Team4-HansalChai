@@ -100,7 +100,6 @@ public class OrderService {
 			.orElseThrow(() -> new RuntimeException("User not found"));
 		Pageable pageable = PageRequest.of(page,PAGECUT);
 		Page<Reservation> pageContent = OrderStatusCategory.findOrderByCode(keyword).execute(user.getUserId(), pageable, reservationRepository);
-		//Page<Reservation> pageContent = reservationRepository.findByDriverId(user.getUserId(), pageable);
 		List<OrderInfoDTO> orderInfoDTOS = pageContent.getContent().stream().map(
 			OrderInfoDTO::new).collect(Collectors.toList());
 		boolean isLastPage = pageContent.getNumberOfElements() <= PAGECUT;
