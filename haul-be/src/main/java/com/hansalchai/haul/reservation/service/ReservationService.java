@@ -130,17 +130,24 @@ public class ReservationService{
 
 	public ReservationDTO getReservation(String keyword, int page, Long userId) {
 		Users user = usersRepository.findById(userId)
-			.orElseThrow(() -> new RuntimeException("User not found"));
+			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+
 		Pageable pageable = PageRequest.of(page,PAGECUT);
 		Page<Reservation> pageContent = TransportStatus.findStatusByCode(keyword).execute(user.getUserId(), pageable, reservationRepository);
 		List<ReservationInfoDTO> reservationInfoDTOS = pageContent.getContent().stream().map(ReservationInfoDTO::new).collect(Collectors.toList());
+
+		if(reservationInfoDTOS.isEmpty()){
+			throw new NotFoundException(RESERVATION_NOT_FOUND);
+		}
+
 		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
 		return new ReservationDTO(reservationInfoDTOS, isLastPage);
 	}
 
 	public ReservationDTO getGuestReservation(String number) {
 		Reservation reservation = reservationRepository.findByNumber(number)
-			.orElseThrow(() -> new RuntimeException("Reservation not found"));
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+
 		ReservationInfoDTO reservationInfoDTO = new ReservationInfoDTO(reservation);
 		List<ReservationInfoDTO> reservationInfoDTOS = new ArrayList<>();
 		reservationInfoDTOS.add(reservationInfoDTO);
@@ -149,13 +156,18 @@ public class ReservationService{
 
 	public ReservationDetailDTO getReservationDetail(Long id, Long userId) {
 		Reservation reservation = reservationRepository.findById(id)
-			.orElseThrow(() -> new RuntimeException("Reservation not found"));
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+
+		if(!userId.equals(reservation.getUser().getUserId())){
+			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
+		}
+
 		return new ReservationDetailDTO(reservation, s3Util);
 	}
 
 	public ReservationDetailDTO getGuestReservationDetail(Long id) {
 		Reservation reservation = reservationRepository.findById(id)
-			.orElseThrow(() -> new RuntimeException("Reservation not found"));
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
 		return new ReservationDetailDTO(reservation, s3Util);
 	}
 
@@ -163,11 +175,13 @@ public class ReservationService{
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
 
-		if(!reservation.getTransport().getTransportStatus().equals(TransportStatus.NOT_RESERVATED))
+		if(!reservation.getTransport().getTransportStatus().equals(TransportStatus.NOT_RESERVATED)){
 			throw new ForbiddenException(INVALID_RESERVATION_STATE_CHANGE);
+		}
 
-		if(!userId.equals(reservation.getUser().getUserId()))
+		if(!userId.equals(reservation.getUser().getUserId())){
 			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
+		}
 
 		changeReservationStatus(reservation);
 	}
@@ -176,8 +190,9 @@ public class ReservationService{
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
 
-		if(!reservation.getTransport().getTransportStatus().equals(TransportStatus.NOT_RESERVATED))
+		if(!reservation.getTransport().getTransportStatus().equals(TransportStatus.NOT_RESERVATED)){
 			throw new ForbiddenException(INVALID_RESERVATION_STATE_CHANGE);
+		}
 
 		changeReservationStatus(reservation);
 	}
