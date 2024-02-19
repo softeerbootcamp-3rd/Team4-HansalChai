@@ -20,6 +20,7 @@ import com.hansalchai.haul.common.config.SmsUtil;
 
 import com.hansalchai.haul.common.exceptions.BadRequestException;
 import com.hansalchai.haul.common.exceptions.ConflictException;
+import com.hansalchai.haul.common.exceptions.ForbiddenException;
 import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.common.exceptions.UnauthorizedException;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
@@ -130,7 +131,7 @@ public class OrderService {
 		//요청한 유저 id가 예약 ownerId랑 같아야 운송 상태를 변경할 수 있다.
 		Owner owner = reservation.getOwner();
 		if (!userId.equals(owner.getOwnerId())) {
-			throw new UnauthorizedException(UNAUTHORIZED_ACCESS);
+			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
 		}
 
 		// 다음 단계의 운송 상태 가져오기(운송 전 -> 운송 중, 운송 중 -> 운송 완료)

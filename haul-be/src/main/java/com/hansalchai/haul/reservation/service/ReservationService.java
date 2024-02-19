@@ -1,11 +1,13 @@
 package com.hansalchai.haul.reservation.service;
 
+import static com.hansalchai.haul.common.utils.ErrorCode.*;
 import static com.hansalchai.haul.reservation.dto.ReservationRequest.*;
 import static com.hansalchai.haul.reservation.dto.ReservationResponse.*;
 import static com.hansalchai.haul.reservation.dto.ReservationResponse.ReservationDTO.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Service;
 import com.hansalchai.haul.car.constants.CarType;
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.auth.constants.Role;
+import com.hansalchai.haul.common.exceptions.ForbiddenException;
+import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.common.utils.CarCategorySelector;
 import com.hansalchai.haul.common.utils.CargoFeeTable;
 import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
@@ -157,13 +161,24 @@ public class ReservationService{
 
 	public void patchReservation(Long id, Long userId) {
 		Reservation reservation = reservationRepository.findById(id)
-			.orElseThrow(() -> new RuntimeException("Reservation not found"));
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+
+		if(!reservation.getTransport().getTransportStatus().equals(TransportStatus.NOT_RESERVATED))
+			throw new ForbiddenException(INVALID_RESERVATION_STATE_CHANGE);
+
+		if(!userId.equals(reservation.getUser().getUserId()))
+			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
+
 		changeReservationStatus(reservation);
 	}
 
 	public void patchGuestReservation(Long id) {
 		Reservation reservation = reservationRepository.findById(id)
-			.orElseThrow(() -> new RuntimeException("Reservation not found"));
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+
+		if(!reservation.getTransport().getTransportStatus().equals(TransportStatus.NOT_RESERVATED))
+			throw new ForbiddenException(INVALID_RESERVATION_STATE_CHANGE);
+
 		changeReservationStatus(reservation);
 	}
 
