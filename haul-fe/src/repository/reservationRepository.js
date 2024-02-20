@@ -62,14 +62,15 @@ export async function memberReservationFun({
         }
       })
     });
-    if (response.ok) {
-      const data = await response.json();
+
+    const data = await response.json();
+    if (data.status === 200) {
       return {
         success: true,
         data
       };
     } else {
-      return { success: false, message: "Reservation failed" };
+      return { success: false, code: data.code };
     }
   } catch (error) {
     console.error("Reservation failed error:", error);

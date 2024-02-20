@@ -41,7 +41,8 @@ export const ErrorMessageMap = {
   NetworkError: "현재 네트워크 상태가 불안정합니다.",
   TokenExpired: "로그인 정보가 만료되었습니다. 다시 로그인 해주세요.",
   InvalidAccessError: "비정상적인 접근입니다. 다시 로그인 해주세요.",
-  ExistingPhoneNumberError: "이미 가입된 전화번호입니다."
+  ExistingPhoneNumberError: "이미 가입된 전화번호입니다.",
+  NoMatchingHaulCarError: "요청하신 화물정보에 부합하는 차량이 존재하지 않습니다."
 };
 
 export const TransportTypeArr = [
