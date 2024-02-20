@@ -4,6 +4,8 @@ import org.apache.commons.lang3.function.TriFunction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.hansalchai.haul.common.exceptions.BadRequestException;
+import com.hansalchai.haul.common.utils.ErrorCode;
 import com.hansalchai.haul.reservation.entity.Reservation;
 import com.hansalchai.haul.reservation.repository.ReservationRepository;
 
@@ -33,6 +35,6 @@ public enum OrderStatusCategory {
 				return category;
 			}
 		}
-		throw new IllegalArgumentException("No constant with code " + code + " found");
+		throw new BadRequestException(ErrorCode.UNSUPPORTED_QUERY_VALUE);
 	}
 }

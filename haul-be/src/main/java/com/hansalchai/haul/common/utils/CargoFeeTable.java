@@ -26,7 +26,6 @@ import lombok.Getter;
 * */
 public class CargoFeeTable {
 	private static final Map<Integer, List<int[]> > feeTable = new HashMap<>();
-	public static List<List<int[]>> test = null;
 	// 0.5, 1, 5, 8, 15T
 	private static final int[] truckLoadWeightArray = {500, 1000, 5000, 8000, 15000};
 	// 각 Ton별 초기 가격
@@ -86,8 +85,6 @@ public class CargoFeeTable {
 		processRange(list, truckCostArray, costAddArray, startEnd, carTotal, 31, 10);
 
 		IntStream.range(0, truckLoadWeightArray.length).forEach(i -> feeTable.put(truckLoadWeightArray[i], list.get(i)));
-		//test용 테이블 생성 확인용 코드 나중에 제거하기
-		test = list;
 	}
 
 	public static void processRange(List<List<int[]>> list, int[] costArray, int[] costAddArray, StartEnd startEnd,

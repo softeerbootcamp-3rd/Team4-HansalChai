@@ -20,6 +20,7 @@ import com.hansalchai.haul.common.config.SmsUtil;
 
 import com.hansalchai.haul.common.exceptions.BadRequestException;
 import com.hansalchai.haul.common.exceptions.ConflictException;
+import com.hansalchai.haul.common.exceptions.ForbiddenException;
 import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.common.exceptions.UnauthorizedException;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
@@ -106,18 +107,26 @@ public class OrderService {
 	@Transactional
 	public OrderDTO getOrder(String keyword, int page, Long userId) {
 		Users user = usersRepository.findById(userId)
-			.orElseThrow(() -> new RuntimeException("User not found"));
+			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+
 		Pageable pageable = PageRequest.of(page,PAGECUT);
 		Page<Reservation> pageContent = OrderStatusCategory.findOrderByCode(keyword).execute(user.getUserId(), pageable, reservationRepository);
 		List<OrderInfoDTO> orderInfoDTOS = pageContent.getContent().stream().map(
 			OrderInfoDTO::new).collect(Collectors.toList());
+
 		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
 		return new OrderDTO(orderInfoDTOS, isLastPage);
 	}
 	@Transactional
 	public OrderDetailDTO getOrderDetail(Long id, Long userId) {
 		Reservation reservation = reservationRepository.findById(id)
-			.orElseThrow(() -> new RuntimeException("Reservation not found"));
+			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+
+		Owner owner = reservation.getOwner();
+		if(!userId.equals(owner.getUser().getUserId())){
+			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
+		}
+
 		return new OrderDetailDTO(reservation);
 	}
 
@@ -129,8 +138,8 @@ public class OrderService {
 
 		//요청한 유저 id가 예약 ownerId랑 같아야 운송 상태를 변경할 수 있다.
 		Owner owner = reservation.getOwner();
-		if (!userId.equals(owner.getOwnerId())) {
-			throw new UnauthorizedException(UNAUTHORIZED_ACCESS);
+		if (!userId.equals(owner.getUser().getUserId())) {
+			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
 		}
 
 		// 다음 단계의 운송 상태 가져오기(운송 전 -> 운송 중, 운송 중 -> 운송 완료)

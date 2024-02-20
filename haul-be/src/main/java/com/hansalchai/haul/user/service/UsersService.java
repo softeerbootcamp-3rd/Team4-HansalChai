@@ -8,6 +8,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hansalchai.haul.common.auth.jwt.Jwt;
 import com.hansalchai.haul.common.auth.service.AuthService;
 import com.hansalchai.haul.common.exceptions.ConflictException;
+import com.hansalchai.haul.common.exceptions.ForbiddenException;
+import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.common.exceptions.UnauthorizedException;
 import com.hansalchai.haul.user.dto.CustomerSignUpDto;
 import com.hansalchai.haul.user.dto.ProfileDTO;
@@ -60,13 +62,13 @@ public class UsersService {
 	@Transactional
 	public ProfileDTO getProfile(Long userId) {
 		Users user = usersRepository.findById(userId)
-			.orElseThrow(() -> new RuntimeException("User not found"));
+			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 		return new ProfileDTO(user);
 	}
 	@Transactional
 	public void putProfile(ProfileUpdateDTO profileUpdateDTO, Long userId) {
 		Users user = usersRepository.findById(userId)
-			.orElseThrow(() -> new RuntimeException("User not found"));
+			.orElseThrow(() ->  new NotFoundException(USER_NOT_FOUND));
 		user.update(profileUpdateDTO.getPassword());
 	}
 }

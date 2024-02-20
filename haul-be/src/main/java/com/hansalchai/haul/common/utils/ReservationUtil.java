@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import com.hansalchai.haul.car.entity.Car;
+import com.hansalchai.haul.reservation.entity.Reservation;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +25,34 @@ public class ReservationUtil {
 	}
 
 	public static int cutCost(int fee) {
+		if(fee < 10000)
+			return 1;
 		return fee / 10000;
+	}
+
+	public static String makeUserUrl(String photo){
+		return "driver-profile/" + photo;
+	}
+
+	public static String makeCarUrl(String photo){
+		return "car/" + photo;
+	}
+
+	public static String getSizeToString(Reservation reservation){
+		Car car = reservation.getCar();
+		return String.format("%.1f X %.1f X %.1f",
+			car.getWidth() / 100.0,
+			car.getHeight() / 100.0,
+			car.getLength()/ 100.0);
+	}
+
+	public static String getCarToString(Car car){
+		return String.format("%s(%s)",
+			car.getType().getCode(),
+			car.getModel());
+	}
+
+	public static String getDateTimeString(LocalDate date, LocalTime time) {
+		return date.toString() + " " + time.toString();
 	}
 }

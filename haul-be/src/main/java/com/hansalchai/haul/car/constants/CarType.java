@@ -14,14 +14,6 @@ public enum CarType {
 		this.code = code;
 	}
 
-	public static CarType findByValue(int value) {
-		for (CarType type : values()) {
-			if (type.value == value) {
-				return type;
-			}
-		}
-		throw new IllegalArgumentException("Invalid CarType value: " + value);
-	}
 	public int getValue(){
 		return this.value;
 	}

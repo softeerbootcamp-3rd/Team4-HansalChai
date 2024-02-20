@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Range;
 
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.utils.BaseTime;
+import com.hansalchai.haul.common.utils.ReservationNumberGenerator;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.user.entity.Users;
 
@@ -22,6 +23,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -63,6 +65,7 @@ public class Reservation extends BaseTime {
 	private Car car;
 
 	@Column(nullable = false)
+	@Size(min = ReservationNumberGenerator.LENGTH, max = ReservationNumberGenerator.LENGTH)
 	private String number;
 
 	@Column(nullable = false)
@@ -78,10 +81,9 @@ public class Reservation extends BaseTime {
 	@Column(nullable = false)
 	private double distance;
 
-
 	@Builder
 	public Reservation(Users user, Owner owner, Cargo cargo, CargoOption cargoOption, Source source,
-		Destination destination, Transport transport,Car car, String number, LocalDate date, LocalTime time, int count,
+		Destination destination, Transport transport, Car car, String number, LocalDate date, LocalTime time, int count,
 		double distance) {
 		this.user = user;
 		this.owner = owner;
@@ -98,24 +100,24 @@ public class Reservation extends BaseTime {
 		this.distance = distance;
 	}
 
-	public static Reservation toEntity(Users user, Owner owner,Cargo cargo, CargoOption cargoOption, Source source,
-		Destination destination, Transport transport,Car car, String number, LocalDate date, LocalTime time,
-		double distance, int count){
+	public static Reservation toEntity(Users user, Owner owner, Cargo cargo, CargoOption cargoOption, Source source,
+		Destination destination, Transport transport, Car car, String number, LocalDate date, LocalTime time,
+		double distance, int count) {
 		return Reservation.builder()
-				.user(user)
-				.owner(owner)
-				.cargo(cargo)
-				.cargoOption(cargoOption)
-				.source(source)
-				.destination(destination)
-				.transport(transport)
-				.car(car)
-				.number(number)
-				.date(date)
-				.time(time)
-				.distance(distance)
-				.count(count)
-				.build();
+			.user(user)
+			.owner(owner)
+			.cargo(cargo)
+			.cargoOption(cargoOption)
+			.source(source)
+			.destination(destination)
+			.transport(transport)
+			.car(car)
+			.number(number)
+			.date(date)
+			.time(time)
+			.distance(distance)
+			.count(count)
+			.build();
 	}
 
 	public void setDriver(Owner owner) {

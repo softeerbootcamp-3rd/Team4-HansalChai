@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.hansalchai.haul.common.exceptions.BadRequestException;
 import com.hansalchai.haul.common.exceptions.ConflictException;
+import com.hansalchai.haul.common.exceptions.ForbiddenException;
+import com.hansalchai.haul.common.exceptions.InternalServerError;
 import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.common.exceptions.UnauthorizedException;
 import com.hansalchai.haul.common.utils.ApiResponse;
@@ -21,7 +23,7 @@ public class GlobalExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 	@ExceptionHandler(BadRequestException.class)
-	protected ApiResponse handleBadRequestException(BadRequestException exception, HttpServletRequest request) {
+	protected ApiResponse<Object> handleBadRequestException(BadRequestException exception, HttpServletRequest request) {
 		logInfo(request, exception.getCode().getStatus(), exception.getCode().getMessage());
 		return ApiResponse.error(exception.getCode());
 	}
@@ -35,8 +37,16 @@ public class GlobalExceptionHandler {
 		return ApiResponse.error(exception.getCode());
 	}
 
+	//403 Forbidden
+	@ExceptionHandler(ForbiddenException.class)
+	protected ApiResponse<Object> handleForbiddenException(
+		ForbiddenException exception,
+		HttpServletRequest request) {
+		logInfo(request, HttpStatus.FORBIDDEN, exception.getMessage());
+		return ApiResponse.error(exception.getCode());
+	}
+
 	//404 Not Found
-	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ExceptionHandler(NotFoundException.class)
 	protected ApiResponse<Object> handleNotFoundException(
 			NotFoundException exception,
@@ -51,6 +61,15 @@ public class GlobalExceptionHandler {
 			ConflictException exception,
 			HttpServletRequest request) {
 		logInfo(request, HttpStatus.CONFLICT, exception.getMessage());
+		return ApiResponse.error(exception.getCode());
+	}
+
+	// 500 Internal Error
+	@ExceptionHandler(InternalServerError.class)
+	protected ApiResponse<Object> handleInternalServerError(
+		InternalServerError exception,
+		HttpServletRequest request) {
+		logInfo(request, HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
 		return ApiResponse.error(exception.getCode());
 	}
 
