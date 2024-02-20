@@ -86,7 +86,7 @@ const SummaryItemBox = ({ model, status, time, fee }) => {
             운송상태
           </Typography>
           <Margin height="4px" />
-          <Typography font={"bold20"} color={"realBlack"}>
+          <Typography font={"bold20"} color={"realBlack"} singleLine={true}>
             {status}
           </Typography>
         </TextSetFrame>
@@ -114,7 +114,7 @@ const SummaryItemBox = ({ model, status, time, fee }) => {
             <IconBlueBox>
               <AiOutlineDollarCircle style={{ width: 16, color: "white" }} />
             </IconBlueBox>
-            <Typography font={"regular12"} color={"upperTextColor"}>
+            <Typography font={"regular12"} color={"upperTextColor"} singleLine={true}>
               운송비용
             </Typography>
           </IconedCaption>
