@@ -8,7 +8,7 @@ import Typography from "../../../components/Typhography/Typhography.jsx";
 import DriverInfoBox from "./components/DriverInfoBox.jsx";
 import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   getGuestReservationDetails,
   getUserReservationDetails
@@ -16,6 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { getIsMember } from "../../../utils/localStorage.js";
+import { ErrorMessageMap, UrlMap } from "../../../data/GlobalVariable.js";
 
 const phaseMap = {
   "예약 전": "before",
@@ -37,10 +38,15 @@ const dataSetter = async ({ reservationID, setDetailData, setIsLoaded }) => {
     ? await getUserReservationDetails({ reservationID })
     : await getGuestReservationDetails({ reservationID });
   if (!response.success) {
-    ToastMaker(
-      "error",
-      "예약 정보를 불러오는데 실패했습니다. 다시 시도해주세요."
-    );
+    switch (response.code) {
+      case 1002: //리소스 권한 없음
+        ToastMaker("error", ErrorMessageMap.NoPermission);
+        //TODO: Is it buggy?
+        useNavigate()(UrlMap.loginPageUrl);
+        break;
+      case 1103: //예약 정보 없음
+        ToastMaker("error", ErrorMessageMap.ReservationNotFound);
+    }
   }
 
   const { car, src, dst, cost, requiredTime } = response.data;
