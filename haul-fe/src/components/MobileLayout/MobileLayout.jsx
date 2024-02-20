@@ -12,7 +12,7 @@ const Background = styled.div`
 
 const Mobile = styled.div`
   width: ${MaxDeviceWidth};
-  min-width: ${MinDeviceWidth};
+  min-width: ${({ minWidth }) => minWidth ?? MinDeviceWidth};
   min-height: 100vh;
   height: auto;
   margin: 0px auto;
@@ -25,10 +25,12 @@ const Mobile = styled.div`
   position: relative;
 `;
 
-const MobileLayout = ({ children, color }) => {
+const MobileLayout = ({ children, color, minWidth }) => {
   return (
     <Background>
-      <Mobile color={color}>{children}</Mobile>
+      <Mobile color={color} minWidth={minWidth}>
+        {children}
+      </Mobile>
     </Background>
   );
 };
