@@ -59,7 +59,7 @@ const More = () => {
         </>
       )}
       <Flex kind="flexColumn">
-        {isMemberLogin() !== "false" && (
+        {isMemberLogin() && (
           <>
             <ListItem id={"more__user-info"} onClick={clickUserInfo}>
               <Typography font={"medium16"}>내 정보</Typography>
