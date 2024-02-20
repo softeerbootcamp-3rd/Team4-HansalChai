@@ -39,7 +39,8 @@ public enum ErrorCode {
 
 	// 오더
 	ALREADY_ASSIGNED_DRIVER(CONFLICT, 4001, "이미 드라이버가 배정된 예약입니다."),
-	ALREADY_DELIVERED(CONFLICT, 4002, "이미 운송 완료된 오더입니다.");
+	ALREADY_DELIVERED(CONFLICT, 4002, "이미 운송 완료된 오더입니다."),
+	SCHEDULE_CONFLICT(CONFLICT, 4003, "해당 오더와 시간이 겹치는 다른 오더가 있습니다.");
 
 
 
