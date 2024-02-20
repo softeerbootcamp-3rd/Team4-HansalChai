@@ -49,7 +49,6 @@ const typeSvg = {
 const ToastFrame = styled.div`
   max-width: calc(${MaxDeviceWidth} - 40px);
   width: calc(100% - 40px);
-  max-width: (${MaxDeviceWidth} - 40px);
   height: 48px;
   background-color: ${({ type }) => typeBackground[type]};
   border-radius: 10px;
@@ -62,6 +61,7 @@ const ToastFrame = styled.div`
   ${theme.flex.flexCenter};
   position: relative;
   animation: ${toastAnimation} 0.5s;
+  z-index: 101;
 `;
 
 const ToastIcon = styled.div`
