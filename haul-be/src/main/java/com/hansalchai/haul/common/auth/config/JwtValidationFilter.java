@@ -61,7 +61,7 @@ public class JwtValidationFilter implements Filter {
 
 		// 토큰 복호화 및 검증
 		String accessToken = jwtProvider.resolveToken(httpServletRequest);
-		jwtProvider.validateToken(accessToken);
+		jwtProvider.validateToken(httpServletResponse, accessToken);
 
 		// 검증 성공 시, 요청에 AUTHENTICATE_USER attribute 추가
 		request.setAttribute(AUTHENTICATE_USER, getAuthenticateUser(accessToken));
