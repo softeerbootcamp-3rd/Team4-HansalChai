@@ -13,7 +13,6 @@ import { isEmptyString, isPhoneNumber } from "../../../utils/helper.js";
 import { useNavigate } from "react-router-dom";
 import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable.js";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
-import { isLoginFun } from "../../../utils/localStorage.js";
 
 const ChoiceSrc = () => {
   const navigation = useNavigate();
@@ -30,11 +29,6 @@ const ChoiceSrc = () => {
   } = useContext(reservationStore);
 
   useEffect(() => {
-    // 로그인이 안되어있다면 로그인 페이지로 이동
-    const isLogin = isLoginFun();
-    if (!isLogin) {
-      navigation(UrlMap.loginPageUrl);
-    }
     //시간 선택하지 않는 경우, 이전 페이지인 시간 선택 페이지로 이동
     if (isEmptyString(reservationTime)) {
       navigation(UrlMap.choiceTimePageUrl);
