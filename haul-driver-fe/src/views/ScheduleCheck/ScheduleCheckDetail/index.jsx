@@ -5,7 +5,6 @@ import {
   orderStatusChage
 } from "../../../repository/checkRepository.jsx";
 import { isTokenInvalid } from "../../../repository/userRepository.jsx";
-import { useNavigate } from "react-router-dom";
 
 export async function showDetailFun({ orderId, setOrderData, navigate }) {
   const { success, data, code } = await checkOrderDetail({

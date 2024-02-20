@@ -44,7 +44,7 @@ function useIntersectionObserver(callback) {
   const observer = useRef();
   useEffect(() => {
     observer.current = new IntersectionObserver(
-      (entries, observer) => {
+      entries => {
         entries.forEach(entry => {
           if (!entry.isIntersecting) return;
           entry.target.style.display = "none";
@@ -102,7 +102,6 @@ const InfiniteList = ({
   });
 
   const runFetcher = async () => {
-    console.log(listStatus);
     if (isLoading.current) return;
     isLoading.current = true;
     const newPage = await fetch({
