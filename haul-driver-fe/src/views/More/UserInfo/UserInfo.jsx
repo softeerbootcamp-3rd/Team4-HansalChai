@@ -10,7 +10,10 @@ import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import { logoutFun } from "../../../utils/localStorage.js";
-import { getUserProfile, isTokenInvalid } from "../../../repository/userRepository.jsx";
+import {
+  getUserProfile,
+  isTokenInvalid
+} from "../../../repository/userRepository.jsx";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 
