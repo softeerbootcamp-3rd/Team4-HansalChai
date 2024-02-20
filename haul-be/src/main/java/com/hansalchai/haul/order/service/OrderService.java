@@ -22,7 +22,6 @@ import com.hansalchai.haul.common.exceptions.BadRequestException;
 import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.common.exceptions.ForbiddenException;
 import com.hansalchai.haul.common.exceptions.NotFoundException;
-import com.hansalchai.haul.common.exceptions.UnauthorizedException;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
@@ -117,10 +116,19 @@ public class OrderService {
 		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
 		return new OrderDTO(orderInfoDTOS, isLastPage);
 	}
+
 	@Transactional
-	public OrderDetailDTO getOrderDetail(Long id, Long userId) {
+	public OrderDetailDTO getOrderDetail(Long id) {
 		Reservation reservation = reservationRepository.findById(id)
-			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+
+		return new OrderDetailDTO(reservation);
+	}
+
+	@Transactional
+	public OrderDetailDTO getOrderMineDetail(Long id, Long userId) {
+		Reservation reservation = reservationRepository.findById(id)
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
 
 		Owner owner = reservation.getOwner();
 		if(!userId.equals(owner.getUser().getUserId())){

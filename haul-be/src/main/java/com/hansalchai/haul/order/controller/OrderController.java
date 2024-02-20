@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,7 +49,7 @@ public class OrderController {
 		@PathVariable("id") Long id,
 		HttpServletRequest request) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		OrderDetailDTO response = orderService.getOrderDetail(id, auth.getUserId());
+		OrderDetailDTO response = orderService.getOrderDetail(id);
 		return ResponseEntity.ok(success(GET_SUCCESS, response));
 	}
 
@@ -73,7 +72,7 @@ public class OrderController {
 	@GetMapping(V1_ORDERS_PATH + "/mine/{id}")
 	public ResponseEntity<ApiResponse<OrderDetailDTO>> getMyOrderDetail(@PathVariable("id")Long id, HttpServletRequest request){
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		OrderDetailDTO response = orderService.getOrderDetail(id, auth.getUserId());
+		OrderDetailDTO response = orderService.getOrderMineDetail(id, auth.getUserId());
 		return ResponseEntity.ok(success(GET_SUCCESS, response));
 	}
 
