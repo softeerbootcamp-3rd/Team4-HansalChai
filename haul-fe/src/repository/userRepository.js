@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import ToastMaker from "../components/Toast/ToastMaker.jsx";
-import { ErrorMessageMap, UrlMap } from "../data/GlobalVariable.js";
-import { getAccessToken, logoutFun } from "../utils/localStorage.js";
+import ToastMaker from "../components/Toast/ToastMaker";
+import { ErrorMessageMap } from "../data/GlobalVariable";
+import { getAccessToken, logoutFun } from "../utils/localStorage";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 
