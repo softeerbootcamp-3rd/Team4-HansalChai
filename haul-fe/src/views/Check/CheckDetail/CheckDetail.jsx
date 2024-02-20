@@ -16,7 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { getIsMember } from "../../../utils/localStorage.js";
-import { ErrorMessageMap } from "../../../data/GlobalVariable.js";
+import { ErrorMessageMap, UrlMap } from "../../../data/GlobalVariable.js";
 import { isTokenInvalid } from "../../../repository/userRepository.js";
 
 const phaseMap = {
@@ -67,11 +67,11 @@ const CheckDetail = () => {
           navigator(-1);
           break;
         default:
-          if (!isTokenInvalid(response.code))
-            ToastMaker({
-              type: "error",
-              children: ErrorMessageMap.UnknownError
-            });
+          if (isTokenInvalid(response.code)) navigator(UrlMap.loginPageUrl);
+          ToastMaker({
+            type: "error",
+            children: ErrorMessageMap.UnknownError
+          });
           navigator(-1);
       }
     }
