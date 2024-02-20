@@ -23,7 +23,6 @@ const Floater = styled.div`
   top: 0;
   z-index: 100;
   background-color: white;
-  
 `;
 
 const HorizontalLine = styled(UnderBar)`

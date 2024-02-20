@@ -249,7 +249,8 @@ const UserInfo = () => {
                 else {
                   ToastMaker({
                     type: "error",
-                    children: "비밀번호를 확인해주세요" });
+                    children: "비밀번호를 확인해주세요"
+                  });
                 }
               }}
               role="main"
