@@ -28,7 +28,7 @@ const Floater = styled.div`
 `;
 
 const HorizontalLine = styled(UnderBar)`
-  width: 100%;
+  width: calc(100% + 40px);
   left: -20px;
   position: relative;
 `;
