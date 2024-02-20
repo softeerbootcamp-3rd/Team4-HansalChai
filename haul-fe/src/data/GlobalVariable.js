@@ -36,7 +36,12 @@ export const ErrorMessageMap = {
   IsNotMinPasswordCount: "8자리 이상의 비밀번호만 가능합니다.",
   NoUserFound: "사용자 정보를 찾을 수 없었어요.",
   ChangePasswordFailed: "비밀번호 변경에 실패했어요.",
-  TryLater: "잠시 후 다시 시도해주세요."
+  TryLater: "잠시 후 다시 시도해주세요.",
+  ReservationNotFound: "예약 정보를 찾을 수 없었어요.",
+  NoPermission: "다른 사람의 예약 정보는 볼 수 없어요.",
+  UnknownError: "알 수 없는 오류가 발생했어요.",
+  TokenExpired: "로그인 정보가 만료되었습니다. 다시 로그인 해주세요.",
+  InvalidAccessError: "비정상적인 접근입니다. 다시 로그인 해주세요."
 };
 
 export const TransportTypeArr = [
