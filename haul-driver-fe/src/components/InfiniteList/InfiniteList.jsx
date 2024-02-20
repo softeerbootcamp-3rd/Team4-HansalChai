@@ -94,7 +94,7 @@ const InfiniteList = ({
   });
 
   const runFetcher = async () => {
-    //if (isLoading.current) return;
+    if (isLoading.current) return;
     isLoading.current = true;
     const newPage =
       typeof fetcher === "function"
@@ -102,18 +102,15 @@ const InfiniteList = ({
         : await fetcher[listStatus]({ page: page.current });
     if (newPage.success !== true) {
       if (!isTokenInvalid(newPage.code)) {
-        setIsEnd(true);
-        if (newPage.code === 1003) {
-          ToastMaker({
-            type: "error",
-            children: newPage.message
-          });
-        }
         ToastMaker({
           type: "error",
           children: newPage.message
         });
       }
+      setReservationList([]);
+      setIsEnd(true);
+      endRef.current.style.display = "none";
+      isLoading.current = false;
       return;
     }
     setReservationList(prev => prev.concat(newPage.data.list));
