@@ -14,6 +14,7 @@ import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx"
 import Truck from "../../../assets/svgs/BigTruck.svg";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { getGuestSummaryList } from "../../../repository/checkRepository.js";
+import { ErrorMessageMap } from "../../../data/GlobalVariable.js";
 
 const TruckImg = styled.img`
   position: absolute;
@@ -81,8 +82,15 @@ const GuestCheck = () => {
       : undefined;
     //undefined일 경우엔 다르게 렌더링 되므로 업데이트 필요
     setter(() => newData);
+    //code:1103 : 예약번호를 찾을 수 없음
     if (newReserv.success === false) {
-      ToastMaker({ type: "error", children: "예약 정보를 찾을 수 없어요." });
+      ToastMaker({
+        type: "error",
+        children:
+          newReserv.code === 1103
+            ? ErrorMessageMap.ReservationNotFound
+            : ErrorMessageMap.UnknownError
+      });
     }
   };
 
@@ -124,9 +132,14 @@ const GuestCheck = () => {
       <Margin height="32px" />
       {reservationData === undefined ? (
         <AdvisorFrame>
-          <UpperTyphography font={"bold20"} color={"white"}>예약 번호를 확인해주세요!</UpperTyphography>
+          <UpperTyphography font={"bold20"} color={"white"}>
+            예약 번호를 확인해주세요!
+          </UpperTyphography>
           <Margin height="12px" />
-          <UpperTyphography font={"medium16"} color={"white"}>예약 번호는 12자리의 <br />숫자로 이루어져 있어요.</UpperTyphography>
+          <UpperTyphography font={"medium16"} color={"white"}>
+            예약 번호는 12자리의 <br />
+            숫자로 이루어져 있어요.
+          </UpperTyphography>
           <TruckImg src={Truck} height={50} width={80} fill="white" />
         </AdvisorFrame>
       ) : (

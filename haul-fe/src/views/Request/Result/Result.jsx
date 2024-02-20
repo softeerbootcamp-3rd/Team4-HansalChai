@@ -9,11 +9,14 @@ import BottomButton from "../../../components/Button/BottomButton.jsx";
 import { useContext } from "react";
 import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
-import { CompanyCallNumber, UrlMap } from "../../../data/GlobalVariable.js";
+import {
+  CompanyCallNumber,
+  UrlMap,
+  ErrorMessageMap
+} from "../../../data/GlobalVariable.js";
 import { getIsMember } from "../../../utils/localStorage.js";
 import { guestReservationConfirmFun } from "../../../repository/reservationRepository.js";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
-
 const Result = () => {
   const navigation = useNavigate();
   const {
@@ -24,12 +27,12 @@ const Result = () => {
       dstAddress,
       srcName,
       dstName
-    }
+    },
+    setInitialState
   } = useContext(reservationStore);
 
   const location = useLocation();
   const { data } = location.state;
-  console.log(data);
   function callCompany() {
     const phoneNumber = CompanyCallNumber;
     window.location.href = `tel:${phoneNumber}`;
@@ -38,14 +41,27 @@ const Result = () => {
     const isMember = getIsMember();
     //비회원이라면 예약 확정 진행
     if (isMember === "false") {
-      const { success, dataConfirm, message } =
-        await guestReservationConfirmFun({
-          reservationId: data.reservationId
-        });
+      const { success, code } = await guestReservationConfirmFun({
+        reservationId: data.reservationId,
+        cost: data.cost
+      });
       if (success) {
+        setInitialState();
         navigation(UrlMap.completePageUrl);
       } else {
-        ToastMaker({ type: "error", children: message });
+        if (code === 1103)
+          ToastMaker({
+            type: "error",
+            children: ErrorMessageMap.NotFindReservationError
+          });
+        else if (code === 3001) {
+          ToastMaker({
+            type: "error",
+            children: ErrorMessageMap.AlreadyReservationError
+          });
+          navigation(UrlMap.choiceTranportTypeUrl);
+        } else
+          ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
       }
       return;
     }

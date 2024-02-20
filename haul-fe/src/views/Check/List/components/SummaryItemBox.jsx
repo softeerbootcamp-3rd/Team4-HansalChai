@@ -5,11 +5,18 @@ import { AiOutlineDollarCircle } from "react-icons/ai";
 import { LuClock4 } from "react-icons/lu";
 import Typography from "../../../../components/Typhography/Typhography.jsx";
 
+const statusColor = {
+  "매칭 중": "rgba(217, 199, 231, 0.2)",
+  "운송 전": "rgba(255, 154, 98, 0.2)",
+  "운송 중": "rgba(251, 192, 45, 0.2)",
+  "운송 완료": "rgba(133, 199, 238, 0.2)"
+};
+
 const ReservItemFrame = styled.div`
   width: 100%;
   ${({ theme }) => theme.flex.flexColumn};
   align-items: start;
-  background-color: ${({ theme }) => theme.colors.cardBackground};
+  background-color: ${({ status }) => statusColor[status]};
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.colors.cardBorder};
   padding: 15px;
@@ -63,7 +70,7 @@ const IconedCaption = styled.div`
 //API에 맞게 인자 이름을 고쳐야 하나?
 const SummaryItemBox = ({ model, status, time, fee }) => {
   return (
-    <ReservItemFrame>
+    <ReservItemFrame status={status}>
       <DescriptionTextArea>
         <TextSetFrame align={"start"}>
           <Typography font={"regular12"} color={"upperTextColor"}>
@@ -79,7 +86,7 @@ const SummaryItemBox = ({ model, status, time, fee }) => {
             운송상태
           </Typography>
           <Margin height="4px" />
-          <Typography font={"bold20"} color={"realBlack"}>
+          <Typography font={"bold20"} color={"realBlack"} singleLine={true}>
             {status}
           </Typography>
         </TextSetFrame>
@@ -107,7 +114,11 @@ const SummaryItemBox = ({ model, status, time, fee }) => {
             <IconBlueBox>
               <AiOutlineDollarCircle style={{ width: 16, color: "white" }} />
             </IconBlueBox>
-            <Typography font={"regular12"} color={"upperTextColor"}>
+            <Typography
+              font={"regular12"}
+              color={"upperTextColor"}
+              singleLine={true}
+            >
               운송비용
             </Typography>
           </IconedCaption>

@@ -1,63 +1,74 @@
-import ToastMaker from "../components/Toast/ToastMaker";
+import { ErrorMessageMap } from "../data/GlobalVariable";
 import { getAccessToken } from "../utils/localStorage";
 const apiKey = import.meta.env.VITE_API_KEY;
 
 export async function getGuestSummaryList({ reservationSerial }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/reservations/guest?number=${reservationSerial}`, {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/reservations/guest?number=${reservationSerial}`,
+      {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
         }
       }
     );
-
-    if (response.ok) {
-      const body = await response.json();
+    const body = await response.json();
+    if (body.code === 200) {
       return {
         success: true,
         data: body.data
       };
     } else {
-      return { success: false, message: "예약 정보를 찾을 수 없었어요" };
+      return {
+        success: false,
+        code: body.code,
+        message: ErrorMessageMap.ReservationNotFound
+      };
     }
   } catch (error) {
     console.error("Get Guest Reservation Summary error:", error);
-    ToastMaker({ type: "error", children: "잠시 후 다시 시도해주세요" });
     return { success: false, message: error.toString() };
   }
 }
 
-export async function getUserSummaryList({ page }) {
+export async function getUserSummaryList({ page, keyword = "매칭 중" }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/reservations?page=${page}`, {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/reservations?keyword=${keyword}&page=${page}`,
+      {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${getAccessToken()}`
+          Authorization: `Bearer ${getAccessToken()}`
         }
       }
     );
 
-    if (response.ok) {
-      const body = await response.json();
+    const body = await response.json();
+    if (body.code === 200) {
       return {
         success: true,
         data: body.data
       };
     } else {
-      return { success: false, message: "예약 정보를 찾을 수 없었어요" };
+      return {
+        success: false,
+        code: body.code,
+        message: ErrorMessageMap.ReservationNotFound
+      };
     }
   } catch (error) {
     console.error("Get User Reservation Summary error:", error);
-    ToastMaker({ type: "error", children: "잠시 후 다시 시도해주세요" });
     return { success: false, message: error.toString() };
   }
 }
 
 export async function getGuestReservationDetails({ reservationID }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/reservations/guest/${reservationID}`, {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/reservations/guest/${reservationID}`,
+      {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
@@ -65,45 +76,53 @@ export async function getGuestReservationDetails({ reservationID }) {
       }
     );
 
-    if (response.ok) {
-      const body = await response.json();
+    const body = await response.json();
+    if (body.code === 200) {
       return {
         success: true,
         data: body.data
       };
     } else {
-      return { success: false, message: "예약 정보를 찾을 수 없었어요" };
+      return {
+        success: false,
+        code: body.code,
+        message: ErrorMessageMap.ReservationNotFound
+      };
     }
   } catch (error) {
     console.error("Get Guest Reservation Detail error:", error);
-    ToastMaker({ type: "error", children: "잠시 후 다시 시도해주세요" });
     return { success: false, message: error.toString() };
   }
 }
 
 export async function getUserReservationDetails({ reservationID }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/reservations/${reservationID}`, {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/reservations/${reservationID}`,
+      {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${getAccessToken()}`
+          Authorization: `Bearer ${getAccessToken()}`
         }
       }
     );
 
-    if (response.ok) {
-      const body = await response.json();
+    const body = await response.json();
+    if (body.code === 200) {
       return {
         success: true,
         data: body.data
       };
     } else {
-      return { success: false, message: "예약 정보를 찾을 수 없었어요" };
+      return {
+        success: false,
+        code: body.code,
+        message: ErrorMessageMap.ReservationNotFound
+      };
     }
   } catch (error) {
     console.error("Get User Reservation Detail error:", error);
-    ToastMaker({ type: "error", children: "잠시 후 다시 시도해주세요" });
-    return { success: false, message: error.toString() };
+    return { success: false, code: 1103, message: error.toString() };
   }
 }

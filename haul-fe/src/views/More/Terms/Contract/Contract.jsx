@@ -34,7 +34,9 @@ const Contract = ({ type }) => {
   return (
     <MobileLayout>
       <Header home={true} back={true}>
-        <Typography font={"semiBold24"} color={"mainColor"}>{contractType[type]}</Typography>
+        <Typography font={"semiBold24"} color={"mainColor"}>
+          {contractType[type]}
+        </Typography>
       </Header>
       <Margin height="32px" />
       <ContractView>{Contracts[type]}</ContractView>

@@ -10,6 +10,10 @@ export function setRefreshToken(refreshToken) {
   localStorage.setItem("refreshToken", refreshToken);
 }
 
+export function setUserName(userName) {
+  localStorage.setItem("userName", userName);
+}
+
 export function getIsMember() {
   return localStorage.getItem("isMember");
 }
@@ -20,6 +24,10 @@ export function getAccessToken() {
 
 export function getRefreshToken() {
   return localStorage.getItem("refreshToken");
+}
+
+export function getUserName() {
+  return localStorage.getItem("userName");
 }
 
 export function isLoginFun() {
@@ -38,4 +46,9 @@ export function logoutFun() {
   localStorage.removeItem("isMember");
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
+  localStorage.removeItem("userName");
+}
+
+export function notMemberLogoutFun() {
+  localStorage.removeItem("isMember");
 }

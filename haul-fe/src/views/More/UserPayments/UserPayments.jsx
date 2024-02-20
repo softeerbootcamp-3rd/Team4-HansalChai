@@ -10,13 +10,28 @@ import Card2 from "../../../assets/pngs/card2.png";
 import Card3 from "../../../assets/pngs/card3.png";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
+import { getUserProfile } from "../../../repository/userRepository.js";
+import { getUserName, setUserName } from "../../../utils/localStorage.js";
+import { useEffect, useState } from "react";
 
 const CustomTypo = styled.p`
   ${({ theme }) => theme.font.bold24};
   color: ${({ theme }) => theme.colors.realBlack};
 `;
 
+const getUserInfo = async () => {
+  const response = await getUserProfile();
+  if (!response.success) {
+    ToastMaker({ type: "error", children: response.message });
+    return;
+  }
+  setUserName(response.data.name);
+  return response.data;
+};
+
 const UserPayments = () => {
+  const [userName, setUserName] = useState("");
+
   const btnHandler = () => {
     ToastMaker({
       type: "info",
@@ -24,15 +39,27 @@ const UserPayments = () => {
     });
   };
 
-  const username = "하울";
+  useEffect(() => {
+    const localUserName = getUserName();
+    if (localUserName !== null) {
+      setUserName(getUserName());
+      return;
+    }
+    getUserInfo().then(data => {
+      setUserName(data.name);
+    });
+  }, []);
+
   return (
     <MobileLayout>
       <Header>
-      <Typography font={"semiBold24"} color={"mainColor"}>HAUL<span style={{ color: "#596FB7" }}>.</span></Typography>
+        <Typography font={"semiBold24"} color={"mainColor"}>
+          HAUL<span style={{ color: "#596FB7" }}>.</span>
+        </Typography>
       </Header>
       <Margin height="24px" />
       <CustomTypo>
-        현재 <span style={{ color: "#596FB7" }}>{username}</span> 님께서 사용할
+        현재 <span style={{ color: "#596FB7" }}>{userName}</span> 님께서 사용할
         수 있는
         <br />
         결제수단은 다음과 같아요.

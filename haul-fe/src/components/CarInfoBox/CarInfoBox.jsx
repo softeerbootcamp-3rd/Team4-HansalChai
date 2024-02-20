@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import Porter from "../../assets/pngs/porter.png";
-import Mighty from "../../assets/pngs/mighty.png";
 import Typography from "../Typhography/Typhography.jsx";
 import Margin from "../Margin/Margin.jsx";
 import UnderBar from "../UnderBar/UnderBar.jsx";
@@ -69,22 +67,22 @@ const CarInfoBox = ({ phase, type, capacity, volumn, photo, quantity = 1 }) => {
         </QuantityBox>
         <CarCardImage type={type} src={photo} />
       </CarCard>
-      <Margin height="8px" />
+      <Margin height="12px" />
       <DescriptionTextArea>
         <Typography font={"semiBold16"}>차종</Typography>
         <Typography font={"medium16"}>{type}</Typography>
       </DescriptionTextArea>
-      <Margin height="8px" />
+      <Margin height="12px" />
       <UnderBar />
-      <Margin height="8px" />
+      <Margin height="12px" />
       <DescriptionTextArea>
         <Typography font={"semiBold16"}>적재량</Typography>
         <Typography font={"medium16"}>{capacity}</Typography>
       </DescriptionTextArea>
-      <Margin height="8px" />
+      <Margin height="12px" />
       <DescriptionTextArea>
         <Typography font={"semiBold16"}>최대 너비,길이,높이</Typography>
-        <Typography font={"medium16"}>{volumn}</Typography>
+        <Typography font={"medium16"}>{volumn} M</Typography>
       </DescriptionTextArea>
     </CarInfoFrame>
   );
