@@ -90,16 +90,11 @@ public class JwtProvider {
 	public void validateToken(String token) {
 		try {
 			getClaims(token);
-		} catch (SignatureException exception) {
-			throw new UnauthorizedException(INVALID_JWT_SIGNATURE);
-		} catch (MalformedJwtException exception) {
+		} catch (MalformedJwtException | SignatureException | UnsupportedJwtException | IllegalArgumentException exception) {
+			exception.printStackTrace();
 			throw new UnauthorizedException(INVALID_TOKEN);
 		} catch (ExpiredJwtException exception) {
 			throw new UnauthorizedException(EXPIRED_TOKEN);
-		} catch (UnsupportedJwtException exception) {
-			throw new UnauthorizedException(UNSUPPORTED_JWT_TOKEN);
-		} catch (IllegalArgumentException exception) {
-			throw new UnauthorizedException(EMPTY_JWT);
 		}
 	}
 }
