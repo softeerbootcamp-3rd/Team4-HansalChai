@@ -1,7 +1,7 @@
+import ToastMaker from "../components/Toast/ToastMaker";
+import { ErrorMessageMap, UrlMap } from "../data/GlobalVariable";
+import { getAccessToken, logoutFun } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
-import ToastMaker from "../components/Toast/ToastMaker.jsx";
-import { ErrorMessageMap, UrlMap } from "../data/GlobalVariable.js";
-import { getAccessToken, logoutFun } from "../utils/localStorage.js";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 
@@ -15,15 +15,13 @@ export async function loginFun({ tel, password }) {
       },
       body: JSON.stringify({ tel, password })
     });
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, message: "Login failed" };
-    }
+    return { success: false, code: data.code };
   } catch (error) {
     console.error("Login error:", error);
     return { success: false, message: error.toString() };
@@ -39,15 +37,13 @@ export async function signUpFun({ name, tel, password, email }) {
       },
       body: JSON.stringify({ name, tel, password, email })
     });
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, message: "Sign Up failed" };
-    }
+    return { success: false, code: data.code };
   } catch (error) {
     console.error("Sign Up error:", error);
     return { success: false, message: error.toString() };
@@ -120,13 +116,10 @@ export function isTokenInvalid(code) {
         children: ErrorMessageMap.InvalidAccessError
       });
       break;
-    case 1101:
+    case 1001:
     case 2001:
-    case 2002: //fall-through
-      ToastMaker({
-        type: "error",
-        children: ErrorMessageMap.TokenExpired
-      });
+    case 2002:
+      ToastMaker({ type: "error", children: ErrorMessageMap.TokenExpired });
       break;
     default:
       return false;

@@ -4,7 +4,7 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 import Margin from "../../../../components/Margin/Margin.jsx";
 import Typography from "../../../../components/Typhography/Typhography.jsx";
 import SummaryItemBox from "./SummaryItemBox.jsx";
-import Skeleton from "./Skeleton.jsx"
+import Skeleton from "./Skeleton.jsx";
 import Flex from "../../../../components/Flex/Flex.jsx";
 import ToastMaker from "../../../../components/Toast/ToastMaker.jsx";
 import { UrlMap } from "../../../../data/GlobalVariable.js";
@@ -134,7 +134,10 @@ const InfiniteList = ({ fetcher, listStatus, emptyListView = <></> }) => {
     <ListFrame>
       {reservationList.map((data, index) => (
         <div key={`reserv${index}`}>
-          <Link to={`${UrlMap.checkReservationDetailPageUrl}/${data.id}`} key={`reserv${index}`}>
+          <Link
+            to={`${UrlMap.checkReservationDetailPageUrl}/${data.id}`}
+            key={`reserv${index}`}
+          >
             <SummaryItemBox
               index={index}
               selectedStatus={listStatus}

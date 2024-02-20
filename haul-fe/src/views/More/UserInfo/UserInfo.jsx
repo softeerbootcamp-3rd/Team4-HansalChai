@@ -11,7 +11,11 @@ import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import { logoutFun, setUserName } from "../../../utils/localStorage.js";
 import { useNavigate } from "react-router-dom";
 import { UrlMap } from "../../../data/GlobalVariable.js";
-import { getUserProfile, isTokenInvalid, putPassword } from "../../../repository/userRepository.js";
+import {
+  getUserProfile,
+  isTokenInvalid,
+  putPassword
+} from "../../../repository/userRepository.js";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 
 //TODO: 비밀번호 상세 규칙 통일할 것!!!!!!
@@ -23,7 +27,8 @@ const checkPassword = password => {
   if (!reg.test(password)) {
     return {
       result: false,
-      message: "비밀번호는 영문, 숫자, 특수문자를 모두 합하여 8자 이상 20자 이하입니다.",
+      message:
+        "비밀번호는 영문, 숫자, 특수문자를 모두 합하여 8자 이상 20자 이하입니다."
     };
   }
   return { result: true, message: "" };

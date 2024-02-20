@@ -56,7 +56,7 @@ const SignUP = () => {
     if (!isEmailForm) {
       ToastMaker({
         type: "error",
-        children: message
+        children: ErrorMessageMap.InvalidEmailformat
       });
       return;
     }
@@ -72,7 +72,7 @@ const SignUP = () => {
       return;
     }
 
-    const { success, message } = await signUpFun({
+    const { success, code } = await signUpFun({
       name: name.current,
       tel: tel.current,
       password: password.current,
@@ -82,7 +82,13 @@ const SignUP = () => {
     if (success) {
       navigate(UrlMap.loginPageUrl);
     } else {
-      ToastMaker({ type: "error", children: message });
+      if (code === 2004) {
+        ToastMaker({
+          type: "error",
+          children: ErrorMessageMap.ExistingPhoneNumberError
+        });
+      } else
+        ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
     }
   };
 

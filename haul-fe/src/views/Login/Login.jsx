@@ -61,7 +61,7 @@ const Login = () => {
       ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
       return;
     }
-    const { success, data, message } = await loginFun({
+    const { success, data, code } = await loginFun({
       tel: tel.current,
       password: password.current
     });
@@ -71,8 +71,15 @@ const Login = () => {
       setRefreshToken(data.data.jwt.refreshToken);
       navigate(UrlMap.choiceTranportTypeUrl);
     } else {
-      //FIXME: 로그인 실패 예외처리
-      ToastMaker({ type: "error", children: message });
+      if (code === 2005)
+        ToastMaker({ type: "error", children: ErrorMessageMap.NoneId });
+      else if (code === 2006)
+        ToastMaker({
+          type: "error",
+          children: ErrorMessageMap.NotSamePassword
+        });
+      else
+        ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
     }
   }
 
