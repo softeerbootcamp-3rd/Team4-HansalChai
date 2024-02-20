@@ -28,13 +28,13 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/orders")
 @RestController
 public class OrderController {
 
 	private final OrderService orderService;
+	private static final String V1_ORDERS_PATH = "/api/v1/orders";
 
-	@GetMapping("")
+	@GetMapping(V1_ORDERS_PATH)
 	public ResponseEntity<ApiResponse<OrderSearchResponse>> findAll(
 			HttpServletRequest request,
 			@RequestParam(value = "sort", defaultValue = "default") String sort,
@@ -44,7 +44,7 @@ public class OrderController {
 		return ResponseEntity.ok(success(GET_SUCCESS, orders));
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping(V1_ORDERS_PATH + "/{id}")
 	public ResponseEntity<ApiResponse<OrderDetailDTO>> findById(
 		@PathVariable("id") Long id,
 		HttpServletRequest request) {
@@ -53,7 +53,7 @@ public class OrderController {
 		return ResponseEntity.ok(success(GET_SUCCESS, response));
 	}
 
-	@PatchMapping("/approve")
+	@PatchMapping(V1_ORDERS_PATH + "/approve")
 	public ResponseEntity<ApiResponse<Object>> approveOrder(HttpServletRequest request,
 		@Valid @RequestBody ApproveRequestDto approveRequestDto) {
 
@@ -62,21 +62,21 @@ public class OrderController {
 		return ResponseEntity.ok(success(GET_SUCCESS, null));
 	}
 
-	@GetMapping("/mine")
+	@GetMapping(V1_ORDERS_PATH + "/mine")
 	public ResponseEntity<ApiResponse<OrderDTO>> getMyOrder(@RequestParam(value = "keyword", defaultValue = "운송 전") String keyword, @RequestParam(value = "page", defaultValue = "0") int page, HttpServletRequest request){
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		OrderDTO response = orderService.getOrder(keyword, page, auth.getUserId());
 		return ResponseEntity.ok(success(GET_SUCCESS, response));
 	}
 
-	@GetMapping("/mine/{id}")
+	@GetMapping(V1_ORDERS_PATH + "/mine/{id}")
 	public ResponseEntity<ApiResponse<OrderDetailDTO>> getMyOrderDetail(@PathVariable("id")Long id, HttpServletRequest request){
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		OrderDetailDTO response = orderService.getOrderDetail(id, auth.getUserId());
 		return ResponseEntity.ok(success(GET_SUCCESS, response));
 	}
 
-	@PatchMapping("/status")
+	@PatchMapping(V1_ORDERS_PATH + "/status")
 	public ResponseEntity<ApiResponse<TransportStatusChange.ResponseDto>> changeTransportStatus(
 			HttpServletRequest request,
 			@Valid @RequestBody TransportStatusChange.RequestDto requestDto) {
