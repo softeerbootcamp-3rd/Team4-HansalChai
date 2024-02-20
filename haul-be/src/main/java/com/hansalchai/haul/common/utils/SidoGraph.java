@@ -18,10 +18,10 @@ import lombok.Getter;
 @Getter
 public class SidoGraph {
 	static{
-		DataStructureInitialize();
-		NameInitialize();
-		GraphInitialize();
-		SidoSortInitialize();
+		dataStructureInitialize();
+		nameInitialize();
+		graphInitialize();
+		sidoSortInitialize();
 	}
 	//code table
 	public static List<ArrayList<Integer>> graph;
@@ -29,13 +29,13 @@ public class SidoGraph {
 	public static Map<String, Integer> index;
 	public static Map<String, Map<Integer, ArrayList<String>>> sidoSortedMap;
 
-	private static  void DataStructureInitialize(){
+	private static  void dataStructureInitialize(){
 		graph = new ArrayList<>();
 		name = new ArrayList<>();
 		index = new HashMap<>();
 	}
 
-	private static void NameInitialize(){
+	private static void nameInitialize(){
 		name.add("세종특별자치시"); //0
 		name.add("제주특별자치도"); //1
 		name.add("경상남도"); //2
@@ -58,7 +58,7 @@ public class SidoGraph {
 			.collect(Collectors.toMap(name::get, i -> i));
 	}
 
-	private static void GraphInitialize(){
+	private static void graphInitialize(){
 		ArrayList<Integer> inner = new ArrayList<>(); // 0. 세종
 		inner.add(5); //충청남도
 		inner.add(6); //충청북도
@@ -212,7 +212,7 @@ public class SidoGraph {
 		return updatedDepthSorted;
 	}
 
-	private static void SidoSortInitialize() {
+	private static void sidoSortInitialize() {
 		sidoSortedMap = name.stream()
 			.collect(Collectors.toMap(
 				Function.identity(),
