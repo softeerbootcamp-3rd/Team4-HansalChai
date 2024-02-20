@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,12 +25,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/reservations")
 @RequiredArgsConstructor
 public class ReservationController {
 	private final ReservationService reservationService;
+	private static final String V1_RESERVATIONS_PATH = "/api/v1/reservations";
 
-	@PostMapping("")
+	@PostMapping(V1_RESERVATIONS_PATH)
 	public ResponseEntity<ApiResponse<ReservationRecommendationDTO>> postCustomerReservation(
 		@Valid @RequestBody CreateReservationDTO reservationDTO,
 		HttpServletRequest request
@@ -41,7 +40,7 @@ public class ReservationController {
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
-	@PatchMapping("/{id}")
+	@PatchMapping(V1_RESERVATIONS_PATH + "/{id}")
 	public ResponseEntity<ApiResponse<Object>> patchCustomerReservation(
 		@PathVariable("id") Long id,
 		HttpServletRequest request
@@ -51,7 +50,7 @@ public class ReservationController {
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, null));
 	}
 
-	@PostMapping("/guest")
+	@PostMapping(V1_RESERVATIONS_PATH + "/guest")
 	public ResponseEntity<ApiResponse<ReservationRecommendationDTO>> postGuestReservation(
 		@Valid @RequestBody CreateReservationGuestDTO reservationDTO
 	) {
@@ -59,7 +58,7 @@ public class ReservationController {
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
-	@PatchMapping("/guest/{id}")
+	@PatchMapping(V1_RESERVATIONS_PATH + "/guest/{id}")
 	public ResponseEntity<ApiResponse<Object>> patchGuestReservation(
 		@PathVariable("id") Long id
 	) {
@@ -67,7 +66,7 @@ public class ReservationController {
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, null));
 	}
 
-	@GetMapping("")
+	@GetMapping(V1_RESERVATIONS_PATH)
 	public ResponseEntity<ApiResponse<ReservationDTO>> getCustomerReservation(
 		@RequestParam(value = "keyword", defaultValue = "매칭 중") String keyword,
 		@RequestParam(value = "page", defaultValue = "0") int page, HttpServletRequest request) {
@@ -76,14 +75,14 @@ public class ReservationController {
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
-	@GetMapping("/guest")
+	@GetMapping(V1_RESERVATIONS_PATH + "/guest")
 	public ResponseEntity<ApiResponse<ReservationDTO>> getGuestReservation(
 		@RequestParam(value = "number") String number) {
 		ReservationDTO response = reservationService.getGuestReservation(number);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping(V1_RESERVATIONS_PATH + "/{id}")
 	public ResponseEntity<ApiResponse<ReservationDetailDTO>> getCustomerReservationDetail(@PathVariable("id") Long id,
 		HttpServletRequest request) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
@@ -91,7 +90,7 @@ public class ReservationController {
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
 	}
 
-	@GetMapping("/guest/{id}")
+	@GetMapping(V1_RESERVATIONS_PATH + "/guest/{id}")
 	public ResponseEntity<ApiResponse<ReservationDetailDTO>> getGuestReservationDetail(@PathVariable("id") Long id) {
 		ReservationDetailDTO response = reservationService.getGuestReservationDetail(id);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, response));
