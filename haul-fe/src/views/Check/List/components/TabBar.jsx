@@ -8,20 +8,20 @@ const TabBarFrame = styled.div`
   overflow-x: scroll;
   white-space: nowrap;
   position: relative;
+  gap: 12px;
   left: -20px;
+  padding: 0px 20px;
 `;
 
 const TabBarItem = styled.button`
   width: fit-content;
   height: 24px;
-  margin: 0 10px;
   ${({ theme }) => theme.font.semiBold20};
   ${({ theme }) => theme.flex.flexRowCenter};
   color: ${({ selected, theme }) =>
     selected ? theme.colors.selectCircle : theme.colors.tabBarEntry};
   border-bottom: ${({ selected, theme }) =>
     selected ? `2px solid ${theme.colors.selectCircle}` : "none"};
-  margin-left: ${({ isFirst }) => (isFirst ? "20px" : "0")};
 `;
 
 const TabBar = ({ tabBarList, setSelected, selected }) => {
@@ -33,7 +33,6 @@ const TabBar = ({ tabBarList, setSelected, selected }) => {
             <TabBarItem
               selected={selected === index}
               onClick={() => setSelected(() => index)}
-              isFirst={index === 0}
             >
               {item}
             </TabBarItem>
