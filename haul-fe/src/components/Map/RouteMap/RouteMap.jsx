@@ -4,19 +4,9 @@ import { useEffect } from "react";
 const restApiKey = import.meta.env.VITE_KAKAO_MAP_REST_KEY;
 
 const loadKakaoMaps = drawdirection => {
-  const script = document.createElement("script");
-  script.type = "text/javascript";
-  script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${
-    import.meta.env.VITE_KAKAO_MAP_KEY
-  }&autoload=false&libraries=services`;
-
-  script.onload = () => {
-    window.kakao.maps.load(() => {
-      drawdirection();
-    });
-  };
-
-  document.head.appendChild(script);
+  window.kakao.maps.load(() => {
+    drawdirection();
+  });
 };
 
 // 지도, 출발지, 도착지 위도를 찍으면 지도에 경로를 그려주는 함수

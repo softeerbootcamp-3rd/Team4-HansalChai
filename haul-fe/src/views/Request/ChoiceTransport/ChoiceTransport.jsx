@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate } from "react-router-dom";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
@@ -10,7 +10,6 @@ import styled from "styled-components";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
 import { UrlMap, TransportTypeArr } from "../../../data/GlobalVariable.js";
-import { isLoginFun } from "../../../utils/localStorage.js";
 
 const ImgBox = styled.img`
   width: 140px;
@@ -36,13 +35,6 @@ const ChoiceTransport = () => {
     setTransportType(transportType);
     navigation(UrlMap.choiceDatePageUrl);
   };
-
-  useEffect(() => {
-    const isLogin = isLoginFun();
-    if (!isLogin) {
-      navigation(UrlMap.loginPageUrl);
-    }
-  }, []);
 
   return (
     <MobileLayout>

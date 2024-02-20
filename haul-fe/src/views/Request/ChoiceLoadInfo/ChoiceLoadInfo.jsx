@@ -21,6 +21,8 @@ import {
 import { isNumber, isPositiveNumber } from "../../../utils/helper.js";
 import { getIsMember } from "../../../utils/localStorage.js";
 import { memberReservationFun } from "../../../repository/reservationRepository.js";
+import { isTokenInvalid } from "../../../repository/userRepository.js";
+import Loading from "../../Loading/Loading.jsx";
 
 const LoadInfoTypoBox = styled.div`
   width: 40px;
@@ -52,6 +54,7 @@ const SmallBtn = styled.button`
 
 const ChoiceLoadInfo = () => {
   const navigate = useNavigate();
+  const [resultLoading, setResultLoading] = useState(false);
 
   const {
     setRoadInfo,
@@ -183,8 +186,8 @@ const ChoiceLoadInfo = () => {
     }
     const reservationState = getReservationState();
     // 회원이라면 바로 결과 페이지로 이동
-
-    const { success, data, message } = await memberReservationFun({
+    setResultLoading(true);
+    const { success, data, code } = await memberReservationFun({
       ...reservationState,
       cargoWeight: cargoWeightNum,
       cargoWidth: cargoWidthNum,
@@ -195,9 +198,19 @@ const ChoiceLoadInfo = () => {
     if (success) {
       navigate(UrlMap.resultPageUrl, { state: { data: data.data } });
     } else {
-      ToastMaker({ type: "error", children: message });
+      isTokenInvalid(code);
+      if (code === 1104)
+        ToastMaker({
+          type: "error",
+          children: ErrorMessageMap.NoMatchingHaulCarError
+        });
+      else
+        ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
     }
+    setResultLoading(false);
   }
+
+  if (resultLoading) return <Loading />;
 
   return (
     <MobileLayout>

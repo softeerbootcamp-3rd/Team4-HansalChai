@@ -10,6 +10,7 @@ import Input from "../../../components/Input/Input.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import Loading from "../../Loading/Loading.jsx";
 import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable.js";
 import { isPhoneNumber } from "../../../utils/helper.js";
 import { guestReservationFun } from "../../../repository/reservationRepository.js";
@@ -25,6 +26,7 @@ const GuestInfo = () => {
   const inGuestName = useRef(guestName);
   const inGuestTel = useRef(guestTel);
   const [isButtonDisabled, setButtonDisabled] = useState(true);
+  const [resultLoading, setResultLoading] = useState(false);
 
   useEffect(() => {
     if (cargoWeight === 0) {
@@ -56,7 +58,8 @@ const GuestInfo = () => {
     });
 
     const reservationState = getReservationState();
-    const { success, data, message } = await guestReservationFun({
+    setResultLoading(true);
+    const { success, data, code } = await guestReservationFun({
       ...reservationState,
       guestName: inGuestName.current,
       guestTel: inGuestTel.current
@@ -65,9 +68,18 @@ const GuestInfo = () => {
     if (success) {
       navigate(UrlMap.resultPageUrl, { state: { data: data.data } });
     } else {
-      ToastMaker({ type: "error", children: message });
+      if (code === 1104)
+        ToastMaker({
+          type: "error",
+          children: ErrorMessageMap.NoMatchingHaulCarError
+        });
+      else
+        ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
     }
+    setResultLoading(false);
   }
+
+  if (resultLoading) return <Loading />;
 
   return (
     <MobileLayout>

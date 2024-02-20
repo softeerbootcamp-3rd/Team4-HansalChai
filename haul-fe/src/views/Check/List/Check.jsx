@@ -12,11 +12,12 @@ import TabBar from "./components/TabBar.jsx";
 import EmptyListHolder from "./components/EmptyListHolder.jsx";
 import { getUserSummaryList } from "../../../repository/checkRepository.js";
 import { functionBinder } from "../../../utils/helper.js";
+import { MaxDeviceWidth } from "../../../data/GlobalVariable.js";
 
 const Floater = styled.div`
   overflow: visible;
   height: fit-content;
-  width: 100%;
+  width: calc(${MaxDeviceWidth} - 20px);
   position: fixed;
   top: 0;
   z-index: 10;
@@ -24,7 +25,7 @@ const Floater = styled.div`
 `;
 
 const HorizontalLine = styled(UnderBar)`
-  width: 100%;
+  width: calc(100% + 40px);
   left: -20px;
   position: relative;
 `;
