@@ -5,6 +5,10 @@ const TabBarFrame = styled.div`
   width: 100%;
   ${({ theme }) => theme.flex.flexRow};
   justify-content: start;
+  overflow-x: scroll;
+  white-space: nowrap;
+  position: relative;
+  left: -20px;
 `;
 
 const TabBarItem = styled.button`
@@ -17,6 +21,7 @@ const TabBarItem = styled.button`
     selected ? theme.colors.selectCircle : theme.colors.tabBarEntry};
   border-bottom: ${({ selected, theme }) =>
     selected ? `2px solid ${theme.colors.selectCircle}` : "none"};
+  margin-left: ${({isFirst}) => isFirst ? "20px" : "0"};
 `;
 
 const TabBar = ({ tabBarList, setSelected, selected }) => {
@@ -28,6 +33,7 @@ const TabBar = ({ tabBarList, setSelected, selected }) => {
             <TabBarItem
               selected={selected === index}
               onClick={() => setSelected(() => index)}
+              isFirst={index === 0}
             >
               {item}
             </TabBarItem>
