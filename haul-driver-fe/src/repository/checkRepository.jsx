@@ -174,15 +174,13 @@ export async function orderStatusChage({ orderId }) {
       },
       body: JSON.stringify({ id: orderId })
     });
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, message: "OrderStatusChage failed" };
-    }
+    return { success: false, code: data.code };
   } catch (error) {
     console.error("OrderStatusChage error:", error);
     return { success: false, message: error.toString() };
@@ -201,15 +199,13 @@ export async function checkOrderDetail({ orderId }) {
         }
       }
     );
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, message: "CheckOrderDetail failed" };
-    }
+    return { success: false, code: data.code };
   } catch (error) {
     console.error("CheckOrderDetail error:", error);
     return { success: false, message: error.toString() };
