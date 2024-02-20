@@ -1,5 +1,6 @@
 package com.hansalchai.haul.reservation.repository;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -64,4 +65,33 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 			+ "and cast(r.date || ' ' || r.time AS timestamp) > current_timestamp "
 		+ "order by r.date, r.time")
 	Page<Reservation> findAllOrderByDateTime(@Param("carId") Long carId, Pageable pageable);
+
+	@Query("select count(r) "
+		+ "from Reservation r join Source s "
+		+ "on r.source.sourceId = s.sourceId "
+		+ "where r.transport.transportStatus = 'PENDING' "
+		+ "and r.car.carId = :carId "
+		+ "and cast(r.date || ' ' || r.time AS timestamp) > current_timestamp "
+		+ "and s.sido in :sidoArray")
+	Long countAllOrders(@Param("carId") Long carId, @Param("sidoArray")ArrayList<String> sidoArray);  // 오더 접수순으로 정렬
+
+	@Query("select count(r)"
+		+ "from Reservation r join Transport t "
+		+ "on r.transport.transportId = t.transportId "
+		+ "join Source s "
+		+ "on r.source.sourceId = s.sourceId "
+		+ "where r.transport.transportStatus = 'PENDING' "							 // 기사 배정 전의 오더만 노출
+		+ "and r.car.carId = :carId "											 // 기사가 가진 차에 해당하는 오더만 노출
+		+ "and cast(r.date || ' ' || r.time AS timestamp) > current_timestamp "	 // 날짜가 지난 오더 제외
+		+ "and s.sido in :sidoArray")
+	Long countAllOrderByFee(@Param("carId") Long carId,  @Param("sidoArray")ArrayList<String> sidoArray);
+
+	@Query("select count(r) "
+		+ "from Reservation r join Source s "
+		+ "on r.source.sourceId = s.sourceId "
+		+ "where r.transport.transportStatus = 'PENDING' "
+		+ "and r.car.carId = :carId "
+		+ "and cast(r.date || ' ' || r.time AS timestamp) > current_timestamp "
+		+ "and s.sido in :sidoArray")
+	Long countAllOrderByDateTime(@Param("carId") Long carId,  @Param("sidoArray")ArrayList<String> sidoArray);
 }

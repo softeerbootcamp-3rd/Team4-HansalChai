@@ -1,5 +1,6 @@
 package com.hansalchai.haul.order.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.hansalchai.haul.common.utils.ErrorCode.*;
@@ -23,6 +24,7 @@ import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.common.exceptions.ForbiddenException;
 import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
+import com.hansalchai.haul.common.utils.SidoGraph;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.DriverPositionDto;
@@ -176,7 +178,10 @@ public class OrderService {
 		Car car = owner.getCar();
 		Long carId = car.getCarId();
 
-		String region = kakaoMap.searchRoadAddress(requestDto.getLatitude(), requestDto.getLongitude());
+		String curRegion = kakaoMap.searchRoadAddress(requestDto.getLatitude(), requestDto.getLongitude());
+
+		ArrayList<String> sidoArray = SidoGraph.getSidoByDepth(curRegion, 1);
+		//TODO 개수 세서 불가능하면 depth 키우기
 
 		//페이지 정보 생성
 		PageRequest pageRequest = PageRequest.of(page, PAGECUT);
