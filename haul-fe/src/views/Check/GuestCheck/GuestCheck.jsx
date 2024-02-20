@@ -14,6 +14,7 @@ import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx"
 import Truck from "../../../assets/svgs/BigTruck.svg";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { getGuestSummaryList } from "../../../repository/checkRepository.js";
+import { ErrorMessageMap } from "../../../data/GlobalVariable.js";
 
 const TruckImg = styled.img`
   position: absolute;
@@ -81,8 +82,15 @@ const GuestCheck = () => {
       : undefined;
     //undefined일 경우엔 다르게 렌더링 되므로 업데이트 필요
     setter(() => newData);
+    //code:1103 : 예약번호를 찾을 수 없음
     if (newReserv.success === false) {
-      ToastMaker({ type: "error", children: "예약 정보를 찾을 수 없어요." });
+      ToastMaker({
+        type: "error",
+        children:
+          newReserv.code === 1103
+            ? ErrorMessageMap.ReservationNotFound
+            : ErrorMessageMap.UnknownError
+      });
     }
   };
 
