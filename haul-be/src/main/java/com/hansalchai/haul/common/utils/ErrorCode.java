@@ -29,12 +29,9 @@ public enum ErrorCode {
 	TOKEN_NOT_FOUND(UNAUTHORIZED, 2001, "요청 헤더에 토큰이 없습니다."),
 	INVALID_TOKEN(UNAUTHORIZED, 2002, "토큰 유효성 검증에 실패했습니다."),
 	EXPIRED_TOKEN(UNAUTHORIZED, 2003, "토큰이 만료되었습니다."),
-	INVALID_JWT_SIGNATURE(UNAUTHORIZED, 2004, "JWT 서명이 유효하지 않습니다"),
-	UNSUPPORTED_JWT_TOKEN(UNAUTHORIZED, 2005, "지원되지 않는 형식의 토큰입니다."),
-	EMPTY_JWT(UNAUTHORIZED, 2006, "JWT Claim이 비어있습니다."),
-	ACCOUNT_ALREADY_EXISTS(CONFLICT, 2007, "이미 가입된 전화번호입니다."),
-	UNREGISTERED_USER_ID(UNAUTHORIZED, 2008, "존재하지 않는 아이디입니다."),
-	INCORRECT_PASSWORD(UNAUTHORIZED, 2009, "비밀번호가 일치하지 않습니다."),
+	ACCOUNT_ALREADY_EXISTS(CONFLICT, 2004, "이미 가입된 전화번호입니다."),
+	UNREGISTERED_USER_ID(UNAUTHORIZED, 2005, "존재하지 않는 아이디입니다."),
+	INCORRECT_PASSWORD(UNAUTHORIZED, 2006, "비밀번호가 일치하지 않습니다."),
 
 	//예약
 	INVALID_RESERVATION_STATE_CHANGE (FORBIDDEN, 3001, "관리자 권한이 아닐 경우 예약 전 상태에서만 상태를 변경할 수 있습니다."),
