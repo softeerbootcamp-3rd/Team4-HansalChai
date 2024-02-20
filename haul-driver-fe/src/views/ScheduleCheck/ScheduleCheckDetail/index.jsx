@@ -14,8 +14,7 @@ export async function showDetailFun({ orderId, setOrderData, navigate }) {
   if (success) {
     setOrderData(data.data);
   } else {
-    if (isTokenInvalid(code))
-      navigate(UrlMap.loginPageUrl);
+    if (isTokenInvalid(code)) navigate(UrlMap.loginPageUrl);
     if (code === 1103) {
       ToastMaker({
         type: "error",

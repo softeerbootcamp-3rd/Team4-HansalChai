@@ -105,7 +105,11 @@ const InfiniteList = ({
     console.log(listStatus);
     if (isLoading.current) return;
     isLoading.current = true;
-    const newPage = await fetch({ page, fetcher, listStatus : lastStatus.current });
+    const newPage = await fetch({
+      page,
+      fetcher,
+      listStatus: lastStatus.current
+    });
     if (newPage.success !== true) {
       if (isTokenInvalid(newPage.code)) {
         navigator(UrlMap.loginPageUrl);
