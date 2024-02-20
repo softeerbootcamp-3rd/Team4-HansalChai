@@ -30,10 +30,10 @@ export async function getGuestSummaryList({ reservationSerial }) {
   }
 }
 
-export async function getUserSummaryList({ page }) {
+export async function getUserSummaryList({ page, keyword = "매칭 중" }) {
   try {
     const response = await fetch(
-      `http://${apiKey}/api/v1/reservations?page=${page}`,
+      `http://${apiKey}/api/v1/reservations?keyword=${keyword}&page=${page}`,
       {
         method: "GET",
         headers: {
