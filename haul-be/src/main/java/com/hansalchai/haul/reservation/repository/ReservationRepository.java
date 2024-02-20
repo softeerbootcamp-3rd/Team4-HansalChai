@@ -70,10 +70,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 	@Query("select r "
 		+ "from Reservation r "
 		+ "where r.owner.ownerId = :driverId "
-		+ "and r.date between :prevDate and :nextDate "
+		+ "and r.date between :prevDate and :today "
 		+ "and r.transport.transportStatus in ('NOT_STARTED', 'IN_PROGRESS')")
 	List<Reservation> findScheduleOfDriver(
 		@Param("driverId") Long driverId,
 		@Param("prevDate") LocalDate prevDate,
-		@Param("nextDate") LocalDate nextDate);
+		@Param("today") LocalDate today);
 }

@@ -115,9 +115,10 @@ public class OrderService {
 		LocalDateTime newOrderStartDateTime = LocalDateTime.of(newOrder.getDate(), newOrder.getTime());
 		LocalDateTime newOrderEndDateTime = newOrderStartDateTime.plusMinutes(requiredTime);
 
-		LocalDate date = newOrder.getDate();
+		// 기사 스케줄 리스트 조회
+		LocalDate today = newOrder.getDate();
 		List<Reservation> myOrders
-			= reservationRepository.findScheduleOfDriver(driverId, date.minusDays(1), date.plusDays(1));
+			= reservationRepository.findScheduleOfDriver(driverId, today.minusDays(1), today);
 
 		for (Reservation myOrder : myOrders) {
 			requiredTime = (long)(myOrder.getTransport().getRequiredTime() * 60);
