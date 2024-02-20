@@ -12,15 +12,13 @@ export async function loginFun({ tel, password }) {
       },
       body: JSON.stringify({ tel, password })
     });
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, message: "Login failed" };
-    }
+    return { success: false, code: data.code };
   } catch (error) {
     console.error("Login error:", error);
     return { success: false, message: error.toString() };
