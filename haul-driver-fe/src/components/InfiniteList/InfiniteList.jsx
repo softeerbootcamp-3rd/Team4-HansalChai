@@ -71,6 +71,12 @@ function useIntersectionObserver(callback) {
   return { observe, unobserve, disconnect };
 }
 
+const fetch = async ({ page, fetcher, listStatus }) => {
+  return typeof fetcher === "function"
+    ? await fetcher({ page: page.current })
+    : await fetcher[listStatus]({ page: page.current });
+};
+
 const InfiniteList = ({
   fetcher,
   baseURL,
@@ -83,6 +89,7 @@ const InfiniteList = ({
   const isLoading = useRef(false); //데이터를 불러오는 중이면 True
   //const [isLoading, setIsLoading] = useState(true); //데이터를 불러오는 중이면 True
   const [reservationList, setReservationList] = useState([]); //현재 불러와진 예약 리스트
+  const lastStatus = useRef(listStatus); //마지막으로 불러온 리스트의 상태
 
   //IntersectionObserver에 마지막 요소가 잡히면 페이지를 1 증가시킴
   const { observe, disconnect } = useIntersectionObserver(() => {
@@ -95,12 +102,10 @@ const InfiniteList = ({
   });
 
   const runFetcher = async () => {
+    console.log(listStatus);
     if (isLoading.current) return;
     isLoading.current = true;
-    const newPage =
-      typeof fetcher === "function"
-        ? await fetcher({ page: page.current })
-        : await fetcher[listStatus]({ page: page.current });
+    const newPage = await fetch({ page, fetcher, listStatus : lastStatus.current });
     if (newPage.success !== true) {
       if (isTokenInvalid(newPage.code)) {
         navigator(UrlMap.loginPageUrl);
@@ -122,11 +127,12 @@ const InfiniteList = ({
   };
 
   useEffect(() => {
+    lastStatus.current = listStatus;
     page.current = 0;
     setReservationList([]);
     setIsEnd(false);
     (async () => {
-      await runFetcher();
+      runFetcher();
     })();
   }, [listStatus]);
 
