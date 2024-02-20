@@ -40,12 +40,18 @@ const dataSetter = async ({ reservationID, setDetailData, setIsLoaded }) => {
   if (!response.success) {
     switch (response.code) {
       case 1002: //리소스 권한 없음
-        ToastMaker("error", ErrorMessageMap.NoPermission);
-        //TODO: Is it buggy?
-        useNavigate()(UrlMap.loginPageUrl);
+        ToastMaker({
+          type: "error",
+          children: ErrorMessageMap.NoPermission
+        });
         break;
       case 1103: //예약 정보 없음
-        ToastMaker("error", ErrorMessageMap.ReservationNotFound);
+        ToastMaker({
+          type: "error",
+          children: ErrorMessageMap.ReservationNotFound
+        });
+        console.log("got 1103");
+        break;
     }
   }
 
