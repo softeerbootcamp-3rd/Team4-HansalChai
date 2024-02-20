@@ -71,9 +71,9 @@ const Login = () => {
       setRefreshToken(data.data.jwt.refreshToken);
       navigate(UrlMap.choiceTranportTypeUrl);
     } else {
-      //FIXME: 로그인 실패 예외처리
-      if(code === 2008) ToastMaker({ type: "error", children: ErrorMessageMap.NoneId});
-      if(code === 2010) ToastMaker({ type: "error", children: ErrorMessageMap.NotSamePassword});
+      if(code === 2005) ToastMaker({ type: "error", children: ErrorMessageMap.NoneId});
+      else if(code === 2006) ToastMaker({ type: "error", children: ErrorMessageMap.NotSamePassword});
+      else ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError});
     }
   }
 
