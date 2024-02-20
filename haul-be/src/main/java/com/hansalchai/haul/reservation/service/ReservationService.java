@@ -162,6 +162,11 @@ public class ReservationService{
 	public ReservationDetailDTO getGuestReservationDetail(Long id) {
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+
+		if(!reservation.getUser().getRole().equals(Role.GUEST)){
+			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
+		}
+
 		return new ReservationDetailDTO(reservation, s3Util);
 	}
 
@@ -183,6 +188,10 @@ public class ReservationService{
 	public void patchGuestReservation(Long id) {
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+
+		if(!reservation.getUser().getRole().equals(Role.GUEST)){
+			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
+		}
 
 		if(!reservation.getTransport().getTransportStatus().equals(TransportStatus.NOT_RESERVATED)){
 			throw new ForbiddenException(INVALID_RESERVATION_STATE_CHANGE);
