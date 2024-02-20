@@ -71,7 +71,7 @@ const UserInfoBox = ({ kind, name, tel }) => {
             <Typography font="semiBold16">{name}</Typography>
             <Typography font="medium16">
               <a
-                href="{telForm}"
+                href={telForm}
                 style={{ color: "black", textDecoration: "underline" }}
               >
                 {tel}
