@@ -20,7 +20,10 @@ export const ErrorMessageMap = {
   IsNotMinPasswordCount: "8자리 이상의 비밀번호만 가능합니다.",
   NoUserFound: "사용자 정보를 찾을 수 없습니다.",
   TryLater: "잠시 후 다시 시도해주세요.",
+  NotFindReservationError: "예약 정보를 찾을 수 없습니다",
   NetworkError: "현재 네트워크 상태가 불안정합니다.",
   TokenExpired: "로그인 정보가 만료되었습니다. 다시 로그인 해주세요.",
+  UnAuthorizedAccessError: "잘못된 접근입니다.",
+  OrderAlreadyFulfilledMessage: "이미 운송이 내역입니다."
 };
 
