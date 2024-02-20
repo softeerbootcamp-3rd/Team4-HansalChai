@@ -38,7 +38,7 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
     } else {
       return {
         success: false,
-        body: body.code,
+        code: body.code,
         message: ErrorMessageMap.NoUserFound
       };
     }

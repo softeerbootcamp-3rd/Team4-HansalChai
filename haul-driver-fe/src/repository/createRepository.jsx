@@ -38,7 +38,7 @@ export async function getDriverSummaryList({ page, sortBy = "default" }) {
     } else {
       return {
         success: false,
-        body: body.code,
+        code: body.code,
         message: ErrorMessageMap.NoUserFound
       };
     }

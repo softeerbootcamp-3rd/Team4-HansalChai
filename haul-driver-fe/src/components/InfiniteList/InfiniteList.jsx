@@ -7,6 +7,7 @@ import SummaryItemBox from "./components/SummaryItemBox.jsx";
 import Skeleton from "./components/Skeleton.jsx";
 import Flex from "../Flex/Flex.jsx";
 import ToastMaker from "../Toast/ToastMaker.jsx";
+import { isTokenInvalid } from "../../repository/userRepository.jsx";
 
 // eslint-disable-next-line react/display-name
 const LoadingSkeleton = forwardRef((props, ref) => {
@@ -93,18 +94,20 @@ const InfiniteList = ({
   });
 
   const runFetcher = async () => {
-    if (isLoading.current) return;
+    //if (isLoading.current) return;
     isLoading.current = true;
     const newPage =
       typeof fetcher === "function"
         ? await fetcher({ page: page.current })
         : await fetcher[listStatus]({ page: page.current });
     if (newPage.success !== true) {
-      setIsEnd(true);
-      ToastMaker({
-        type: "error",
-        children: "예약 정보를 불러오지 못했어요."
-      });
+      if (!isTokenInvalid(newPage.code)) {
+        setIsEnd(true);
+        ToastMaker({
+          type: "error",
+          children: newPage.message
+        });
+      }
       return;
     }
     setReservationList(prev => prev.concat(newPage.data.list));
