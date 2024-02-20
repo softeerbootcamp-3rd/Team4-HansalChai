@@ -90,14 +90,14 @@ export async function memberReservationConfirmFun({ reservationId }) {
         }
       }
     );
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
+    if (data.status === 200) {
       return {
         success: true,
         data
       };
     } else {
-      return { success: false, message: "Member Confirm failed" };
+      return { success: false, code: data.code };
     }
   } catch (error) {
     console.error("Member Confirm failed error:", error);

@@ -195,11 +195,15 @@ const ChoiceLoadInfo = () => {
     });
     if (success) {
       navigate(UrlMap.resultPageUrl, { state: { data: data.data } });
-    } 
-    else {
+    } else {
       isTokenInvalid(code);
-      if (code === 1104) ToastMaker({ type: "error", children: ErrorMessageMap.NoMatchingHaulCarError });
-      else ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
+      if (code === 1104)
+        ToastMaker({
+          type: "error",
+          children: ErrorMessageMap.NoMatchingHaulCarError
+        });
+      else
+        ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
     }
   }
 
