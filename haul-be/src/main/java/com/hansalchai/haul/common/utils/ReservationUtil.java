@@ -55,11 +55,4 @@ public class ReservationUtil {
 	public static String getDateTimeString(LocalDate date, LocalTime time) {
 		return date.toString() + " " + time.toString();
 	}
-
-	public static double calculateLoadTime(double cargoWeight){
-		if(cargoWeight < 100.0)
-			return 20.0;
-		else
-			return 500 * Math.log(90 * cargoWeight - 5500) - 4000;
-	}
 }

@@ -1,7 +1,6 @@
 package com.hansalchai.haul.reservation.service;
 
 import static com.hansalchai.haul.common.utils.ErrorCode.*;
-import static com.hansalchai.haul.common.utils.ReservationUtil.*;
 import static com.hansalchai.haul.reservation.dto.ReservationRequest.*;
 import static com.hansalchai.haul.reservation.dto.ReservationResponse.*;
 import static com.hansalchai.haul.reservation.dto.ReservationResponse.ReservationDTO.*;
@@ -79,18 +78,15 @@ public class ReservationService{
 		if(recommendedCars.isEmpty()){
 			throw new NotFoundException(CAR_NOT_FOUND);
 		}
-
-		double durationTime = distanceDurationInfo.getDuration() + calculateLoadTime(cargo.getWeight());
-
 		//차량을 기반으로 금액 계산
 		CargoFeeTable.RequestedTruckInfo getTruck = CargoFeeTable.findCost(recommendedCars, distanceDurationInfo.getDistance(), cargo.getWeight());
-		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(),durationTime);
+		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(),distanceDurationInfo.getDuration());
 		//예약 번호
 		String reservationNumber = generateUniqueReservationNumber();
 
 		Reservation reservation = Reservation.toEntity(user, null, cargo, cargoOption,
 				source, destination, transport, getTruck.getCar(), reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
-				distanceDurationInfo.getDistance(), getTruck.getNumber());
+				distanceDurationInfo.getDuration(), getTruck.getNumber());
 
 		Reservation saved = reservationRepository.save(reservation);
 
@@ -112,11 +108,9 @@ public class ReservationService{
 			throw new NotFoundException(CAR_NOT_FOUND);
 		}
 
-		double durationTime = distanceDurationInfo.getDuration() + calculateLoadTime(cargo.getWeight());
-
 		//차량을 기반으로 금액 계산
 		CargoFeeTable.RequestedTruckInfo getTruck = CargoFeeTable.findCost(recommendedCars, distanceDurationInfo.getDistance(), cargo.getWeight());
-		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(), durationTime);
+		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(),distanceDurationInfo.getDuration());
 		//예약 번호
 		String reservationNumber = generateUniqueReservationNumber();
 
@@ -124,7 +118,7 @@ public class ReservationService{
 
 		Reservation reservation = Reservation.toEntity(guest, null, cargo, cargoOption,
 			source, destination, transport, getTruck.getCar(), reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
-			distanceDurationInfo.getDistance(), getTruck.getNumber());
+			distanceDurationInfo.getDuration(), getTruck.getNumber());
 
 		usersRepository.save(guest);
 		Reservation saved = reservationRepository.save(reservation);
