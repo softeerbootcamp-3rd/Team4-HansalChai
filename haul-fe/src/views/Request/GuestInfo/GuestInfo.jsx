@@ -79,8 +79,7 @@ const GuestInfo = () => {
     setResultLoading(false);
   }
 
-  if(resultLoading) return <Loading/>
-
+  if (resultLoading) return <Loading />;
 
   return (
     <MobileLayout>

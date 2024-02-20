@@ -56,7 +56,6 @@ const ChoiceLoadInfo = () => {
   const navigate = useNavigate();
   const [resultLoading, setResultLoading] = useState(false);
 
-
   const {
     setRoadInfo,
     getReservationState,
@@ -211,8 +210,7 @@ const ChoiceLoadInfo = () => {
     setResultLoading(false);
   }
 
-
-  if(resultLoading) return <Loading/>
+  if (resultLoading) return <Loading />;
 
   return (
     <MobileLayout>
