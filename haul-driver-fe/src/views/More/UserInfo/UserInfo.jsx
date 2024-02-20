@@ -10,7 +10,7 @@ import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import { logoutFun } from "../../../utils/localStorage.js";
-import { getUserProfile } from "../../../repository/userRepository.jsx";
+import { getUserProfile, isTokenInvalid } from "../../../repository/userRepository.jsx";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 
@@ -37,8 +37,7 @@ const TextLabel = styled.label`
 const getUserInfo = async () => {
   const response = await getUserProfile();
   if (!response.success) {
-    ToastMaker({ type: "error", children: response.message });
-    return { data: { name: "", email: "", tel: "" } };
+    throw response;
   }
   return response.data;
 };
@@ -58,9 +57,16 @@ const UserInfo = () => {
   };
 
   useEffect(() => {
-    getUserInfo().then(data => {
-      setUserInfo(data);
-    });
+    getUserInfo()
+      .then(data => {
+        setUserInfo(data);
+      })
+      .catch(response => {
+        if (!isTokenInvalid(response.code)) {
+          ToastMaker({ type: "error", children: response.message });
+          navigate(-1);
+        }
+      });
   }, []);
 
   return (
