@@ -61,12 +61,16 @@ public class JwtValidationFilter implements Filter {
 
 		// 토큰 복호화 및 검증
 		String accessToken = jwtProvider.resolveToken(httpServletRequest);
-		jwtProvider.validateToken(httpServletResponse, accessToken);
+		ErrorCode errorCode = jwtProvider.validateToken(accessToken);
 
 		// 검증 성공 시, 요청에 AUTHENTICATE_USER attribute 추가
-		request.setAttribute(AUTHENTICATE_USER, getAuthenticateUser(accessToken));
+		if (isTokenValid(errorCode)) {
+			request.setAttribute(AUTHENTICATE_USER, getAuthenticateUser(accessToken));
+			chain.doFilter(request, response);
+		}
 
-		chain.doFilter(request, response);
+		// 유효성 검증 실패 시, 에러코드 응답
+		FilterExceptionHandler.sendError(httpServletResponse, errorCode);
 	}
 
 	private boolean isPrefilghtRequest(HttpServletRequest request) {
@@ -89,5 +93,9 @@ public class JwtValidationFilter implements Filter {
 		Claims claims = jwtProvider.getClaims(token);
 		String authenticateUserJson = claims.get(AUTHENTICATE_USER, String.class);
 		return objectMapper.readValue(authenticateUserJson, AuthenticatedUser.class);
+	}
+
+	private boolean isTokenValid(ErrorCode errorCode) {
+		return errorCode == null;
 	}
 }
