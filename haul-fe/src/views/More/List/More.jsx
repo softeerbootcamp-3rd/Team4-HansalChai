@@ -8,7 +8,10 @@ import styled from "styled-components";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
 import { useNavigate } from "react-router-dom";
-import { isMemberLogin,notMemberLogoutFun } from "../../../utils/localStorage.js";
+import {
+  isMemberLogin,
+  notMemberLogoutFun
+} from "../../../utils/localStorage.js";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 
 const ListItem = styled.div`
@@ -37,7 +40,6 @@ const More = () => {
     notMemberLogoutFun();
     navigate(UrlMap.loginPageUrl);
   };
-
 
   return (
     <MobileLayout>

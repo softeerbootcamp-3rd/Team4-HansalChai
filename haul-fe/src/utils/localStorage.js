@@ -49,6 +49,6 @@ export function logoutFun() {
   localStorage.removeItem("userName");
 }
 
-export function notMemberLogoutFun(){
+export function notMemberLogoutFun() {
   localStorage.removeItem("isMember");
 }
