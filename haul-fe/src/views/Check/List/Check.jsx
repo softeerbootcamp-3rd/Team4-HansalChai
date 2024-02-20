@@ -60,7 +60,7 @@ const Check = () => {
         />
         <HorizontalLine />
       </Floater>
-      <Margin height="10px" />
+      <Margin height="120px" />
       <InfiniteList
         fetcher={fetcherList}
         listStatus={selectedStatus}
