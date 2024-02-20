@@ -5,9 +5,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Queue;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import org.springframework.data.util.Pair;
 
 import lombok.Getter;
 
@@ -17,11 +21,13 @@ public class SidoGraph {
 		DataStructureInitialize();
 		NameInitialize();
 		GraphInitialize();
+		SidoSortInitialize();
 	}
 	//code table
 	public static List<ArrayList<Integer>> graph;
 	public static List<String> name ;
 	public static Map<String, Integer> index;
+	public static Map<String, Map<Integer, ArrayList<String>>> sidoSortedMap;
 
 	private static  void DataStructureInitialize(){
 		graph = new ArrayList<>();
@@ -157,33 +163,69 @@ public class SidoGraph {
 		graph.add(inner);
 	}
 
-	public static List<String> sidoSort(String key){
+	private static Map<Integer, ArrayList<String>> sidoSort(String key){
 		if (name.stream().noneMatch(name -> name.equals(key))) {
 			throw new IllegalArgumentException("해당 이름을 찾을 수 없습니다: ");
 		}
+		Map<Integer, ArrayList<String>> depthSorted = new HashMap<>();
 
-		ArrayList<String> sorted = new ArrayList<>();
 		ArrayList<Boolean> visited = IntStream.range(0, name.size())
 			.mapToObj(i -> false)
 			.collect(Collectors.toCollection(ArrayList::new));
-		Queue<Integer> queue = new LinkedList<>();
+		Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
 
-		sorted.add(key);
-		queue.offer(index.get(key));
+		queue.offer(Pair.of(index.get(key), 1));
 		visited.set(index.get(key), true);
 
 		while(!queue.isEmpty()) {
-			int nodeIndex = queue.poll();
+			Pair<Integer, Integer> front = queue.poll();
+			int nodeIndex = front.getFirst();
+			int depth = front.getSecond();
+
+			ArrayList<String> depthList = depthSorted.getOrDefault(depth, new ArrayList<>());
+			depthList.add(name.get(nodeIndex));
+			depthSorted.put(depth, depthList);
+
 			for(int i=0; i < graph.get(nodeIndex).size(); i++) {
 				int temp = graph.get(nodeIndex).get(i);
 				if(!visited.get(temp)) {
-					sorted.add(name.get(temp));
 					visited.set(temp, true);
-					queue.offer(temp);
+					queue.offer(Pair.of(temp, depth + 1));
 				}
 			}
 		}
 
-		return sorted;
+		Map<Integer, ArrayList<String>> updatedDepthSorted = new HashMap<>();
+
+		// 깊이마다 이전 모든 깊이의 값을 추가
+		depthSorted.keySet().forEach(currentDepth -> {
+			ArrayList<String> currentValues = new ArrayList<>();
+			IntStream.rangeClosed(1, currentDepth)
+				.mapToObj(depthSorted::get)
+				.filter(Objects::nonNull)
+				.flatMap(List::stream)
+				.distinct()
+				.forEach(currentValues::add);
+			updatedDepthSorted.put(currentDepth, currentValues);
+		});
+
+		return updatedDepthSorted;
 	}
+
+	private static void SidoSortInitialize() {
+		sidoSortedMap = name.stream()
+			.collect(Collectors.toMap(
+				Function.identity(),
+				SidoGraph::sidoSort
+			));
+	}
+
+	public static ArrayList<String> getSidoByDepth(String key, int depth){
+		if (name.stream().noneMatch(name -> name.equals(key))) {
+			throw new IllegalArgumentException("해당 이름을 찾을 수 없습니다: ");
+		}
+
+		return sidoSortedMap.get(key).get(depth);
+	}
+
 }
