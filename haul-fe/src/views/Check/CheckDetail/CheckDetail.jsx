@@ -46,9 +46,10 @@ const CheckDetail = () => {
   }, []);
 
   const dataSetter = async ({ reservationID, setDetailData, setIsLoaded }) => {
-    const response = getIsMember() !== "false"
-      ? await getUserReservationDetails({ reservationID })
-      : await getGuestReservationDetails({ reservationID });
+    const response =
+      getIsMember() !== "false"
+        ? await getUserReservationDetails({ reservationID })
+        : await getGuestReservationDetails({ reservationID });
     if (!response.success) {
       switch (response.code) {
         case 1002: //리소스 권한 없음
@@ -74,16 +75,16 @@ const CheckDetail = () => {
           navigator(-1);
       }
     }
-  
+
     const { car, src, dst, cost, requiredTime } = response.data;
     let { driver } = response.data;
     const srcCoordinate = { lat: src.latitude, lng: src.longitude };
     const dstCoordinate = { lat: dst.latitude, lng: dst.longitude };
-  
+
     if (!driver) {
       driver = { name: null, tel: null, photo: null };
     }
-  
+
     setDetailData(() => {
       return {
         driver,
@@ -97,7 +98,7 @@ const CheckDetail = () => {
         phase: phaseMap[response.data.status]
       };
     });
-  
+
     setIsLoaded(true);
   };
 
