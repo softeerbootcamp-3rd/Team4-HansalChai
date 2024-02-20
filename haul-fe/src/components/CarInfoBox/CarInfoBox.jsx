@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import Porter from "../../assets/pngs/porter.png";
-import Mighty from "../../assets/pngs/mighty.png";
 import Typography from "../Typhography/Typhography.jsx";
 import Margin from "../Margin/Margin.jsx";
 import UnderBar from "../UnderBar/UnderBar.jsx";
