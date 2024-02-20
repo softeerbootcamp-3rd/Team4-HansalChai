@@ -1,6 +1,7 @@
 import ToastMaker from "../components/Toast/ToastMaker";
-import { ErrorMessageMap } from "../data/GlobalVariable";
-import { getAccessToken } from "../utils/localStorage";
+import { ErrorMessageMap,UrlMap } from "../data/GlobalVariable";
+import { getAccessToken,logoutFun } from "../utils/localStorage";
+import { useNavigate } from "react-router-dom";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 
@@ -14,14 +15,15 @@ export async function loginFun({ tel, password }) {
       },
       body: JSON.stringify({ tel, password })
     });
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
+    console.log(data);
+    if (data.status === 200) {
       return {
         success: true,
         data
       };
     } else {
-      return { success: false, message: "Login failed" };
+      return { success: false, code: Number(data.code)};
     }
   } catch (error) {
     console.error("Login error:", error);
@@ -103,4 +105,11 @@ export async function putPassword({ password }) {
     ToastMaker({ type: "error", children: ErrorMessageMap.TryLater });
     return { success: false, message: error.toString() };
   }
+}
+
+
+export function tokenExpired() {
+  ToastMaker({ type: "error", children: ErrorMessageMap.TokenExpired });
+  logoutFun();
+  useNavigate().navigate(UrlMap.loginPageUrl);
 }
