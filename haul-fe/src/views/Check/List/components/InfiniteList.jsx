@@ -101,6 +101,10 @@ const InfiniteList = ({ fetcher, listStatus, emptyListView = <></> }) => {
         type: "error",
         children: "예약 정보를 불러오지 못했어요."
       });
+      setReservationList([]);
+      setIsEnd(true);
+      endRef.current.style.display = "none";
+      isLoading.current = false;
       return;
     }
     setReservationList(prev => prev.concat(newPage.data.reservationInfoDTOS));
