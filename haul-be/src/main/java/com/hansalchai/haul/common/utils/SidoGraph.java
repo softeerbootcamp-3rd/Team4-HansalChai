@@ -2,24 +2,34 @@ package com.hansalchai.haul.common.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import lombok.Getter;
 
 @Getter
-public class sidoGraph {
+public class SidoGraph {
 	static{
+		DataStructureInitialize();
 		NameInitialize();
 		GraphInitialize();
 	}
 	//code table
-	private static ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
-	private static ArrayList<String> name = new ArrayList<>();
-	private static Map<String, Integer> index = new HashMap<>();
+	public static List<ArrayList<Integer>> graph;
+	public static List<String> name ;
+	public static Map<String, Integer> index;
 
-	public static void NameInitialize(){
+	private static  void DataStructureInitialize(){
+		graph = new ArrayList<>();
+		name = new ArrayList<>();
+		index = new HashMap<>();
+	}
+
+	private static void NameInitialize(){
 		name.add("세종특별자치시"); //0
 		name.add("제주특별자치도"); //1
 		name.add("경상남도"); //2
@@ -145,5 +155,35 @@ public class sidoGraph {
 		inner.add(9); // 대전
 		inner.add(10); // 광주
 		graph.add(inner);
+	}
+
+	public static List<String> sidoSort(String key){
+		if (name.stream().noneMatch(name -> name.equals(key))) {
+			throw new IllegalArgumentException("해당 이름을 찾을 수 없습니다: ");
+		}
+
+		ArrayList<String> sorted = new ArrayList<>();
+		ArrayList<Boolean> visited = IntStream.range(0, name.size())
+			.mapToObj(i -> false)
+			.collect(Collectors.toCollection(ArrayList::new));
+		Queue<Integer> queue = new LinkedList<>();
+
+		sorted.add(key);
+		queue.offer(index.get(key));
+		visited.set(index.get(key), true);
+
+		while(!queue.isEmpty()) {
+			int nodeIndex = queue.poll();
+			for(int i=0; i < graph.get(nodeIndex).size(); i++) {
+				int temp = graph.get(nodeIndex).get(i);
+				if(!visited.get(temp)) {
+					sorted.add(name.get(temp));
+					visited.set(temp, true);
+					queue.offer(temp);
+				}
+			}
+		}
+
+		return sorted;
 	}
 }
