@@ -57,6 +57,6 @@ public class ReservationUtil {
 	}
 
 	public static String getCarEnumTypeToWeight(int type){
-		return (double)type / 1000 + " 톤";
+		return (double)type / 1000 + "톤";
 	}
 }
