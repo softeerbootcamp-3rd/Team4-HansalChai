@@ -1,6 +1,6 @@
 import ToastMaker from "../components/Toast/ToastMaker";
-import { ErrorMessageMap,UrlMap } from "../data/GlobalVariable";
-import { getAccessToken,logoutFun } from "../utils/localStorage";
+import { ErrorMessageMap, UrlMap } from "../data/GlobalVariable";
+import { getAccessToken, logoutFun } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 
 const apiKey = import.meta.env.VITE_API_KEY;
@@ -16,14 +16,13 @@ export async function loginFun({ tel, password }) {
       body: JSON.stringify({ tel, password })
     });
     const data = await response.json();
-    console.log(data);
     if (data.status === 200) {
       return {
         success: true,
         data
       };
     } else {
-      return { success: false, code: Number(data.code)};
+      return { success: false, code: data.code };
     }
   } catch (error) {
     console.error("Login error:", error);
@@ -40,14 +39,14 @@ export async function signUpFun({ name, tel, password, email }) {
       },
       body: JSON.stringify({ name, tel, password, email })
     });
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
+    if (data.status === 200) {
       return {
         success: true,
         data
       };
     } else {
-      return { success: false, message: "Sign Up failed" };
+      return { success: false, code: data.code };
     }
   } catch (error) {
     console.error("Sign Up error:", error);
@@ -107,9 +106,22 @@ export async function putPassword({ password }) {
   }
 }
 
-
-export function tokenExpired() {
-  ToastMaker({ type: "error", children: ErrorMessageMap.TokenExpired });
+export function isTokenInvalid(code) {
+  switch (code) {
+    case 2003:
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.InvalidAccessError
+      });
+      break;
+    case 2001:
+    case 2002:
+      ToastMaker({ type: "error", children: ErrorMessageMap.TokenExpired });
+      break;
+    default:
+      return false;
+  }
   logoutFun();
   useNavigate().navigate(UrlMap.loginPageUrl);
+  return true;
 }
