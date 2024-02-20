@@ -32,3 +32,9 @@ export function stringToDateObject(str) {
   const date = new Date(parts[0], parts[1] - 1, parts[2]);
   return date;
 }
+
+export function functionBinder(func, bindargs) {
+  return function ({ ...args }) {
+    return func({ ...bindargs, ...args });
+  };
+}
