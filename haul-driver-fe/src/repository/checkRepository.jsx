@@ -1,3 +1,4 @@
+import { ErrorMessageMap } from "../data/GlobalVariable";
 import { getAccessToken } from "../utils/localStorage";
 
 const apiKey = import.meta.env.VITE_API_KEY;
@@ -14,35 +15,35 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
       }
     );
     if (!response.ok) {
-      return { success: false, message: "정보를 불러오지 못했어요." };
+      return { success: false, code: -1, message: ErrorMessageMap.UnknownError };
     }
     const body = await response.json();
-    const list = body.data.orderInfoDTOS.map(orderSummaryInfo => {
+    if (body.status === 200) {
+      const list = body.data.orderInfoDTOS.map(orderSummaryInfo => {
+        return {
+          orderId: orderSummaryInfo.id,
+          src: orderSummaryInfo.src,
+          dst: orderSummaryInfo.dst,
+          time: orderSummaryInfo.datetime,
+          cost: orderSummaryInfo.cost
+        };
+      });
       return {
-        orderId: orderSummaryInfo.id,
-        src: orderSummaryInfo.src,
-        dst: orderSummaryInfo.dst,
-        time: orderSummaryInfo.datetime,
-        cost: orderSummaryInfo.cost
+        success: true,
+        data: {
+          list,
+          lastPage: body.data.lastPage
+        }
       };
-    });
-    return {
-      success: true,
-      data: {
-        list,
-        lastPage: body.data.lastPage
-      }
-    };
+    } else {
+      return {
+        success: false,
+        body: body.code,
+        message: ErrorMessageMap.NoUserFound
+      };
+    }
   } catch (error) {
-    return { success: false, error, message: "정보를 불러오지 못했어요." };
-  }
-}
-
-export async function getUserReservationDetails({ checkID }) {
-  try {
-    return { success: true, data: { ...dummyDetailData(checkID) } };
-  } catch (error) {
-    console.error(error);
+    return { success: false, error, code: 0, message: ErrorMessageMap.UnknownError };
   }
 }
 
