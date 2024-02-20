@@ -11,7 +11,7 @@ import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import { logoutFun, setUserName } from "../../../utils/localStorage.js";
 import { useNavigate } from "react-router-dom";
 import { UrlMap } from "../../../data/GlobalVariable.js";
-import { getUserProfile, putPassword } from "../../../repository/userRepository.js";
+import { getUserProfile, isTokenInvalid, putPassword } from "../../../repository/userRepository.js";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 
 //TODO: 비밀번호 상세 규칙 통일할 것!!!!!!
@@ -89,10 +89,7 @@ const AdvisorText = styled(Typography)`
 
 const getUserInfo = async () => {
   const response = await getUserProfile();
-  if (!response.success) {
-    ToastMaker({ type: "error", children: response.message });
-    return;
-  }
+  if (!response.success) throw response;
   setUserName(response.data.name);
   return response.data;
 };
@@ -130,15 +127,28 @@ const UserInfo = () => {
     navigate(UrlMap.loginPageUrl);
   };
 
-  const clickSaveBtn = () => {
-    putPassword({ password: passwordRef.current });
+  const clickSaveBtn = async () => {
+    const response = await putPassword({ password: passwordRef.current });
+    if (!response.success) {
+      if (!isTokenInvalid(response.code)) {
+        ToastMaker({ type: "error", children: response.message });
+        navigate(-1);
+      }
+    }
     setIsEdit(false);
   };
 
   useEffect(() => {
-    getUserInfo().then(data => {
-      setUserInfo(data);
-    });
+    getUserInfo()
+      .then(data => {
+        setUserInfo(data);
+      })
+      .catch(response => {
+        if (!isTokenInvalid(response.code)) {
+          ToastMaker({ type: "error", children: response.message });
+          navigate(-1);
+        }
+      });
   }, []);
 
   return (
