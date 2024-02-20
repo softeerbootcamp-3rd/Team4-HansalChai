@@ -5,13 +5,13 @@ import lombok.Getter;
 @Getter
 public class ApiResponse<T> {
 	private int status;
-	private String code;
+	private int code;
 	private String message;
 	private T data;
 
-	private static final String SUCCESS_CODE = "200";
+	private static final int SUCCESS_CODE = 200;
 
-	private ApiResponse(int status, String code, String message, T data){
+	private ApiResponse(int status, int code, String message, T data){
 		this.status = status;
 		this.code = code;
 		this.message = message;
@@ -22,7 +22,7 @@ public class ApiResponse<T> {
 		return new ApiResponse<>(status, SUCCESS_CODE, message, data);
 	}
 
-	private static <T> ApiResponse<T> ApiResponseError(int status, String code ,String message) {
+	private static <T> ApiResponse<T> ApiResponseError(int status, int code ,String message) {
 		return new ApiResponse<>(status, code, message, null);
 	}
 
