@@ -95,7 +95,7 @@ export async function getUserReservationDetails({ planID }) {
 export async function orderDetail({ orderId }) {
   try {
     const response = await fetch(
-      `http://${apiKey}/api/v1/orders/mine/${orderId}`,
+      `http://${apiKey}/api/v1/orders/${orderId}`,
       {
         method: "GET",
         headers: {
@@ -104,15 +104,13 @@ export async function orderDetail({ orderId }) {
         }
       }
     );
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, message: "OrderDetail failed" };
-    }
+    return { success: false, code: data.code };
   } catch (error) {
     console.error("OrderDetail error:", error);
     return { success: false, message: error.toString() };
@@ -130,15 +128,14 @@ export async function orderApprove({ orderId }) {
       },
       body: JSON.stringify({ id: orderId })
     });
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
+    console.log(data);
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, message: "Approve failed" };
-    }
+    return { success: false, code: data.code };
   } catch (error) {
     console.error("Approve error:", error);
     return { success: false, message: error.toString() };
