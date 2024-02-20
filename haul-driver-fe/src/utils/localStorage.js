@@ -30,4 +30,5 @@ export function isLoginFun() {
 export function logoutFun() {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
+  localStorage.removeItem("userName");
 }
