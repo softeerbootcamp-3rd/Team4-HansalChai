@@ -82,7 +82,7 @@ public class ReservationService{
 		CargoFeeTable.RequestedTruckInfo getTruck = CargoFeeTable.findCost(recommendedCars, distanceDurationInfo.getDistance(), cargo.getWeight());
 		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(),distanceDurationInfo.getDuration());
 		//예약 번호
-		String reservationNumber = generateUniqueReservationNumber(reservationRepository);
+		String reservationNumber = generateUniqueReservationNumber();
 
 		Reservation reservation = Reservation.toEntity(user, null, cargo, cargoOption,
 				source, destination, transport, getTruck.getCar(), reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
@@ -112,7 +112,7 @@ public class ReservationService{
 		CargoFeeTable.RequestedTruckInfo getTruck = CargoFeeTable.findCost(recommendedCars, distanceDurationInfo.getDistance(), cargo.getWeight());
 		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(),distanceDurationInfo.getDuration());
 		//예약 번호
-		String reservationNumber = generateUniqueReservationNumber(reservationRepository);
+		String reservationNumber = generateUniqueReservationNumber();
 
 		Users guest = Users.toEntity(reservationDTO.getUserInfo().getName(),reservationDTO.getUserInfo().getTel(),reservationNumber, null, null, Role.GUEST);
 

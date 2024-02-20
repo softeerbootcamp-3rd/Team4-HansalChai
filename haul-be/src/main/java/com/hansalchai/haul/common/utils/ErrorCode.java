@@ -37,7 +37,7 @@ public enum ErrorCode {
 	INCORRECT_PASSWORD(UNAUTHORIZED, "2010", "비밀번호가 일치하지 않습니다."),
 
 	//예약
-	INVALID_RESERVATION_STATE_CHANGE (FORBIDDEN, "3001", "예약 전 상태에서만 상태를 변경할 수 있습니다."),
+	INVALID_RESERVATION_STATE_CHANGE (FORBIDDEN, "3001", "관리자 권한이 아닐 경우 예약 전 상태에서만 상태를 변경할 수 있습니다."),
 	KAKAO_MAP_ERROR(INTERNAL_SERVER_ERROR,"3002", "카카오 지도에 오류가 있습니다."),
 
 	// 오더
