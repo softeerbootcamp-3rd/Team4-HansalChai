@@ -75,7 +75,6 @@ export async function getUserProfile() {
     }
   } catch (error) {
     console.error("Get Profile error:", error);
-    ToastMaker({ type: "error", children: ErrorMessageMap.TryLater });
     return { success: false, message: error.toString() };
   }
 }
@@ -100,8 +99,6 @@ export async function putPassword({ password }) {
       return { success: false, message: ErrorMessageMap.ChangePasswordFailed };
     }
   } catch (error) {
-    console.error("Put Password error:", error);
-    ToastMaker({ type: "error", children: ErrorMessageMap.TryLater });
     return { success: false, message: error.toString() };
   }
 }
