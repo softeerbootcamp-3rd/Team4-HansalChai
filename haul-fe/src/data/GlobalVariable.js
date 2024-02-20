@@ -42,6 +42,7 @@ export const ErrorMessageMap = {
   TokenExpired: "로그인 정보가 만료되었습니다. 다시 로그인 해주세요.",
   InvalidAccessError: "비정상적인 접근입니다. 다시 로그인 해주세요.",
   ExistingPhoneNumberError: "이미 가입된 전화번호입니다.",
+  NoMatchingHaulCarError: "요청하신 화물정보에 부합하는 차량이 존재하지 않습니다.",
   ReservationNotFound: "예약 정보를 찾을 수 없어요.",
   NoPermission: "다른 사람의 예약 정보는 볼 수 없어요.",
   UnknownError: "알 수 없는 오류가 발생했어요."

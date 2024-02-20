@@ -120,7 +120,7 @@ export function isTokenInvalid(code) {
         children: ErrorMessageMap.InvalidAccessError
       });
       break;
-    case 1101:
+    case 1001:
     case 2001:
     case 2002: //fall-through
       ToastMaker({
