@@ -124,7 +124,6 @@ const InfiniteList = ({ fetcher, listStatus, emptyListView = <></> }) => {
   }, []);
 
   const ListTail = () => {
-    console.log(reservationList.length, isEnd);
     if (isEnd) {
       if (reservationList.length === 0) return emptyListView;
       return ListEnd();
