@@ -103,6 +103,12 @@ const InfiniteList = ({
     if (newPage.success !== true) {
       if (!isTokenInvalid(newPage.code)) {
         setIsEnd(true);
+        if (newPage.code === 1003) {
+          ToastMaker({
+            type: "error",
+            children: newPage.message
+          });
+        }
         ToastMaker({
           type: "error",
           children: newPage.message

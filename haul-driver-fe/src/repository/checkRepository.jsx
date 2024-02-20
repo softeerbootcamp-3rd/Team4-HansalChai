@@ -15,7 +15,11 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
       }
     );
     if (!response.ok) {
-      return { success: false, code: -1, message: ErrorMessageMap.UnknownError };
+      return {
+        success: false,
+        code: -1,
+        message: ErrorMessageMap.UnknownError
+      };
     }
     const body = await response.json();
     if (body.status === 200) {
@@ -36,14 +40,28 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
         }
       };
     } else {
-      return {
-        success: false,
-        code: body.code,
-        message: ErrorMessageMap.NoUserFound
-      };
+      switch (body.code) {
+        case 1003:
+          return {
+            success: false,
+            code: body.code,
+            message: ErrorMessageMap.NotAllowedQuery
+          };
+        default:
+          return {
+            success: false,
+            code: body.code,
+            message: ErrorMessageMap.UnknownError
+          };
+      }
     }
   } catch (error) {
-    return { success: false, error, code: 0, message: ErrorMessageMap.UnknownError };
+    return {
+      success: false,
+      error,
+      code: 0,
+      message: ErrorMessageMap.UnknownError
+    };
   }
 }
 
