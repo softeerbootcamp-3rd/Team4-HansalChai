@@ -41,7 +41,7 @@ const Purchase = () => {
 
   const confirmSelectedIndex = async () => {
     const { reservationId } = location.state;
-    const { success, data, code } = await memberReservationConfirmFun({
+    const { success, code } = await memberReservationConfirmFun({
       reservationId: reservationId
     });
     if (success) {

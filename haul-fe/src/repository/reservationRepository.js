@@ -64,14 +64,12 @@ export async function memberReservationFun({
     });
 
     const data = await response.json();
-    if (data.status === 200) {
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, code: data.code };
-    }
+    return { success: false, code: data.code };
   } catch (error) {
     console.error("Reservation failed error:", error);
     return { success: false, message: error.toString() };
@@ -91,14 +89,12 @@ export async function memberReservationConfirmFun({ reservationId }) {
       }
     );
     const data = await response.json();
-    if (data.status === 200) {
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, code: data.code };
-    }
+    return { success: false, code: data.code };
   } catch (error) {
     console.error("Member Confirm failed error:", error);
     return { success: false, message: error.toString() };
@@ -172,17 +168,15 @@ export async function guestReservationFun({
       })
     });
 
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, message: "Reservation failed" };
-    }
+    return { success: false, code: data.code };
   } catch (error) {
-    console.error("Reservation failed:", error);
+    console.error("Reservation failed error:", error);
     return { success: false, message: error.toString() };
   }
 }
@@ -199,15 +193,13 @@ export async function guestReservationConfirmFun({ reservationId }) {
       }
     );
 
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, message: "Guest Confirm failed" };
-    }
+    else return { success: false, code: data.code };
   } catch (error) {
     console.error("Guest Confirm failed error:", error);
     return { success: false, message: error.toString() };

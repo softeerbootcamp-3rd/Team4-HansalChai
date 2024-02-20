@@ -56,7 +56,7 @@ const GuestInfo = () => {
     });
 
     const reservationState = getReservationState();
-    const { success, data, message } = await guestReservationFun({
+    const { success, data, code } = await guestReservationFun({
       ...reservationState,
       guestName: inGuestName.current,
       guestTel: inGuestTel.current
@@ -65,7 +65,13 @@ const GuestInfo = () => {
     if (success) {
       navigate(UrlMap.resultPageUrl, { state: { data: data.data } });
     } else {
-      ToastMaker({ type: "error", children: message });
+      if (code === 1104)
+        ToastMaker({
+          type: "error",
+          children: ErrorMessageMap.NoMatchingHaulCarError
+        });
+      else
+        ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
     }
   }
 

@@ -16,14 +16,12 @@ export async function loginFun({ tel, password }) {
       body: JSON.stringify({ tel, password })
     });
     const data = await response.json();
-    if (data.status === 200) {
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, code: data.code };
-    }
+    return { success: false, code: data.code };
   } catch (error) {
     console.error("Login error:", error);
     return { success: false, message: error.toString() };
@@ -40,14 +38,12 @@ export async function signUpFun({ name, tel, password, email }) {
       body: JSON.stringify({ name, tel, password, email })
     });
     const data = await response.json();
-    if (data.status === 200) {
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, code: data.code };
-    }
+    return { success: false, code: data.code };
   } catch (error) {
     console.error("Sign Up error:", error);
     return { success: false, message: error.toString() };
