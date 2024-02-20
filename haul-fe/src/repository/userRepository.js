@@ -59,20 +59,22 @@ export async function getUserProfile() {
         Authorization: `Bearer ${getAccessToken()}`
       }
     });
-
-    if (response.ok) {
-      const body = await response.json();
+    const body = await response.json();
+    if (body.code === 200) {
       return {
         success: true,
         data: body.data
       };
     } else {
-      return { success: false, message: ErrorMessageMap.NoUserFound };
+      return {
+        success: false,
+        code: body.code,
+        message: ErrorMessageMap.NoUserFound
+      };
     }
   } catch (error) {
     console.error("Get Profile error:", error);
-    ToastMaker({ type: "error", children: ErrorMessageMap.TryLater });
-    return { success: false, message: error.toString() };
+    return { success: false, code: 0, message: ErrorMessageMap.UnknownError };
   }
 }
 
@@ -87,18 +89,22 @@ export async function putPassword({ password }) {
       body: JSON.stringify({ password })
     });
 
-    if (response.ok) {
+    const body = await response.json();
+
+    if (body.code === 200) {
       return {
         success: true,
         message: "비밀번호 변경에 성공했어요"
       };
     } else {
-      return { success: false, message: ErrorMessageMap.ChangePasswordFailed };
+      return {
+        success: false,
+        code: body.code,
+        message: ErrorMessageMap.ChangePasswordFailed
+      };
     }
   } catch (error) {
-    console.error("Put Password error:", error);
-    ToastMaker({ type: "error", children: ErrorMessageMap.TryLater });
-    return { success: false, message: error.toString() };
+    return { success: false, code: 0, message: ErrorMessageMap.UnknownError };
   }
 }
 

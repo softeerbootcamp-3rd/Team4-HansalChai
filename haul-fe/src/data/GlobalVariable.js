@@ -49,7 +49,10 @@ export const ErrorMessageMap = {
   NoMatchingHaulCarError:
     "요청하신 화물정보에 부합하는 차량이 존재하지 않습니다.",
   NotFindReservationError: "예약 정보를 찾을 수 없습니다",
-  AlreadyReservationError: "이미 예약이 완료된 내역입니다."
+  AlreadyReservationError: "이미 예약이 완료된 내역입니다.",
+  ReservationNotFound: "예약 정보를 찾을 수 없어요.",
+  NoPermission: "다른 사람의 예약 정보는 볼 수 없어요.",
+  UnknownError: "알 수 없는 오류가 발생했어요."
 };
 
 export const TransportTypeArr = [

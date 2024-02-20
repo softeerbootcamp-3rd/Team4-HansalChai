@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 import {
   getUserProfile,
+  isTokenInvalid,
   putPassword
 } from "../../../repository/userRepository.js";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
@@ -21,13 +22,15 @@ import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 //TODO: 상세 규칙 정하고 정규식 바꾼 후 util로 보낼 것!!!!!!!
 const checkPassword = password => {
   if (password.length === 0) return null;
-
-  const reg = new RegExp("^[A-Za-z0-9]{8,20}$");
-  if (!reg.test(password)) {
+  if (password.trim().length === 0)
     return {
       result: false,
-      message:
-        "비밀번호는 영문, 숫자, 특수문자를 모두 합하여 8자 이상 20자 이하입니다."
+      message: "비밀번호는 공백으로만 이루어질 수는 없습니다."
+    };
+  if (password.length < 8) {
+    return {
+      result: false,
+      message: "비밀번호는 영문, 숫자, 특수문자를 모두 합하여 8자 이상입니다."
     };
   }
   return { result: true, message: "" };
@@ -93,10 +96,7 @@ const AdvisorText = styled(Typography)`
 
 const getUserInfo = async () => {
   const response = await getUserProfile();
-  if (!response.success) {
-    ToastMaker({ type: "error", children: response.message });
-    return;
-  }
+  if (!response.success) throw response;
   setUserName(response.data.name);
   return response.data;
 };
@@ -134,15 +134,31 @@ const UserInfo = () => {
     navigate(UrlMap.loginPageUrl);
   };
 
-  const clickSaveBtn = () => {
-    putPassword({ password: passwordRef.current });
+  const clickSaveBtn = async () => {
+    const response = await putPassword({ password: passwordRef.current });
+    if (!response.success) {
+      if (!isTokenInvalid(response.code)) {
+        ToastMaker({ type: "error", children: response.message });
+        navigate(-1);
+      }
+    }
     setIsEdit(false);
+    setIsPasswordConfirmCorrect(null);
+    setIsPasswordCorrect(null);
+    ToastMaker({ type: "success", children: "비밀번호가 변경되었습니다." });
   };
 
   useEffect(() => {
-    getUserInfo().then(data => {
-      setUserInfo(data);
-    });
+    getUserInfo()
+      .then(data => {
+        setUserInfo(data);
+      })
+      .catch(response => {
+        if (!isTokenInvalid(response.code)) {
+          ToastMaker({ type: "error", children: response.message });
+          navigate(-1);
+        }
+      });
   }, []);
 
   return (
@@ -164,11 +180,15 @@ const UserInfo = () => {
                 placeholder="●●●●●●"
                 type="password"
                 id={"password"}
-                onBlur={e => {
+                onChange={e => {
                   passwordRef.current = e.target.value;
                   setIsPasswordCorrect(() =>
                     checkPassword(passwordRef.current)
                   );
+                  setIsPasswordConfirmCorrect(() => {
+                    if (isPasswordConfirmCorrect === null) return null;
+                    return passwordConfirmRef.current === passwordRef.current;
+                  });
                 }}
               />
             </ListItem>
@@ -177,7 +197,7 @@ const UserInfo = () => {
                 <AdvisorText font="medium12" color="successGreen"></AdvisorText>
               ) : isPasswordCorrect.result ? (
                 <AdvisorText font="medium12" color="successGreen">
-                  사용 할 수 있는 비밀번호에요
+                  사용할 수 있는 비밀번호에요
                 </AdvisorText>
               ) : (
                 <AdvisorText font="medium12" color="alertRed">
@@ -194,7 +214,7 @@ const UserInfo = () => {
                 placeholder="●●●●●●"
                 id={"passwordConfirm"}
                 type="password"
-                onBlur={e => {
+                onChange={e => {
                   passwordConfirmRef.current = e.target.value;
                   setIsPasswordConfirmCorrect(
                     () => passwordConfirmRef.current === passwordRef.current
@@ -225,7 +245,13 @@ const UserInfo = () => {
                   passwordConfirm: isPasswordConfirmCorrect
                 });
                 if (passwordPassed) clickSaveBtn();
-                if (passwordPassed === null) setIsEdit(false);
+                else if (passwordPassed === null) setIsEdit(false);
+                else {
+                  ToastMaker({
+                    type: "error",
+                    children: "비밀번호를 확인해주세요"
+                  });
+                }
               }}
               role="main"
             >

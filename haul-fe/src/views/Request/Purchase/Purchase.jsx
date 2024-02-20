@@ -17,6 +17,7 @@ import Flex from "../../../components/Flex/Flex.jsx";
 import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable";
 import { memberReservationConfirmFun } from "../../../repository/reservationRepository.js";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import { isTokenInvalid } from "../../../repository/userRepository.js";
 
 const ConfirmSelected = styled.img`
   width: fit-content;
@@ -48,6 +49,7 @@ const Purchase = () => {
       setInitialState();
       navigator(UrlMap.completePageUrl);
     } else {
+      isTokenInvalid(code);
       if (code === 1103)
         ToastMaker({
           type: "error",

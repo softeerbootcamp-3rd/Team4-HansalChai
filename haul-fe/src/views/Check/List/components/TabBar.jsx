@@ -5,12 +5,17 @@ const TabBarFrame = styled.div`
   width: 100%;
   ${({ theme }) => theme.flex.flexRow};
   justify-content: start;
+  overflow-x: scroll;
+  white-space: nowrap;
+  position: relative;
+  gap: 12px;
+  left: -20px;
+  padding: 0px 20px;
 `;
 
 const TabBarItem = styled.button`
   width: fit-content;
   height: 24px;
-  margin: 0 10px;
   ${({ theme }) => theme.font.semiBold20};
   ${({ theme }) => theme.flex.flexRowCenter};
   color: ${({ selected, theme }) =>

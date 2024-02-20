@@ -17,17 +17,18 @@ import { MaxDeviceWidth } from "../../../data/GlobalVariable.js";
 const Floater = styled.div`
   overflow: visible;
   height: fit-content;
-  width: calc(${MaxDeviceWidth} - 20px);
+  width: 100%;
+  max-width: calc(${MaxDeviceWidth} - 40px);
   position: fixed;
   top: 0;
-  z-index: 10;
+  z-index: 100;
   background-color: white;
 `;
 
 const HorizontalLine = styled(UnderBar)`
   width: calc(100% + 40px);
   left: -20px;
-  position: relative;
+  position: absolute;
 `;
 
 //TODO: API가 운송상태를 구별하여 가져올 수 있게 변경된 후 리스트 수정할 것!
@@ -44,7 +45,7 @@ const Check = () => {
   ];
 
   return (
-    <MobileLayout>
+    <MobileLayout id="CUSTOM" minWidth={"auto"}>
       <Floater>
         <Header home={false} back={false}>
           <Typography font={"semiBold24"} color={"mainColor"}>
@@ -59,7 +60,7 @@ const Check = () => {
         />
         <HorizontalLine />
       </Floater>
-      <Margin height="110px" />
+      <Margin height="10px" />
       <InfiniteList
         fetcher={fetcherList}
         listStatus={selectedStatus}
