@@ -10,6 +10,7 @@ import Input from "../../../components/Input/Input.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import Loading from "../../Loading/Loading.jsx";
 import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable.js";
 import { isPhoneNumber } from "../../../utils/helper.js";
 import { guestReservationFun } from "../../../repository/reservationRepository.js";
@@ -25,6 +26,7 @@ const GuestInfo = () => {
   const inGuestName = useRef(guestName);
   const inGuestTel = useRef(guestTel);
   const [isButtonDisabled, setButtonDisabled] = useState(true);
+  const [resultLoading, setResultLoading] = useState(false);
 
   useEffect(() => {
     if (cargoWeight === 0) {
@@ -56,6 +58,7 @@ const GuestInfo = () => {
     });
 
     const reservationState = getReservationState();
+    setResultLoading(true);
     const { success, data, code } = await guestReservationFun({
       ...reservationState,
       guestName: inGuestName.current,
@@ -73,7 +76,11 @@ const GuestInfo = () => {
       else
         ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
     }
+    setResultLoading(false);
   }
+
+  if(resultLoading) return <Loading/>
+
 
   return (
     <MobileLayout>

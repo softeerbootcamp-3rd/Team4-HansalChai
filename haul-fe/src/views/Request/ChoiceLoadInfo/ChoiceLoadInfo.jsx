@@ -22,6 +22,7 @@ import { isNumber, isPositiveNumber } from "../../../utils/helper.js";
 import { getIsMember } from "../../../utils/localStorage.js";
 import { memberReservationFun } from "../../../repository/reservationRepository.js";
 import { isTokenInvalid } from "../../../repository/userRepository.js";
+import Loading from "../../Loading/Loading.jsx";
 
 const LoadInfoTypoBox = styled.div`
   width: 40px;
@@ -53,6 +54,8 @@ const SmallBtn = styled.button`
 
 const ChoiceLoadInfo = () => {
   const navigate = useNavigate();
+  const [resultLoading, setResultLoading] = useState(false);
+
 
   const {
     setRoadInfo,
@@ -184,7 +187,7 @@ const ChoiceLoadInfo = () => {
     }
     const reservationState = getReservationState();
     // 회원이라면 바로 결과 페이지로 이동
-
+    setResultLoading(true);
     const { success, data, code } = await memberReservationFun({
       ...reservationState,
       cargoWeight: cargoWeightNum,
@@ -205,7 +208,11 @@ const ChoiceLoadInfo = () => {
       else
         ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
     }
+    setResultLoading(false);
   }
+
+
+  if(resultLoading) return <Loading/>
 
   return (
     <MobileLayout>
