@@ -16,7 +16,7 @@ export async function getGuestSummaryList({ reservationSerial }) {
       }
     );
     const body = await response.json();
-    if (response.ok) {
+    if (body.code === 200) {
       return {
         success: true,
         data: body.data
@@ -51,11 +51,9 @@ export async function getUserSummaryList({ page, keyword = "매칭 중" }) {
         }
       }
     );
-    console.log(response);
 
     const body = await response.json();
-    console.log(body);
-    if (response.ok) {
+    if (body.code === 200) {
       return {
         success: true,
         data: body.data
@@ -89,7 +87,7 @@ export async function getGuestReservationDetails({ reservationID }) {
     );
 
     const body = await response.json();
-    if (response.ok) {
+    if (body.code === 200) {
       return {
         success: true,
         data: body.data
@@ -108,8 +106,8 @@ export async function getGuestReservationDetails({ reservationID }) {
   }
 }
 
-//code 1002 리소스 접근 권한 없음
-//code 1103 예약 정보 없음
+//code 1002 리소스 접근 권한 없음 -> 이거 왜 200???
+//code 1103 예약 정보 없음 -> 이거 왜 200???
 //code 2001 헤더에 토큰이 없음 - 로그아웃
 //code 2002 토큰 유효성 검증 실패 - 로그아웃
 //code 2003 토큰이 만료됨 - 로그아웃
@@ -127,7 +125,7 @@ export async function getUserReservationDetails({ reservationID }) {
     );
 
     const body = await response.json();
-    if (response.ok) {
+    if (body.code === 200) {
       return {
         success: true,
         data: body.data
@@ -142,6 +140,6 @@ export async function getUserReservationDetails({ reservationID }) {
   } catch (error) {
     console.error("Get User Reservation Detail error:", error);
     ToastMaker({ type: "error", children: ErrorMessageMap.TryLater });
-    return { success: false, code: 0, message: error.toString() };
+    return { success: false, code: 1103, message: error.toString() };
   }
 }
