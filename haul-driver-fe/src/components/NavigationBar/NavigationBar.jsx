@@ -94,7 +94,7 @@ const NavigationBar = ({ selected = "create" }) => {
         <Typography
           color={selected === "check" ? "mainColor" : "unselectedGray"}
         >
-          예약 확인
+          일정 확인
         </Typography>
       </ItemFrame>
 

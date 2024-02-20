@@ -4,14 +4,23 @@ import {
   orderApprove,
   orderDetail
 } from "../../../repository/createRepository.jsx";
+import { ErrorMessageMap } from "../../../data/GlobalVariable.js";
+import { isTokenInvalid } from "../../../repository/userRepository.jsx";
 
 export async function showDetailFun({ orderId, setOrderData, navigate }) {
-  const { success, data, message } = await orderDetail({ orderId: orderId });
+  const { success, data, code } = await orderDetail({ orderId: orderId });
   if (success) {
     setOrderData(data.data);
   } else {
-    //FIXME: 예외처리 생성 시 적용
-    navigate(UrlMap.scheduleCreatePageUrl);
+    isTokenInvalid(code);
+    if (code === 1103) {
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.NotFindReservationError
+      });
+      navigate(-1);
+    } else
+      ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
   }
 }
 
@@ -21,12 +30,10 @@ export async function createScheduleBtnFun({
   navigate
 }) {
   setLoadingStatus(true);
-  const { success, message } = await orderApprove({ orderId: orderId });
+  const { success, code } = await orderApprove({ orderId: orderId });
   if (success) {
     navigate(UrlMap.completePageUrl);
   } else {
-    //FIXME: 예외처리 생성 시 적용
-    ToastMaker({ type: "error", children: message });
-    setLoadingStatus(false);
+    isTokenInvalid(code);
   }
 }
