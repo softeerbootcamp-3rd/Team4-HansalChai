@@ -36,20 +36,24 @@ export async function getUserProfile() {
         Authorization: `Bearer ${getAccessToken()}`
       }
     });
-
-    if (response.ok) {
-      const body = await response.json();
+    const body = await response.json();
+    if (body.status === 200) {
       return {
         success: true,
         data: body.data
       };
     } else {
-      return { success: false, message: ErrorMessageMap.NoUserFound };
+      return {
+        success: false,
+        code: body.code,
+        message: ErrorMessageMap.NoUserFound
+      };
     }
   } catch (error) {
     console.error("Get Profile error:", error);
     return {
       success: false,
+      code: 0,
       children: ErrorMessageMap.TryLater,
       message: error.toString()
     };
@@ -73,6 +77,5 @@ export function isTokenInvalid(code) {
       return false;
   }
   logoutFun();
-  useNavigate().navigate(UrlMap.loginPageUrl);
   return true;
 }

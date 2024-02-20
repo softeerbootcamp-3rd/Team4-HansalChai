@@ -12,7 +12,7 @@ export async function showDetailFun({ orderId, setOrderData, navigate }) {
   if (success) {
     setOrderData(data.data);
   } else {
-    isTokenInvalid(code);
+    if (isTokenInvalid(code)) navigate(UrlMap.loginPageUrl);
     if (code === 1103) {
       ToastMaker({
         type: "error",
@@ -34,6 +34,6 @@ export async function createScheduleBtnFun({
   if (success) {
     navigate(UrlMap.completePageUrl);
   } else {
-    isTokenInvalid(code);
+    if (isTokenInvalid(code)) navigate(UrlMap.loginPageUrl);
   }
 }

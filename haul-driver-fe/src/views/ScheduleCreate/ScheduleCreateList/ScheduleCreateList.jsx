@@ -14,19 +14,21 @@ import Typography from "../../../components/Typhography/Typhography.jsx";
 import { getUserName } from "../../../utils/localStorage.js";
 import EmptyListHolder from "./EmptyListHolder.jsx";
 import styled from "styled-components";
+import { MaxDeviceWidth } from "../../../data/GlobalVariable.js";
 
 const Floater = styled.div`
   overflow: visible;
   height: fit-content;
   width: 100%;
+  max-width: calc(${MaxDeviceWidth} - 40px);
   position: fixed;
   top: 0;
-  z-index: 10;
+  z-index: 100;
   background-color: white;
 `;
 
 const HorizontalLine = styled(UnderBar)`
-  width: 100%;
+  width: calc(100% + 40px);
   left: -20px;
   position: relative;
 `;

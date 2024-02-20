@@ -1,52 +1,7 @@
+import { ErrorMessageMap } from "../data/GlobalVariable";
 import { getAccessToken } from "../utils/localStorage";
 
 const apiKey = import.meta.env.VITE_API_KEY;
-
-const dummyPlanData = [
-  {
-    id: 0,
-    status: "before",
-    src: "학동역",
-    dst: "교대역",
-    time: "12:12:12:12:12",
-    fee: "10000"
-  },
-  {
-    id: 1,
-    status: "moving",
-    src: "학동역",
-    dst: "교대역",
-    time: "12:12:12:12:12",
-    fee: "5000"
-  },
-  {
-    id: 2,
-    status: "after",
-    src: "학동역",
-    dst: "교대역",
-    time: "12:12:12:12:12",
-    fee: "1"
-  }
-];
-
-export async function getDriverDummySummaryList({ page, sortBy }) {
-  try {
-    return {
-      success: true,
-      data: {
-        lastPage: false,
-        reservationInfoDTOS: [
-          ...dummyPlanData,
-          ...dummyPlanData,
-          ...dummyPlanData,
-          dummyPlanData[0]
-        ]
-      }
-    };
-  } catch (error) {
-    console.error(error);
-  }
-}
 
 export async function getDriverSummaryList({ page, sortBy = "default" }) {
   try {
@@ -59,36 +14,47 @@ export async function getDriverSummaryList({ page, sortBy = "default" }) {
         }
       }
     );
-    if (!response.ok) {
-      return { success: false, message: "정보를 불러오지 못했어요." };
-    }
     const body = await response.json();
-    const list = body.data.orderSearchDtos.map(orderSummaryInfo => {
+    if (body.status === 200) {
+      const list = body.data.orderSearchDtos.map(orderSummaryInfo => {
+        return {
+          orderId: orderSummaryInfo.id,
+          src: orderSummaryInfo.srcSimpleAddress,
+          dst: orderSummaryInfo.dstSimpleAddress,
+          time: orderSummaryInfo.transportDatetime,
+          cost: orderSummaryInfo.cost
+        };
+      });
       return {
-        orderId: orderSummaryInfo.id,
-        src: orderSummaryInfo.srcSimpleAddress,
-        dst: orderSummaryInfo.dstSimpleAddress,
-        time: orderSummaryInfo.transportDatetime,
-        cost: orderSummaryInfo.cost
+        success: true,
+        data: {
+          list,
+          lastPage: body.data.lastPage
+        }
       };
-    });
-    return {
-      success: true,
-      data: {
-        list,
-        lastPage: body.data.lastPage
+    } else {
+      switch (body.code) {
+        case 1003:
+          return {
+            success: false,
+            code: body.code,
+            message: ErrorMessageMap.NotAllowedQuery
+          };
+        default:
+          return {
+            success: false,
+            code: body.code,
+            message: ErrorMessageMap.UnknownError
+          };
       }
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error,
+      code: 0,
+      message: ErrorMessageMap.UnknownError
     };
-  } catch (error) {
-    return { success: false, error, message: "정보를 불러오지 못했어요." };
-  }
-}
-
-export async function getUserReservationDetails({ planID }) {
-  try {
-    return { success: true, data: dummyPlanData[0] };
-  } catch (error) {
-    console.error(error);
   }
 }
 
