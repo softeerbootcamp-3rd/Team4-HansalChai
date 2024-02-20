@@ -21,7 +21,7 @@ const TabBarItem = styled.button`
     selected ? theme.colors.selectCircle : theme.colors.tabBarEntry};
   border-bottom: ${({ selected, theme }) =>
     selected ? `2px solid ${theme.colors.selectCircle}` : "none"};
-  margin-left: ${({isFirst}) => isFirst ? "20px" : "0"};
+  margin-left: ${({ isFirst }) => (isFirst ? "20px" : "0")};
 `;
 
 const TabBar = ({ tabBarList, setSelected, selected }) => {
