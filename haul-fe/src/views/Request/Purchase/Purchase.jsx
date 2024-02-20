@@ -50,7 +50,7 @@ const Purchase = () => {
       setInitialState();
       navigator(UrlMap.completePageUrl);
     } else {
-      isTokenInvalid(code);
+      if (isTokenInvalid(code)) navigator(UrlMap.loginUrl);
       if (code === 1103)
         ToastMaker({
           type: "error",
