@@ -33,6 +33,9 @@ public class KakaoMap {
 		return new DistanceDurationInfo(distance,duration);
 	}
 
+	/*
+	시/도 를 반환함.
+	 */
 	public String searchRoadAddress(double latitude, double longitude) {
 		return kakaoMapAPI.searchRoadAddress(latitude, longitude);
 	}

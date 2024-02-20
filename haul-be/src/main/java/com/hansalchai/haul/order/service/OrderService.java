@@ -22,6 +22,7 @@ import com.hansalchai.haul.common.exceptions.BadRequestException;
 import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.common.exceptions.ForbiddenException;
 import com.hansalchai.haul.common.exceptions.NotFoundException;
+import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.DriverPositionDto;
@@ -52,6 +53,7 @@ public class OrderService {
 	private final ReservationRepository reservationRepository;
 	private final OwnerRepository ownerRepository;
 	private final SmsUtil smsUtil;
+	private final KakaoMap kakaoMap;
 
 	@Transactional(readOnly = true)
 	public OrderSearchResponse findAll(Long driverId, String sort, int page) {
@@ -173,6 +175,8 @@ public class OrderService {
 			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
 		Car car = owner.getCar();
 		Long carId = car.getCarId();
+
+		String region = kakaoMap.searchRoadAddress(requestDto.getLatitude(), requestDto.getLongitude());
 
 		//페이지 정보 생성
 		PageRequest pageRequest = PageRequest.of(page, PAGECUT);
