@@ -71,9 +71,15 @@ const Login = () => {
       setRefreshToken(data.data.jwt.refreshToken);
       navigate(UrlMap.choiceTranportTypeUrl);
     } else {
-      if(code === 2005) ToastMaker({ type: "error", children: ErrorMessageMap.NoneId});
-      else if(code === 2006) ToastMaker({ type: "error", children: ErrorMessageMap.NotSamePassword});
-      else ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError});
+      if (code === 2005)
+        ToastMaker({ type: "error", children: ErrorMessageMap.NoneId });
+      else if (code === 2006)
+        ToastMaker({
+          type: "error",
+          children: ErrorMessageMap.NotSamePassword
+        });
+      else
+        ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
     }
   }
 
