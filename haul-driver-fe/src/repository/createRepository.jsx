@@ -14,13 +14,6 @@ export async function getDriverSummaryList({ page, sortBy = "default" }) {
         }
       }
     );
-    if (!response.ok) {
-      return {
-        success: false,
-        code: -1,
-        message: ErrorMessageMap.UnknownError
-      };
-    }
     const body = await response.json();
     if (body.status === 200) {
       const list = body.data.orderSearchDtos.map(orderSummaryInfo => {
