@@ -32,7 +32,7 @@ export async function showDetailFun({ orderId, setOrderData, navigate }) {
   }
 }
 
-export async function driveStartFun({ orderId, setDriverStatus }) {
+export async function driveStartFun({ orderId, setDriverStatus, navigate }) {
   const { success, code } = await orderStatusChage({
     orderId: orderId
   });
@@ -46,25 +46,25 @@ export async function driveStartFun({ orderId, setDriverStatus }) {
         type: "error",
         children: ErrorMessageMap.NotFindReservationError
       });
-      useNavigate().navigate(-1);
+      navigate(-1);
     } else if (code === 1002) {
       ToastMaker({
         type: "error",
         children: ErrorMessageMap.UnAuthorizedAccessError
       });
-      useNavigate().navigate(-1);
+      navigate(-1);
     } else if (code === 4002) {
       ToastMaker({
         type: "error",
         children: ErrorMessageMap.OrderAlreadyFulfilledMessage
       });
-      useNavigate().navigate(-1);
+      navigate(-1);
     } else
       ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
   }
 }
 
-export async function driveEndFun({ orderId, setDriverStatus }) {
+export async function driveEndFun({ orderId, setDriverStatus, navigate }) {
   //도착 로직
   const { success, code } = await orderStatusChage({
     orderId: orderId
@@ -79,19 +79,19 @@ export async function driveEndFun({ orderId, setDriverStatus }) {
         type: "error",
         children: ErrorMessageMap.NotFindReservationError
       });
-      useNavigate().navigate(-1);
+      navigate(-1);
     } else if (code === 1002) {
       ToastMaker({
         type: "error",
         children: ErrorMessageMap.UnAuthorizedAccessError
       });
-      useNavigate().navigate(-1);
+      navigate(-1);
     } else if (code === 4002) {
       ToastMaker({
         type: "error",
         children: ErrorMessageMap.OrderAlreadyFulfilledMessage
       });
-      useNavigate().navigate(-1);
+      navigate(-1);
     } else
       ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
   }

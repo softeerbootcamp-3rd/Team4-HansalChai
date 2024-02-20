@@ -77,6 +77,5 @@ export function isTokenInvalid(code) {
       return false;
   }
   logoutFun();
-  useNavigate().navigate(UrlMap.loginPageUrl);
   return true;
 }
