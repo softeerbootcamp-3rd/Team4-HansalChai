@@ -32,4 +32,8 @@ public class KakaoMap {
 		double duration = info.getDuration() / (double)3600;
 		return new DistanceDurationInfo(distance,duration);
 	}
+
+	public String searchRoadAddress(double latitude, double longitude) {
+		return kakaoMapAPI.searchRoadAddress(latitude, longitude);
+	}
 }

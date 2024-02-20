@@ -30,4 +30,16 @@ public class KaKaoMapTest {
 		Assertions.assertEquals(expected.getDistance(), actual.getDistance());
 		//duration은 계속 바뀜.
 	}
+
+	@Test
+	@DisplayName("unittest : 카카오맵 API가 정상적으로 동작한다.")
+	void roadAddress() {
+		//given
+		MapUtils.Location src = new MapUtils.Location(127.11015314141542,37.39472714688412);
+		//when
+		String expected = kakaoMap.searchRoadAddress(src.getLatitude(), src.getLongitude());
+		String actual = "경기도";
+		//Then
+		Assertions.assertEquals(actual, expected);
+	}
 }
