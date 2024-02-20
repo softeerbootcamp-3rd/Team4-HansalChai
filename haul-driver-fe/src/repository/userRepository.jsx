@@ -1,5 +1,7 @@
-import { ErrorMessageMap } from "../data/GlobalVariable.js";
-import { getAccessToken } from "../utils/localStorage.js";
+import { ErrorMessageMap,UrlMap } from "../data/GlobalVariable.js";
+import { getAccessToken, logoutFun } from "../utils/localStorage.js";
+import { useNavigate } from "react-router-dom";
+import ToastMaker from "../components/Toast/ToastMaker.jsx";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 
@@ -52,4 +54,26 @@ export async function getUserProfile() {
       message: error.toString()
     };
   }
+}
+
+
+export function isTokenInvalid(code) {
+  switch (code) {
+    case 2003:
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.InvalidAccessError
+      });
+      break;
+    case 1001:
+    case 2001:
+    case 2002:
+      ToastMaker({ type: "error", children: ErrorMessageMap.TokenExpired });
+      break;
+    default:
+      return false;
+  }
+  logoutFun();
+  useNavigate().navigate(UrlMap.loginPageUrl);
+  return true;
 }
