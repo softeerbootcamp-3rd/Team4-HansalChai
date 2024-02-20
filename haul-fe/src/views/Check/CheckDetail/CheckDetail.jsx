@@ -8,7 +8,7 @@ import Typography from "../../../components/Typhography/Typhography.jsx";
 import DriverInfoBox from "./components/DriverInfoBox.jsx";
 import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {
   getGuestReservationDetails,
   getUserReservationDetails
@@ -16,7 +16,8 @@ import {
 import { useEffect, useState } from "react";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { getIsMember } from "../../../utils/localStorage.js";
-import { ErrorMessageMap, UrlMap } from "../../../data/GlobalVariable.js";
+import { ErrorMessageMap } from "../../../data/GlobalVariable.js";
+import { isTokenInvalid } from "../../../repository/userRepository.js";
 
 const phaseMap = {
   "예약 전": "before",
@@ -34,7 +35,7 @@ const ReservItemFrame = styled(Flex)`
 `;
 
 const dataSetter = async ({ reservationID, setDetailData, setIsLoaded }) => {
-  const response = getIsMember()
+  const response = getIsMember() !== "false"
     ? await getUserReservationDetails({ reservationID })
     : await getGuestReservationDetails({ reservationID });
   if (!response.success) {
@@ -50,8 +51,13 @@ const dataSetter = async ({ reservationID, setDetailData, setIsLoaded }) => {
           type: "error",
           children: ErrorMessageMap.ReservationNotFound
         });
-        console.log("got 1103");
         break;
+      default:
+        if (!isTokenInvalid(response.code))
+          ToastMaker({
+            type: "error",
+            children: ErrorMessageMap.UnknownError
+          });
     }
   }
 
