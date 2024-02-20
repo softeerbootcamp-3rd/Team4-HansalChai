@@ -1,5 +1,5 @@
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
-import { ErrorMessageMap } from "../../../data/GlobalVariable.js";
+import { ErrorMessageMap, UrlMap } from "../../../data/GlobalVariable.js";
 import {
   checkOrderDetail,
   orderStatusChage
@@ -14,7 +14,8 @@ export async function showDetailFun({ orderId, setOrderData, navigate }) {
   if (success) {
     setOrderData(data.data);
   } else {
-    isTokenInvalid(code);
+    if (isTokenInvalid(code))
+      navigate(UrlMap.loginPageUrl);
     if (code === 1103) {
       ToastMaker({
         type: "error",
@@ -40,7 +41,7 @@ export async function driveStartFun({ orderId, setDriverStatus, navigate }) {
     setDriverStatus("운송 중");
     ToastMaker({ type: "success", children: "안전 운전 되세요." });
   } else {
-    isTokenInvalid(code);
+    if (isTokenInvalid(code)) navigate(UrlMap.loginPageUrl);
     if (code === 1103) {
       ToastMaker({
         type: "error",
@@ -73,7 +74,7 @@ export async function driveEndFun({ orderId, setDriverStatus, navigate }) {
     setDriverStatus("운송 완료");
     ToastMaker({ type: "success", children: "운행이 종료되었습니다." });
   } else {
-    isTokenInvalid(code);
+    if (isTokenInvalid(code)) navigate(UrlMap.loginPageUrl);
     if (code === 1103) {
       ToastMaker({
         type: "error",

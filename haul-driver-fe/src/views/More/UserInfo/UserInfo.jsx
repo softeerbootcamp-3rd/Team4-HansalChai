@@ -68,6 +68,8 @@ const UserInfo = () => {
         if (!isTokenInvalid(response.code)) {
           ToastMaker({ type: "error", children: response.message });
           navigate(-1);
+        } else {
+          navigate(UrlMap.loginPageUrl);
         }
       });
   }, []);
