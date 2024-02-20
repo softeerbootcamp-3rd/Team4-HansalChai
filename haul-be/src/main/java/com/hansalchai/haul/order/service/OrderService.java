@@ -156,4 +156,28 @@ public class OrderService {
 
 		return new TransportStatusChange.ResponseDto(reservation);
 	}
+
+	public OrderSearchResponse findAllV2(Long driverId, String sort, int page) {
+		// 오더 리스트 조회를 위해 기사(Owner)의 차 id 탐색
+		Owner owner = ownerRepository.findByDriverId(driverId)
+			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
+		Car car = owner.getCar();
+		Long carId = car.getCarId();
+
+		//페이지 정보 생성
+		PageRequest pageRequest = PageRequest.of(page, PAGECUT);
+
+		// 리스트 정렬 기준에 맞는 쿼리를 실행해 오더 리스트 조회
+		OrderFilter orderFilter = OrderFilter.findFilter(sort);
+		Page<Reservation> pages = orderFilter.execute(reservationRepository, carId, pageRequest);
+
+		//필요한 정보만 담아 변환
+		List<OrderSearchResponseDto> orders = pages.getContent().stream()
+			.map(OrderSearchResponseDto::new)
+			.toList();
+		boolean isLastPage = pages.getNumberOfElements() < PAGECUT;
+
+		// 응답 형태로 변환해서 반환
+		return new OrderSearchResponse(orders, isLastPage);
+	}
 }

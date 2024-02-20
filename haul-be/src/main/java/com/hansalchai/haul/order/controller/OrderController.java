@@ -33,6 +33,7 @@ public class OrderController {
 
 	private final OrderService orderService;
 	private static final String V1_ORDERS_PATH = "/api/v1/orders";
+	private static final String V2_ORDERS_PATH = "/api/v2/orders";
 
 	@GetMapping(V1_ORDERS_PATH)
 	public ResponseEntity<ApiResponse<OrderSearchResponse>> findAll(
@@ -83,5 +84,15 @@ public class OrderController {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		TransportStatusChange.ResponseDto responseDto = orderService.changeTransportStatus(auth.getUserId(), requestDto);
 		return ResponseEntity.ok(success(GET_SUCCESS, responseDto));
+	}
+
+	@GetMapping(V2_ORDERS_PATH)
+	public ResponseEntity<ApiResponse<OrderSearchResponse>> findAllV2(
+		HttpServletRequest request,
+		@RequestParam(value = "sort", defaultValue = "default") String sort,
+		@PositiveOrZero @RequestParam(value = "page", defaultValue = "0") int page) {
+		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
+		OrderSearchResponse orders = orderService.findAllV2(auth.getUserId(), sort, page);
+		return ResponseEntity.ok(success(GET_SUCCESS, orders));
 	}
 }
