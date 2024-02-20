@@ -198,7 +198,7 @@ const ChoiceLoadInfo = () => {
     if (success) {
       navigate(UrlMap.resultPageUrl, { state: { data: data.data } });
     } else {
-      isTokenInvalid(code);
+      if (isTokenInvalid(code)) navigate(UrlMap.loginUrl);
       if (code === 1104)
         ToastMaker({
           type: "error",

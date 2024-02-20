@@ -137,10 +137,9 @@ const UserInfo = () => {
   const clickSaveBtn = async () => {
     const response = await putPassword({ password: passwordRef.current });
     if (!response.success) {
-      if (!isTokenInvalid(response.code)) {
-        ToastMaker({ type: "error", children: response.message });
-        navigate(-1);
-      }
+      if (isTokenInvalid(response.code)) navigate(UrlMap.loginPageUrl);
+      ToastMaker({ type: "error", children: response.message });
+      navigate(-1);
     }
     setIsEdit(false);
     setIsPasswordConfirmCorrect(null);
@@ -154,10 +153,9 @@ const UserInfo = () => {
         setUserInfo(data);
       })
       .catch(response => {
-        if (!isTokenInvalid(response.code)) {
-          ToastMaker({ type: "error", children: response.message });
-          navigate(-1);
-        }
+        if (isTokenInvalid(response.code)) navigate(UrlMap.loginPageUrl);
+        ToastMaker({ type: "error", children: response.message });
+        navigate(-1);
       });
   }, []);
 
