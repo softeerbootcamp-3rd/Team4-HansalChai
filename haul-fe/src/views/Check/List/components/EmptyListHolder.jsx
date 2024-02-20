@@ -23,6 +23,7 @@ const EmptyListHolder = selectedIndex => {
   };
 
   const messages = [
+    "예약하신 내역이 없어요",
     "진행해야 할 운송 내역이 없어요",
     "진행 중인 운송 내역이 없어요",
     "완료된 운송 내역이 없어요"

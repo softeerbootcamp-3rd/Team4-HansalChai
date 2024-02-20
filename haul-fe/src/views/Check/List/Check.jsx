@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styled from "styled-components";
 import Header from "../../../components/Header/Header.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
@@ -9,7 +10,8 @@ import InfiniteList from "./components/InfiniteList.jsx";
 import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
 import TabBar from "./components/TabBar.jsx";
 import EmptyListHolder from "./components/EmptyListHolder.jsx";
-import styled from "styled-components";
+import { getUserSummaryList } from "../../../repository/checkRepository.js";
+import { functionBinder } from "../../../utils/helper.js";
 
 const Floater = styled.div`
   overflow: visible;
@@ -31,7 +33,14 @@ const HorizontalLine = styled(UnderBar)`
 const Check = () => {
   const [selectedStatus, setSelectedStatus] = useState(0);
 
-  const statusList = ["운송 전", "운송 중", "운송 완료"];
+  const statusList = ["매칭 중", "운송 전", "운송 중", "운송 완료"];
+
+  const fetcherList = [
+    functionBinder(getUserSummaryList, { keyword: "매칭 중" }),
+    functionBinder(getUserSummaryList, { keyword: "운송 전" }),
+    functionBinder(getUserSummaryList, { keyword: "운송 중" }),
+    functionBinder(getUserSummaryList, { keyword: "운송 완료" })
+  ];
 
   return (
     <MobileLayout>
@@ -51,6 +60,7 @@ const Check = () => {
       </Floater>
       <Margin height="110px" />
       <InfiniteList
+        fetcher={fetcherList}
         listStatus={selectedStatus}
         emptyListView={EmptyListHolder(selectedStatus)}
       />

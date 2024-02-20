@@ -8,7 +8,6 @@ import Skeleton from "./Skeleton.jsx"
 import Flex from "../../../../components/Flex/Flex.jsx";
 import ToastMaker from "../../../../components/Toast/ToastMaker.jsx";
 import { UrlMap } from "../../../../data/GlobalVariable.js";
-import { getUserSummaryList } from "../../../../repository/checkRepository.js";
 
 // eslint-disable-next-line react/display-name
 const LoadingSkeleton = forwardRef((props, ref) => {
@@ -71,7 +70,7 @@ function useIntersectionObserver(callback) {
   return { observe, unobserve, disconnect };
 }
 
-const InfiniteList = ({ listStatus, emptyListView = <></> }) => {
+const InfiniteList = ({ fetcher, listStatus, emptyListView = <></> }) => {
   const [isEnd, setIsEnd] = useState(false); //데이터를 모두 불러왔으면 end를 트리거 시키기 위한 state
   const endRef = useRef(null); //마지막 요소를 참조하기 위한 ref
   const page = useRef(0); //현재 불러와진 최종 페이지
@@ -92,7 +91,10 @@ const InfiniteList = ({ listStatus, emptyListView = <></> }) => {
   const runFetcher = async () => {
     if (isLoading.current) return;
     isLoading.current = true;
-    const newPage = await getUserSummaryList({ page: page.current });
+    const newPage =
+      typeof fetcher === "function"
+        ? await fetcher({ page: page.current })
+        : await fetcher[listStatus]({ page: page.current });
     if (newPage.success !== true) {
       setIsEnd(true);
       ToastMaker({
@@ -122,7 +124,6 @@ const InfiniteList = ({ listStatus, emptyListView = <></> }) => {
   }, []);
 
   const ListTail = () => {
-    console.log(reservationList.length, isEnd);
     if (isEnd) {
       if (reservationList.length === 0) return emptyListView;
       return ListEnd();
