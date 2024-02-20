@@ -63,19 +63,22 @@ export async function getUserProfile() {
         Authorization: `Bearer ${getAccessToken()}`
       }
     });
-
-    if (response.ok) {
-      const body = await response.json();
+    const body = await response.json();
+    if (body.code === 200) {
       return {
         success: true,
         data: body.data
       };
     } else {
-      return { success: false, message: ErrorMessageMap.NoUserFound };
+      return {
+        success: false,
+        code: body.code,
+        message: ErrorMessageMap.NoUserFound
+      };
     }
   } catch (error) {
     console.error("Get Profile error:", error);
-    return { success: false, message: error.toString() };
+    return { success: false, code: 0, message: ErrorMessageMap.UnknownError };
   }
 }
 
@@ -90,29 +93,40 @@ export async function putPassword({ password }) {
       body: JSON.stringify({ password })
     });
 
-    if (response.ok) {
+    const body = await response.json();
+
+    if (body.code === 200) {
       return {
         success: true,
         message: "비밀번호 변경에 성공했어요"
       };
     } else {
-      return { success: false, message: ErrorMessageMap.ChangePasswordFailed };
+      return {
+        success: false,
+        code: body.code,
+        message: ErrorMessageMap.ChangePasswordFailed
+      };
     }
   } catch (error) {
-    return { success: false, message: error.toString() };
+    return { success: false, code: 0, message: ErrorMessageMap.UnknownError };
   }
 }
 
-//TODO: 변경됨! 카톡에서 찾을 것!!!
 export function isTokenInvalid(code) {
   switch (code) {
     case 2003:
-      ToastMaker({ type: "error", children: ErrorMessageMap.InvalidAccessError });
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.InvalidAccessError
+      });
       break;
     case 1101:
     case 2001:
     case 2002: //fall-through
-      ToastMaker({ type: "error", children: ErrorMessageMap.TokenExpired});
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.TokenExpired
+      });
       break;
     default:
       return false;
