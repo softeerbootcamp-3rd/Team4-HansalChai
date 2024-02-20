@@ -1,3 +1,7 @@
+import { useState, useContext } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import styled from "styled-components";
+import { reservationStore } from "../../../store/reservationStore.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import Carousel from "../../../components/Carousel/Carousel.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
@@ -9,11 +13,8 @@ import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx"
 import Card1 from "../../../assets/pngs/card1.png";
 import Card2 from "../../../assets/pngs/card2.png";
 import Card3 from "../../../assets/pngs/card3.png";
-import { useState } from "react";
-import styled from "styled-components";
 import Flex from "../../../components/Flex/Flex.jsx";
-import { useNavigate, useLocation } from "react-router-dom";
-import { UrlMap } from "../../../data/GlobalVariable";
+import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable";
 import { memberReservationConfirmFun } from "../../../repository/reservationRepository.js";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 
@@ -24,15 +25,10 @@ const ConfirmSelected = styled.img`
 
 const Purchase = () => {
   const location = useLocation();
-  //구매할 예약 번호
-  const reservationId = location.state?.reservationId;
-  //선택된 카드의 인덱스
-  //(number) : number 번째 인덱스의 카드가 선택됨(캐로셀 안보임)
+
+  const { setInitialState } = useContext(reservationStore);
+
   const [selectedIndex, setSelectedIndex] = useState(0);
-  /* 카드 선택 여부
-   * true : 선택된 카드로 결제할 지 다시 물어봄
-   * false: 캐로셀에서 선택
-   */
   const [isChoosing, setIsChoosing] = useState(true);
   const navigator = useNavigate();
   const { cost } = location.state;
@@ -45,14 +41,27 @@ const Purchase = () => {
 
   const confirmSelectedIndex = async () => {
     const { reservationId } = location.state;
-    const { success, data, message } = await memberReservationConfirmFun({
+    const { success, data, code } = await memberReservationConfirmFun({
       reservationId: reservationId
     });
     console.log(success, data, message);
     if (success) {
+      setInitialState();
       navigator(UrlMap.completePageUrl);
     } else {
-      ToastMaker({ type: "error", children: message });
+      if (code === 1103)
+        ToastMaker({
+          type: "error",
+          children: ErrorMessageMap.NotFindReservationError
+        });
+      else if (code === 3001) {
+        ToastMaker({
+          type: "error",
+          children: ErrorMessageMap.AlreadyReservationError
+        });
+        navigator(UrlMap.choiceTranportTypeUrl);
+      } else
+        ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
     }
   };
 
