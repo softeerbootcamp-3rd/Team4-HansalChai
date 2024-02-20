@@ -48,3 +48,7 @@ export function logoutFun() {
   localStorage.removeItem("refreshToken");
   localStorage.removeItem("userName");
 }
+
+export function notMemberLogoutFun(){
+  localStorage.removeItem("isMember");
+}

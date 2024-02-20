@@ -20,6 +20,9 @@ export const UrlMap = {
   resultPageUrl: "/request/result",
   completePageUrl: "/request/complete",
   morePageUrl: "/more/list",
+  moreUserInfoPageUrl : "/more/user-info",
+  moreUserPayments : "/more/user-payments",
+  moreUserTems: "/more/terms",
   checkReservationPageUrl: "/check/list",
   checkReservationDetailPageUrl: "/check/detail",
   checkReservationGuestPageUrl: "/check/guest"
