@@ -5,6 +5,7 @@ import {
   orderStatusChage
 } from "../../../repository/checkRepository.jsx";
 import { isTokenInvalid } from "../../../repository/userRepository.jsx";
+import { useNavigate } from "react-router-dom";
 
 export async function showDetailFun({ orderId, setOrderData, navigate }) {
   const { success, data, code } = await checkOrderDetail({
@@ -14,15 +15,20 @@ export async function showDetailFun({ orderId, setOrderData, navigate }) {
     setOrderData(data.data);
   } else {
     isTokenInvalid(code);
-    if(code === 1103){
-      ToastMaker({ type: "error", children: ErrorMessageMap.NotFindReservationError });
+    if (code === 1103) {
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.NotFindReservationError
+      });
       navigate(-1);
-    }
-    else if(code === 1002){
-      ToastMaker({ type: "error", children: ErrorMessageMap.UnAuthorizedAccessError });
+    } else if (code === 1002) {
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.UnAuthorizedAccessError
+      });
       navigate(-1);
-    }
-    else ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
+    } else
+      ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
   }
 }
 
@@ -35,19 +41,26 @@ export async function driveStartFun({ orderId, setDriverStatus }) {
     ToastMaker({ type: "success", children: "안전 운전 되세요." });
   } else {
     isTokenInvalid(code);
-    if(code === 1103){
-      ToastMaker({ type: "error", children: ErrorMessageMap.NotFindReservationError });
-      navigate(-1);
-    }
-    else if(code === 1002){
-      ToastMaker({ type: "error", children: ErrorMessageMap.UnAuthorizedAccessError });
-      navigate(-1);
-    }
-    else if(code === 4002){
-      ToastMaker({ type: "error", children: ErrorMessageMap.OrderAlreadyFulfilledMessage });
-      navigate(-1);
-    }
-    else ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
+    if (code === 1103) {
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.NotFindReservationError
+      });
+      useNavigate().navigate(-1);
+    } else if (code === 1002) {
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.UnAuthorizedAccessError
+      });
+      useNavigate().navigate(-1);
+    } else if (code === 4002) {
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.OrderAlreadyFulfilledMessage
+      });
+      useNavigate().navigate(-1);
+    } else
+      ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
   }
 }
 
@@ -61,18 +74,25 @@ export async function driveEndFun({ orderId, setDriverStatus }) {
     ToastMaker({ type: "success", children: "운행이 종료되었습니다." });
   } else {
     isTokenInvalid(code);
-    if(code === 1103){
-      ToastMaker({ type: "error", children: ErrorMessageMap.NotFindReservationError });
-      navigate(-1);
-    }
-    else if(code === 1002){
-      ToastMaker({ type: "error", children: ErrorMessageMap.UnAuthorizedAccessError });
-      navigate(-1);
-    }
-    else if(code === 4002){
-      ToastMaker({ type: "error", children: ErrorMessageMap.OrderAlreadyFulfilledMessage });
-      navigate(-1);
-    }
-    else ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
+    if (code === 1103) {
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.NotFindReservationError
+      });
+      useNavigate().navigate(-1);
+    } else if (code === 1002) {
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.UnAuthorizedAccessError
+      });
+      useNavigate().navigate(-1);
+    } else if (code === 4002) {
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.OrderAlreadyFulfilledMessage
+      });
+      useNavigate().navigate(-1);
+    } else
+      ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
   }
 }

@@ -34,7 +34,6 @@ export async function loginBtnFun({ tel, password }) {
     password: password
   });
   if (success) {
-    console.log("success");
     setAccessToken(data.data.jwt.accessToken);
     setRefreshToken(data.data.jwt.refreshToken);
     setUserName(data.data.name);
@@ -47,8 +46,6 @@ export async function loginBtnFun({ tel, password }) {
         type: "error",
         children: ErrorMessageMap.NotSamePassword
       });
-    else
-      ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
+    else ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
   }
-
 }

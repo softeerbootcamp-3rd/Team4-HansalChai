@@ -13,11 +13,14 @@ export async function showDetailFun({ orderId, setOrderData, navigate }) {
     setOrderData(data.data);
   } else {
     isTokenInvalid(code);
-    if(code === 1103){
-      ToastMaker({ type: "error", children: ErrorMessageMap.NotFindReservationError });
+    if (code === 1103) {
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.NotFindReservationError
+      });
       navigate(-1);
-    }
-    else ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
+    } else
+      ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
   }
 }
 
@@ -32,6 +35,5 @@ export async function createScheduleBtnFun({
     navigate(UrlMap.completePageUrl);
   } else {
     isTokenInvalid(code);
-  
   }
 }

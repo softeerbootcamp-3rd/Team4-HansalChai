@@ -94,16 +94,13 @@ export async function getUserReservationDetails({ planID }) {
 
 export async function orderDetail({ orderId }) {
   try {
-    const response = await fetch(
-      `http://${apiKey}/api/v1/orders/${orderId}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getAccessToken()}`
-        }
+    const response = await fetch(`http://${apiKey}/api/v1/orders/${orderId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getAccessToken()}`
       }
-    );
+    });
     const data = await response.json();
     if (data.status === 200)
       return {
@@ -129,7 +126,6 @@ export async function orderApprove({ orderId }) {
       body: JSON.stringify({ id: orderId })
     });
     const data = await response.json();
-    console.log(data);
     if (data.status === 200)
       return {
         success: true,

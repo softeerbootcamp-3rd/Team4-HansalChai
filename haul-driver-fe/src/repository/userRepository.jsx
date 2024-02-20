@@ -1,4 +1,4 @@
-import { ErrorMessageMap,UrlMap } from "../data/GlobalVariable.js";
+import { ErrorMessageMap, UrlMap } from "../data/GlobalVariable.js";
 import { getAccessToken, logoutFun } from "../utils/localStorage.js";
 import { useNavigate } from "react-router-dom";
 import ToastMaker from "../components/Toast/ToastMaker.jsx";
@@ -55,7 +55,6 @@ export async function getUserProfile() {
     };
   }
 }
-
 
 export function isTokenInvalid(code) {
   switch (code) {

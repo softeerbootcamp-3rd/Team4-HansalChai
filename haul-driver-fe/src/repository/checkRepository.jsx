@@ -2,7 +2,6 @@ import { getAccessToken } from "../utils/localStorage";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 
-
 export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
   try {
     const response = await fetch(
