@@ -1,17 +1,18 @@
 import styled from "styled-components";
-import { MaxDeviceWidth } from "../../data/GlobalVariable.js";
+import { MaxDeviceWidth, MinDeviceWidth } from "../../data/GlobalVariable.js";
 
 const Background = styled.div`
   width: 100%;
   height: auto;
   ${props => props.theme.flex.flexRowCenter};
   background-color: ${props => props.theme.colors.realBlack};
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: hidden;
 `;
 
 const Mobile = styled.div`
   width: ${MaxDeviceWidth};
+  min-width: ${MinDeviceWidth};
   min-height: 100vh;
   height: auto;
   margin: 0px auto;
