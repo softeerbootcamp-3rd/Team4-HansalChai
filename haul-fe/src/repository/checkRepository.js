@@ -35,14 +35,10 @@ export async function getGuestSummaryList({ reservationSerial }) {
   }
 }
 
-//code 1101 사용자 없음
-//code 2001 헤더에 토큰이 없음
-//code 2002 토큰 유효성 검증 실패
-//code 2003 토큰이 만료됨
-export async function getUserSummaryList({ page }) {
+export async function getUserSummaryList({ page, keyword = "매칭 중" }) {
   try {
     const response = await fetch(
-      `http://${apiKey}/api/v1/reservations?keyword=${"운송 전"}&page=${page}`,
+      `http://${apiKey}/api/v1/reservations?keyword=${keyword}&page=${page}`,
       {
         method: "GET",
         headers: {
