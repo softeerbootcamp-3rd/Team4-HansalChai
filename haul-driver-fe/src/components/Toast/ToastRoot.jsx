@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const ToastRootFrame = styled.div`
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: auto;
   bottom: 50px;
