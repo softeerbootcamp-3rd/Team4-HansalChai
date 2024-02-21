@@ -6,7 +6,7 @@ const apiKey = import.meta.env.VITE_API_KEY;
 
 export async function loginFun({ tel, password }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/users/sign-in`, {
+    const response = await fetch(`${apiKey}/api/v1/users/sign-in`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -28,7 +28,7 @@ export async function loginFun({ tel, password }) {
 
 export async function getUserProfile() {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/users/profile`, {
+    const response = await fetch(`${apiKey}/api/v1/users/profile`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
