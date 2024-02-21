@@ -62,7 +62,6 @@ export async function memberReservationFun({
         }
       })
     });
-    console.log(response);
     if (response.ok) {
       const data = await response.json();
       return {

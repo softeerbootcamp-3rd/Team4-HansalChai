@@ -6,7 +6,7 @@ const apiKey = import.meta.env.VITE_API_KEY;
 export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
   try {
     const response = await fetch(
-      `http://${apiKey}/api/v1/orders/mine?keyword=${keyword}&page=${page}`,
+      `${apiKey}/api/v1/orders/mine?keyword=${keyword}&page=${page}`,
       {
         method: "GET",
         headers: {
@@ -61,7 +61,7 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
 // 운송 상태 변경
 export async function orderStatusChage({ orderId }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/orders/status`, {
+    const response = await fetch(`${apiKey}/api/v1/orders/status`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -84,16 +84,13 @@ export async function orderStatusChage({ orderId }) {
 
 export async function checkOrderDetail({ orderId }) {
   try {
-    const response = await fetch(
-      `http://${apiKey}/api/v1/orders/mine/${orderId}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getAccessToken()}`
-        }
+    const response = await fetch(`${apiKey}/api/v1/orders/mine/${orderId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getAccessToken()}`
       }
-    );
+    });
     const data = await response.json();
     if (data.status === 200)
       return {

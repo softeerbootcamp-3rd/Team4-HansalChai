@@ -15,7 +15,7 @@ import {
   isTokenInvalid
 } from "../../../repository/userRepository.jsx";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
-import { UrlMap } from "../../../data/GlobalVariable.js";
+import { ErrorMessageMap, UrlMap } from "../../../data/GlobalVariable.js";
 
 const ListItem = styled.div`
   width: 100%;
@@ -66,7 +66,7 @@ const UserInfo = () => {
       })
       .catch(response => {
         if (!isTokenInvalid(response.code)) {
-          ToastMaker({ type: "error", children: response.message });
+          ToastMaker({ type: "error", children: ErrorMessageMap.UnknownError });
           navigate(-1);
         } else {
           navigate(UrlMap.loginPageUrl);

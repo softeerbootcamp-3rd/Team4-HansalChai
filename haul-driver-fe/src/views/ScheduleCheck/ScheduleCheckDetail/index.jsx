@@ -5,7 +5,6 @@ import {
   orderStatusChage
 } from "../../../repository/checkRepository.jsx";
 import { isTokenInvalid } from "../../../repository/userRepository.jsx";
-import { useNavigate } from "react-router-dom";
 
 export async function showDetailFun({ orderId, setOrderData, navigate }) {
   const { success, data, code } = await checkOrderDetail({
@@ -14,8 +13,7 @@ export async function showDetailFun({ orderId, setOrderData, navigate }) {
   if (success) {
     setOrderData(data.data);
   } else {
-    if (isTokenInvalid(code))
-      navigate(UrlMap.loginPageUrl);
+    if (isTokenInvalid(code)) navigate(UrlMap.loginPageUrl);
     if (code === 1103) {
       ToastMaker({
         type: "error",
