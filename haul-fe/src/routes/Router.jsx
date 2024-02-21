@@ -1,5 +1,12 @@
-import { BrowserRouter, Outlet, Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { lazy, useEffect,Suspense } from "react";
+import {
+  BrowserRouter,
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate
+} from "react-router-dom";
+import { lazy, useEffect, Suspense } from "react";
 import Splash from "../views/Splash/Splash.jsx";
 import ChoiceTransport from "../views/Request/ChoiceTransport/ChoiceTransport.jsx";
 import ChoiceDate from "../views/Request/ChoiceDate/ChoiceDate.jsx";
@@ -17,15 +24,20 @@ import Loading from "../views/Loading/Loading.jsx";
 import { isLoginFun } from "../utils/localStorage.js";
 import { UrlMap } from "../data/GlobalVariable.js";
 
-
 const SignUp = lazy(() => import("../views/SignUp/SignUp.jsx"));
 const Login = lazy(() => import("../views/Login/Login.jsx"));
 const More = lazy(() => import("../views/More/List/More.jsx"));
 const Terms = lazy(() => import("../views/More/Terms/Terms.jsx"));
-const Contract = lazy(() => import("../views/More/Terms/Contract/Contract.jsx"));
+const Contract = lazy(
+  () => import("../views/More/Terms/Contract/Contract.jsx")
+);
 const UserInfo = lazy(() => import("../views/More/UserInfo/UserInfo.jsx"));
-const UserPayments = lazy(() => import("../views/More/UserPayments/UserPayments.jsx"));
-const GuestInfo = lazy(()=> import("../views/Request/GuestInfo/GuestInfo.jsx"))
+const UserPayments = lazy(
+  () => import("../views/More/UserPayments/UserPayments.jsx")
+);
+const GuestInfo = lazy(
+  () => import("../views/Request/GuestInfo/GuestInfo.jsx")
+);
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -38,7 +50,7 @@ const ScrollToTop = () => {
 const Router = () => (
   <BrowserRouter>
     <ScrollToTop />
-    <Suspense fallback={<Loading/>}>
+    <Suspense fallback={<Loading />}>
       <Routes>
         <Route path="/" element={<Splash />} />
         <Route path="/login" element={<Login />} />

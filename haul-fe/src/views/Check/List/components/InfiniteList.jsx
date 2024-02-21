@@ -43,7 +43,7 @@ function useIntersectionObserver(callback) {
   const observer = useRef();
   useEffect(() => {
     observer.current = new IntersectionObserver(
-      (entries) => {
+      entries => {
         entries.forEach(entry => {
           if (!entry.isIntersecting) return;
           entry.target.style.display = "none";

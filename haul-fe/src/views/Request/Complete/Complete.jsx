@@ -12,7 +12,7 @@ import styled from "styled-components";
 
 const LoadingImg = styled.img`
   width: 95%;
-`
+`;
 
 const Complete = () => {
   const navigation = useNavigate();
