@@ -129,9 +129,9 @@ public class OrderService {
 		transport.updateTransportStatus(NOT_STARTED);
 
 		// 4. 배정 알림을 고객에게 sms로 전송
-		String customerTel = reservation.getUser().getTel();
-		String reservationNumber = reservation.getNumber();
-		smsUtil.send(customerTel, reservationNumber);
+		// String customerTel = reservation.getUser().getTel();
+		// String reservationNumber = reservation.getNumber();
+		// smsUtil.send(customerTel, reservationNumber);
 	}
 
 	private boolean isScheduleOverlap(Long driverId, Reservation newOrder) {
