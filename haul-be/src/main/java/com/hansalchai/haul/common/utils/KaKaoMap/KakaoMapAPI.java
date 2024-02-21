@@ -80,18 +80,13 @@ public class KakaoMapAPI {
 		String queryString = String.format("x=%f&y=%f",latitude ,longitude );
 		String fullUrl = apiUrl + "?" + queryString;
 
-		System.out.println(latitude);
-		System.out.println(longitude);
-
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", "KakaoAK " + apiKey);
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 
-		// RestTemplate을 사용하여 API 호출
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.exchange(fullUrl, HttpMethod.GET, entity, String.class);
 
-		// API 응답 확인
 		if (response.getStatusCode() == HttpStatus.OK) {
 			String responseBody = response.getBody();
 
