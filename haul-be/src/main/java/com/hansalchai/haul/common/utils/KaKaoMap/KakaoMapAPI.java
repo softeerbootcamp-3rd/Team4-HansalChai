@@ -80,6 +80,9 @@ public class KakaoMapAPI {
 		String queryString = String.format("x=%f&y=%f",latitude ,longitude );
 		String fullUrl = apiUrl + "?" + queryString;
 
+		System.out.println(latitude);
+		System.out.println(longitude);
+
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", "KakaoAK " + apiKey);
 		HttpEntity<String> entity = new HttpEntity<>(headers);

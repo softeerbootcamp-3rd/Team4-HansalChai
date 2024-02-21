@@ -176,6 +176,7 @@ public class OrderService {
 		return new TransportStatusChange.ResponseDto(reservation);
 	}
 
+	@Transactional
 	public OrderSearchResponse findAllV2(Long driverId, String sort, int page, DriverPositionDto requestDto) {
 		// 오더 리스트 조회를 위해 기사(Owner)의 차 id 탐색
 		Owner owner = ownerRepository.findByDriverId(driverId)
@@ -188,19 +189,16 @@ public class OrderService {
 		ArrayList<String> selectedSidoArray = null;
 		int depthMAX = sidoSortedMap.get(curRegion).size();
 		for(int i = 1;i <= depthMAX;i++){
-			ArrayList<String> sidoArray = SidoGraph.getSidoByDepth(curRegion, 1);
+			ArrayList<String> sidoArray = SidoGraph.getSidoByDepth(curRegion, i);
 			OrderFilterCountV2 orderFilterCountV2 = OrderFilterCountV2.findFilter(sort);
 			Long count = orderFilterCountV2.execute(reservationRepository, carId, sidoArray);
-			logger.info("asdfasdf count : " + count);
-			if(count <= PAGECUT * (page + 1)){
+			if(count >= (long)PAGECUT * (page + 1)){
 				selectedSidoArray = sidoArray;
 				break;
 			}
 		}
 		if(selectedSidoArray == null)
 			return null;
-		
-		logger.info("asdfasdf count : " + selectedSidoArray);
 
 		//페이지 정보 생성
 		PageRequest pageRequest = PageRequest.of(page, PAGECUT);

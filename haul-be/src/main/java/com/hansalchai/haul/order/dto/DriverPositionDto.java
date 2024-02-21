@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class DriverPositionDto {
 	@NotNull(message = "위도는 null이 될 수 없습니다.")
-	double Latitude;
+	double latitude;
 	@NotNull(message = "경도는 null이 될 수 없습니다.")
-	double Longitude;
+	double longitude;
 }
