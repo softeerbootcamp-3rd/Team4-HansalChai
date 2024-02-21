@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.hansalchai.haul.common.utils.ErrorCode.*;
+import static com.hansalchai.haul.common.utils.SidoGraph.*;
 import static com.hansalchai.haul.order.dto.OrderSearchResponse.*;
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
 import static com.hansalchai.haul.reservation.service.ReservationService.*;
 
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +28,8 @@ import com.hansalchai.haul.common.exceptions.ForbiddenException;
 import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
 import com.hansalchai.haul.common.utils.SidoGraph;
+import com.hansalchai.haul.order.constants.OrderFilterCountV2;
+import com.hansalchai.haul.order.constants.OrderFilterV2;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.DriverPositionDto;
@@ -44,12 +49,12 @@ import com.hansalchai.haul.reservation.repository.ReservationRepository;
 import com.hansalchai.haul.user.entity.Users;
 import com.hansalchai.haul.user.repository.UsersRepository;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
 public class OrderService {
+	Logger logger = LoggerFactory.getLogger(OrderService.class);
 
 	private final UsersRepository usersRepository;
 	private final ReservationRepository reservationRepository;
@@ -180,15 +185,29 @@ public class OrderService {
 
 		String curRegion = kakaoMap.searchRoadAddress(requestDto.getLatitude(), requestDto.getLongitude());
 
-		ArrayList<String> sidoArray = SidoGraph.getSidoByDepth(curRegion, 1);
-		//TODO 개수 세서 불가능하면 depth 키우기
+		ArrayList<String> selectedSidoArray = null;
+		int depthMAX = sidoSortedMap.get(curRegion).size();
+		for(int i = 1;i <= depthMAX;i++){
+			ArrayList<String> sidoArray = SidoGraph.getSidoByDepth(curRegion, 1);
+			OrderFilterCountV2 orderFilterCountV2 = OrderFilterCountV2.findFilter(sort);
+			Long count = orderFilterCountV2.execute(reservationRepository, carId, sidoArray);
+			logger.info("asdfasdf count : " + count);
+			if(count <= PAGECUT * (page + 1)){
+				selectedSidoArray = sidoArray;
+				break;
+			}
+		}
+		if(selectedSidoArray == null)
+			return null;
+		
+		logger.info("asdfasdf count : " + selectedSidoArray);
 
 		//페이지 정보 생성
 		PageRequest pageRequest = PageRequest.of(page, PAGECUT);
 
 		// 리스트 정렬 기준에 맞는 쿼리를 실행해 오더 리스트 조회
-		OrderFilter orderFilter = OrderFilter.findFilter(sort);
-		Page<Reservation> pages = orderFilter.execute(reservationRepository, carId, pageRequest);
+		OrderFilterV2 orderFilter = OrderFilterV2.findFilter(sort);
+		Page<Reservation> pages = orderFilter.execute(reservationRepository, carId, selectedSidoArray, pageRequest);
 
 		//필요한 정보만 담아 변환
 		List<OrderSearchResponseDto> orders = pages.getContent().stream()
