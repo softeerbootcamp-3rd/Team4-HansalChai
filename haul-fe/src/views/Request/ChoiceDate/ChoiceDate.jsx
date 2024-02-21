@@ -12,7 +12,6 @@ import BottomButton from "../../../components/Button/BottomButton.jsx";
 import { isEmptyString, stringToDateObject } from "../../../utils/helper.js";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
-import { isLoginFun } from "../../../utils/localStorage.js";
 
 const ChoiceDate = () => {
   const navigation = useNavigate();
@@ -24,10 +23,6 @@ const ChoiceDate = () => {
   } = useContext(reservationStore);
 
   useEffect(() => {
-    const isLogin = isLoginFun();
-    if (!isLogin) {
-      navigation(UrlMap.loginPageUrl);
-    }
     //예상치 않은 URL접속을 방지
     if (isEmptyString(transportType)) {
       navigation(UrlMap.choiceTranportTypeUrl);

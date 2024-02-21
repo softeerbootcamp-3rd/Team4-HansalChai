@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
 import Typography from "../../components/Typhography/Typhography.jsx";
@@ -19,6 +19,7 @@ import {
   setRefreshToken
 } from "../../utils/localStorage.js";
 import { loginFun } from "../../repository/userRepository.js";
+import { isMemberLogin } from "../../utils/localStorage.js";
 
 const GoSignUpBtn = styled.button`
   width: auto;
@@ -27,6 +28,13 @@ const GoSignUpBtn = styled.button`
 
 const Login = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // 로그인을 이미 했다면
+    if (isMemberLogin()) {
+      navigate(UrlMap.choiceTranportTypeUrl);
+    }
+  }, []);
 
   const tel = useRef("");
   const password = useRef("");
@@ -53,18 +61,25 @@ const Login = () => {
       ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
       return;
     }
-    const { success, data, message } = await loginFun({
+    const { success, data, code } = await loginFun({
       tel: tel.current,
       password: password.current
     });
     if (success) {
       setIsMember(true);
-      setAccessToken(data.data.accessToken);
-      setRefreshToken(data.data.refreshToken);
+      setAccessToken(data.data.jwt.accessToken);
+      setRefreshToken(data.data.jwt.refreshToken);
       navigate(UrlMap.choiceTranportTypeUrl);
     } else {
-      //FIXME: 로그인 실패 예외처리
-      ToastMaker({ type: "error", children: message });
+      if (code === 2005)
+        ToastMaker({ type: "error", children: ErrorMessageMap.NoneId });
+      else if (code === 2006)
+        ToastMaker({
+          type: "error",
+          children: ErrorMessageMap.NotSamePassword
+        });
+      else
+        ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
     }
   }
 

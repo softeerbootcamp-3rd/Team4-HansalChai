@@ -1,3 +1,7 @@
+import { useState, useContext } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import styled from "styled-components";
+import { reservationStore } from "../../../store/reservationStore.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import Carousel from "../../../components/Carousel/Carousel.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
@@ -9,11 +13,11 @@ import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx"
 import Card1 from "../../../assets/pngs/card1.png";
 import Card2 from "../../../assets/pngs/card2.png";
 import Card3 from "../../../assets/pngs/card3.png";
-import { useState } from "react";
-import styled from "styled-components";
 import Flex from "../../../components/Flex/Flex.jsx";
-import { useNavigate } from "react-router-dom";
-import { UrlMap } from "../../../data/GlobalVariable";
+import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable";
+import { memberReservationConfirmFun } from "../../../repository/reservationRepository.js";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import { isTokenInvalid } from "../../../repository/userRepository.js";
 
 const ConfirmSelected = styled.img`
   width: fit-content;
@@ -21,15 +25,14 @@ const ConfirmSelected = styled.img`
 `;
 
 const Purchase = () => {
-  //선택된 카드의 인덱스
-  //(number) : number 번째 인덱스의 카드가 선택됨(캐로셀 안보임)
+  const location = useLocation();
+
+  const { setInitialState } = useContext(reservationStore);
+
   const [selectedIndex, setSelectedIndex] = useState(0);
-  /* 카드 선택 여부
-   * true : 선택된 카드로 결제할 지 다시 물어봄
-   * false: 캐로셀에서 선택
-   */
   const [isChoosing, setIsChoosing] = useState(true);
   const navigator = useNavigate();
+  const { cost } = location.state;
 
   const cardList = [Card1, Card2, Card3];
 
@@ -37,9 +40,30 @@ const Purchase = () => {
     setIsChoosing(() => false);
   };
 
-  const confirmSelectedIndex = () => {
-    //TODO: 실제 처리 후 넘어갈 것
-    navigator(UrlMap.completePageUrl);
+  const confirmSelectedIndex = async () => {
+    const { reservationId } = location.state;
+    const { success, code } = await memberReservationConfirmFun({
+      reservationId: reservationId
+    });
+    if (success) {
+      setInitialState();
+      navigator(UrlMap.completePageUrl);
+    } else {
+      if (isTokenInvalid(code)) navigator(UrlMap.loginUrl);
+      if (code === 1103)
+        ToastMaker({
+          type: "error",
+          children: ErrorMessageMap.NotFindReservationError
+        });
+      else if (code === 3001) {
+        ToastMaker({
+          type: "error",
+          children: ErrorMessageMap.AlreadyReservationError
+        });
+        navigator(UrlMap.choiceTranportTypeUrl);
+      } else
+        ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
+    }
   };
 
   const resetIndex = () => {
@@ -82,7 +106,7 @@ const Purchase = () => {
       ) : (
         <FixedCenterBox bottom="20px">
           <BottomButton role="main" onClick={confirmSelectedIndex}>
-            {15 /* TODO: 실제 값으로 변경 */}만원 결제하기
+            {cost}만원 결제하기
           </BottomButton>
           <Margin height={"10px"} />
           <BottomButton role="sub" onClick={resetIndex}>

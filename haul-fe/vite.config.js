@@ -38,7 +38,11 @@ export default defineConfig({
           }
         ],
         background_color: "#000B49",
-        theme_color: "#000B49"
+        theme_color: "#000B49",
+        start_url: "/",
+        display: "standalone",
+        name: "Haul",
+        short_name: "Haul"
       }
     })
   ]

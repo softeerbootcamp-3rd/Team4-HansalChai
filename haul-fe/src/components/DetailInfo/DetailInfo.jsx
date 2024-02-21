@@ -61,7 +61,7 @@ const DetailInfo = ({
   function changeTime(time) {
     if (time >= 1) {
       // 1시간 이상일 경우 소수점을 다 짤라서 반환
-      return Math.floor(time);
+      return time.toFixed(1);
     } else {
       // 1시간 미만일 경우 분으로 변환하여 소수점을 다 짤라서 반환
       return Math.floor(time * 60);
@@ -76,15 +76,15 @@ const DetailInfo = ({
       <Typography font="semiBold16">
         비용과 도착 시간을 알려드릴게요.
       </Typography>
-      <Margin height="8px" />
+      <Margin height="12px" />
       <UnderBar />
-      <Margin height="8px" />
+      <Margin height="12px" />
 
       <RouteMapBox>
         <RouteMap origin={srcCoordinate} destination={dstCoordinate} />
       </RouteMapBox>
 
-      <Margin height="8px" />
+      <Margin height="12px" />
 
       <InfoBox>
         <Flex kind="flexRow">

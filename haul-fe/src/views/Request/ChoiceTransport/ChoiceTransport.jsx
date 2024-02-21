@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate } from "react-router-dom";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
@@ -7,14 +7,9 @@ import Typography from "../../../components/Typhography/Typhography.jsx";
 import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import styled from "styled-components";
-import 일반용달 from "../../../assets/svgs/일반용달.svg";
-import 용달이사 from "../../../assets/svgs/용달이사.svg";
-import 미니용달 from "../../../assets/svgs/미니용달.svg";
-import 비즈니스운송 from "../../../assets/svgs/비즈니스운송.svg";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
-import { UrlMap } from "../../../data/GlobalVariable.js";
-import { isLoginFun } from "../../../utils/localStorage.js";
+import { UrlMap, TransportTypeArr } from "../../../data/GlobalVariable.js";
 
 const ImgBox = styled.img`
   width: 140px;
@@ -33,36 +28,6 @@ const TransportBox = styled.div`
 `;
 
 const ChoiceTransport = () => {
-  const transportTypeArr = [
-    {
-      transportType: "일반 용달",
-      transportPlusInfo: "중고거래, 물품 운송",
-      maxLoad: 10,
-      boxEachColor: "#d9c7e7",
-      img: 일반용달
-    },
-    {
-      transportType: "용달 이사",
-      transportPlusInfo: "원룸이사, 1인 가구 이사",
-      maxLoad: 1,
-      boxEachColor: "#FF9A62",
-      img: 용달이사
-    },
-    {
-      transportType: "미니 용달",
-      transportPlusInfo: "소규모 운송, 물품 3개 이하",
-      maxLoad: 1,
-      boxEachColor: "#F6D776",
-      img: 미니용달
-    },
-    {
-      transportType: "비지니스 운송",
-      transportPlusInfo: "거래처 납부, 기업 운송",
-      maxLoad: 10,
-      boxEachColor: "#85C7EE",
-      img: 비즈니스운송
-    }
-  ];
   const { setTransportType } = useContext(reservationStore);
 
   const navigation = useNavigate();
@@ -70,13 +35,6 @@ const ChoiceTransport = () => {
     setTransportType(transportType);
     navigation(UrlMap.choiceDatePageUrl);
   };
-
-  useEffect(() => {
-    const isLogin = isLoginFun();
-    if (!isLogin) {
-      navigation(UrlMap.loginPageUrl);
-    }
-  }, []);
 
   return (
     <MobileLayout>
@@ -87,7 +45,7 @@ const ChoiceTransport = () => {
       <Margin height="24px" />
       <Typography font="bold24">운송의 종류를 선택해주세요.</Typography>
       <Margin height="24px" />
-      {transportTypeArr.map(
+      {TransportTypeArr.map(
         (
           { transportType, transportPlusInfo, maxLoad, boxEachColor, img },
           idx

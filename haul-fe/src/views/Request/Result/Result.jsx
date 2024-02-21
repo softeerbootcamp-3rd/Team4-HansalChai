@@ -6,12 +6,17 @@ import Margin from "../../../components/Margin/Margin.jsx";
 import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
-import { CompanyCallNumber, UrlMap } from "../../../data/GlobalVariable.js";
+import {
+  CompanyCallNumber,
+  UrlMap,
+  ErrorMessageMap
+} from "../../../data/GlobalVariable.js";
 import { getIsMember } from "../../../utils/localStorage.js";
-
+import { guestReservationConfirmFun } from "../../../repository/reservationRepository.js";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 const Result = () => {
   const navigation = useNavigate();
   const {
@@ -22,52 +27,47 @@ const Result = () => {
       dstAddress,
       srcName,
       dstName
-    }
+    },
+    setInitialState
   } = useContext(reservationStore);
 
   const location = useLocation();
   const { data } = location.state;
-
-  const [resultData, setLesultData] = useState({
-    car: {
-      count: 0,
-      model: "string",
-      capacity: "string",
-      feature: "string",
-      photo: "string"
-    },
-    src: {
-      name: "string",
-      address: "string",
-      detailAddress: "string",
-      latitude: 0,
-      longitude: 0,
-      tel: "string"
-    },
-    dst: {
-      name: "string",
-      address: "string",
-      detailAddress: "string",
-      latitude: 0,
-      longitude: 0,
-      tel: "string"
-    },
-    cost: 0,
-    requiredTime: 0
-  });
-
   function callCompany() {
     const phoneNumber = CompanyCallNumber;
     window.location.href = `tel:${phoneNumber}`;
   }
-
-  function decideBtnFun() {
+  async function decideBtnFun() {
     const isMember = getIsMember();
+    //비회원이라면 예약 확정 진행
     if (isMember === "false") {
-      navigation(UrlMap.completePageUrl);
+      const { success, code } = await guestReservationConfirmFun({
+        reservationId: data.reservationId,
+        cost: data.cost
+      });
+      if (success) {
+        setInitialState();
+        navigation(UrlMap.completePageUrl);
+      } else {
+        if (code === 1103)
+          ToastMaker({
+            type: "error",
+            children: ErrorMessageMap.NotFindReservationError
+          });
+        else if (code === 3001) {
+          ToastMaker({
+            type: "error",
+            children: ErrorMessageMap.AlreadyReservationError
+          });
+          navigation(UrlMap.choiceTranportTypeUrl);
+        } else
+          ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
+      }
       return;
     }
-    navigation(UrlMap.choicePaymentPageUrl);
+    navigation(UrlMap.choicePaymentPageUrl, {
+      state: { reservationId: data.reservationId, cost: data.cost }
+    });
   }
 
   return (
@@ -89,6 +89,7 @@ const Result = () => {
         capacity={data.car.capacity}
         volumn={data.car.feature}
         quantity={data.car.count}
+        photo={data.car.photo}
       />
       <Margin height="20px" />
 

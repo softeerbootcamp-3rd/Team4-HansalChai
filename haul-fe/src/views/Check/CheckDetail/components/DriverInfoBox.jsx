@@ -40,7 +40,7 @@ const DescriptionTextList = styled.div`
   width: 100%;
   ${({ theme }) => theme.flex.flexColumn};
   justify-content: space-between;
-  padding: 8px 0;
+  padding: 14px 0;
 `;
 
 const DriverDescriptionItem = styled.section`
