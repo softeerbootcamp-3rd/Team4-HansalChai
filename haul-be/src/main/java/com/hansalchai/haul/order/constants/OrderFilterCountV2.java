@@ -5,30 +5,31 @@ import java.util.Arrays;
 
 import com.hansalchai.haul.common.exceptions.BadRequestException;
 import com.hansalchai.haul.common.utils.ErrorCode;
+import com.hansalchai.haul.reservation.repository.CustomReservationRepositoryImpl;
 import com.hansalchai.haul.reservation.repository.ReservationRepository;
 
 public enum OrderFilterCountV2 {
 	DEFAULT {
 		@Override
 		public Long execute(
-			ReservationRepository reservationRepository, Long carId, ArrayList<String> sidoArray) {
-			return reservationRepository.countAllOrders(carId, sidoArray);
+			CustomReservationRepositoryImpl customReservationRepository, Long carId, ArrayList<String> sidoArray) {
+			return customReservationRepository.countAllOrdersQdsl(carId, sidoArray);
 		}
 	},
 	FEE {
 		@Override
-		public Long execute(ReservationRepository reservationRepository, Long carId, ArrayList<String> sidoArray) {
-			return reservationRepository.countAllOrderByFee(carId, sidoArray);
+		public Long execute(CustomReservationRepositoryImpl customReservationRepository, Long carId, ArrayList<String> sidoArray) {
+			return customReservationRepository.countAllOrderByFeeQdsl(carId, sidoArray);
 		}
 	},
 	DATETIME {
 		@Override
-		public Long execute(ReservationRepository reservationRepository, Long carId, ArrayList<String> sidoArray) {
-			return reservationRepository.countAllOrderByDateTime(carId, sidoArray);
+		public Long execute(CustomReservationRepositoryImpl customReservationRepository, Long carId, ArrayList<String> sidoArray) {
+			return customReservationRepository.countAllOrderByDateTimeQdsl(carId, sidoArray);
 		}
 	};
 
-	public abstract Long execute(ReservationRepository reservationRepository, Long carId, ArrayList<String> sidoArray);
+	public abstract Long execute(CustomReservationRepositoryImpl customReservationRepository, Long carId, ArrayList<String> sidoArray);
 
 	public static OrderFilterCountV2 findFilter(String sort) {
 		sort = sort.toUpperCase();

@@ -45,6 +45,7 @@ import com.hansalchai.haul.owner.repository.OwnerRepository;
 import com.hansalchai.haul.reservation.constants.TransportStatus;
 import com.hansalchai.haul.reservation.entity.Reservation;
 import com.hansalchai.haul.reservation.entity.Transport;
+import com.hansalchai.haul.reservation.repository.CustomReservationRepositoryImpl;
 import com.hansalchai.haul.reservation.repository.ReservationRepository;
 import com.hansalchai.haul.user.entity.Users;
 import com.hansalchai.haul.user.repository.UsersRepository;
@@ -61,6 +62,7 @@ public class OrderService {
 	private final OwnerRepository ownerRepository;
 	private final SmsUtil smsUtil;
 	private final KakaoMap kakaoMap;
+	private final CustomReservationRepositoryImpl customReservationRepository;
 
 	@Transactional(readOnly = true)
 	public OrderSearchResponse findAll(Long driverId, String sort, int page) {
@@ -191,27 +193,26 @@ public class OrderService {
 		for(int i = 1;i <= depthMAX;i++){
 			ArrayList<String> sidoArray = SidoGraph.getSidoByDepth(curRegion, i);
 			OrderFilterCountV2 orderFilterCountV2 = OrderFilterCountV2.findFilter(sort);
-			Long count = orderFilterCountV2.execute(reservationRepository, carId, sidoArray);
+			Long count = orderFilterCountV2.execute(customReservationRepository, carId, sidoArray);
+			selectedSidoArray = sidoArray;
+
 			if(count >= (long)PAGECUT * (page + 1)){
-				selectedSidoArray = sidoArray;
 				break;
 			}
 		}
-		if(selectedSidoArray == null)
-			return null;
 
 		//페이지 정보 생성
 		PageRequest pageRequest = PageRequest.of(page, PAGECUT);
 
 		// 리스트 정렬 기준에 맞는 쿼리를 실행해 오더 리스트 조회
 		OrderFilterV2 orderFilter = OrderFilterV2.findFilter(sort);
-		Page<Reservation> pages = orderFilter.execute(reservationRepository, carId, selectedSidoArray, pageRequest);
+		List<Reservation> pages = orderFilter.execute(customReservationRepository, carId, selectedSidoArray, pageRequest);
 
 		//필요한 정보만 담아 변환
-		List<OrderSearchResponseDto> orders = pages.getContent().stream()
+		List<OrderSearchResponseDto> orders = pages.stream()
 			.map(OrderSearchResponseDto::new)
 			.toList();
-		boolean isLastPage = pages.getNumberOfElements() < PAGECUT;
+		boolean isLastPage = pages.size() < PAGECUT;
 
 		// 응답 형태로 변환해서 반환
 		return new OrderSearchResponse(orders, isLastPage);
