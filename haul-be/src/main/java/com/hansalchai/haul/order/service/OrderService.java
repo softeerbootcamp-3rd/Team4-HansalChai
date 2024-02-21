@@ -93,6 +93,31 @@ public class OrderService {
 		Owner owner = ownerRepository.findByDriverId(userId)
 			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
 
+		// 예약에 기사 배정 정보 저장, 운송 상태를 '운송 전'으로 변경
+		reservation.setDriver(owner);
+		Transport transport = reservation.getTransport();
+		transport.updateTransportStatus(NOT_STARTED);
+
+		// 4. 배정 알림을 고객에게 sms로 전송
+		// String customerTel = reservation.getUser().getTel();
+		// String reservationNumber = reservation.getNumber();
+		// smsUtil.send(customerTel, reservationNumber);
+	}
+
+	@Transactional
+	public void approveV2(Long userId, ApproveRequestDto approveRequestDto) {
+
+		Reservation reservation = reservationRepository.findById(approveRequestDto.getId())
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+
+		// 기사가 배정되어있으면 오더 승인 불가
+		if (reservation.getOwner() != null) {
+			throw new ConflictException(ALREADY_ASSIGNED_DRIVER);
+		}
+
+		Owner owner = ownerRepository.findByDriverId(userId)
+			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
+
 		// 겹치는 오더가 있으면 오더 승인 불가
 		if (isScheduleOverlap(owner.getOwnerId(), reservation)) {
 			throw new ConflictException(SCHEDULE_CONFLICT);
