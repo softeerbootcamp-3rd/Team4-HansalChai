@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,6 +30,7 @@ public class UsersController {
 
 	private final UsersService usersService;
 	private static final String V1_USERS_PATH = "/api/v1/users";
+	private static final String V2_USERS_PATH = "/api/v2/users";
 
 	@PostMapping(V1_USERS_PATH + "/sign-up")
 	public ResponseEntity<ApiResponse<Object>> signUp(@Valid @RequestBody CustomerSignUpDto signUpDto) {
@@ -57,5 +57,19 @@ public class UsersController {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		usersService.putProfile(profileUpdateDTO, auth.getUserId());
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, null));
+	}
+
+	@PostMapping(V2_USERS_PATH + "/customers/sign-in")
+	public ResponseEntity<ApiResponse<UserLogin.ResponseDto>> customerSignInV2(
+		@Valid @RequestBody UserLogin.RequestDto requestDto) throws JsonProcessingException {
+		UserLogin.ResponseDto responseDto = usersService.customerSignInV2(requestDto);
+		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, responseDto));
+	}
+
+	@PostMapping(V2_USERS_PATH + "/drivers/sign-in")
+	public ResponseEntity<ApiResponse<UserLogin.ResponseDto>> driverSignInV2(
+		@Valid @RequestBody UserLogin.RequestDto requestDto) throws JsonProcessingException {
+		UserLogin.ResponseDto responseDto = usersService.driverSignInV2(requestDto);
+		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, responseDto));
 	}
 }
