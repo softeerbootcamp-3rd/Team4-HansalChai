@@ -2,6 +2,7 @@ package com.hansalchai.haul.order.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,10 +28,13 @@ public class TransportStatusChange {
 	@Getter
 	public static class ResponseDto {
 
-		private boolean transportStatusChanged;
+		private boolean hasInProgressOrder;
+		private boolean isDriverNearBy;
 
-		public ResponseDto(boolean transportStatusChanged) {
-			this.transportStatusChanged = transportStatusChanged;
+		@Builder
+		public ResponseDto(boolean hasInProgressOrder, boolean isDriverNearBy) {
+			this.hasInProgressOrder = hasInProgressOrder;
+			this.isDriverNearBy = isDriverNearBy;
 		}
 	}
 }

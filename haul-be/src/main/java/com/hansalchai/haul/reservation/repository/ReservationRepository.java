@@ -1,5 +1,6 @@
 package com.hansalchai.haul.reservation.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -64,4 +65,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 			+ "and cast(r.date || ' ' || r.time AS timestamp) > current_timestamp "
 		+ "order by r.date, r.time")
 	Page<Reservation> findAllOrderByDateTime(@Param("carId") Long carId, Pageable pageable);
+
+	@Query(value = "select r from Reservation r where r.owner.user.userId = :userId and r.transport.transportStatus = 'IN_PROGRESS'")
+	List<Reservation> findByDriverIdInProgress(@Param("userId")Long id);
 }

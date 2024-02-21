@@ -162,7 +162,7 @@ public class OrderService {
 
 		TransportStatus nextStatus = TransportStatus.getNextStatus(transportStatus);
 		transport.updateTransportStatus(nextStatus);
-		return new TransportStatusChange.ResponseDto(true);
+		return TransportStatusChange.ResponseDto.builder().isDriverNearBy(true).hasInProgressOrder(true).build();
 	}
 
 	@Transactional
@@ -185,12 +185,31 @@ public class OrderService {
 			throw new BadRequestException(ALREADY_DELIVERED);
 		}
 
+		if (hasInProgressOrder(userId, reservation.getReservationId())) {
+			return TransportStatusChange.ResponseDto.builder()
+				.hasInProgressOrder(true)
+				.isDriverNearBy(false)
+				.build();
+		}
+
 		if (!isNearPoint(requestDto, reservation, transportStatus)) {
-			return new TransportStatusChange.ResponseDto(false);
+			return TransportStatusChange.ResponseDto.builder()
+				.hasInProgressOrder(false)
+				.isDriverNearBy(false)
+				.build();
 		}
 
 		TransportStatus nextStatus = TransportStatus.getNextStatus(transportStatus);
 		transport.updateTransportStatus(nextStatus);
-		return new TransportStatusChange.ResponseDto(true);
+		return TransportStatusChange.ResponseDto.builder()
+			.hasInProgressOrder(false)
+			.isDriverNearBy(true)
+			.build();
+	}
+
+	//운송 중인 오더가 있는지 확인
+	private boolean hasInProgressOrder(Long driverId, Long orderId) {
+		List<Reservation> ordersInProgress = reservationRepository.findByDriverIdInProgress(driverId);
+		return !ordersInProgress.stream().allMatch(order -> order.getReservationId().equals(orderId));
 	}
 }
