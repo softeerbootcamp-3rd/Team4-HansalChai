@@ -205,3 +205,4 @@ export async function guestReservationConfirmFun({ reservationId }) {
     return { success: false, message: error.toString() };
   }
 }
+
