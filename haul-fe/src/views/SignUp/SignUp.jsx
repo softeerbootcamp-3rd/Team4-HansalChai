@@ -17,7 +17,7 @@ import ToastMaker from "../../components/Toast/ToastMaker.jsx";
 import { UrlMap, ErrorMessageMap } from "../../data/GlobalVariable.js";
 import { signUpFun } from "../../repository/userRepository.js";
 
-const SignUP = () => {
+const SignUp = () => {
   const navigate = useNavigate();
   const name = useRef("");
   const tel = useRef("");
@@ -232,4 +232,4 @@ const SignUP = () => {
   );
 };
 
-export default SignUP;
+export default SignUp;
