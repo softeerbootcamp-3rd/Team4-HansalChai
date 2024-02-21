@@ -14,7 +14,6 @@ const statusColor = {
 
 const ReservItemFrame = styled.div`
   width: 100%;
-  min-width: 300px;
   ${({ theme }) => theme.flex.flexColumn};
   align-items: start;
   background-color: ${({ status }) => statusColor[status]};
