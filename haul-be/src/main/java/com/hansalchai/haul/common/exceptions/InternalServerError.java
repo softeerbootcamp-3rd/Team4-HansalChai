@@ -5,9 +5,10 @@ import com.hansalchai.haul.common.utils.ErrorCode;
 import lombok.Getter;
 
 @Getter
-public class GeneralException extends RuntimeException {
+public class InternalServerError extends RuntimeException{
 	private final ErrorCode code;
-	public GeneralException(ErrorCode code) {
+
+	public InternalServerError(ErrorCode code) {
 		super(code.getMessage());
 		this.code = code;
 	}

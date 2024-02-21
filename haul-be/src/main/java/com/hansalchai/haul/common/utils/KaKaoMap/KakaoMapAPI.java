@@ -1,5 +1,7 @@
 package com.hansalchai.haul.common.utils.KaKaoMap;
 
+import static com.hansalchai.haul.common.utils.ErrorCode.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hansalchai.haul.common.utils.MapUtils;
+import com.hansalchai.haul.common.exceptions.InternalServerError;
 import com.hansalchai.haul.common.utils.MapUtils.Location;
 import com.hansalchai.haul.common.utils.MapUtils.DistanceDurationInfo;
 
@@ -61,12 +63,10 @@ public class KakaoMapAPI {
 
 				return new DistanceDurationInfo(distance, duration);
 			} catch (Exception e) {
-				logger.error(e.getMessage());
-				e.printStackTrace();
+				throw new InternalServerError(KAKAO_MAP_ERROR);
 			}
 		} else {
-			logger.error("kakaoMap Response Error");
+			throw new InternalServerError(KAKAO_MAP_ERROR);
 		}
-		return new DistanceDurationInfo(0,0);
 	}
 }
