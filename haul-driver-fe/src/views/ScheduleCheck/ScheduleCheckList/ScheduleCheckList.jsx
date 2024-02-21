@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../../components/Header/Header.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
@@ -33,8 +33,10 @@ const HorizontalLine = styled(UnderBar)`
   position: relative;
 `;
 
+let lastTabbar = 0;
+
 const ScheduleCheckList = () => {
-  const [selectedStatus, setSelectedStatus] = useState(0);
+  const [selectedStatus, setSelectedStatus] = useState(lastTabbar);
   const driverName = getUserName();
   const statusList = ["운송 전", "운송 중", "운송 완료"];
   const fetcherList = [
@@ -42,6 +44,10 @@ const ScheduleCheckList = () => {
     functionBinder(getDriverSummaryList, { keyword: "운송 중" }),
     functionBinder(getDriverSummaryList, { keyword: "운송 완료" })
   ];
+
+  useEffect(() => {
+    lastTabbar = selectedStatus;
+  }, [selectedStatus]);
 
   return (
     <MobileLayout>

@@ -6,7 +6,7 @@ const apiKey = import.meta.env.VITE_API_KEY;
 export async function getDriverSummaryList({ page, sortBy = "default" }) {
   try {
     const response = await fetch(
-      `http://${apiKey}/api/v1/orders?sort=${sortBy}&page=${page}`,
+      `${apiKey}/api/v1/orders?sort=${sortBy}&page=${page}`,
       {
         method: "GET",
         headers: {
@@ -60,7 +60,7 @@ export async function getDriverSummaryList({ page, sortBy = "default" }) {
 
 export async function orderDetail({ orderId }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/orders/${orderId}`, {
+    const response = await fetch(`${apiKey}/api/v1/orders/${orderId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +83,7 @@ export async function orderDetail({ orderId }) {
 //오더 승인 API 연결함수
 export async function orderApprove({ orderId }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/orders/approve`, {
+    const response = await fetch(`${apiKey}/api/v1/orders/approve`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
