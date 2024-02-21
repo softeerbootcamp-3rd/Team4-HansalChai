@@ -107,7 +107,7 @@ public class OrderService {
 	@Transactional
 	public void approveV2(Long userId, ApproveRequestDto approveRequestDto) {
 
-		Reservation reservation = reservationRepository.findById(approveRequestDto.getId())
+		Reservation reservation = reservationRepository.findByIdWithPessimisticLock(approveRequestDto.getId())
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
 
 		// 기사가 배정되어있으면 오더 승인 불가

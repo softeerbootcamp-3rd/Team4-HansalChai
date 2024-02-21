@@ -29,7 +29,7 @@ import com.hansalchai.haul.reservation.repository.ReservationRepository;
 import com.hansalchai.haul.user.entity.Users;
 
 @ExtendWith(MockitoExtension.class)
-class OrderServiceTest {
+class OrderServiceUnitTest {
 
 	@InjectMocks
 	OrderService orderService;
@@ -64,7 +64,7 @@ class OrderServiceTest {
 		List<Reservation> reservations = createReservationsForApproveTest(owner);
 
 		given(ownerRepository.findByDriverId(userId)).willReturn(Optional.of(owner));
-		given(reservationRepository.findById(reservationId)).willReturn(Optional.of(newReservation));
+		given(reservationRepository.findByIdWithPessimisticLock(reservationId)).willReturn(Optional.of(newReservation));
 		given(reservationRepository.findScheduleOfDriver(ownerId,
 			LocalDate.of(2024, 2, 19),
 			LocalDate.of(2024, 2, 20))).willReturn(reservations);
@@ -100,7 +100,7 @@ class OrderServiceTest {
 		List<Reservation> reservations = createReservationsForApproveTest(owner);
 
 		given(ownerRepository.findByDriverId(userId)).willReturn(Optional.of(owner));
-		given(reservationRepository.findById(reservationId)).willReturn(Optional.of(newReservation));
+		given(reservationRepository.findByIdWithPessimisticLock(reservationId)).willReturn(Optional.of(newReservation));
 		given(reservationRepository.findScheduleOfDriver(ownerId,
 			LocalDate.of(2024, 2, 19),
 			LocalDate.of(2024, 2, 20))).willReturn(reservations);
