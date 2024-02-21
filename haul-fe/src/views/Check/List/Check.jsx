@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Header from "../../../components/Header/Header.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
@@ -31,10 +31,9 @@ const HorizontalLine = styled(UnderBar)`
   position: absolute;
 `;
 
-let lastTabbar = 0;
-
+//TODO: API가 운송상태를 구별하여 가져올 수 있게 변경된 후 리스트 수정할 것!
 const Check = () => {
-  const [selectedStatus, setSelectedStatus] = useState(lastTabbar);
+  const [selectedStatus, setSelectedStatus] = useState(0);
 
   const statusList = ["매칭 중", "운송 전", "운송 중", "운송 완료"];
 
@@ -44,10 +43,6 @@ const Check = () => {
     functionBinder(getUserSummaryList, { keyword: "운송 중" }),
     functionBinder(getUserSummaryList, { keyword: "운송 완료" })
   ];
-
-  useEffect(() => {
-    lastTabbar = selectedStatus;
-  }, [selectedStatus]);
 
   return (
     <MobileLayout id="CUSTOM" minWidth={"auto"}>

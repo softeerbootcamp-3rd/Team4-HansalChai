@@ -22,7 +22,7 @@ export async function memberReservationFun({
   specialNotes
 }) {
   try {
-    const response = await fetch(`${apiKey}/api/v1/reservations`, {
+    const response = await fetch(`http://${apiKey}/api/v1/reservations`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -79,7 +79,7 @@ export async function memberReservationFun({
 export async function memberReservationConfirmFun({ reservationId }) {
   try {
     const response = await fetch(
-      `${apiKey}/api/v1/reservations/${reservationId}`,
+      `http://${apiKey}/api/v1/reservations/${reservationId}`,
       {
         method: "PATCH",
         headers: {
@@ -124,7 +124,7 @@ export async function guestReservationFun({
   guestTel
 }) {
   try {
-    const response = await fetch(`${apiKey}/api/v1/reservations/guest`, {
+    const response = await fetch(`http://${apiKey}/api/v1/reservations/guest`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -184,7 +184,7 @@ export async function guestReservationFun({
 export async function guestReservationConfirmFun({ reservationId }) {
   try {
     const response = await fetch(
-      `${apiKey}/api/v1/reservations/guest/${reservationId}`,
+      `http://${apiKey}/api/v1/reservations/guest/${reservationId}`,
       {
         method: "PATCH",
         headers: {

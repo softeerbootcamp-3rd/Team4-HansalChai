@@ -5,7 +5,7 @@ const apiKey = import.meta.env.VITE_API_KEY;
 export async function getGuestSummaryList({ reservationSerial }) {
   try {
     const response = await fetch(
-      `${apiKey}/api/v1/reservations/guest?number=${reservationSerial}`,
+      `http://${apiKey}/api/v1/reservations/guest?number=${reservationSerial}`,
       {
         method: "GET",
         headers: {
@@ -35,7 +35,7 @@ export async function getGuestSummaryList({ reservationSerial }) {
 export async function getUserSummaryList({ page, keyword = "매칭 중" }) {
   try {
     const response = await fetch(
-      `${apiKey}/api/v1/reservations?keyword=${keyword}&page=${page}`,
+      `http://${apiKey}/api/v1/reservations?keyword=${keyword}&page=${page}`,
       {
         method: "GET",
         headers: {
@@ -67,7 +67,7 @@ export async function getUserSummaryList({ page, keyword = "매칭 중" }) {
 export async function getGuestReservationDetails({ reservationID }) {
   try {
     const response = await fetch(
-      `${apiKey}/api/v1/reservations/guest/${reservationID}`,
+      `http://${apiKey}/api/v1/reservations/guest/${reservationID}`,
       {
         method: "GET",
         headers: {
@@ -98,7 +98,7 @@ export async function getGuestReservationDetails({ reservationID }) {
 export async function getUserReservationDetails({ reservationID }) {
   try {
     const response = await fetch(
-      `${apiKey}/api/v1/reservations/${reservationID}`,
+      `http://${apiKey}/api/v1/reservations/${reservationID}`,
       {
         method: "GET",
         headers: {
