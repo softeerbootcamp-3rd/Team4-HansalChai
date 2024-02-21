@@ -86,11 +86,11 @@ public class OrderController {
 	}
 
 	@PatchMapping(V2_ORDERS_PATH + "/status")
-	public ResponseEntity<ApiResponse<TransportStatusChange.ResponseDto>> changeTransportStatusV2(
+	public ResponseEntity<ApiResponse<TransportStatusChange.ResponseDtoV2>> changeTransportStatusV2(
 			HttpServletRequest request,
-			@Valid @RequestBody TransportStatusChange.RequestDto requestDto) {
+			@Valid @RequestBody TransportStatusChange.RequestDtoV2 requestDto) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		TransportStatusChange.ResponseDto responseDto = orderService.changeTransportStatusV2(auth.getUserId(), requestDto);
+		TransportStatusChange.ResponseDtoV2 responseDto = orderService.changeTransportStatusV2(auth.getUserId(), requestDto);
 		return ResponseEntity.ok(success(GET_SUCCESS, responseDto));
 	}
 }

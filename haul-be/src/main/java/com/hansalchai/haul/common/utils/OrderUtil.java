@@ -18,7 +18,7 @@ public class OrderUtil {
 	private static final int R = 6371000; // 지구의 반지름 (단위: 미터)
 
 	//사용자 현위치가 출발지, 목적지 300m 내에 있는지 확인
-	public static boolean isNearPoint(TransportStatusChange.RequestDto requestDto, Reservation reservation,
+	public static boolean isNearPoint(TransportStatusChange.RequestDtoV2 requestDto, Reservation reservation,
 		TransportStatus transportStatus) {
 
 		double currentLatitude = requestDto.getLatitude();

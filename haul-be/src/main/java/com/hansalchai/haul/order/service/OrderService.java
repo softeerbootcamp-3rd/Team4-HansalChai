@@ -162,13 +162,13 @@ public class OrderService {
 
 		TransportStatus nextStatus = TransportStatus.getNextStatus(transportStatus);
 		transport.updateTransportStatus(nextStatus);
-		return TransportStatusChange.ResponseDto.builder().isDriverNearBy(true).hasInProgressOrder(true).build();
+		return new TransportStatusChange.ResponseDto(reservation);
 	}
 
 	@Transactional
-	public TransportStatusChange.ResponseDto changeTransportStatusV2(
+	public TransportStatusChange.ResponseDtoV2 changeTransportStatusV2(
 			Long userId,
-			TransportStatusChange.RequestDto requestDto) {
+			TransportStatusChange.RequestDtoV2 requestDto) {
 
 		Reservation reservation = reservationRepository.findById(requestDto.getId())
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
@@ -186,14 +186,14 @@ public class OrderService {
 		}
 
 		if (hasInProgressOrder(userId, reservation.getReservationId())) {
-			return TransportStatusChange.ResponseDto.builder()
+			return TransportStatusChange.ResponseDtoV2.builder()
 				.hasInProgressOrder(true)
 				.isDriverNearBy(false)
 				.build();
 		}
 
 		if (!isNearPoint(requestDto, reservation, transportStatus)) {
-			return TransportStatusChange.ResponseDto.builder()
+			return TransportStatusChange.ResponseDtoV2.builder()
 				.hasInProgressOrder(false)
 				.isDriverNearBy(false)
 				.build();
@@ -201,7 +201,7 @@ public class OrderService {
 
 		TransportStatus nextStatus = TransportStatus.getNextStatus(transportStatus);
 		transport.updateTransportStatus(nextStatus);
-		return TransportStatusChange.ResponseDto.builder()
+		return TransportStatusChange.ResponseDtoV2.builder()
 			.hasInProgressOrder(false)
 			.isDriverNearBy(true)
 			.build();
