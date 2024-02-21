@@ -1,7 +1,5 @@
 package com.hansalchai.haul.order.dto;
 
-import com.hansalchai.haul.reservation.entity.Reservation;
-
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,16 +15,22 @@ public class TransportStatusChange {
 
 		@NotNull(message = "오더 id는 null일 수 없다.")
 		private Long id; //오더 id
+
+		@NotNull(message = "위도는 null이 될 수 없습니다.")
+		double latitude;
+
+		@NotNull(message = "경도는 null이 될 수 없습니다.")
+		double longitude;
 	}
 
 	// 운송 상태 변경 응답 dto
 	@Getter
 	public static class ResponseDto {
 
-		private Long id; //오더 id
+		private boolean transportStatusChanged;
 
-		public ResponseDto(Reservation reservation) {
-			this.id = reservation.getReservationId();
+		public ResponseDto(boolean transportStatusChanged) {
+			this.transportStatusChanged = transportStatusChanged;
 		}
 	}
 }

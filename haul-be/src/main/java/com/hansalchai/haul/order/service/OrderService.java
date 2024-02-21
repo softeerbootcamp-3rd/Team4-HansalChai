@@ -3,6 +3,7 @@ package com.hansalchai.haul.order.service;
 import java.util.List;
 
 import static com.hansalchai.haul.common.utils.ErrorCode.*;
+import static com.hansalchai.haul.common.utils.OrderUtil.*;
 import static com.hansalchai.haul.order.dto.OrderSearchResponse.*;
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
 import static com.hansalchai.haul.reservation.service.ReservationService.*;
@@ -158,10 +159,38 @@ public class OrderService {
 		if (transportStatus.equals(DONE)) {
 			throw new BadRequestException(ALREADY_DELIVERED);
 		}
+
 		TransportStatus nextStatus = TransportStatus.getNextStatus(transportStatus);
-
 		transport.updateTransportStatus(nextStatus);
+		return new TransportStatusChange.ResponseDto(true);
+	}
 
-		return new TransportStatusChange.ResponseDto(reservation);
+	@Transactional
+	public TransportStatusChange.ResponseDto changeTransportStatusV2(
+			Long userId,
+			TransportStatusChange.RequestDto requestDto) {
+
+		Reservation reservation = reservationRepository.findById(requestDto.getId())
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+
+		Owner owner = reservation.getOwner();
+		if (!userId.equals(owner.getUser().getUserId())) {
+			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
+		}
+
+		Transport transport = reservation.getTransport();
+		TransportStatus transportStatus = transport.getTransportStatus();
+
+		if (transportStatus.equals(DONE)) {
+			throw new BadRequestException(ALREADY_DELIVERED);
+		}
+
+		if (!isNearPoint(requestDto, reservation, transportStatus)) {
+			return new TransportStatusChange.ResponseDto(false);
+		}
+
+		TransportStatus nextStatus = TransportStatus.getNextStatus(transportStatus);
+		transport.updateTransportStatus(nextStatus);
+		return new TransportStatusChange.ResponseDto(true);
 	}
 }
