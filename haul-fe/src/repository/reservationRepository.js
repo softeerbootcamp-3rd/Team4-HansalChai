@@ -26,7 +26,7 @@ export async function memberReservationFun({
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getAccessToken}`
+        Authorization: `Bearer ${getAccessToken()}`
       },
       body: JSON.stringify({
         transportType: transportType,
@@ -62,18 +62,41 @@ export async function memberReservationFun({
         }
       })
     });
-    console.log(response);
-    if (response.ok) {
-      const data = await response.json();
+
+    const data = await response.json();
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, message: "Reservation failed" };
-    }
+    return { success: false, code: data.code };
   } catch (error) {
-    console.error("Login error:", error);
+    console.error("Reservation failed error:", error);
+    return { success: false, message: error.toString() };
+  }
+}
+
+export async function memberReservationConfirmFun({ reservationId }) {
+  try {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/reservations/${reservationId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAccessToken()}`
+        }
+      }
+    );
+    const data = await response.json();
+    if (data.status === 200)
+      return {
+        success: true,
+        data
+      };
+    return { success: false, code: data.code };
+  } catch (error) {
+    console.error("Member Confirm failed error:", error);
     return { success: false, message: error.toString() };
   }
 }
@@ -145,17 +168,40 @@ export async function guestReservationFun({
       })
     });
 
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
+    if (data.status === 200)
       return {
         success: true,
         data
       };
-    } else {
-      return { success: false, message: "Reservation failed" };
-    }
+    return { success: false, code: data.code };
   } catch (error) {
-    console.error("Login error:", error);
+    console.error("Reservation failed error:", error);
+    return { success: false, message: error.toString() };
+  }
+}
+
+export async function guestReservationConfirmFun({ reservationId }) {
+  try {
+    const response = await fetch(
+      `http://${apiKey}/api/v1/reservations/guest/${reservationId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    const data = await response.json();
+    if (data.status === 200)
+      return {
+        success: true,
+        data
+      };
+    else return { success: false, code: data.code };
+  } catch (error) {
+    console.error("Guest Confirm failed error:", error);
     return { success: false, message: error.toString() };
   }
 }
