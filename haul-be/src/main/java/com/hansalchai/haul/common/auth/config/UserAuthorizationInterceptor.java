@@ -4,13 +4,15 @@ import static com.hansalchai.haul.common.auth.jwt.JwtProvider.*;
 
 import java.io.IOException;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.hansalchai.haul.common.auth.constants.Role;
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
+import com.hansalchai.haul.common.exceptions.NotFoundException;
+import com.hansalchai.haul.common.exceptions.UnauthorizedException;
+import com.hansalchai.haul.common.utils.ErrorCode;
 
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,8 +32,7 @@ public class UserAuthorizationInterceptor implements HandlerInterceptor {
 			String baseUrl = getBaseUrl(handler);
 
 			if (baseUrl == null) {
-				response.sendError(HttpStatus.NOT_FOUND.value(), "요청한 페이지를 찾을 수 없음");
-				return false;
+				throw new NotFoundException(ErrorCode.PAGE_NOT_FOUND);
 			}
 
 			// url에 대한 접근 권한 확인
@@ -39,8 +40,7 @@ public class UserAuthorizationInterceptor implements HandlerInterceptor {
 				return true;
 			}
 		}
-		response.sendError(HttpStatus.UNAUTHORIZED.value(), "엑세스 권한 없음");
-		return false;
+		throw new UnauthorizedException(ErrorCode.INVALID_TOKEN);
 	}
 
 	private static String getBaseUrl(Object handler) {

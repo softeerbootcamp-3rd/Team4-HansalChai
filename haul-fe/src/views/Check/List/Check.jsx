@@ -14,6 +14,8 @@ import { getUserSummaryList } from "../../../repository/checkRepository.js";
 import { functionBinder } from "../../../utils/helper.js";
 import { MaxDeviceWidth } from "../../../data/GlobalVariable.js";
 
+let lastTabbar = 0;
+
 const Floater = styled.div`
   overflow: visible;
   height: fit-content;
@@ -30,8 +32,6 @@ const HorizontalLine = styled(UnderBar)`
   left: -20px;
   position: absolute;
 `;
-
-let lastTabbar = 0;
 
 const Check = () => {
   const [selectedStatus, setSelectedStatus] = useState(lastTabbar);

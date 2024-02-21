@@ -1,5 +1,7 @@
 package com.hansalchai.haul.common.auth.jwt;
 
+import static com.hansalchai.haul.common.utils.ErrorCode.*;
+
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,7 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.hansalchai.haul.common.auth.constants.JwtExceptionType;
+import com.hansalchai.haul.common.utils.ErrorCode;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -85,25 +87,16 @@ public class JwtProvider {
 		return header.split(" ")[1];
 	}
 
-	public JwtExceptionType validateToken(String token) {
+	public ErrorCode validateToken(String token) {
 		try {
 			getClaims(token);
-			return JwtExceptionType.VALID_JWT_TOKEN;
-		} catch (SignatureException exception) {
-			log.info("JWT 서명이 유효하지 않습니다");
-			return JwtExceptionType.INVALID_JWT_SIGNATURE;
-		} catch (MalformedJwtException exception) {
-			log.info("JWT가 올바르게 구성되지 않았습니다.");
-			return JwtExceptionType.INVALID_JWT_TOKEN;
+			return null;
+		} catch (MalformedJwtException | SignatureException | UnsupportedJwtException | IllegalArgumentException exception) {
+			exception.printStackTrace();
+			return INVALID_TOKEN;
 		} catch (ExpiredJwtException exception) {
-			log.info("만료된 토큰입니다.");
-			return JwtExceptionType.EXPIRED_JWT_TOKEN;
-		} catch (UnsupportedJwtException exception) {
-			log.info("지원되지 않는 형식의 토큰입니다.");
-			return JwtExceptionType.UNSUPPORTED_JWT_TOKEN;
-		} catch (IllegalArgumentException exception) {
-			log.info("JWT Claim이 비어있습니다.");
-			return JwtExceptionType.EMPTY_JWT;
+			exception.printStackTrace();
+			return EXPIRED_TOKEN;
 		}
 	}
 }

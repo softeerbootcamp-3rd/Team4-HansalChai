@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
-import com.hansalchai.haul.common.auth.jwt.Jwt;
 import com.hansalchai.haul.common.utils.ApiResponse;
 import com.hansalchai.haul.common.utils.SuccessCode;
 import com.hansalchai.haul.user.dto.CustomerSignUpDto;
 import com.hansalchai.haul.user.dto.ProfileDTO;
 import com.hansalchai.haul.user.dto.ProfileUpdateDTO;
-import com.hansalchai.haul.user.dto.UserLoginDto;
+import com.hansalchai.haul.user.dto.UserLogin;
 import com.hansalchai.haul.user.service.UsersService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,33 +26,33 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/users")
 @RestController
 public class UsersController {
 
 	private final UsersService usersService;
+	private static final String V1_USERS_PATH = "/api/v1/users";
 
-	@PostMapping("/sign-up")
-	public ResponseEntity<ApiResponse<String>> signUp(@Valid @RequestBody CustomerSignUpDto signUpDto) {
+	@PostMapping(V1_USERS_PATH + "/sign-up")
+	public ResponseEntity<ApiResponse<Object>> signUp(@Valid @RequestBody CustomerSignUpDto signUpDto) {
 		usersService.signUp(signUpDto);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, null));
 	}
 
-	@PostMapping("/sign-in")
-	public ResponseEntity<ApiResponse<Jwt>> signIn(@Valid @RequestBody UserLoginDto loginDto) throws
-		JsonProcessingException {
-		Jwt jwt = usersService.signIn(loginDto);
-		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, jwt));
+	@PostMapping(V1_USERS_PATH + "/sign-in")
+	public ResponseEntity<ApiResponse<UserLogin.ResponseDto>> signIn(
+			@Valid @RequestBody UserLogin.RequestDto requestDto) throws JsonProcessingException {
+		UserLogin.ResponseDto responseDto = usersService.signIn(requestDto);
+		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, responseDto));
 	}
 
-	@GetMapping("/profile")
+	@GetMapping(V1_USERS_PATH + "/profile")
 	public ResponseEntity<ApiResponse<ProfileDTO>> getProfile(HttpServletRequest request) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		ProfileDTO profileDTO = usersService.getProfile(auth.getUserId());
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, profileDTO));
 	}
 
-	@PutMapping("/profile")
+	@PutMapping(V1_USERS_PATH + "/profile")
 	public ResponseEntity<ApiResponse<String>> putProfile(@Valid @RequestBody ProfileUpdateDTO profileUpdateDTO, HttpServletRequest request) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		usersService.putProfile(profileUpdateDTO, auth.getUserId());

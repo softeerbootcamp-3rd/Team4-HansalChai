@@ -98,6 +98,7 @@ const InfiniteList = ({ fetcher, listStatus, emptyListView = <></> }) => {
   const runFetcher = async () => {
     if (isLoading.current) return;
     isLoading.current = true;
+
     const newPage = await fetch({
       page,
       fetcher,

@@ -1,5 +1,8 @@
 package com.hansalchai.haul.reservation.constants;
 
+import com.hansalchai.haul.common.exceptions.BadRequestException;
+import com.hansalchai.haul.common.utils.ErrorCode;
+
 public enum TransportType {
 	GENERAL("일반 용달"),
 	MOVE("용달 이사"),
@@ -19,7 +22,7 @@ public enum TransportType {
 				return status;
 			}
 		}
-		throw new IllegalArgumentException("No constant with code " + text + " found");
+		throw new BadRequestException(ErrorCode.UNSUPPORTED_QUERY_VALUE);
 	}
 
 }
