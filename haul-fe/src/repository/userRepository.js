@@ -117,8 +117,11 @@ export function isTokenInvalid(code) {
       break;
     case 1001:
     case 2001:
-    case 2002:
-      ToastMaker({ type: "error", children: ErrorMessageMap.TokenExpired });
+    case 2002: //fall-through
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.TokenExpired
+      });
       break;
     default:
       return false;
