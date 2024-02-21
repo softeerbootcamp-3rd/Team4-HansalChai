@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../../../components/Header/Header.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
@@ -13,6 +13,8 @@ import EmptyListHolder from "./components/EmptyListHolder.jsx";
 import { getUserSummaryList } from "../../../repository/checkRepository.js";
 import { functionBinder } from "../../../utils/helper.js";
 import { MaxDeviceWidth } from "../../../data/GlobalVariable.js";
+
+let lastTabbar = 0;
 
 const Floater = styled.div`
   overflow: visible;
@@ -31,9 +33,8 @@ const HorizontalLine = styled(UnderBar)`
   position: absolute;
 `;
 
-//TODO: API가 운송상태를 구별하여 가져올 수 있게 변경된 후 리스트 수정할 것!
 const Check = () => {
-  const [selectedStatus, setSelectedStatus] = useState(0);
+  const [selectedStatus, setSelectedStatus] = useState(lastTabbar);
 
   const statusList = ["매칭 중", "운송 전", "운송 중", "운송 완료"];
 
@@ -43,6 +44,10 @@ const Check = () => {
     functionBinder(getUserSummaryList, { keyword: "운송 중" }),
     functionBinder(getUserSummaryList, { keyword: "운송 완료" })
   ];
+
+  useEffect(() => {
+    lastTabbar = selectedStatus;
+  }, [selectedStatus]);
 
   return (
     <MobileLayout id="CUSTOM" minWidth={"auto"}>

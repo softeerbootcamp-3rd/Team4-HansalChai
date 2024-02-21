@@ -6,7 +6,7 @@ const apiKey = import.meta.env.VITE_API_KEY;
 
 export async function loginFun({ tel, password }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/users/sign-in`, {
+    const response = await fetch(`${apiKey}/api/v1/users/sign-in`, {
       mode: "cors",
       method: "POST",
       headers: {
@@ -29,7 +29,7 @@ export async function loginFun({ tel, password }) {
 
 export async function signUpFun({ name, tel, password, email }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/users/sign-up`, {
+    const response = await fetch(`${apiKey}/api/v1/users/sign-up`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -51,7 +51,7 @@ export async function signUpFun({ name, tel, password, email }) {
 
 export async function getUserProfile() {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/users/profile`, {
+    const response = await fetch(`${apiKey}/api/v1/users/profile`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -79,7 +79,7 @@ export async function getUserProfile() {
 
 export async function putPassword({ password }) {
   try {
-    const response = await fetch(`http://${apiKey}/api/v1/users/profile`, {
+    const response = await fetch(`${apiKey}/api/v1/users/profile`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -117,8 +117,11 @@ export function isTokenInvalid(code) {
       break;
     case 1001:
     case 2001:
-    case 2002:
-      ToastMaker({ type: "error", children: ErrorMessageMap.TokenExpired });
+    case 2002: //fall-through
+      ToastMaker({
+        type: "error",
+        children: ErrorMessageMap.TokenExpired
+      });
       break;
     default:
       return false;
