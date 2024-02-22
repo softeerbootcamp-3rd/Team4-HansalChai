@@ -12,6 +12,95 @@ import Typography from "../Typhography/Typhography.jsx";
 import { MaxDeviceWidth, UrlMap } from "../../data/GlobalVariable.js";
 import { getIsMember } from "../../utils/localStorage.js";
 
+const NavigationBar = ({ selected = "reserv" }) => {
+  const navigator = useNavigate();
+  const clickCheck = () => {
+    navigator(
+      getIsMember() === "true"
+        ? UrlMap.checkReservationPageUrl
+        : UrlMap.checkReservationGuestPageUrl
+    );
+  };
+  const clickReserv = () => {
+    navigator(UrlMap.choiceTranportTypeUrl);
+  };
+  const clickMore = () => {
+    navigator(UrlMap.morePageUrl);
+  };
+
+  const isSelectedMenu = (
+    menu,
+    trueValue = "mainColor",
+    falseValue = "unSelectedGray"
+  ) => {
+    return menu === selected ? trueValue : falseValue;
+  };
+
+  return (
+    <NavigationBarFrame>
+      <ItemFrame
+        id="navigator__check"
+        className="navBarItem"
+        onClick={() => {
+          clickCheck();
+        }}
+      >
+        <SelectedCircleImg
+          src={isSelectedMenu(
+            "check",
+            SelectedCircleSelectedSvg,
+            SelectedCircleSvg
+          )}
+        />
+        <IconFrame fill={isSelectedMenu("check")}>
+          <CheckSvg size={30} />
+        </IconFrame>
+        <Typography color={isSelectedMenu("check")}>예약 확인</Typography>
+      </ItemFrame>
+
+      <ItemFrame
+        id="navigator__reserv"
+        className="navBarItem"
+        onClick={() => {
+          clickReserv();
+        }}
+      >
+        <SelectedCircleImg
+          src={isSelectedMenu(
+            "reserv",
+            SelectedCircleSelectedSvg,
+            SelectedCircleSvg
+          )}
+        />
+        <TruckImg
+          src={isSelectedMenu("reserv", TruckSelectedSvg, TruckSvg)}
+          fill={isSelectedMenu("reserv")}
+        />
+        <Typography color={isSelectedMenu("reserv")}>용달 신청</Typography>
+      </ItemFrame>
+      <ItemFrame
+        id="navigator__more"
+        className="navBarItem"
+        onClick={() => {
+          clickMore();
+        }}
+      >
+        <SelectedCircleImg
+          src={isSelectedMenu(
+            "more",
+            SelectedCircleSelectedSvg,
+            SelectedCircleSvg
+          )}
+        />
+        <IconFrame fill={isSelectedMenu("more")}>
+          <MoreSvg size={30} />
+        </IconFrame>
+        <Typography color={isSelectedMenu("more")}>더보기</Typography>
+      </ItemFrame>
+    </NavigationBarFrame>
+  );
+};
+
 const NavigationBarFrame = styled.div`
   position: fixed;
   width: 100%;
@@ -38,24 +127,21 @@ const ItemFrame = styled.div`
   align-items: center;
   gap: 4px;
   flex-grow: 1;
-  color: ${props =>
-    props.selected
-      ? props.theme.colors.mainColor
-      : props.theme.colors.unselectedGray};
+  color: ${({ selected, theme }) =>
+    selected ? theme.colors.mainColor : theme.colors.unselectedGray};
 `;
 
 const TruckImg = styled.img`
   width: 42px;
   height: 30px;
   border: none;
-  fill: ${props => props.theme.colors[props.fill]};
-  color: red;
+  fill: ${({ fill, theme }) => theme.colors[fill]};
   object-fit: scale-down;
   object-position: center;
 `;
 
 const IconFrame = styled.div`
-  color: ${props => props.theme.colors[props.fill]};
+  color: ${({ theme, fill }) => theme.colors[fill]};
   height: 30px;
   object-fit: scale-down;
   object-position: center;
@@ -64,97 +150,7 @@ const IconFrame = styled.div`
 const SelectedCircleImg = styled.img`
   width: 6px;
   height: 6px;
-  fill: ${props => props.theme.colors[props.fill]};
-  color: red;
+  fill: ${({ theme, fill }) => theme.colors[fill]};
 `;
-
-const NavigationBar = ({ selected = "reserv" }) => {
-  const navigator = useNavigate();
-  const clickCheck = () => {
-    navigator(
-      getIsMember() === "true"
-        ? UrlMap.checkReservationPageUrl
-        : UrlMap.checkReservationGuestPageUrl
-    );
-  };
-  const clickReserv = () => {
-    navigator(UrlMap.choiceTranportTypeUrl);
-  };
-  const clickMore = () => {
-    navigator(UrlMap.morePageUrl);
-  };
-
-  return (
-    <NavigationBarFrame>
-      <ItemFrame
-        id="navigator__check"
-        className="navBarItem"
-        onClick={() => {
-          clickCheck();
-        }}
-      >
-        <SelectedCircleImg
-          src={
-            selected === "check" ? SelectedCircleSelectedSvg : SelectedCircleSvg
-          }
-        />
-        <IconFrame fill={selected === "check" ? "mainColor" : "unselectedGray"}>
-          <CheckSvg size={30} />
-        </IconFrame>
-        <Typography
-          color={selected === "check" ? "mainColor" : "unselectedGray"}
-        >
-          예약 확인
-        </Typography>
-      </ItemFrame>
-
-      <ItemFrame
-        id="navigator__reserv"
-        className="navBarItem"
-        onClick={() => {
-          clickReserv();
-        }}
-      >
-        <SelectedCircleImg
-          src={
-            selected === "reserv"
-              ? SelectedCircleSelectedSvg
-              : SelectedCircleSvg
-          }
-        />
-        <TruckImg
-          src={selected === "reserv" ? TruckSelectedSvg : TruckSvg}
-          fill={selected === "reserv" ? "mainColor" : "unselectedGray"}
-        />
-        <Typography
-          color={selected === "reserv" ? "mainColor" : "unselectedGray"}
-        >
-          용달 신청
-        </Typography>
-      </ItemFrame>
-      <ItemFrame
-        id="navigator__more"
-        className="navBarItem"
-        onClick={() => {
-          clickMore();
-        }}
-      >
-        <SelectedCircleImg
-          src={
-            selected === "more" ? SelectedCircleSelectedSvg : SelectedCircleSvg
-          }
-        />
-        <IconFrame fill={selected === "more" ? "mainColor" : "unselectedGray"}>
-          <MoreSvg size={30} />
-        </IconFrame>
-        <Typography
-          color={selected === "more" ? "mainColor" : "unselectedGray"}
-        >
-          더보기
-        </Typography>
-      </ItemFrame>
-    </NavigationBarFrame>
-  );
-};
 
 export default NavigationBar;
