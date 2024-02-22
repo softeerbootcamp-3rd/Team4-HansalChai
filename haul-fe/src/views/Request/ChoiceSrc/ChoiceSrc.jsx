@@ -10,6 +10,7 @@ import SearchMap from "../../../components/Map/SearchMap/SearchMap.jsx";
 import Input from "../../../components/Input/Input.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
+import MotionWrapper from "../../../components/MotionWrapper/MotionWrapper.jsx";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 import { isEmptyString } from "../../../utils/helper.js";
 import { showUserTime, checkSubmitDisabledFun, submitStore } from "./index.jsx";
@@ -66,85 +67,87 @@ const ChoiceSrc = () => {
   }, [mapInfo]);
 
   return (
-    <MobileLayout>
-      <Header>
-        HAUL<TypographySpan color="subColor">.</TypographySpan>
-      </Header>
-      <Margin height="24px" />
-      <Typography font="bold24">
-        <TypographySpan color="subColor">
-          {showUserTime(reservationTime)}
-        </TypographySpan>
-        에 뵈러 갈게요.
-      </Typography>
-      <Margin height="6px" />
-      <Typography font="bold24">
-        <TypographySpan color="subColor">출발지</TypographySpan>는 어딘가요?
-      </Typography>
-      <Margin height="20px" />
-      <SearchMap
-        setMapInfo={setMapInfo}
-        beforeName={srcName}
-        beforeAddress={srcAddress}
-        beforeLat={srcCoordinate.srcLatitude}
-        beforeLon={srcCoordinate.srcLongitude}
-      />
-      <Margin height="20px" />
-      <Typography font="bold16">상세주소</Typography>
-      <Margin height="10px" />
-      <Input
-        type="text"
-        size="small"
-        placeholder="상세주소를 입력해주세요."
-        defaultValue={srcDetailAddress}
-        onChange={({ target: { value } }) => {
-          inSrcDetailAddress.current = value;
-          checkSubmitDisabled(
-            checkSubmitDisabledFun({
-              mapInfo: mapInfo,
+    <MotionWrapper>
+      <MobileLayout>
+        <Header>
+          HAUL<TypographySpan color="subColor">.</TypographySpan>
+        </Header>
+        <Margin height="24px" />
+        <Typography font="bold24">
+          <TypographySpan color="subColor">
+            {showUserTime(reservationTime)}
+          </TypographySpan>
+          에 뵈러 갈게요.
+        </Typography>
+        <Margin height="6px" />
+        <Typography font="bold24">
+          <TypographySpan color="subColor">출발지</TypographySpan>는 어딘가요?
+        </Typography>
+        <Margin height="20px" />
+        <SearchMap
+          setMapInfo={setMapInfo}
+          beforeName={srcName}
+          beforeAddress={srcAddress}
+          beforeLat={srcCoordinate.srcLatitude}
+          beforeLon={srcCoordinate.srcLongitude}
+        />
+        <Margin height="20px" />
+        <Typography font="bold16">상세주소</Typography>
+        <Margin height="10px" />
+        <Input
+          type="text"
+          size="small"
+          placeholder="상세주소를 입력해주세요."
+          defaultValue={srcDetailAddress}
+          onChange={({ target: { value } }) => {
+            inSrcDetailAddress.current = value;
+            checkSubmitDisabled(
+              checkSubmitDisabledFun({
+                mapInfo: mapInfo,
+                inSrcDetailAddress: inSrcDetailAddress,
+                inSrcTel: inSrcTel
+              })
+            );
+          }}
+        />
+        <Margin height="20px" />
+        <Typography font="bold16">도착하면 누구에게 연락할까요?</Typography>
+        <Margin height="10px" />
+        <Input
+          type="tel"
+          size="small"
+          placeholder="도착하면 전화할 연락처를 알려주세요."
+          defaultValue={srcTel}
+          onChange={({ target: { value } }) => {
+            inSrcTel.current = value;
+            checkSubmitDisabled(
+              checkSubmitDisabledFun({
+                mapInfo: mapInfo,
+                inSrcDetailAddress: inSrcDetailAddress,
+                inSrcTel: inSrcTel
+              })
+            );
+          }}
+        />
+        <Margin height="30px" />
+        <BottomButton
+          role="main"
+          disabled={submitDisabled}
+          onClick={() => {
+            submitStore({
+              inSrcTel: inSrcTel,
               inSrcDetailAddress: inSrcDetailAddress,
-              inSrcTel: inSrcTel
-            })
-          );
-        }}
-      />
-      <Margin height="20px" />
-      <Typography font="bold16">도착하면 누구에게 연락할까요?</Typography>
-      <Margin height="10px" />
-      <Input
-        type="tel"
-        size="small"
-        placeholder="도착하면 전화할 연락처를 알려주세요."
-        defaultValue={srcTel}
-        onChange={({ target: { value } }) => {
-          inSrcTel.current = value;
-          checkSubmitDisabled(
-            checkSubmitDisabledFun({
               mapInfo: mapInfo,
-              inSrcDetailAddress: inSrcDetailAddress,
-              inSrcTel: inSrcTel
-            })
-          );
-        }}
-      />
-      <Margin height="30px" />
-      <BottomButton
-        role="main"
-        disabled={submitDisabled}
-        onClick={() => {
-          submitStore({
-            inSrcTel: inSrcTel,
-            inSrcDetailAddress: inSrcDetailAddress,
-            mapInfo: mapInfo,
-            setSrcInfo: setSrcInfo,
-            navigation: navigation
-          });
-        }}
-      >
-        선택완료
-      </BottomButton>
-      <NavigationBar />
-    </MobileLayout>
+              setSrcInfo: setSrcInfo,
+              navigation: navigation
+            });
+          }}
+        >
+          선택완료
+        </BottomButton>
+        <NavigationBar />
+      </MobileLayout>
+    </MotionWrapper>
   );
 };
 

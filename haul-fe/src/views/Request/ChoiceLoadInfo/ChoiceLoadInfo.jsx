@@ -12,6 +12,7 @@ import styled from "styled-components";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
+import MotionWrapper from "../../../components/MotionWrapper/MotionWrapper.jsx";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 import Loading from "../../Loading/Loading.jsx";
 import { SumbitStore, CheckSubmitDisabledFun } from "./index.jsx";
@@ -89,166 +90,168 @@ const ChoiceLoadInfo = () => {
   if (resultLoading) return <Loading />;
 
   return (
-    <MobileLayout>
-      <Header>
-        HAUL
-        <TypographySpan color="subColor">.</TypographySpan>
-      </Header>
-      <Margin height="24px" />
-      <Typography font="bold20">
-        <TypographySpan color="subColor">하울</TypographySpan>
-        에서 당신만을 위한 차를 <br />
-        보내드리기 위해 몇가지만 물어볼게요!
-      </Typography>
-      <Margin height="30px" />
-      <Typography font="bold16">
-        1. 무게가 대략적으로 몇 Kg정도 되나요?
-      </Typography>
-      <Margin height="12px" />
-      <Input
-        size="small"
-        placeholder="무게를 알려주세요"
-        defaultValue={cargoWeight}
-        onChange={({ target: { value } }) => {
-          inCargoWeight.current = value;
-          CheckSubmitDisabledFun({
-            inCargoWeight: inCargoWeight.current,
-            inCargoWidth: inCargoWidth.current,
-            inCargoLength: inCargoLength.current,
-            inCargoHeight: inCargoHeight.current,
-            submitDisabled: submitDisabled,
-            CheckSubmitDisabled: CheckSubmitDisabled
-          });
-        }}
-        unit="kg"
-        textAlign="right"
-      />
-      <Margin height="30px" />
-      <Typography font="bold16">
-        2. 짐 크기가 대략적으로 몇 cm 되나요?
-      </Typography>
-      <Margin height="20px" />
-      <Flex kind="flexBetweenAlignCenter">
-        <LoadInfoTypoBox>너비</LoadInfoTypoBox>
-        <InputWrapper>
-          <Input
-            size="small"
-            placeholder="짐의 너비를 알려주세요"
-            defaultValue={cargoWidth}
-            onChange={({ target: { value } }) => {
-              inCargoWidth.current = value;
-              CheckSubmitDisabledFun({
-                inCargoWeight: inCargoWeight.current,
-                inCargoWidth: inCargoWidth.current,
-                inCargoLength: inCargoLength.current,
-                inCargoHeight: inCargoHeight.current,
-                submitDisabled: submitDisabled,
-                CheckSubmitDisabled: CheckSubmitDisabled
-              });
-            }}
-            unit="cm"
-            textAlign="right"
-          />
-        </InputWrapper>
-      </Flex>
-
-      <Margin height="10px" />
-      <Flex kind="flexBetweenAlignCenter">
-        <LoadInfoTypoBox>길이</LoadInfoTypoBox>
-        <InputWrapper>
-          <Input
-            size="small"
-            placeholder="짐의 길이를 알려주세요"
-            defaultValue={cargoLength}
-            onChange={({ target: { value } }) => {
-              inCargoLength.current = value;
-              CheckSubmitDisabledFun({
-                inCargoWeight: inCargoWeight.current,
-                inCargoWidth: inCargoWidth.current,
-                inCargoLength: inCargoLength.current,
-                inCargoHeight: inCargoHeight.current,
-                submitDisabled: submitDisabled,
-                CheckSubmitDisabled: CheckSubmitDisabled
-              });
-            }}
-            unit="cm"
-            textAlign="right"
-          />
-        </InputWrapper>
-      </Flex>
-
-      <Margin height="10px" />
-      <Flex kind="flexBetweenAlignCenter">
-        <LoadInfoTypoBox>높이</LoadInfoTypoBox>
-        <InputWrapper>
-          <Input
-            size="small"
-            placeholder="짐의 높이를 알려주세요"
-            defaultValue={cargoHeight}
-            onChange={({ target: { value } }) => {
-              inCargoHeight.current = value;
-              CheckSubmitDisabledFun({
-                inCargoWeight: inCargoWeight.current,
-                inCargoWidth: inCargoWidth.current,
-                inCargoLength: inCargoLength.current,
-                inCargoHeight: inCargoHeight.current,
-                submitDisabled: submitDisabled,
-                CheckSubmitDisabled: CheckSubmitDisabled
-              });
-            }}
-            unit="cm"
-            textAlign="right"
-          />
-        </InputWrapper>
-      </Flex>
-
-      <Margin height="30px" />
-      <Typography font="bold16">
-        3. 짐에 어떤 특이사항이 있나요? (중복 선택 가능)
-      </Typography>
-      <Margin height="12px" />
-      <SpecialBtnBox>
-        {inSpecialNotes.map((specialNote, index) => (
-          <SmallBtn
-            key={index}
-            isClick={specialNote.selected}
-            onClick={() => {
-              setInSpecialNotes(
-                inSpecialNotes.map((note, noteIndex) => {
-                  if (noteIndex !== index) return note;
-                  return { ...note, selected: !note.selected };
-                })
-              );
-            }}
-          >
-            {specialNote.note}
-          </SmallBtn>
-        ))}
-      </SpecialBtnBox>
-      <FixedCenterBox bottom="100px">
-        <BottomButton
-          role="main"
-          disabled={submitDisabled}
-          onClick={() => {
-            SumbitStore({
-              inCargoWeight: inCargoWeight,
-              inCargoWidth: inCargoWidth,
-              inCargoLength: inCargoLength,
-              inCargoHeight: inCargoHeight,
-              setRoadInfo: setRoadInfo,
-              navigate: navigate,
-              setResultLoading: setResultLoading,
-              transportType: transportType,
-              inSpecialNotes: inSpecialNotes,
-              getReservationState: getReservationState
+    <MotionWrapper>
+      <MobileLayout>
+        <Header>
+          HAUL
+          <TypographySpan color="subColor">.</TypographySpan>
+        </Header>
+        <Margin height="24px" />
+        <Typography font="bold20">
+          <TypographySpan color="subColor">하울</TypographySpan>
+          에서 당신만을 위한 차를 <br />
+          보내드리기 위해 몇가지만 물어볼게요!
+        </Typography>
+        <Margin height="30px" />
+        <Typography font="bold16">
+          1. 무게가 대략적으로 몇 Kg정도 되나요?
+        </Typography>
+        <Margin height="12px" />
+        <Input
+          size="small"
+          placeholder="무게를 알려주세요"
+          defaultValue={cargoWeight}
+          onChange={({ target: { value } }) => {
+            inCargoWeight.current = value;
+            CheckSubmitDisabledFun({
+              inCargoWeight: inCargoWeight.current,
+              inCargoWidth: inCargoWidth.current,
+              inCargoLength: inCargoLength.current,
+              inCargoHeight: inCargoHeight.current,
+              submitDisabled: submitDisabled,
+              CheckSubmitDisabled: CheckSubmitDisabled
             });
           }}
-        >
-          선택 완료
-        </BottomButton>
-      </FixedCenterBox>
-      <NavigationBar />
-    </MobileLayout>
+          unit="kg"
+          textAlign="right"
+        />
+        <Margin height="30px" />
+        <Typography font="bold16">
+          2. 짐 크기가 대략적으로 몇 cm 되나요?
+        </Typography>
+        <Margin height="20px" />
+        <Flex kind="flexBetweenAlignCenter">
+          <LoadInfoTypoBox>너비</LoadInfoTypoBox>
+          <InputWrapper>
+            <Input
+              size="small"
+              placeholder="짐의 너비를 알려주세요"
+              defaultValue={cargoWidth}
+              onChange={({ target: { value } }) => {
+                inCargoWidth.current = value;
+                CheckSubmitDisabledFun({
+                  inCargoWeight: inCargoWeight.current,
+                  inCargoWidth: inCargoWidth.current,
+                  inCargoLength: inCargoLength.current,
+                  inCargoHeight: inCargoHeight.current,
+                  submitDisabled: submitDisabled,
+                  CheckSubmitDisabled: CheckSubmitDisabled
+                });
+              }}
+              unit="cm"
+              textAlign="right"
+            />
+          </InputWrapper>
+        </Flex>
+
+        <Margin height="10px" />
+        <Flex kind="flexBetweenAlignCenter">
+          <LoadInfoTypoBox>길이</LoadInfoTypoBox>
+          <InputWrapper>
+            <Input
+              size="small"
+              placeholder="짐의 길이를 알려주세요"
+              defaultValue={cargoLength}
+              onChange={({ target: { value } }) => {
+                inCargoLength.current = value;
+                CheckSubmitDisabledFun({
+                  inCargoWeight: inCargoWeight.current,
+                  inCargoWidth: inCargoWidth.current,
+                  inCargoLength: inCargoLength.current,
+                  inCargoHeight: inCargoHeight.current,
+                  submitDisabled: submitDisabled,
+                  CheckSubmitDisabled: CheckSubmitDisabled
+                });
+              }}
+              unit="cm"
+              textAlign="right"
+            />
+          </InputWrapper>
+        </Flex>
+
+        <Margin height="10px" />
+        <Flex kind="flexBetweenAlignCenter">
+          <LoadInfoTypoBox>높이</LoadInfoTypoBox>
+          <InputWrapper>
+            <Input
+              size="small"
+              placeholder="짐의 높이를 알려주세요"
+              defaultValue={cargoHeight}
+              onChange={({ target: { value } }) => {
+                inCargoHeight.current = value;
+                CheckSubmitDisabledFun({
+                  inCargoWeight: inCargoWeight.current,
+                  inCargoWidth: inCargoWidth.current,
+                  inCargoLength: inCargoLength.current,
+                  inCargoHeight: inCargoHeight.current,
+                  submitDisabled: submitDisabled,
+                  CheckSubmitDisabled: CheckSubmitDisabled
+                });
+              }}
+              unit="cm"
+              textAlign="right"
+            />
+          </InputWrapper>
+        </Flex>
+
+        <Margin height="30px" />
+        <Typography font="bold16">
+          3. 짐에 어떤 특이사항이 있나요? (중복 선택 가능)
+        </Typography>
+        <Margin height="12px" />
+        <SpecialBtnBox>
+          {inSpecialNotes.map((specialNote, index) => (
+            <SmallBtn
+              key={index}
+              isClick={specialNote.selected}
+              onClick={() => {
+                setInSpecialNotes(
+                  inSpecialNotes.map((note, noteIndex) => {
+                    if (noteIndex !== index) return note;
+                    return { ...note, selected: !note.selected };
+                  })
+                );
+              }}
+            >
+              {specialNote.note}
+            </SmallBtn>
+          ))}
+        </SpecialBtnBox>
+        <FixedCenterBox bottom="100px">
+          <BottomButton
+            role="main"
+            disabled={submitDisabled}
+            onClick={() => {
+              SumbitStore({
+                inCargoWeight: inCargoWeight,
+                inCargoWidth: inCargoWidth,
+                inCargoLength: inCargoLength,
+                inCargoHeight: inCargoHeight,
+                setRoadInfo: setRoadInfo,
+                navigate: navigate,
+                setResultLoading: setResultLoading,
+                transportType: transportType,
+                inSpecialNotes: inSpecialNotes,
+                getReservationState: getReservationState
+              });
+            }}
+          >
+            선택 완료
+          </BottomButton>
+        </FixedCenterBox>
+        <NavigationBar />
+      </MobileLayout>
+    </MotionWrapper>
   );
 };
 

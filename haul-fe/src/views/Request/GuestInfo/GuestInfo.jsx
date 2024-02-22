@@ -10,6 +10,7 @@ import Input from "../../../components/Input/Input.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import Loading from "../../Loading/Loading.jsx";
+import MotionWrapper from "../../../components/MotionWrapper/MotionWrapper.jsx";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 import { checkGuestInfoAbled, guestInfoBtnFun } from "./index.jsx";
 
@@ -41,80 +42,82 @@ const GuestInfo = () => {
   if (resultLoading) return <Loading />;
 
   return (
-    <MobileLayout>
-      <Header>
-        HAUL<TypographySpan color="subColor">.</TypographySpan>
-      </Header>
-      <Margin height="24px" />
-      <Typography font="bold24">소중한 고객님의</Typography>
-      <Margin height="6px" />
-      <Typography font="bold24">
-        <TypographySpan color="subColor">이름</TypographySpan>과
-        <TypographySpan color="subColor" style={{ marginLeft: "5px" }}>
-          전화번호
-        </TypographySpan>
-        를 알려주세요.
-      </Typography>
-      <Margin height="40px" />
-      <Typography font="semiBold20">이름</Typography>
-      <Margin height="10px" />
-      <form>
-        <Input
-          size="big"
-          type="text"
-          placeholder="Your Name"
-          defaultValue={guestName}
-          onChange={({ target: { value } }) => {
-            inGuestName.current = value;
-            checkGuestInfoAbled({
-              inGuestName: inGuestName,
-              inGuestTel: inGuestTel,
-              isButtonDisabled: isButtonDisabled,
-              setButtonDisabled: setButtonDisabled
-            });
-          }}
-        />
-        <Margin height="20px" />
-        <Typography font="semiBold20">전화번호</Typography>
+    <MotionWrapper>
+      <MobileLayout>
+        <Header>
+          HAUL<TypographySpan color="subColor">.</TypographySpan>
+        </Header>
+        <Margin height="24px" />
+        <Typography font="bold24">소중한 고객님의</Typography>
+        <Margin height="6px" />
+        <Typography font="bold24">
+          <TypographySpan color="subColor">이름</TypographySpan>과
+          <TypographySpan color="subColor" style={{ marginLeft: "5px" }}>
+            전화번호
+          </TypographySpan>
+          를 알려주세요.
+        </Typography>
+        <Margin height="40px" />
+        <Typography font="semiBold20">이름</Typography>
         <Margin height="10px" />
-        <Input
-          size="big"
-          type="tel"
-          defaultValue={guestTel}
-          placeholder="Phone Number"
-          onChange={({ target: { value } }) => {
-            inGuestTel.current = value;
-            checkGuestInfoAbled({
-              inGuestName: inGuestName,
-              inGuestTel: inGuestTel,
-              isButtonDisabled: isButtonDisabled,
-              setButtonDisabled: setButtonDisabled
-            });
-          }}
-        />
-      </form>
-      <FixedCenterBox bottom="30px">
-        <BottomButton
-          type="submit"
-          role="main"
-          disabled={isButtonDisabled}
-          onClick={() => {
-            guestInfoBtnFun({
-              inGuestName: inGuestName,
-              inGuestTel: inGuestTel,
-              setGuestInfo: setGuestInfo,
-              getReservationState: getReservationState,
-              setResultLoading: setResultLoading,
-              navigate: navigate
-            });
-          }}
-        >
-          정보 입력 완료
-        </BottomButton>
-        <Margin height="10px" />
-      </FixedCenterBox>
-      <Margin height="100px" />
-    </MobileLayout>
+        <form>
+          <Input
+            size="big"
+            type="text"
+            placeholder="Your Name"
+            defaultValue={guestName}
+            onChange={({ target: { value } }) => {
+              inGuestName.current = value;
+              checkGuestInfoAbled({
+                inGuestName: inGuestName,
+                inGuestTel: inGuestTel,
+                isButtonDisabled: isButtonDisabled,
+                setButtonDisabled: setButtonDisabled
+              });
+            }}
+          />
+          <Margin height="20px" />
+          <Typography font="semiBold20">전화번호</Typography>
+          <Margin height="10px" />
+          <Input
+            size="big"
+            type="tel"
+            defaultValue={guestTel}
+            placeholder="Phone Number"
+            onChange={({ target: { value } }) => {
+              inGuestTel.current = value;
+              checkGuestInfoAbled({
+                inGuestName: inGuestName,
+                inGuestTel: inGuestTel,
+                isButtonDisabled: isButtonDisabled,
+                setButtonDisabled: setButtonDisabled
+              });
+            }}
+          />
+        </form>
+        <FixedCenterBox bottom="30px">
+          <BottomButton
+            type="submit"
+            role="main"
+            disabled={isButtonDisabled}
+            onClick={() => {
+              guestInfoBtnFun({
+                inGuestName: inGuestName,
+                inGuestTel: inGuestTel,
+                setGuestInfo: setGuestInfo,
+                getReservationState: getReservationState,
+                setResultLoading: setResultLoading,
+                navigate: navigate
+              });
+            }}
+          >
+            정보 입력 완료
+          </BottomButton>
+          <Margin height="10px" />
+        </FixedCenterBox>
+        <Margin height="100px" />
+      </MobileLayout>
+    </MotionWrapper>
   );
 };
 
