@@ -62,4 +62,8 @@ public class ReservationUtil {
 		else
 			return 500 * Math.log(90 * cargoWeight - 5500) - 4000;
 	}
+	
+	public static String getCarEnumTypeToWeight(int type){
+		return (double)type / 1000 + "톤";
+	}
 }

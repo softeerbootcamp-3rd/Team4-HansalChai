@@ -82,9 +82,10 @@ public class Reservation extends BaseTime {
 	private double distance;
 
 	@Builder
-	public Reservation(Users user, Owner owner, Cargo cargo, CargoOption cargoOption, Source source,
+	public Reservation(Long reservationId, Users user, Owner owner, Cargo cargo, CargoOption cargoOption, Source source,
 		Destination destination, Transport transport, Car car, String number, LocalDate date, LocalTime time, int count,
 		double distance) {
+		this.reservationId = reservationId;
 		this.user = user;
 		this.owner = owner;
 		this.cargo = cargo;

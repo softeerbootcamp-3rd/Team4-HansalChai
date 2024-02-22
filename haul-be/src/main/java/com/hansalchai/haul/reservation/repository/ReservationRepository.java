@@ -1,15 +1,20 @@
 package com.hansalchai.haul.reservation.repository;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.hansalchai.haul.reservation.entity.Reservation;
+
+import jakarta.persistence.LockModeType;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 	@Query(value = "select v from Reservation v where v.user.userId = :userId order by v.date, v.time")
@@ -66,4 +71,20 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 		+ "order by r.date, r.time")
 	Page<Reservation> findAllOrderByDateTime(@Param("carId") Long carId, Pageable pageable);
 
+	@Query("select r "
+		+ "from Reservation r "
+		+ "where r.owner.ownerId = :driverId "
+		+ "and r.date between :prevDate and :today "
+		+ "and r.transport.transportStatus in ('NOT_STARTED', 'IN_PROGRESS')")
+	List<Reservation> findScheduleOfDriver(
+		@Param("driverId") Long driverId,
+		@Param("prevDate") LocalDate prevDate,
+		@Param("today") LocalDate today);
+
+	@Query(value = "select r from Reservation r where r.owner.user.userId = :userId and r.transport.transportStatus = 'IN_PROGRESS'")
+	List<Reservation> findByDriverIdInProgress(@Param("userId")Long id);
+
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
+	@Query("select r from Reservation r where r.id = :id")
+	Optional<Reservation> findByIdWithPessimisticLock(@Param("id") Long id);
 }

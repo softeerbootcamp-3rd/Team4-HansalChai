@@ -1,9 +1,12 @@
 package com.hansalchai.haul.order.service;
 
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.hansalchai.haul.common.utils.ErrorCode.*;
+import static com.hansalchai.haul.common.utils.OrderUtil.*;
 import static com.hansalchai.haul.common.utils.SidoGraph.*;
 import static com.hansalchai.haul.order.dto.OrderSearchResponse.*;
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
@@ -91,31 +94,85 @@ public class OrderService {
 	}
 
 	@Transactional
-	public void approve(Long driverId, ApproveRequestDto approveRequestDto) {
+	public void approve(Long userId, ApproveRequestDto approveRequestDto) {
 
-		// 1. 예약 정보 가져오기
 		Reservation reservation = reservationRepository.findById(approveRequestDto.getId())
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
 
-		// 1.5. 기사가 배정되어있으면 오더 승인 불가
+		// 기사가 배정되어있으면 오더 승인 불가
 		if (reservation.getOwner() != null) {
 			throw new ConflictException(ALREADY_ASSIGNED_DRIVER);
 		}
 
-		// 2. 기사 정보 가져오기
-		Owner owner = ownerRepository.findByDriverId(driverId)
+		Owner owner = ownerRepository.findByDriverId(userId)
 			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
 
-		// 3. 예약에 기사 배정 정보 저장, 운송 상태를 '운송 전'으로 변경
+		// 예약에 기사 배정 정보 저장, 운송 상태를 '운송 전'으로 변경
 		reservation.setDriver(owner);
 		Transport transport = reservation.getTransport();
 		transport.updateTransportStatus(NOT_STARTED);
 
 		// 4. 배정 알림을 고객에게 sms로 전송
-		String customerTel = reservation.getUser().getTel();
-		String reservationNumber = reservation.getNumber();
-		smsUtil.send(customerTel, reservationNumber);
+		// String customerTel = reservation.getUser().getTel();
+		// String reservationNumber = reservation.getNumber();
+		// smsUtil.send(customerTel, reservationNumber);
 	}
+
+	@Transactional
+	public void approveV2(Long userId, ApproveRequestDto approveRequestDto) {
+
+		Reservation reservation = reservationRepository.findByIdWithPessimisticLock(approveRequestDto.getId())
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+
+		// 기사가 배정되어있으면 오더 승인 불가
+		if (reservation.getOwner() != null) {
+			throw new ConflictException(ALREADY_ASSIGNED_DRIVER);
+		}
+
+		Owner owner = ownerRepository.findByDriverId(userId)
+			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
+
+		// 겹치는 오더가 있으면 오더 승인 불가
+		if (isScheduleOverlap(owner.getOwnerId(), reservation)) {
+			throw new ConflictException(SCHEDULE_CONFLICT);
+		}
+
+		// 예약에 기사 배정 정보 저장, 운송 상태를 '운송 전'으로 변경
+		reservation.setDriver(owner);
+		Transport transport = reservation.getTransport();
+		transport.updateTransportStatus(NOT_STARTED);
+
+		// 4. 배정 알림을 고객에게 sms로 전송
+		// String customerTel = reservation.getUser().getTel();
+		// String reservationNumber = reservation.getNumber();
+		// smsUtil.send(customerTel, reservationNumber);
+	}
+
+	private boolean isScheduleOverlap(Long driverId, Reservation newOrder) {
+
+		long requiredTime = (long)(newOrder.getTransport().getRequiredTime() * 60);
+		LocalDateTime newOrderStartDateTime = LocalDateTime.of(newOrder.getDate(), newOrder.getTime());
+		LocalDateTime newOrderEndDateTime = newOrderStartDateTime.plusMinutes(requiredTime);
+
+		// 기사 스케줄 리스트 조회
+		LocalDate today = newOrder.getDate();
+		List<Reservation> myOrders
+			= reservationRepository.findScheduleOfDriver(driverId, today.minusDays(1), today);
+
+		for (Reservation myOrder : myOrders) {
+			requiredTime = (long)(myOrder.getTransport().getRequiredTime() * 60);
+			LocalDateTime myOrderStartDateTime = LocalDateTime.of(myOrder.getDate(), myOrder.getTime());
+			LocalDateTime myOrderEndDateTime = myOrderStartDateTime.plusMinutes(requiredTime);
+
+			// 스케줄이 중첩되는 경우
+			if (!((newOrderStartDateTime.isBefore(myOrderStartDateTime) && newOrderEndDateTime.isBefore(myOrderStartDateTime)) ||
+				(newOrderStartDateTime.isAfter(myOrderEndDateTime) && newOrderEndDateTime.isAfter(myOrderEndDateTime)))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Transactional
 	public OrderDTO getOrder(String keyword, int page, Long userId) {
 		Users user = usersRepository.findById(userId)
@@ -171,10 +228,9 @@ public class OrderService {
 		if (transportStatus.equals(DONE)) {
 			throw new BadRequestException(ALREADY_DELIVERED);
 		}
+
 		TransportStatus nextStatus = TransportStatus.getNextStatus(transportStatus);
-
 		transport.updateTransportStatus(nextStatus);
-
 		return new TransportStatusChange.ResponseDto(reservation);
 	}
 
@@ -216,5 +272,53 @@ public class OrderService {
 
 		// 응답 형태로 변환해서 반환
 		return new OrderSearchResponse(orders, isLastPage);
+	}
+	
+	@Transactional
+	public TransportStatusChange.ResponseDtoV2 changeTransportStatusV2(
+			Long userId,
+			TransportStatusChange.RequestDtoV2 requestDto) {
+
+		Reservation reservation = reservationRepository.findById(requestDto.getId())
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+
+		Owner owner = reservation.getOwner();
+		if (!userId.equals(owner.getUser().getUserId())) {
+			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
+		}
+
+		Transport transport = reservation.getTransport();
+		TransportStatus transportStatus = transport.getTransportStatus();
+
+		if (transportStatus.equals(DONE)) {
+			throw new BadRequestException(ALREADY_DELIVERED);
+		}
+
+		if (hasInProgressOrder(userId, reservation.getReservationId())) {
+			return TransportStatusChange.ResponseDtoV2.builder()
+				.hasInProgressOrder(true)
+				.isDriverNearBy(false)
+				.build();
+		}
+
+		if (!isNearPoint(requestDto, reservation, transportStatus)) {
+			return TransportStatusChange.ResponseDtoV2.builder()
+				.hasInProgressOrder(false)
+				.isDriverNearBy(false)
+				.build();
+		}
+
+		TransportStatus nextStatus = TransportStatus.getNextStatus(transportStatus);
+		transport.updateTransportStatus(nextStatus);
+		return TransportStatusChange.ResponseDtoV2.builder()
+			.hasInProgressOrder(false)
+			.isDriverNearBy(true)
+			.build();
+	}
+
+	//운송 중인 오더가 있는지 확인
+	private boolean hasInProgressOrder(Long driverId, Long orderId) {
+		List<Reservation> ordersInProgress = reservationRepository.findByDriverIdInProgress(driverId);
+		return !ordersInProgress.stream().allMatch(order -> order.getReservationId().equals(orderId));
 	}
 }

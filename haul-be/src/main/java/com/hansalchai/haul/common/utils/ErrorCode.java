@@ -13,6 +13,7 @@ public enum ErrorCode {
 	PAGE_NOT_FOUND(NOT_FOUND, 1001, "요청한 페이지를 찾을 수 없습니다."),
 	UNAUTHORIZED_ACCESS(FORBIDDEN, 1002, "리소스 접근 권한이 없습니다."),
 	UNSUPPORTED_QUERY_VALUE(BAD_REQUEST, 1003, "지원하지 않는 쿼리스트링 값입니다."),
+	INVALID_DATA(BAD_REQUEST, 1004, "입력한 데이터가 유효하지 않습니다."),
 
 	//Not Found
 	USER_NOT_FOUND(NOT_FOUND, 1101, "사용자를 찾을 수 없습니다."),
@@ -40,7 +41,8 @@ public enum ErrorCode {
 
 	// 오더
 	ALREADY_ASSIGNED_DRIVER(CONFLICT, 4001, "이미 드라이버가 배정된 예약입니다."),
-	ALREADY_DELIVERED(CONFLICT, 4002, "이미 운송 완료된 오더입니다.");
+	ALREADY_DELIVERED(CONFLICT, 4002, "이미 운송 완료된 오더입니다."),
+	SCHEDULE_CONFLICT(CONFLICT, 4003, "해당 오더와 시간이 겹치는 다른 오더가 있습니다.");
 
 
 

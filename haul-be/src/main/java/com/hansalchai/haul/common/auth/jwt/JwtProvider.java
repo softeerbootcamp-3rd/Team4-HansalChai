@@ -10,7 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.hansalchai.haul.common.auth.handler.FilterExceptionHandler;
+import com.hansalchai.haul.common.utils.ErrorCode;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -22,7 +22,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -88,14 +87,16 @@ public class JwtProvider {
 		return header.split(" ")[1];
 	}
 
-	public void validateToken(HttpServletResponse response, String token) {
+	public ErrorCode validateToken(String token) {
 		try {
 			getClaims(token);
+			return null;
 		} catch (MalformedJwtException | SignatureException | UnsupportedJwtException | IllegalArgumentException exception) {
 			exception.printStackTrace();
-			FilterExceptionHandler.sendError(response, INVALID_TOKEN);
+			return INVALID_TOKEN;
 		} catch (ExpiredJwtException exception) {
-			FilterExceptionHandler.sendError(response, EXPIRED_TOKEN);
+			exception.printStackTrace();
+			return EXPIRED_TOKEN;
 		}
 	}
 }

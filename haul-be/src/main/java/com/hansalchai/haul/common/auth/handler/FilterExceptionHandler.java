@@ -19,6 +19,8 @@ public class FilterExceptionHandler {
 		response.setStatus(errorCode.getStatus().value());
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
+		String logMessage = String.format("JwtValidationFilter : %s - %s", errorCode.getStatus(),  errorCode.getMessage());
+		log.info(logMessage);
 		try {
 			String json = new ObjectMapper().writeValueAsString(ApiResponse.error(errorCode));
 			response.getWriter().write(json);
