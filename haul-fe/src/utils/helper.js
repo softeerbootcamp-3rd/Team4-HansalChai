@@ -38,3 +38,8 @@ export function functionBinder(func, bindargs) {
     return func({ ...bindargs, ...args });
   };
 }
+
+// useNavigate를 이용해 페이지 이동만 할 때 사용하는 함수
+export const makeNavigator = (navigator, link) => {
+  return () => navigator(link);
+};

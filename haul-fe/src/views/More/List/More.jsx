@@ -13,6 +13,7 @@ import {
   notMemberLogoutFun
 } from "../../../utils/localStorage.js";
 import { UrlMap } from "../../../data/GlobalVariable.js";
+import { makeNavigator } from "../../../utils/helper.js";
 
 const ListItem = styled.div`
   width: 100%;
@@ -23,18 +24,6 @@ const ListItem = styled.div`
 
 const More = () => {
   const navigate = useNavigate();
-
-  const clickUserInfo = () => {
-    navigate(UrlMap.moreUserInfoPageUrl);
-  };
-
-  const clickUserPayment = () => {
-    navigate(UrlMap.moreUserPayments);
-  };
-
-  const clickTerms = () => {
-    navigate(UrlMap.moreUserTems);
-  };
 
   const clickLogin = () => {
     notMemberLogoutFun();
@@ -61,19 +50,28 @@ const More = () => {
       <Flex kind="flexColumn">
         {isMemberLogin() && (
           <>
-            <ListItem id={"more__user-info"} onClick={clickUserInfo}>
+            <ListItem
+              id={"more__user-info"}
+              onClick={makeNavigator(navigate, UrlMap.moreUserInfoPageUrl)}
+            >
               <Typography font={"medium16"}>내 정보</Typography>
               <ArrowIcon />
             </ListItem>
             <UnderBar />
-            <ListItem id={"more__user-payment"} onClick={clickUserPayment}>
+            <ListItem
+              id={"more__user-payment"}
+              onClick={makeNavigator(navigate, UrlMap.moreUserPayments)}
+            >
               <Typography font={"medium16"}>내 결제수단</Typography>
               <ArrowIcon />
             </ListItem>
             <UnderBar />
           </>
         )}
-        <ListItem id={"more__terms"} onClick={clickTerms}>
+        <ListItem
+          id={"more__terms"}
+          onClick={makeNavigator(navigate, UrlMap.moreUserTems)}
+        >
           <Typography font={"medium16"}>약관 및 정책</Typography>
           <ArrowIcon />
         </ListItem>
