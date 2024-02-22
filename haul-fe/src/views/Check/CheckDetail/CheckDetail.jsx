@@ -34,6 +34,67 @@ const ReservItemFrame = styled(Flex)`
   overflow-y: scroll;
 `;
 
+const ErrorNoMessageMap = {
+  1002: ErrorMessageMap.NoPermission,
+  1103: ErrorMessageMap.ReservationNotFound
+};
+
+const dataSetter = async ({
+  reservationID,
+  setDetailData,
+  setIsLoaded,
+  navigator
+}) => {
+  let response;
+  try {
+    response =
+      getIsMember() !== "false"
+        ? await getUserReservationDetails({ reservationID })
+        : await getGuestReservationDetails({ reservationID });
+    if (!response.success) {
+      if (isTokenInvalid(response.code)) navigator(UrlMap.loginPageUrl);
+      const message = ErrorNoMessageMap[response.code];
+      ToastMaker({
+        type: "error",
+        children: message ? message : ErrorMessageMap.UnknownError
+      });
+      navigator(-1);
+    }
+  } catch (res) {
+    console.error("Get User Reservation Summary error:", res.error);
+    ToastMaker({
+      type: "error",
+      children: res.message
+    });
+    navigator(-1);
+  }
+
+  const { car, src, dst, cost, requiredTime } = response.data;
+  let { driver } = response.data;
+  const srcCoordinate = { lat: src.latitude, lng: src.longitude };
+  const dstCoordinate = { lat: dst.latitude, lng: dst.longitude };
+
+  if (!driver) {
+    driver = { name: null, tel: null, photo: null };
+  }
+
+  setDetailData(() => {
+    return {
+      driver,
+      car,
+      src,
+      dst,
+      srcCoordinate,
+      dstCoordinate,
+      cost,
+      requiredTime,
+      phase: phaseMap[response.data.status]
+    };
+  });
+
+  setIsLoaded(true);
+};
+
 const CheckDetail = () => {
   const [detailData, setDetailData] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
@@ -42,65 +103,8 @@ const CheckDetail = () => {
   const navigator = useNavigate();
 
   useEffect(() => {
-    dataSetter({ reservationID, setDetailData, setIsLoaded });
+    dataSetter({ reservationID, setDetailData, setIsLoaded, navigator });
   }, []);
-
-  const dataSetter = async ({ reservationID, setDetailData, setIsLoaded }) => {
-    const response =
-      getIsMember() !== "false"
-        ? await getUserReservationDetails({ reservationID })
-        : await getGuestReservationDetails({ reservationID });
-    if (!response.success) {
-      switch (response.code) {
-        case 1002: //리소스 권한 없음
-          ToastMaker({
-            type: "error",
-            children: ErrorMessageMap.NoPermission
-          });
-          navigator(-1);
-          break;
-        case 1103: //예약 정보 없음
-          ToastMaker({
-            type: "error",
-            children: ErrorMessageMap.ReservationNotFound
-          });
-          navigator(-1);
-          break;
-        default:
-          if (isTokenInvalid(response.code)) navigator(UrlMap.loginPageUrl);
-          ToastMaker({
-            type: "error",
-            children: ErrorMessageMap.UnknownError
-          });
-          navigator(-1);
-      }
-    }
-
-    const { car, src, dst, cost, requiredTime } = response.data;
-    let { driver } = response.data;
-    const srcCoordinate = { lat: src.latitude, lng: src.longitude };
-    const dstCoordinate = { lat: dst.latitude, lng: dst.longitude };
-
-    if (!driver) {
-      driver = { name: null, tel: null, photo: null };
-    }
-
-    setDetailData(() => {
-      return {
-        driver,
-        car,
-        src,
-        dst,
-        srcCoordinate,
-        dstCoordinate,
-        cost,
-        requiredTime,
-        phase: phaseMap[response.data.status]
-      };
-    });
-
-    setIsLoaded(true);
-  };
 
   return (
     <MobileLayout>
