@@ -27,12 +27,6 @@ const typeColor = {
 };
 
 const typeBackground = {
-  /*
-  success: theme.colors.successBackground,
-  error: theme.colors.errorBackground,
-  warning: theme.colors.warningBackground,
-  info: theme.colors.infoBackground,
-  */
   success: theme.colors.successColor,
   error: theme.colors.errorColor,
   warning: theme.colors.warningColor,
