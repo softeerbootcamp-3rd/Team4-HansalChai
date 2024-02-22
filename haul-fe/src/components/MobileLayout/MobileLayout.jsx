@@ -3,21 +3,19 @@ import { MaxDeviceWidth, MinDeviceWidth } from "../../data/GlobalVariable.js";
 
 const Background = styled.div`
   width: 100%;
-  height: auto;
+  height: 100vh;
   ${props => props.theme.flex.flexRowCenter};
   background-color: ${props => props.theme.colors.realBlack};
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto;
 `;
 
 const Mobile = styled.div`
   width: ${MaxDeviceWidth};
   min-width: ${({ minWidth }) => minWidth ?? MinDeviceWidth};
   min-height: 800px;
-  height: 100vh;
+  height: 100%;
   margin: 0px auto;
   padding: 0px 20px;
-  ${props => props.theme.flex.flexColumn};
   background-color: ${props =>
     props.color ? props.theme.colors[props.color] : props.theme.colors.white};
   overflow-x: hidden;
