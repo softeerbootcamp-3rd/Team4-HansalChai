@@ -28,10 +28,10 @@ class CargoFeeTableTest {
 			.width(10)
 			.weight(30000)
 			.build();
-		Car car1 = new Car(CarType.TRUCK500,"포터2", null, 200, 200, 200, 1000, CarCategory.DEFAULT, true);
-		Car car2 = new Car(CarType.TRUCK1000,"포터2", null, 200, 200, 200, 1000, CarCategory.DEFAULT, true);
-		Car car3 = new Car(CarType.TRUCK5000,"포터2", null, 200, 200, 200, 1000, CarCategory.DEFAULT, true);
-		Car car4 = new Car(CarType.TRUCK15000,"포터2", null, 200, 200, 200, 1000, CarCategory.DEFAULT, true);
+		Car car1 = new Car(1L, CarType.TRUCK500,"포터2", null, 200, 200, 200, 1000, CarCategory.DEFAULT, true);
+		Car car2 = new Car(2L, CarType.TRUCK1000,"포터2", null, 200, 200, 200, 1000, CarCategory.DEFAULT, true);
+		Car car3 = new Car(3L, CarType.TRUCK5000,"포터2", null, 200, 200, 200, 1000, CarCategory.DEFAULT, true);
+		Car car4 = new Car(4L, CarType.TRUCK15000,"포터2", null, 200, 200, 200, 1000, CarCategory.DEFAULT, true);
 		int val1 = 6000;
 		int val2 = 400;
 		//6000kg 400km일때 8T트럭 1대 707000원
