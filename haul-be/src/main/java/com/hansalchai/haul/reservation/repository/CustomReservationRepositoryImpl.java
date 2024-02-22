@@ -59,9 +59,10 @@ public class CustomReservationRepositoryImpl  implements CustomReservationReposi
 	@Override
 	public List<Reservation> findAllOrdersV2(Long carId, ArrayList<String> sidoArray, Pageable pageable) {
 		return jpaQueryFactory.selectFrom(reservation)
+			.join(reservation.transport, transport)
 			.join(reservation.source, source)
 			.where(
-				reservation.transport.transportStatus.eq(TransportStatus.PENDING),
+				transport.transportStatus.eq(TransportStatus.PENDING),
 				reservation.car.carId.eq(carId),
 				isAfterCurrentTimestamp,
 				source.sido.in(sidoArray)
@@ -91,8 +92,10 @@ public class CustomReservationRepositoryImpl  implements CustomReservationReposi
 	@Override
 	public List<Reservation> findAllOrderByDateTimeV2(Long carId, ArrayList<String> sidoArray, Pageable pageable) {
 		return jpaQueryFactory.selectFrom(reservation)
+			.join(reservation.transport, transport)
 			.join(reservation.source, source)
-			.where(reservation.transport.transportStatus.eq(TransportStatus.PENDING),
+			.where(
+				transport.transportStatus.eq(TransportStatus.PENDING),
 				reservation.car.carId.eq(carId),
 				isAfterCurrentTimestamp,
 				source.sido.in(sidoArray))
