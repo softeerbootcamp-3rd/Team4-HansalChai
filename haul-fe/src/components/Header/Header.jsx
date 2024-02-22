@@ -5,24 +5,11 @@ import Home from "../../assets/svgs/HomeIcon.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UrlMap } from "../../data/GlobalVariable.js";
 
-const HeaderFrame = styled.div`
-  width: 100%;
-  ${({ theme }) => theme.flex.flexBetween};
-  align-items: center;
-  font-family: "semiBold";
-  font-size: 24px;
-  margin-top: 20px;
-`;
-
-const LeftHeaderFrame = styled.div`
-  ${({ theme }) => theme.flex.flexCenter};
-  gap: 4px;
-`;
-
-const HomeImg = styled.img`
-  width: 20px;
-  height: 20px;
-`;
+const HomeMap = {
+  "/request": UrlMap.choiceTranportTypeUrl,
+  "/check": UrlMap.checkReservationPageUrl,
+  "/more": UrlMap.morePageUrl
+};
 
 const Header = ({ home = false, back = true, children }) => {
   const navigator = useNavigate();
@@ -33,19 +20,7 @@ const Header = ({ home = false, back = true, children }) => {
   };
   const clickHome = () => {
     let path = `/${pathname.slice(1).split("/")[0]}`;
-    switch (path) {
-      case "/request":
-        path = UrlMap.choiceTranportTypeUrl;
-        break;
-      case "/check":
-        path = UrlMap.checkReservationPageUrl;
-        break;
-      case "/more":
-        path = UrlMap.morePageUrl;
-        break;
-      default:
-        break;
-    }
+    path = HomeMap[path];
     navigator(path);
   };
 
@@ -64,5 +39,24 @@ const Header = ({ home = false, back = true, children }) => {
     </HeaderFrame>
   );
 };
+
+const HeaderFrame = styled.div`
+  width: 100%;
+  ${({ theme }) => theme.flex.flexBetween};
+  align-items: center;
+  font-family: "semiBold";
+  font-size: 24px;
+  margin-top: 20px;
+`;
+
+const LeftHeaderFrame = styled.div`
+  ${({ theme }) => theme.flex.flexCenter};
+  gap: 4px;
+`;
+
+const HomeImg = styled.img`
+  width: 20px;
+  height: 20px;
+`;
 
 export default Header;
