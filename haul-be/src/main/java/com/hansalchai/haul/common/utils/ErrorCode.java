@@ -13,6 +13,7 @@ public enum ErrorCode {
 	PAGE_NOT_FOUND(NOT_FOUND, 1001, "요청한 페이지를 찾을 수 없습니다."),
 	UNAUTHORIZED_ACCESS(FORBIDDEN, 1002, "리소스 접근 권한이 없습니다."),
 	UNSUPPORTED_QUERY_VALUE(BAD_REQUEST, 1003, "지원하지 않는 쿼리스트링 값입니다."),
+	INVALID_DATA(BAD_REQUEST, 1004, "입력한 데이터가 유효하지 않습니다."),
 
 	//Not Found
 	USER_NOT_FOUND(NOT_FOUND, 1101, "사용자를 찾을 수 없습니다."),

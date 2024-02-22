@@ -55,4 +55,8 @@ public class ReservationUtil {
 	public static String getDateTimeString(LocalDate date, LocalTime time) {
 		return date.toString() + " " + time.toString();
 	}
+
+	public static String getCarEnumTypeToWeight(int type){
+		return (double)type / 1000 + "톤";
+	}
 }

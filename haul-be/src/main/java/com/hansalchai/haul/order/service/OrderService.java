@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.hansalchai.haul.common.utils.ErrorCode.*;
+import static com.hansalchai.haul.common.utils.OrderUtil.*;
 import static com.hansalchai.haul.order.dto.OrderSearchResponse.*;
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
 import static com.hansalchai.haul.reservation.service.ReservationService.*;
@@ -214,10 +215,57 @@ public class OrderService {
 		if (transportStatus.equals(DONE)) {
 			throw new BadRequestException(ALREADY_DELIVERED);
 		}
+
 		TransportStatus nextStatus = TransportStatus.getNextStatus(transportStatus);
-
 		transport.updateTransportStatus(nextStatus);
-
 		return new TransportStatusChange.ResponseDto(reservation);
+	}
+
+	@Transactional
+	public TransportStatusChange.ResponseDtoV2 changeTransportStatusV2(
+			Long userId,
+			TransportStatusChange.RequestDtoV2 requestDto) {
+
+		Reservation reservation = reservationRepository.findById(requestDto.getId())
+			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
+
+		Owner owner = reservation.getOwner();
+		if (!userId.equals(owner.getUser().getUserId())) {
+			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
+		}
+
+		Transport transport = reservation.getTransport();
+		TransportStatus transportStatus = transport.getTransportStatus();
+
+		if (transportStatus.equals(DONE)) {
+			throw new BadRequestException(ALREADY_DELIVERED);
+		}
+
+		if (hasInProgressOrder(userId, reservation.getReservationId())) {
+			return TransportStatusChange.ResponseDtoV2.builder()
+				.hasInProgressOrder(true)
+				.isDriverNearBy(false)
+				.build();
+		}
+
+		if (!isNearPoint(requestDto, reservation, transportStatus)) {
+			return TransportStatusChange.ResponseDtoV2.builder()
+				.hasInProgressOrder(false)
+				.isDriverNearBy(false)
+				.build();
+		}
+
+		TransportStatus nextStatus = TransportStatus.getNextStatus(transportStatus);
+		transport.updateTransportStatus(nextStatus);
+		return TransportStatusChange.ResponseDtoV2.builder()
+			.hasInProgressOrder(false)
+			.isDriverNearBy(true)
+			.build();
+	}
+
+	//운송 중인 오더가 있는지 확인
+	private boolean hasInProgressOrder(Long driverId, Long orderId) {
+		List<Reservation> ordersInProgress = reservationRepository.findByDriverIdInProgress(driverId);
+		return !ordersInProgress.stream().allMatch(order -> order.getReservationId().equals(orderId));
 	}
 }

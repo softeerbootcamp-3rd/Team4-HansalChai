@@ -48,7 +48,7 @@ public class ReservationResponse {
 			this.car = CarDTO.builder()
 				.count(reservation.getCount())
 				.model(reservation.getCar().getModel())
-				.capacity(reservation.getCar().getType().name())
+				.capacity(getCarEnumTypeToWeight(reservation.getCar().getType().getValue()))
 				.feature(getSizeToString(reservation))
 				.photo(s3Util.getImage(makeCarUrl(reservation.getCar().getPhoto())))
 				.build();
@@ -161,7 +161,7 @@ public class ReservationResponse {
 			this.car = CarDTO.builder()
 				.count(reservation.getCount())
 				.model(reservation.getCar().getModel())
-				.capacity(reservation.getCar().getType().name())
+				.capacity(getCarEnumTypeToWeight(reservation.getCar().getType().getValue()))
 				.feature(getSizeToString(reservation))
 				.photo(s3Util.getImage(makeCarUrl(reservation.getCar().getPhoto())))
 				.build();
