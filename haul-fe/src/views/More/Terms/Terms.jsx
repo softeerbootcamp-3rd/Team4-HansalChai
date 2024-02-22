@@ -8,6 +8,7 @@ import styled from "styled-components";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import UnderBar from "../../../components/UnderBar/UnderBar.jsx";
 import { useNavigate } from "react-router-dom";
+import { makeNavigator } from "../../../utils/helper.js";
 
 const ListItem = styled.div`
   width: 100%;
@@ -19,22 +20,6 @@ const ListItem = styled.div`
 const Terms = () => {
   const navigate = useNavigate();
 
-  const clickTermsOfService = () => {
-    navigate("/more/terms/services");
-  };
-
-  const clickPrivacyPolicy = () => {
-    navigate("/more/terms/privacy");
-  };
-
-  const clickTransportationContract = () => {
-    navigate("/more/terms/transportation");
-  };
-
-  const clickTermsOfLocationInfo = () => {
-    navigate("/more/terms/location");
-  };
-
   return (
     <MobileLayout>
       <Header home={true} back={true}>
@@ -44,25 +29,34 @@ const Terms = () => {
       </Header>
       <Margin height="32px" />
       <Flex kind="flexColumn">
-        <ListItem id={"more__service"} onClick={clickTermsOfService}>
+        <ListItem
+          id={"more__service"}
+          onClick={makeNavigator(navigate, "/more/terms/services")}
+        >
           <Typography font={"medium16"}>이용약관</Typography>
           <ArrowIcon />
         </ListItem>
         <UnderBar />
-        <ListItem id={"more__privacy"} onClick={clickPrivacyPolicy}>
+        <ListItem
+          id={"more__privacy"}
+          onClick={makeNavigator(navigate, "/more/terms/privacy")}
+        >
           <Typography font={"medium16"}>개인정보 처리방침</Typography>
           <ArrowIcon />
         </ListItem>
         <UnderBar />
         <ListItem
           id={"more__transportation"}
-          onClick={clickTransportationContract}
+          onClick={makeNavigator(navigate, "/more/terms/transportation")}
         >
           <Typography font={"medium16"}>화물자동차 운송주선약관</Typography>
           <ArrowIcon />
         </ListItem>
         <UnderBar />
-        <ListItem id={"more__location"} onClick={clickTermsOfLocationInfo}>
+        <ListItem
+          id={"more__location"}
+          onClick={makeNavigator(navigate, "/more/terms/location")}
+        >
           <Typography font={"medium16"}>위치기반서비스 이용약관</Typography>
           <ArrowIcon />
         </ListItem>
