@@ -54,7 +54,8 @@ const GlobalStyle = createGlobalStyle`
   button {
     border: none;
     outline: none;
-    user-select: none; 
+    user-select: none;
+    background: white; 
   }
   
   img {
