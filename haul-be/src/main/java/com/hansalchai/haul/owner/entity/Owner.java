@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -38,4 +39,12 @@ public class Owner extends BaseTime {
 
 	@Column(nullable = false)
 	private String number;
+
+	@Builder
+	public Owner(Long ownerId, Car car, Users user, String number) {
+		this.ownerId = ownerId;
+		this.car = car;
+		this.user = user;
+		this.number = number;
+	}
 }

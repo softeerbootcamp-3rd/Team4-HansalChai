@@ -48,10 +48,11 @@ public class Transport extends BaseTime {
 	private TransportStatus transportStatus = TransportStatus.NOT_RESERVATED;
 
 	@Builder
-	public Transport(TransportType type, int fee, double requiredTime) {
+	public Transport(TransportType type, int fee, double requiredTime, TransportStatus transportStatus) {
 		this.type = type;
 		this.fee = fee;
 		this.requiredTime = requiredTime;
+		this.transportStatus = transportStatus;
 	}
 
 	public static Transport toEntity(TransportType type, int fee, double requiredTime) {

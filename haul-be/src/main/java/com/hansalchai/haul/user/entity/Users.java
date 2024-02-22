@@ -50,7 +50,8 @@ public class Users extends BaseTime {
 	private String refreshToken;
 
 	@Builder
-	public Users(String name, String tel, String password, String email, String photo, Role role) {
+	public Users(Long userId, String name, String tel, String password, String email, String photo, Role role) {
+		this.userId = userId;
 		this.name = name;
 		this.tel = tel;
 		this.password = password;
@@ -78,5 +79,4 @@ public class Users extends BaseTime {
 			.role(role)
 			.build();
 	}
-
 }
