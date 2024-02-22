@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { reservationStore } from "../../../store/reservationStore.jsx";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
@@ -9,10 +10,8 @@ import SearchMap from "../../../components/Map/SearchMap/SearchMap.jsx";
 import Input from "../../../components/Input/Input.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
-import { isEmptyString, isPhoneNumber } from "../../../utils/helper.js";
-import { useNavigate } from "react-router-dom";
-import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable.js";
-import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import { isEmptyString } from "../../../utils/helper.js";
+import { showUserTime, checkSubmitDisabledFun, submitStore } from "./index.jsx";
 
 const ChoiceSrc = () => {
   const navigation = useNavigate();
@@ -31,27 +30,17 @@ const ChoiceSrc = () => {
   useEffect(() => {
     //시간 선택하지 않는 경우, 이전 페이지인 시간 선택 페이지로 이동
     if (isEmptyString(reservationTime)) {
-      navigation(UrlMap.choiceTimePageUrl);
+      //navigation(UrlMap.choiceTimePageUrl);
       return;
     }
-    checkSubmitDisabled(checkSubmitDisabledFun());
+    checkSubmitDisabled(
+      checkSubmitDisabledFun({
+        mapInfo: mapInfo,
+        inSrcDetailAddress: inSrcDetailAddress,
+        inSrcTel: inSrcTel
+      })
+    );
   }, []);
-
-  function showUserTime() {
-    const [reservationHour, reservationHourMin] = reservationTime
-      .split(":")
-      .map(v => Number(v));
-    let showTime = "";
-    reservationHour >= 12 ? (showTime = "오후 ") : (showTime = "오전 ");
-    reservationHour === 12
-      ? (showTime += `${reservationHour}시`)
-      : (showTime += `${reservationHour % 12}시`);
-
-    if (reservationHourMin !== 0) {
-      showTime += `${reservationHourMin}분`;
-    }
-    return showTime;
-  }
 
   const [mapInfo, setMapInfo] = useState({
     name: srcName,
@@ -66,35 +55,14 @@ const ChoiceSrc = () => {
   const [submitDisabled, checkSubmitDisabled] = useState(true);
 
   useEffect(() => {
-    checkSubmitDisabled(checkSubmitDisabledFun());
+    checkSubmitDisabled(
+      checkSubmitDisabledFun({
+        mapInfo: mapInfo,
+        inSrcDetailAddress: inSrcDetailAddress,
+        inSrcTel: inSrcTel
+      })
+    );
   }, [mapInfo]);
-
-  //이 페이지에서 원하는 값이 다 있는지 체크
-  function checkSubmitDisabledFun() {
-    const isMapInfoFilled =
-      mapInfo.coordinate.latitude !== "" &&
-      mapInfo.coordinate.longitude !== "" &&
-      mapInfo.detailAddress !== "";
-    const isSrcDetailAddressFilled = inSrcDetailAddress.current.trim() !== "";
-    const isSrcTelFilled = inSrcTel.current.trim() !== "";
-    return !(isMapInfoFilled && isSrcDetailAddressFilled && isSrcTelFilled);
-  }
-
-  function sumbitStore() {
-    if (!isPhoneNumber(inSrcTel.current)) {
-      ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
-      return;
-    }
-    setSrcInfo({
-      srcName: mapInfo.name,
-      srcAddress: mapInfo.detailAddress,
-      srcLatitude: Number(mapInfo.coordinate.latitude),
-      srcLongitude: Number(mapInfo.coordinate.longitude),
-      srcDetailAddress: inSrcDetailAddress.current,
-      srcTel: inSrcTel.current
-    });
-    navigation(UrlMap.choiceDstPageUrl);
-  }
 
   return (
     <MobileLayout>
@@ -103,8 +71,10 @@ const ChoiceSrc = () => {
       </Header>
       <Margin height="24px" />
       <Typography font="bold24">
-        <TypographySpan color="subColor">{showUserTime()}</TypographySpan>에
-        뵈러 갈게요.
+        <TypographySpan color="subColor">
+          {showUserTime(reservationTime)}
+        </TypographySpan>
+        에 뵈러 갈게요.
       </Typography>
       <Margin height="6px" />
       <Typography font="bold24">
@@ -128,7 +98,13 @@ const ChoiceSrc = () => {
         defaultValue={srcDetailAddress}
         onChange={({ target: { value } }) => {
           inSrcDetailAddress.current = value;
-          checkSubmitDisabled(checkSubmitDisabledFun());
+          checkSubmitDisabled(
+            checkSubmitDisabledFun({
+              mapInfo: mapInfo,
+              inSrcDetailAddress: inSrcDetailAddress,
+              inSrcTel: inSrcTel
+            })
+          );
         }}
       />
       <Margin height="20px" />
@@ -141,7 +117,13 @@ const ChoiceSrc = () => {
         defaultValue={srcTel}
         onChange={({ target: { value } }) => {
           inSrcTel.current = value;
-          checkSubmitDisabled(checkSubmitDisabledFun());
+          checkSubmitDisabled(
+            checkSubmitDisabledFun({
+              mapInfo: mapInfo,
+              inSrcDetailAddress: inSrcDetailAddress,
+              inSrcTel: inSrcTel
+            })
+          );
         }}
       />
       <Margin height="30px" />
@@ -149,7 +131,13 @@ const ChoiceSrc = () => {
         role="main"
         disabled={submitDisabled}
         onClick={() => {
-          sumbitStore();
+          submitStore({
+            inSrcTel: inSrcTel,
+            inSrcDetailAddress: inSrcDetailAddress,
+            mapInfo: mapInfo,
+            setSrcInfo: setSrcInfo,
+            navigation: navigation
+          });
         }}
       >
         선택완료
