@@ -1,6 +1,25 @@
 import styled from "styled-components";
 import Flex from "../../../../components/Flex/Flex";
 
+const TabBar = ({ tabBarList, setSelected, selected }) => {
+  return (
+    <TabBarFrame>
+      {tabBarList.map((item, index) => {
+        return (
+          <Flex kind={"flexCenter"} key={`tabbar${index}`}>
+            <TabBarItem
+              selected={selected === index}
+              onClick={() => setSelected(() => index)}
+            >
+              {item}
+            </TabBarItem>
+          </Flex>
+        );
+      })}
+    </TabBarFrame>
+  );
+};
+
 const TabBarFrame = styled.div`
   width: 100%;
   ${({ theme }) => theme.flex.flexRow};
@@ -23,24 +42,5 @@ const TabBarItem = styled.button`
   border-bottom: ${({ selected, theme }) =>
     selected ? `2px solid ${theme.colors.selectCircle}` : "none"};
 `;
-
-const TabBar = ({ tabBarList, setSelected, selected }) => {
-  return (
-    <TabBarFrame>
-      {tabBarList.map((item, index) => {
-        return (
-          <Flex kind={"flexCenter"} key={`tabbar${index}`}>
-            <TabBarItem
-              selected={selected === index}
-              onClick={() => setSelected(() => index)}
-            >
-              {item}
-            </TabBarItem>
-          </Flex>
-        );
-      })}
-    </TabBarFrame>
-  );
-};
 
 export default TabBar;
