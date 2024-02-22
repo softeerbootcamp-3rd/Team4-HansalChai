@@ -1,5 +1,7 @@
 package com.hansalchai.haul.order.service;
 
+import static com.hansalchai.haul.car.constants.CarCategory.*;
+import static com.hansalchai.haul.order.dto.OrderSearchResponse.*;
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
 import static com.hansalchai.haul.reservation.constants.TransportType.*;
 import static org.assertj.core.api.Assertions.*;
@@ -17,20 +19,30 @@ import java.util.concurrent.Future;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.hansalchai.haul.car.constants.CarType;
+import com.hansalchai.haul.car.entity.Car;
+import com.hansalchai.haul.car.repository.CarRepository;
 import com.hansalchai.haul.common.auth.constants.Role;
 import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
+import com.hansalchai.haul.order.dto.OrderSearchResponse;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
+import com.hansalchai.haul.reservation.entity.Destination;
 import com.hansalchai.haul.reservation.entity.Reservation;
+import com.hansalchai.haul.reservation.entity.Source;
 import com.hansalchai.haul.reservation.entity.Transport;
 import com.hansalchai.haul.reservation.repository.ReservationRepository;
 import com.hansalchai.haul.user.entity.Users;
 import com.hansalchai.haul.user.repository.UsersRepository;
+
+import jakarta.annotation.PostConstruct;
 
 @SpringBootTest
 class OrderServiceIntegrationTest {
@@ -39,6 +51,92 @@ class OrderServiceIntegrationTest {
 	@Autowired UsersRepository usersRepository;
 	@Autowired OwnerRepository ownerRepository;
 	@Autowired ReservationRepository reservationRepository;
+	@Autowired CarRepository carRepository;
+
+	Long userId;
+	Long ownerId;
+	Long carId;
+
+	@PostConstruct
+	void makeData() {
+
+		Car car = Car.builder()
+			.type(CarType.TRUCK1000)
+			.model("포터2")
+			.width(200)
+			.length(1000)
+			.height(200)
+			.weight(1000)
+			.photo("포터1.png")
+			.category(DEFAULT)
+			.isboxtruck(true)
+			.build();
+		carId = carRepository.save(car).getCarId();
+
+		Users user = Users.builder()
+			.name("owner")
+			.email("owner@gmail.com")
+			.tel("01012341234")
+			.password("password")
+			.role(Role.CUSTOMER)
+			.build();
+		userId = usersRepository.save(user).getUserId();
+
+		Owner owner = Owner.builder()
+			.user(user)
+			.car(car)
+			.number("82가 328")
+			.build();
+		ownerId = ownerRepository.save(owner).getOwnerId();
+	}
+
+	@Test
+	@Transactional
+	@DisplayName("전체 오더 리스트 탐색 테스트 - 사용자 차가 필요한 오더를 가격순으로 정렬해서 보여준다")
+	void findAllOrderByFee() {
+
+		//given
+		String sort = "fee";
+		int page = 0;
+		createReservationForFindAllTest(carId);
+
+		//when
+		OrderSearchResponse result = orderService.findAll(userId, sort, page);
+
+		//then
+		List<OrderSearchResponseDto> dtos = result.getOrderSearchDtos();
+		assertThat(dtos).hasSize(2);
+
+		List<Integer> actualFees = dtos.stream().map(OrderSearchResponseDto::getCost).toList();
+		List<Integer> expectedFees = List.of(15, 10);
+		assertEquals(actualFees, expectedFees);
+
+		assertThat(result.isLastPage()).isTrue();
+	}
+
+	@Test
+	@Transactional
+	@DisplayName("전체 오더 리스트 탐색 테스트 - 사용자 차가 필요한 오더를 시간순으로 정렬해서 보여준다")
+	void findAllOrderByDateTime() {
+
+		//given
+		String sort = "datetime";
+		int page = 0;
+		createReservationForFindAllTest(carId);
+
+		//when
+		OrderSearchResponse result = orderService.findAll(userId, sort, page);
+
+		//then
+		List<OrderSearchResponseDto> dtos = result.getOrderSearchDtos();
+		assertThat(dtos).hasSize(2);
+
+		List<String> actualDateTimes = dtos.stream().map(OrderSearchResponseDto::getTransportDatetime).toList();
+		List<String> expectedDateTimes = List.of("2024.03.22 14:40", "2024.03.22 15:40");
+		assertEquals(actualDateTimes, expectedDateTimes);
+
+		assertThat(result.isLastPage()).isTrue();
+	}
 
 	@Rollback
 	@RepeatedTest(3)
@@ -102,6 +200,179 @@ class OrderServiceIntegrationTest {
 			owners.add(owner);
 		}
 		return owners;
+	}
+
+	private List<Reservation> createReservationForFindAllTest(Long carId) {
+
+		Car car1 = carRepository.findById(carId).orElseThrow();
+
+		Car car2 = Car.builder()
+			.type(CarType.TRUCK500)
+			.model("뉴다마스")
+			.width(120)
+			.length(175)
+			.height(120)
+			.weight(500)
+			.photo("뉴다마스.png")
+			.category(DEFAULT)
+			.isboxtruck(false)
+			.build();
+		carRepository.save(car2);
+
+		Source source1 = Source.builder()
+			.name("강남 가가빌딩")
+			.address("서울특별시 강남구 가가로 21-9")
+			.detailAddress("1호")
+			.latitude(34.36454231)
+			.longitude(126.87456)
+			.tel("01012344321")
+			.build();
+
+		Source source2 = Source.builder()
+			.name("강남 가가빌딩")
+			.address("서울특별시 강남구 가가로 21-9")
+			.detailAddress("2호")
+			.latitude(34.36454231)
+			.longitude(126.87456)
+			.tel("01012344321")
+			.build();
+
+		Source source3 = Source.builder()
+			.name("강남 가가빌딩")
+			.address("서울특별시 강남구 가가로 21-9")
+			.detailAddress("3호")
+			.latitude(34.36454231)
+			.longitude(126.87456)
+			.tel("01012344321")
+			.build();
+
+		Source source4 = Source.builder()
+			.name("강남 가가빌딩")
+			.address("서울특별시 강남구 가가로 21-9")
+			.detailAddress("4호")
+			.latitude(34.36454231)
+			.longitude(126.87456)
+			.tel("01012344321")
+			.build();
+
+		Destination destination1 = Destination.builder()
+			.name("강남 가가빌딩")
+			.address("서울특별시 강남구 가가로 21-9")
+			.detailAddress("1호")
+			.latitude(34.36454231)
+			.longitude(126.87456)
+			.tel("01012344321")
+			.build();
+
+		Destination destination2 = Destination.builder()
+			.name("강남 가가빌딩")
+			.address("서울특별시 강남구 가가로 21-9")
+			.detailAddress("2호")
+			.latitude(34.36454231)
+			.longitude(126.87456)
+			.tel("01012344321")
+			.build();
+
+		Destination destination3 = Destination.builder()
+			.name("강남 가가빌딩")
+			.address("서울특별시 강남구 가가로 21-9")
+			.detailAddress("3호")
+			.latitude(34.36454231)
+			.longitude(126.87456)
+			.tel("01012344321")
+			.build();
+
+		Destination destination4 = Destination.builder()
+			.name("강남 가가빌딩")
+			.address("서울특별시 강남구 가가로 21-9")
+			.detailAddress("4호")
+			.latitude(34.36454231)
+			.longitude(126.87456)
+			.tel("01012344321")
+			.build();
+
+		Transport transport1 = Transport.builder()
+			.type(GENERAL)
+			.transportStatus(PENDING)
+			.fee(100_000)
+			.requiredTime(1.5)
+			.build();
+
+		Transport transport2 = Transport.builder()
+			.type(MOVE)
+			.transportStatus(PENDING)
+			.fee(150_000)
+			.requiredTime(1)
+			.build();
+
+		Transport transport3 = Transport.builder()
+			.type(GENERAL)
+			.transportStatus(PENDING)
+			.fee(200_000)
+			.requiredTime(2.3)
+			.build();
+
+		Transport transport4 = Transport.builder()
+			.type(GENERAL)
+			.transportStatus(NOT_RESERVATED)
+			.fee(450_000)
+			.requiredTime(10.7)
+			.build();
+
+		Reservation reservation1 = Reservation.builder()
+			.car(car1)
+			.transport(transport1)
+			.number("123456789011")
+			.source(source1)
+			.destination(destination1)
+			.date(LocalDate.of(2024, 3, 22))
+			.time(LocalTime.of(14, 40))
+			.count(1)
+			.distance(30.1)
+			.build();
+
+		Reservation reservation2 = Reservation.builder()
+			.car(car1)
+			.transport(transport2)
+			.number("123456789012")
+			.source(source2)
+			.destination(destination2)
+			.date(LocalDate.of(2024, 3, 22))
+			.time(LocalTime.of(15, 40))
+			.count(1)
+			.distance(4.1)
+			.build();
+
+		Reservation reservation3 = Reservation.builder()
+			.car(car2)
+			.transport(transport3)
+			.number("123456789013")
+			.source(source3)
+			.destination(destination3)
+			.date(LocalDate.of(2024, 3, 22))
+			.time(LocalTime.of(16, 40))
+			.count(1)
+			.distance(4.1)
+			.build();
+
+		Reservation reservation4 = Reservation.builder()
+			.car(car1)
+			.transport(transport4)
+			.number("123456789014")
+			.source(source4)
+			.destination(destination4)
+			.date(LocalDate.of(2024, 2, 21))
+			.time(LocalTime.of(18, 0))
+			.count(1)
+			.distance(100.1)
+			.build();
+
+		reservationRepository.save(reservation1);
+		reservationRepository.save(reservation2);
+		reservationRepository.save(reservation3);
+		reservationRepository.save(reservation4);
+
+		return List.of(reservation1, reservation2, reservation3, reservation4);
 	}
 
 	private Long createReservationForApproveV2() {
