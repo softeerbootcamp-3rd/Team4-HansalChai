@@ -10,6 +10,7 @@ import styled from "styled-components";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
 import { UrlMap, TransportTypeArr } from "../../../data/GlobalVariable.js";
+import TranportSvg from "./components/TrasportSvg.jsx";
 
 const ImgBox = styled.img`
   width: 140px;
@@ -70,7 +71,7 @@ const ChoiceTransport = () => {
                 <Typography font="bold16">최대 {maxLoad}톤</Typography>
               </Flex>
             </Flex>
-            <ImgBox src={img} />
+            <TranportSvg id={img}/>
           </TransportBox>
         )
       )}
