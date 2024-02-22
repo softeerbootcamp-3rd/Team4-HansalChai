@@ -32,4 +32,11 @@ public class KakaoMap {
 		double duration = info.getDuration() / (double)3600;
 		return new DistanceDurationInfo(distance,duration);
 	}
+
+	/*
+	시/도 를 반환함.
+	 */
+	public String searchRoadAddress(double latitude, double longitude) {
+		return kakaoMapAPI.searchRoadAddress(latitude, longitude);
+	}
 }

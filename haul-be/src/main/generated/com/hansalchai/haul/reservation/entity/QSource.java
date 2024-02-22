@@ -43,6 +43,8 @@ public class QSource extends EntityPathBase<Source> {
 
     public final StringPath name = createString("name");
 
+    public final StringPath sido = createString("sido");
+
     public final NumberPath<Long> sourceId = createNumber("sourceId", Long.class);
 
     public final StringPath tel = createString("tel");

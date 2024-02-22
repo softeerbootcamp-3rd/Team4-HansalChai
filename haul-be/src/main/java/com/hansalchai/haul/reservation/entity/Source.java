@@ -45,6 +45,8 @@ public class Source extends BaseTime {
 	@Column(length = 15, nullable = false)
 	private String tel;
 
+	private String sido;
+
 	@Builder
 	public Source(String name, String address, String detailAddress, double latitude,
 		double longitude, String tel) {
@@ -54,5 +56,6 @@ public class Source extends BaseTime {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.tel = tel;
+		this.sido = address != null ? address.split(" ")[0] : "";
 	}
 }
