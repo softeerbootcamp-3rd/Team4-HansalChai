@@ -90,7 +90,9 @@ const ChoiceDst = () => {
         에서 출발할게요.
       </Typography>
       <Margin height="6px" />
-      <Typography font="bold24">도착지는 어딘가요?</Typography>
+      <Typography font="bold24">
+        <TypographySpan color="subColor">도착지</TypographySpan>는 어딘가요?
+      </Typography>
       <Margin height="20px" />
       <SearchMap
         setMapInfo={setMapInfo}
