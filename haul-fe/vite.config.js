@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     svgr(),
     compression({
-      include: [/\.(js)$/, /\.(jsx)$/],
+      include: [/\.(js)$/, /\.(jsx)$/, /\.(css)$/],
       threshold: 1400
     }),
     VitePWA({
