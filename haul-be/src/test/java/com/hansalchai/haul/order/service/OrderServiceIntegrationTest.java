@@ -19,6 +19,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 
 import com.hansalchai.haul.common.auth.constants.Role;
 import com.hansalchai.haul.common.exceptions.ConflictException;
@@ -39,6 +40,7 @@ class OrderServiceIntegrationTest {
 	@Autowired OwnerRepository ownerRepository;
 	@Autowired ReservationRepository reservationRepository;
 
+	@Rollback
 	@RepeatedTest(3)
 	@DisplayName("동시성 테스트- 동시에 2개 이상의 승인 요청")
 	void approveV2() throws InterruptedException {
