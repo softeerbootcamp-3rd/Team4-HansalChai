@@ -38,19 +38,19 @@ public class SidoGraph {
 	private static void nameInitialize(){
 		name.add("세종특별자치시"); //0
 		name.add("제주특별자치도"); //1
-		name.add("경상남도"); //2
-		name.add("경상북도"); //3
-		name.add("전라남도"); //4
-		name.add("충청남도"); //5
-		name.add("충청북도"); //6
-		name.add("경기도"); //7
-		name.add("울산광역시"); //8
-		name.add("대전광역시"); //9
-		name.add("광주광역시"); //10
-		name.add("인천광역시"); //11
-		name.add("대구광역시"); //12
-		name.add("부산광역시"); // 13
-		name.add("서울특별시"); // 14
+		name.add("경남"); //2
+		name.add("경북"); //3
+		name.add("전남"); //4
+		name.add("충남"); //5
+		name.add("충북"); //6
+		name.add("경기"); //7
+		name.add("울산"); //8
+		name.add("대전"); //9
+		name.add("광주"); //10
+		name.add("인천"); //11
+		name.add("대구"); //12
+		name.add("부산"); // 13
+		name.add("서울"); // 14
 		name.add("강원특별자치도"); //15
 		name.add("전북특별자치도"); //16
 		index = IntStream.range(0, name.size())
