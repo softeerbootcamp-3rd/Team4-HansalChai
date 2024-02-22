@@ -85,6 +85,15 @@ public class OrderController {
 		return ResponseEntity.ok(success(GET_SUCCESS, responseDto));
 	}
 
+	@PatchMapping(V2_ORDERS_PATH + "/approve")
+	public ResponseEntity<ApiResponse<Object>> approveOrderV2(
+			HttpServletRequest request,
+			@Valid @RequestBody ApproveRequestDto approveRequestDto) {
+		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
+		orderService.approveV2(auth.getUserId(), approveRequestDto);
+		return ResponseEntity.ok(success(GET_SUCCESS, null));
+	}
+
 	@PatchMapping(V2_ORDERS_PATH + "/status")
 	public ResponseEntity<ApiResponse<TransportStatusChange.ResponseDtoV2>> changeTransportStatusV2(
 			HttpServletRequest request,
