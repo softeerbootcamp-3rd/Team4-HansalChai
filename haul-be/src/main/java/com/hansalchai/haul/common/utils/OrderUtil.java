@@ -41,7 +41,10 @@ public class OrderUtil {
 		return calculateDistance(currentLatitude, currentLongitude, pointLatitude, pointLongitude) <= 300;
 	}
 
-	// 경도, 위도 기반 거리 계산
+	/**
+	 * 경도, 위도 기반 거리 계산
+	 * Haversine 공식 이용
+	 * */
 	public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
 
 		double dLat = toRadians(lat2 - lat1);
