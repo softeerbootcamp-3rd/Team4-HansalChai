@@ -12,4 +12,10 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
 	@Query("select u from Users u where u.tel = :tel and u.role != 'GUEST'")
 	Optional<Users> findUserByTel(@Param("tel") String tel);
+
+	@Query("select u from Users u where u.tel = :tel and u.role = 'CUSTOMER'")
+	Optional<Users> findCustomerByTel(@Param("tel") String tel);
+
+	@Query("select u from Users u where u.tel = :tel and u.role = 'DRIVER'")
+	Optional<Users> findDriverByTel(@Param("tel") String tel);
 }
