@@ -8,6 +8,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 const CalendarContainer = styled.div`
   width: calc(100% + 40px);
   height: calc(100vh - 250px);
+  min-height: 500px;
   background-color: ${props => props.theme.colors.white};
   border-radius: 10px;
   padding: 20px;

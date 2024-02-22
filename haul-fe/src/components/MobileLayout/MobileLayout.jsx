@@ -14,6 +14,7 @@ const Mobile = styled.div`
   width: ${MaxDeviceWidth};
   min-width: ${({ minWidth }) => minWidth ?? MinDeviceWidth};
   min-height: 100vh;
+  min-height: 800px;
   height: auto;
   margin: 0px auto;
   padding: 0px 20px;
