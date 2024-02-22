@@ -4,10 +4,9 @@ import Margin from "../../../../components/Margin/Margin";
 import TypographySpan from "../../../../components/Typhography/TyphographySpan";
 import Checkmark from "../../../../components/CheckMark/CheckMark";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { MaxDeviceWidth } from "../../../../data/GlobalVariable";
 
 const CalendarContainer = styled.div`
-  width: ${MaxDeviceWidth};
+  width: calc(100% + 40px);
   height: calc(100vh - 250px);
   background-color: ${props => props.theme.colors.white};
   border-radius: 10px;
