@@ -10,6 +10,7 @@ import SearchMap from "../../../components/Map/SearchMap/SearchMap.jsx";
 import Input from "../../../components/Input/Input.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
+import { UrlMap } from "../../../data/GlobalVariable.js";
 import { isEmptyString } from "../../../utils/helper.js";
 import { showUserTime, checkSubmitDisabledFun, submitStore } from "./index.jsx";
 
@@ -30,7 +31,7 @@ const ChoiceSrc = () => {
   useEffect(() => {
     //시간 선택하지 않는 경우, 이전 페이지인 시간 선택 페이지로 이동
     if (isEmptyString(reservationTime)) {
-      //navigation(UrlMap.choiceTimePageUrl);
+      navigation(UrlMap.choiceTimePageUrl);
       return;
     }
     checkSubmitDisabled(
