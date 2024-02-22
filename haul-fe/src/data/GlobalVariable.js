@@ -1,8 +1,3 @@
-import 일반용달 from "../assets/svgs/일반용달.svg";
-import 용달이사 from "../assets/svgs/용달이사.svg";
-import 미니용달 from "../assets/svgs/미니용달.svg";
-import 비즈니스운송 from "../assets/svgs/비즈니스운송.svg";
-
 export const MaxDeviceWidth = "400px";
 export const MinDeviceWidth = "315px";
 
