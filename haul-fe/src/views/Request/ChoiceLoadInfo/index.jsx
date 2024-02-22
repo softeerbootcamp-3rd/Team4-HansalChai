@@ -17,7 +17,6 @@ export function CheckSubmitDisabledFun({
   submitDisabled,
   CheckSubmitDisabled
 }) {
-  console.log(inCargoWeight, inCargoWidth, inCargoLength, inCargoHeight);
   const exInCargoWeight = inCargoWeight.trim();
   const exInCargoWidth = inCargoWidth.trim();
   const exInCargoLength = inCargoLength.trim();
