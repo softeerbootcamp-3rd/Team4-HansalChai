@@ -138,14 +138,35 @@ class OrderServiceIntegrationTest {
 		assertThat(result.isLastPage()).isTrue();
 	}
 
+	@Test
+	@Transactional
+	@DisplayName("예약 승인 테스트")
+	void approveV2() {
+
+		// given
+		Long reservationId = createReservationForApproveV2Test();
+		ApproveRequestDto approveRequestDto = ApproveRequestDto.builder().id(reservationId).build();
+		createReservationForFindAllTest(carId);
+
+		//when
+		orderService.approveV2(userId, approveRequestDto);
+
+		//then
+		Reservation reservation = reservationRepository.findById(reservationId).orElseThrow();
+		Owner owner = ownerRepository.findById(ownerId).orElseThrow();
+		assertThat(reservation.getOwner()).isNotNull();
+		assertThat(reservation.getOwner()).isEqualTo(owner);
+		assertThat(reservation.getTransport().getTransportStatus()).isEqualTo(NOT_STARTED);
+	}
+
 	@Rollback
 	@RepeatedTest(3)
 	@DisplayName("동시성 테스트- 동시에 2개 이상의 승인 요청")
-	void approveV2() throws InterruptedException {
+	void approveV2ConcurrencyTest() throws InterruptedException {
 
 		// given
 		List<Owner> owners = registerOwners(5);
-		Long reservationId = createReservationForApproveV2();
+		Long reservationId = createReservationForApproveV2Test();
 		ApproveRequestDto approveRequestDto = new ApproveRequestDto(reservationId);
 
 		int threadCount = 5;
@@ -375,7 +396,7 @@ class OrderServiceIntegrationTest {
 		return List.of(reservation1, reservation2, reservation3, reservation4);
 	}
 
-	private Long createReservationForApproveV2() {
+	private Long createReservationForApproveV2Test() {
 
 		Transport transport = Transport.builder()
 			.requiredTime(2.0)
