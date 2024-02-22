@@ -1,23 +1,23 @@
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import Header from "../../../components/Header/Header.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
-import styled from "styled-components";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import DriverInfoBox from "./components/DriverInfoBox.jsx";
 import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
-import { useLocation, useNavigate } from "react-router-dom";
+import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import {
   getGuestReservationDetails,
   getUserReservationDetails
 } from "../../../repository/checkRepository.js";
-import { useEffect, useState } from "react";
-import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import { isTokenInvalid } from "../../../repository/userRepository.js";
 import { getIsMember } from "../../../utils/localStorage.js";
 import { ErrorMessageMap, UrlMap } from "../../../data/GlobalVariable.js";
-import { isTokenInvalid } from "../../../repository/userRepository.js";
 
 const phaseMap = {
   "예약 전": "before",
