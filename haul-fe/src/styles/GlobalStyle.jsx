@@ -29,6 +29,7 @@ const GlobalStyle = createGlobalStyle`
     ::-webkit-scrollbar {
       display: none; /* 크롬, 사파리, 오페라, 엣지 */
     }
+    -webkit-tap-highlight-color: transparent;
   }
 
   a {
@@ -53,7 +54,7 @@ const GlobalStyle = createGlobalStyle`
   button {
     border: none;
     outline: none;
-    background: none;
+    user-select: none; 
   }
   
   img {
