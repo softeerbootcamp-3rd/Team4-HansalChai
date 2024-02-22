@@ -46,37 +46,10 @@ public class CustomReservationRepositoryImpl  implements CustomReservationReposi
 	public Long countAllOrdersQdsl(Long carId, ArrayList<String> sidoArray) {
 		return jpaQueryFactory.select(reservation.count())
 			.from(reservation)
-			.join(reservation.source, source)
-			.where(
-				reservation.transport.transportStatus.eq(TransportStatus.PENDING),
-				isAfterCurrentTimestamp,
-				reservation.car.carId.eq(carId),
-				source.sido.in(sidoArray)
-			)
-			.fetchOne();
-	}
-
-	@Override
-	public Long countAllOrderByFeeQdsl(Long carId, ArrayList<String> sidoArray) {
-		return jpaQueryFactory.select(reservation.count())
-			.from(reservation)
 			.join(reservation.transport, transport)
 			.join(reservation.source, source)
 			.where(
 				transport.transportStatus.eq(TransportStatus.PENDING),
-				reservation.car.carId.eq(carId),
-				isAfterCurrentTimestamp,
-				source.sido.in(sidoArray))
-			.fetchOne();
-	}
-
-	@Override
-	public Long countAllOrderByDateTimeQdsl(Long carId, ArrayList<String> sidoArray) {
-		return jpaQueryFactory.select(reservation.count())
-			.from(reservation)
-			.join(reservation.source, source)
-			.where(
-				reservation.transport.transportStatus.eq(TransportStatus.PENDING),
 				reservation.car.carId.eq(carId),
 				isAfterCurrentTimestamp,
 				source.sido.in(sidoArray))

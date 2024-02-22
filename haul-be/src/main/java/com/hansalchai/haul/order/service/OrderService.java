@@ -26,9 +26,9 @@ import com.hansalchai.haul.common.exceptions.BadRequestException;
 import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.common.exceptions.ForbiddenException;
 import com.hansalchai.haul.common.exceptions.NotFoundException;
+import com.hansalchai.haul.common.utils.AddressUtil;
 import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
 import com.hansalchai.haul.common.utils.SidoGraph;
-import com.hansalchai.haul.order.constants.OrderFilterCountV2;
 import com.hansalchai.haul.order.constants.OrderFilterV2;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
@@ -186,14 +186,14 @@ public class OrderService {
 		Car car = owner.getCar();
 		Long carId = car.getCarId();
 
-		String curRegion = kakaoMap.searchRoadAddress(requestDto.getLatitude(), requestDto.getLongitude());
+		String curRegion = AddressUtil.kakaoAdressToSrcAddress(kakaoMap.searchRoadAddress(requestDto.getLatitude(), requestDto.getLongitude()));
+
 
 		ArrayList<String> selectedSidoArray = null;
 		int depthMAX = sidoSortedMap.get(curRegion).size();
 		for(int i = 1;i <= depthMAX;i++){
 			ArrayList<String> sidoArray = SidoGraph.getSidoByDepth(curRegion, i);
-			OrderFilterCountV2 orderFilterCountV2 = OrderFilterCountV2.findFilter(sort);
-			Long count = orderFilterCountV2.execute(customReservationRepository, carId, sidoArray);
+			Long count = customReservationRepository.countAllOrdersQdsl(carId, sidoArray);
 			selectedSidoArray = sidoArray;
 
 			if(count >= (long)PAGECUT * (page + 1)){

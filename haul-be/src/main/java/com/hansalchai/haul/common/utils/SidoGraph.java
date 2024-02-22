@@ -1,5 +1,7 @@
 package com.hansalchai.haul.common.utils;
 
+import static com.hansalchai.haul.common.utils.ErrorCode.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,6 +15,8 @@ import java.util.stream.IntStream;
 
 import org.springframework.data.util.Pair;
 
+import com.hansalchai.haul.common.exceptions.NotFoundException;
+
 import lombok.Getter;
 
 @Getter
@@ -25,37 +29,37 @@ public class SidoGraph {
 	}
 	//code table
 	public static List<ArrayList<Integer>> graph;
-	public static List<String> name ;
+	public static List<String> sidoNames;
 	public static Map<String, Integer> index;
 	public static Map<String, Map<Integer, ArrayList<String>>> sidoSortedMap;
 
 	private static  void dataStructureInitialize(){
 		graph = new ArrayList<>();
-		name = new ArrayList<>();
+		sidoNames = new ArrayList<>();
 		index = new HashMap<>();
 	}
 
 	private static void nameInitialize(){
-		name.add("세종특별자치시"); //0
-		name.add("제주특별자치도"); //1
-		name.add("경남"); //2
-		name.add("경북"); //3
-		name.add("전남"); //4
-		name.add("충남"); //5
-		name.add("충북"); //6
-		name.add("경기"); //7
-		name.add("울산"); //8
-		name.add("대전"); //9
-		name.add("광주"); //10
-		name.add("인천"); //11
-		name.add("대구"); //12
-		name.add("부산"); // 13
-		name.add("서울"); // 14
-		name.add("강원특별자치도"); //15
-		name.add("전북특별자치도"); //16
-		index = IntStream.range(0, name.size())
+		sidoNames.add("세종특별자치시"); //0
+		sidoNames.add("제주특별자치도"); //1
+		sidoNames.add("경남"); //2
+		sidoNames.add("경북"); //3
+		sidoNames.add("전남"); //4
+		sidoNames.add("충남"); //5
+		sidoNames.add("충북"); //6
+		sidoNames.add("경기"); //7
+		sidoNames.add("울산"); //8
+		sidoNames.add("대전"); //9
+		sidoNames.add("광주"); //10
+		sidoNames.add("인천"); //11
+		sidoNames.add("대구"); //12
+		sidoNames.add("부산"); // 13
+		sidoNames.add("서울"); // 14
+		sidoNames.add("강원특별자치도"); //15
+		sidoNames.add("전북특별자치도"); //16
+		index = IntStream.range(0, sidoNames.size())
 			.boxed()
-			.collect(Collectors.toMap(name::get, i -> i));
+			.collect(Collectors.toMap(sidoNames::get, i -> i));
 	}
 
 	private static void graphInitialize(){
@@ -164,12 +168,12 @@ public class SidoGraph {
 	}
 
 	private static Map<Integer, ArrayList<String>> sidoSort(String key){
-		if (name.stream().noneMatch(name -> name.equals(key))) {
-			throw new IllegalArgumentException("해당 이름을 찾을 수 없습니다: ");
+		if (sidoNames.stream().noneMatch(name -> name.equals(key))) {
+			throw new NotFoundException(SIDO_NOT_FOUND);
 		}
 		Map<Integer, ArrayList<String>> depthSorted = new HashMap<>();
 
-		ArrayList<Boolean> visited = IntStream.range(0, name.size())
+		ArrayList<Boolean> visited = IntStream.range(0, sidoNames.size())
 			.mapToObj(i -> false)
 			.collect(Collectors.toCollection(ArrayList::new));
 		Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
@@ -183,7 +187,7 @@ public class SidoGraph {
 			int depth = front.getSecond();
 
 			ArrayList<String> depthList = depthSorted.getOrDefault(depth, new ArrayList<>());
-			depthList.add(name.get(nodeIndex));
+			depthList.add(sidoNames.get(nodeIndex));
 			depthSorted.put(depth, depthList);
 
 			for(int i=0; i < graph.get(nodeIndex).size(); i++) {
@@ -213,7 +217,7 @@ public class SidoGraph {
 	}
 
 	private static void sidoSortInitialize() {
-		sidoSortedMap = name.stream()
+		sidoSortedMap = sidoNames.stream()
 			.collect(Collectors.toMap(
 				Function.identity(),
 				SidoGraph::sidoSort
@@ -221,8 +225,8 @@ public class SidoGraph {
 	}
 
 	public static ArrayList<String> getSidoByDepth(String key, int depth){
-		if (name.stream().noneMatch(name -> name.equals(key))) {
-			throw new IllegalArgumentException("해당 이름을 찾을 수 없습니다: ");
+		if (sidoNames.stream().noneMatch(name -> name.equals(key))) {
+			throw new NotFoundException(SIDO_NOT_FOUND);
 		}
 
 		return sidoSortedMap.get(key).get(depth);
