@@ -32,6 +32,7 @@ public class OrderController {
 
 	private final OrderService orderService;
 	private static final String V1_ORDERS_PATH = "/api/v1/orders";
+	private static final String V2_ORDERS_PATH = "/api/v2/orders";
 
 	@GetMapping(V1_ORDERS_PATH)
 	public ResponseEntity<ApiResponse<OrderSearchResponse>> findAll(
@@ -82,5 +83,14 @@ public class OrderController {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 		TransportStatusChange.ResponseDto responseDto = orderService.changeTransportStatus(auth.getUserId(), requestDto);
 		return ResponseEntity.ok(success(GET_SUCCESS, responseDto));
+	}
+
+	@PatchMapping(V2_ORDERS_PATH + "/approve")
+	public ResponseEntity<ApiResponse<Object>> approveOrderV2(
+			HttpServletRequest request,
+			@Valid @RequestBody ApproveRequestDto approveRequestDto) {
+		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
+		orderService.approveV2(auth.getUserId(), approveRequestDto);
+		return ResponseEntity.ok(success(GET_SUCCESS, null));
 	}
 }
