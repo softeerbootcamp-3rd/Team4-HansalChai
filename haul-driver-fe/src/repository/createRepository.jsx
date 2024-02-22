@@ -83,7 +83,7 @@ export async function orderDetail({ orderId }) {
 //오더 승인 API 연결함수
 export async function orderApprove({ orderId }) {
   try {
-    const response = await fetch(`${apiKey}/api/v1/orders/approve`, {
+    const response = await fetch(`${apiKey}/api/v2/orders/approve`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
