@@ -104,7 +104,7 @@ const DetailInfo = ({
               </Typography>
               <Margin height="4px" />
               <Typography font="semiBold12">{dstAddress}</Typography>
-              {!dstName&&<Margin height="8px" />}
+              {!dstName && <Margin height="8px" />}
             </PlaceInfo>
           </Flex>
         </Flex>
