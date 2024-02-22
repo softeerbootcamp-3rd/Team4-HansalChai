@@ -1,24 +1,35 @@
 /*Font 적용*/
 @font-face {
   font-family: "bold";
-  src: url("./Pretendard-Bold.woff") format("woff");
+  src: local('korea font'), url("./subset-Pretendard-Bold.woff2") format("woff2"),
+  url("./Pretendard-Bold.woff") format("woff");
+  unicode-range: U+1100-U+11FF;
   font-weight: 700;
+  font-display: block;
 }
 
 @font-face {
   font-family: "semiBold";
-  src: url("./Pretendard-SemiBold.woff") format("woff");
+  src: local('korea font'), url("./subset-Pretendard-SemiBold.woff2") format("woff2"),
+  url("./Pretendard-SemiBold.woff") format("woff");
+  unicode-range: U+1100-U+11FF;
   font-weight: 600;
+  font-display: block;
 }
 
 @font-face {
   font-family: "medium";
-  src: url("./Pretendard-Medium.woff") format("woff");
+  src: local('korea font'), url("./subset-Pretendard-Medium.woff2") format("woff2"),
+  url("./Pretendard-Medium.woff") format("woff");
   font-weight: 500;
+  font-display: block;
 }
 
 @font-face {
   font-family: "regular";
-  src: url("./Pretendard-Regular.woff") format("woff");
+  src: local('korea font'), url("./subset-Pretendard-Regular.woff2") format("woff2"),
+  url("./Pretendard-Regular.woff") format("woff");
+  unicode-range: U+1100-U+11FF;
   font-weight: 400;
+  font-display: block;
 }
