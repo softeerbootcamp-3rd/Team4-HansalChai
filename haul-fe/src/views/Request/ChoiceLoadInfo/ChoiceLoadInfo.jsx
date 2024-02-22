@@ -52,6 +52,10 @@ const SmallBtn = styled.button`
   text-align: center;
 `;
 
+const InputWrapper =styled.div`
+  width: 87%;
+`
+
 const ChoiceLoadInfo = () => {
   const navigate = useNavigate();
   const [resultLoading, setResultLoading] = useState(false);
@@ -247,49 +251,55 @@ const ChoiceLoadInfo = () => {
       <Margin height="20px" />
       <Flex kind="flexBetweenAlignCenter">
         <LoadInfoTypoBox>너비</LoadInfoTypoBox>
-        <Input
-          size="small"
-          placeholder="짐의 너비를 알려주세요"
-          defaultValue={cargoWidth}
-          onChange={({ target: { value } }) => {
-            inCargoWidth.current = value;
-            CheckSubmitDisabledFun();
-          }}
-          unit="cm"
-          textAlign="right"
-        />
+        <InputWrapper>
+          <Input
+            size="small"
+            placeholder="짐의 너비를 알려주세요"
+            defaultValue={cargoWidth}
+            onChange={({ target: { value } }) => {
+              inCargoWidth.current = value;
+              CheckSubmitDisabledFun();
+            }}
+            unit="cm"
+            textAlign="right"
+          />
+        </InputWrapper>
       </Flex>
 
       <Margin height="10px" />
       <Flex kind="flexBetweenAlignCenter">
         <LoadInfoTypoBox>길이</LoadInfoTypoBox>
-        <Input
-          size="small"
-          placeholder="짐의 길이를 알려주세요"
-          defaultValue={cargoLength}
-          onChange={({ target: { value } }) => {
-            inCargoLength.current = value;
-            CheckSubmitDisabledFun();
-          }}
-          unit="cm"
-          textAlign="right"
-        />
+        <InputWrapper>
+          <Input
+            size="small"
+            placeholder="짐의 길이를 알려주세요"
+            defaultValue={cargoLength}
+            onChange={({ target: { value } }) => {
+              inCargoLength.current = value;
+              CheckSubmitDisabledFun();
+            }}
+            unit="cm"
+            textAlign="right"
+          />
+        </InputWrapper>
       </Flex>
 
       <Margin height="10px" />
       <Flex kind="flexBetweenAlignCenter">
         <LoadInfoTypoBox>높이</LoadInfoTypoBox>
-        <Input
-          size="small"
-          placeholder="짐의 높이를 알려주세요"
-          defaultValue={cargoHeight}
-          onChange={({ target: { value } }) => {
-            inCargoHeight.current = value;
-            CheckSubmitDisabledFun();
-          }}
-          unit="cm"
-          textAlign="right"
-        />
+        <InputWrapper>
+          <Input
+            size="small"
+            placeholder="짐의 높이를 알려주세요"
+            defaultValue={cargoHeight}
+            onChange={({ target: { value } }) => {
+              inCargoHeight.current = value;
+              CheckSubmitDisabledFun();
+            }}
+            unit="cm"
+            textAlign="right"
+          />
+        </InputWrapper>
       </Flex>
 
       <Margin height="30px" />
