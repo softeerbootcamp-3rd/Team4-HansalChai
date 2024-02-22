@@ -1,7 +1,7 @@
 package com.hansalchai.haul.reservation.repository;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -76,4 +76,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 		@Param("driverId") Long driverId,
 		@Param("prevDate") LocalDate prevDate,
 		@Param("today") LocalDate today);
+
+	@Query(value = "select r from Reservation r where r.owner.user.userId = :userId and r.transport.transportStatus = 'IN_PROGRESS'")
+	List<Reservation> findByDriverIdInProgress(@Param("userId")Long id);
 }
