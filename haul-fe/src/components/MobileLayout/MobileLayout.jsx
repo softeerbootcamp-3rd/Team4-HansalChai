@@ -14,7 +14,7 @@ const Mobile = styled.div`
   width: ${MaxDeviceWidth};
   min-width: ${({ minWidth }) => minWidth ?? MinDeviceWidth};
   min-height: 800px;
-  height: auto;
+  height: 100vh;
   margin: 0px auto;
   padding: 0px 20px;
   ${props => props.theme.flex.flexColumn};
