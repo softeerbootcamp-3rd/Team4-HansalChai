@@ -61,8 +61,8 @@ const UserPayments = () => {
       </Header>
       <Margin height="24px" />
       <CustomTypo>
-        현재 <span style={{ color: "#596FB7" }}>{displayName}</span> 님께서 사용할
-        수 있는
+        현재 <span style={{ color: "#596FB7" }}>{displayName}</span>
+        님께서 사용할 수 있는
         <br />
         결제수단은 다음과 같아요.
       </CustomTypo>
