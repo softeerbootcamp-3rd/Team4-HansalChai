@@ -11,7 +11,6 @@ import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
 import { UrlMap, TransportTypeArr } from "../../../data/GlobalVariable.js";
 import TranportSvg from "./components/TrasportSvg.jsx";
-import MotionWrapper from "../../../components/MotionWrapper/MotionWrapper.jsx";
 
 const TransportBox = styled.div`
   width: 100%;
@@ -24,7 +23,7 @@ const TransportBox = styled.div`
   padding: 0 20px;
   cursor: pointer;
 `;
-
+ 
 const ChoiceTransport = () => {
   const { setTransportType } = useContext(reservationStore);
 
@@ -35,7 +34,6 @@ const ChoiceTransport = () => {
   };
 
   return (
-    <MotionWrapper>
       <MobileLayout>
         <Header back={false}>
           HAUL
@@ -76,7 +74,6 @@ const ChoiceTransport = () => {
         <Margin height="90px" />
         <NavigationBar />
       </MobileLayout>
-    </MotionWrapper>
   );
 };
 
