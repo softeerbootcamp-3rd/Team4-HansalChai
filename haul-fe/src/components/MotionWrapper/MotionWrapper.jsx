@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 const pageEffect = {
   initial: {
     opacity: 0,
-    x: "-10vw"
+    x: "-2vw"
   },
   in: {
     opacity: 1,
@@ -15,7 +15,7 @@ const pageEffect = {
   },
   out: {
     opacity: 0,
-    x: "10vw"
+    x: "2vw"
   }
 };
 
