@@ -63,7 +63,7 @@ class OrderServiceUnitTest {
 
 		List<Reservation> reservations = createReservationsForApproveTest(owner);
 
-		given(ownerRepository.findByDriverId(userId)).willReturn(Optional.of(owner));
+		given(ownerRepository.findByUserId(userId)).willReturn(Optional.of(owner));
 		given(reservationRepository.findByIdWithPessimisticLock(reservationId)).willReturn(Optional.of(newReservation));
 		given(reservationRepository.findScheduleOfDriver(ownerId,
 			LocalDate.of(2024, 2, 19),
@@ -99,7 +99,7 @@ class OrderServiceUnitTest {
 
 		List<Reservation> reservations = createReservationsForApproveTest(owner);
 
-		given(ownerRepository.findByDriverId(userId)).willReturn(Optional.of(owner));
+		given(ownerRepository.findByUserId(userId)).willReturn(Optional.of(owner));
 		given(reservationRepository.findByIdWithPessimisticLock(reservationId)).willReturn(Optional.of(newReservation));
 		given(reservationRepository.findScheduleOfDriver(ownerId,
 			LocalDate.of(2024, 2, 19),

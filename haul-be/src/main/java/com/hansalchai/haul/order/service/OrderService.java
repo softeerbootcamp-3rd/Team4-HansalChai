@@ -68,28 +68,20 @@ public class OrderService {
 	private final CustomReservationRepositoryImpl customReservationRepository;
 
 	@Transactional(readOnly = true)
-	public OrderSearchResponse findAll(Long driverId, String sort, int page) {
+	public OrderSearchResponse findAll(Long userId, String sort, int page) {
 
-		// 오더 리스트 조회를 위해 기사(Owner)의 차 id 탐색
-		Owner owner = ownerRepository.findByDriverId(driverId)
+		Owner owner = ownerRepository.findByUserId(userId)
 			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
 		Car car = owner.getCar();
 		Long carId = car.getCarId();
 
-		//페이지 정보 생성
 		PageRequest pageRequest = PageRequest.of(page, PAGECUT);
-
-		// 리스트 정렬 기준에 맞는 쿼리를 실행해 오더 리스트 조회
 		OrderFilter orderFilter = OrderFilter.findFilter(sort);
 		Page<Reservation> pages = orderFilter.execute(reservationRepository, carId, pageRequest);
 
-		//필요한 정보만 담아 변환
-		List<OrderSearchResponseDto> orders = pages.getContent().stream()
-			.map(OrderSearchResponseDto::new)
-			.toList();
+		List<OrderSearchResponseDto> orders = pages.map(OrderSearchResponseDto::new).toList();
 		boolean isLastPage = pages.getNumberOfElements() < PAGECUT;
 
-		// 응답 형태로 변환해서 반환
 		return new OrderSearchResponse(orders, isLastPage);
 	}
 
@@ -104,7 +96,7 @@ public class OrderService {
 			throw new ConflictException(ALREADY_ASSIGNED_DRIVER);
 		}
 
-		Owner owner = ownerRepository.findByDriverId(userId)
+		Owner owner = ownerRepository.findByUserId(userId)
 			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
 
 		// 예약에 기사 배정 정보 저장, 운송 상태를 '운송 전'으로 변경
@@ -129,7 +121,7 @@ public class OrderService {
 			throw new ConflictException(ALREADY_ASSIGNED_DRIVER);
 		}
 
-		Owner owner = ownerRepository.findByDriverId(userId)
+		Owner owner = ownerRepository.findByUserId(userId)
 			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
 
 		// 겹치는 오더가 있으면 오더 승인 불가
@@ -148,7 +140,7 @@ public class OrderService {
 		// smsUtil.send(customerTel, reservationNumber);
 	}
 
-	private boolean isScheduleOverlap(Long driverId, Reservation newOrder) {
+	private boolean isScheduleOverlap(Long ownerId, Reservation newOrder) {
 
 		long requiredTime = (long)(newOrder.getTransport().getRequiredTime() * 60);
 		LocalDateTime newOrderStartDateTime = LocalDateTime.of(newOrder.getDate(), newOrder.getTime());
@@ -157,7 +149,7 @@ public class OrderService {
 		// 기사 스케줄 리스트 조회
 		LocalDate today = newOrder.getDate();
 		List<Reservation> myOrders
-			= reservationRepository.findScheduleOfDriver(driverId, today.minusDays(1), today);
+			= reservationRepository.findScheduleOfDriver(ownerId, today.minusDays(1), today);
 
 		for (Reservation myOrder : myOrders) {
 			requiredTime = (long)(myOrder.getTransport().getRequiredTime() * 60);
@@ -235,9 +227,9 @@ public class OrderService {
 	}
 
 	@Transactional
-	public OrderSearchResponse findAllV2(Long driverId, String sort, int page, DriverPositionDto requestDto) {
+	public OrderSearchResponse findAllV2(Long userId, String sort, int page, DriverPositionDto requestDto) {
 		// 오더 리스트 조회를 위해 기사(Owner)의 차 id 탐색
-		Owner owner = ownerRepository.findByDriverId(driverId)
+		Owner owner = ownerRepository.findByUserId(userId)
 			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
 		Car car = owner.getCar();
 		Long carId = car.getCarId();
@@ -317,8 +309,8 @@ public class OrderService {
 	}
 
 	//운송 중인 오더가 있는지 확인
-	private boolean hasInProgressOrder(Long driverId, Long orderId) {
-		List<Reservation> ordersInProgress = reservationRepository.findByDriverIdInProgress(driverId);
-		return !ordersInProgress.stream().allMatch(order -> order.getReservationId().equals(orderId));
+	private boolean hasInProgressOrder(Long id, Long userId) {
+		List<Reservation> ordersInProgress = reservationRepository.findInProgressReservationByUserId(userId);
+		return !ordersInProgress.stream().allMatch(order -> order.getReservationId().equals(id));
 	}
 }

@@ -1,6 +1,5 @@
 package com.hansalchai.haul.reservation.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -82,7 +81,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 		@Param("today") LocalDate today);
 
 	@Query(value = "select r from Reservation r where r.owner.user.userId = :userId and r.transport.transportStatus = 'IN_PROGRESS'")
-	List<Reservation> findByDriverIdInProgress(@Param("userId")Long id);
+	List<Reservation> findInProgressReservationByUserId(@Param("userId")Long id);
 
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@Query("select r from Reservation r where r.id = :id")
