@@ -38,14 +38,14 @@ export function setCoordinate({ userLatitude, userLongitude }) {
   localStorage.setItem("userLongitude", userLongitude);
 }
 
-export function getCoordinate(){
-  return{
+export function getCoordinate() {
+  return {
     userLatitude: localStorage.getItem("userLatitude"),
-    userLongitude: localStorage.getItem("userLongitude"),
-  }
+    userLongitude: localStorage.getItem("userLongitude")
+  };
 }
 
-export function removeCoordinate(){
+export function removeCoordinate() {
   localStorage.removeItem("userLatitude");
   localStorage.removeItem("userLongitude");
 }

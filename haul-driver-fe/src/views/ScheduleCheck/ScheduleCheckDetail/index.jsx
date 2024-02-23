@@ -42,7 +42,10 @@ export async function driveStartFun({ orderId, setDriverStatus, navigate }) {
         children: "한번에 한 내역만 하실 수 있어요."
       });
     } else if (!data.data.driverNearBy) {
-      ToastMaker({ type: "error", children: "300m이내에서 운송상태를 변경할 수 있어요." });
+      ToastMaker({
+        type: "error",
+        children: "300m이내에서 운송상태를 변경할 수 있어요."
+      });
     } else {
       setDriverStatus("운송 중");
       ToastMaker({ type: "success", children: "안전 운전 되세요." });
@@ -84,7 +87,10 @@ export async function driveEndFun({ orderId, setDriverStatus, navigate }) {
   });
   if (success) {
     if (!data.data.driverNearBy) {
-      ToastMaker({ type: "error", children: "300m이내에서 운송상태를 변경할 수 있어요." });
+      ToastMaker({
+        type: "error",
+        children: "300m이내에서 운송상태를 변경할 수 있어요."
+      });
     } else {
       setDriverStatus("운송 완료");
       ToastMaker({ type: "success", children: "운행이 종료되었습니다." });

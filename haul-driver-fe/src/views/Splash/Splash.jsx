@@ -68,22 +68,31 @@ const Splash = () => {
     const positionPromise = new Promise((resolve, reject) => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-          (position) => {
-            setCoordinate({userLatitude: position.coords.latitude, userLongitude: position.coords.longitude});
+          position => {
+            setCoordinate({
+              userLatitude: position.coords.latitude,
+              userLongitude: position.coords.longitude
+            });
             resolve();
           },
-          (error) => {
-            ToastMaker({type:"error", children:"위치 정보를 허용해주세요."})
+          error => {
+            ToastMaker({
+              type: "error",
+              children: "위치 정보를 허용해주세요."
+            });
             reject(error);
           }
         );
       } else {
-        ToastMaker({type:"error", children: "위치 정보를 허용할 수 없는 브라우저입니다."})
+        ToastMaker({
+          type: "error",
+          children: "위치 정보를 허용할 수 없는 브라우저입니다."
+        });
         reject(new Error("Geolocation is not supported by this browser."));
       }
     });
 
-    const timeoutPromise = new Promise((resolve) => {
+    const timeoutPromise = new Promise(resolve => {
       animateText();
       setTimeout(resolve, animationDuration + delayTime);
     });
@@ -92,7 +101,7 @@ const Splash = () => {
       .then(() => {
         navigate(UrlMap.loginPageUrl);
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
       });
   }, []);
