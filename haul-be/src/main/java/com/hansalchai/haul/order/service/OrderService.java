@@ -35,7 +35,6 @@ import com.hansalchai.haul.common.utils.SidoGraph;
 import com.hansalchai.haul.order.constants.OrderFilterV2;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
-import com.hansalchai.haul.order.dto.DriverPositionDto;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO.OrderInfoDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDetailDTO;
@@ -235,14 +234,14 @@ public class OrderService {
 	}
 
 	@Transactional
-	public OrderSearchResponse findAllV2(Long driverId, String sort, int page, DriverPositionDto requestDto) {
+	public OrderSearchResponse findAllV2(Long driverId, String sort, int page, double latitude, double longitude) {
 		// 오더 리스트 조회를 위해 기사(Owner)의 차 id 탐색
 		Owner owner = ownerRepository.findByDriverId(driverId)
 			.orElseThrow(() -> new NotFoundException(OWNER_NOT_FOUND));
 		Car car = owner.getCar();
 		Long carId = car.getCarId();
 
-		String curRegion = AddressUtil.kakaoAdressToSrcAddress(kakaoMap.searchRoadAddress(requestDto.getLatitude(), requestDto.getLongitude()));
+		String curRegion = AddressUtil.kakaoAdressToSrcAddress(kakaoMap.searchRoadAddress(latitude, longitude));
 
 
 		ArrayList<String> selectedSidoArray = null;
