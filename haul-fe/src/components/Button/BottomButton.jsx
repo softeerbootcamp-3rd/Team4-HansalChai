@@ -4,14 +4,12 @@ const ButtonStyle = styled.button`
   width: 100%;
   height: 48px;
   left: 20px;
-  background-color: ${props =>
-    props.role === "main"
-      ? props.theme.colors.mainColor
-      : props.theme.colors.subButtonBackground};
-  color: ${props =>
-    props.role === "main"
-      ? props.theme.colors.white
-      : props.theme.colors.mainColor};
+  background-color: ${({ role, theme }) =>
+    role === "main"
+      ? theme.colors.mainColor
+      : theme.colors.subButtonBackground};
+  color: ${({ role, theme }) =>
+    role === "main" ? theme.colors.white : theme.colors.mainColor};
   font-family: "bold";
   font-size: 16px;
   text-align: center;

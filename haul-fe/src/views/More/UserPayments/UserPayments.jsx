@@ -21,16 +21,13 @@ const CustomTypo = styled.p`
 
 const getUserInfo = async () => {
   const response = await getUserProfile();
-  if (!response.success) {
-    ToastMaker({ type: "error", children: response.message });
-    return;
-  }
+  if (!response.success) throw response;
   setUserName(response.data.name);
   return response.data;
 };
 
 const UserPayments = () => {
-  const [userName, setUserName] = useState("");
+  const [displayName, setDisplayName] = useState("");
 
   const btnHandler = () => {
     ToastMaker({
@@ -42,12 +39,17 @@ const UserPayments = () => {
   useEffect(() => {
     const localUserName = getUserName();
     if (localUserName !== null) {
-      setUserName(getUserName());
+      setDisplayName(localUserName);
       return;
     }
-    getUserInfo().then(data => {
-      setUserName(data.name);
-    });
+    getUserInfo()
+      .then(data => {
+        setDisplayName(data.name);
+      })
+      .catch(res => {
+        ToastMaker({ type: "error", children: res.message });
+        setDisplayName("사용자");
+      });
   }, []);
 
   return (
@@ -59,8 +61,8 @@ const UserPayments = () => {
       </Header>
       <Margin height="24px" />
       <CustomTypo>
-        현재 <span style={{ color: "#596FB7" }}>{userName}</span> 님께서 사용할
-        수 있는
+        현재 <span style={{ color: "#596FB7" }}>{displayName}</span>
+        님께서 사용할 수 있는
         <br />
         결제수단은 다음과 같아요.
       </CustomTypo>

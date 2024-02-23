@@ -9,42 +9,11 @@ import BottomButton from "../../../components/Button/BottomButton.jsx";
 import Header from "../../../components/Header/Header.jsx";
 import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import SummaryItemBox from "../List/components/SummaryItemBox.jsx";
-import styled from "styled-components";
 import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
-import Truck from "../../../assets/svgs/BigTruck.svg";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import { getGuestSummaryList } from "../../../repository/checkRepository.js";
 import { ErrorMessageMap } from "../../../data/GlobalVariable.js";
-
-const TruckImg = styled.img`
-  position: absolute;
-  width: 126px;
-  height: 90px;
-  border: none;
-  right: 5%;
-  bottom: 10%;
-  fill: ${props => props.theme.colors[props.fill]};
-  object-fit: scale-down;
-  object-position: center;
-`;
-
-const AdvisorFrame = styled.div`
-  width: 100%;
-  min-height: 202px;
-  ${({ theme }) => theme.flex.flexColumn};
-  align-items: left;
-  background-color: ${({ theme }) => theme.colors.mainColor};
-  opacity: 0.4;
-  border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
-  padding: 15px;
-  cursor: default;
-  position: relative;
-`;
-
-const UpperTyphography = styled(Typography)`
-  z-index: 1;
-`;
+import AdvisorFrame from "./components/AdvisorFrame.jsx";
 
 const GuestCheck = () => {
   const reservationNumber = useRef("");
@@ -131,17 +100,7 @@ const GuestCheck = () => {
       </form>
       <Margin height="32px" />
       {reservationData === undefined ? (
-        <AdvisorFrame>
-          <UpperTyphography font={"bold20"} color={"white"}>
-            예약 번호를 확인해주세요!
-          </UpperTyphography>
-          <Margin height="12px" />
-          <UpperTyphography font={"medium16"} color={"white"}>
-            예약 번호는 12자리의 <br />
-            숫자로 이루어져 있어요.
-          </UpperTyphography>
-          <TruckImg src={Truck} height={50} width={80} fill="white" />
-        </AdvisorFrame>
+        <AdvisorFrame />
       ) : (
         <Link to={`/check/detail/${reservationData.id}`}>
           <SummaryItemBox
