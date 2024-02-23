@@ -32,14 +32,29 @@ export async function showDetailFun({ orderId, setOrderData, navigate }) {
 }
 
 export async function driveStartFun({ orderId, setDriverStatus, navigate }) {
-  const { success, code } = await orderStatusChage({
+  const { success, data, code } = await orderStatusChage({
     orderId: orderId
   });
   if (success) {
-    setDriverStatus("운송 중");
-    ToastMaker({ type: "success", children: "안전 운전 되세요." });
+    if (data.data.hasInProgressOrder) {
+      ToastMaker({
+        type: "error",
+        children: "한번에 한 내역만 하실 수 있어요."
+      });
+    } else if (!data.data.driverNearBy) {
+      ToastMaker({ type: "error", children: "300m이내에서 운송상태를 변경할 수 있어요." });
+    } else {
+      setDriverStatus("운송 중");
+      ToastMaker({ type: "success", children: "안전 운전 되세요." });
+    }
   } else {
     if (isTokenInvalid(code)) navigate(UrlMap.loginPageUrl);
+    if (code === 99) {
+      ToastMaker({
+        type: "error",
+        children: "위치 정보를 허용해주세요."
+      });
+    }
     if (code === 1103) {
       ToastMaker({
         type: "error",
@@ -64,15 +79,24 @@ export async function driveStartFun({ orderId, setDriverStatus, navigate }) {
 }
 
 export async function driveEndFun({ orderId, setDriverStatus, navigate }) {
-  //도착 로직
-  const { success, code } = await orderStatusChage({
+  const { success, data, code } = await orderStatusChage({
     orderId: orderId
   });
   if (success) {
-    setDriverStatus("운송 완료");
-    ToastMaker({ type: "success", children: "운행이 종료되었습니다." });
+    if (!data.data.driverNearBy) {
+      ToastMaker({ type: "error", children: "300m이내에서 운송상태를 변경할 수 있어요." });
+    } else {
+      setDriverStatus("운송 완료");
+      ToastMaker({ type: "success", children: "운행이 종료되었습니다." });
+    }
   } else {
     if (isTokenInvalid(code)) navigate(UrlMap.loginPageUrl);
+    if (code === 99) {
+      ToastMaker({
+        type: "error",
+        children: "위치 정보를 허용해주세요."
+      });
+    }
     if (code === 1103) {
       ToastMaker({
         type: "error",

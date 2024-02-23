@@ -63,6 +63,7 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
 export async function orderStatusChage({ orderId }) {
   try {
     const userCoordinate = getCoordinate();
+    if(!userCoordinate.userLatitude) return { success: false, code: 99 };
     const response = await fetch(`${apiKey}/api/v2/orders/status`, {
       method: "PATCH",
       headers: {
