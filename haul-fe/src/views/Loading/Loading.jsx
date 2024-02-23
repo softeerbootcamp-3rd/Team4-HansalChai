@@ -23,7 +23,7 @@ const Loading = () => {
           <ImgBox src={LoadingGif} />
           <Margin height="50px" />
           <Typography font="bold20" color="subColor">
-            잠시만 기달려주세요...
+            잠시만 기다려주세요...
           </Typography>
         </Flex>
       </LoadingPage>

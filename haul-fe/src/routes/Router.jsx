@@ -7,6 +7,7 @@ import {
   useNavigate
 } from "react-router-dom";
 import { lazy, useEffect, Suspense } from "react";
+import { AnimatePresence } from "framer-motion";
 import Splash from "../views/Splash/Splash.jsx";
 import ChoiceTransport from "../views/Request/ChoiceTransport/ChoiceTransport.jsx";
 import ChoiceDate from "../views/Request/ChoiceDate/ChoiceDate.jsx";
@@ -51,48 +52,56 @@ const Router = () => (
   <BrowserRouter>
     <ScrollToTop />
     <Suspense fallback={<Loading />}>
-      <Routes>
-        <Route path="/" element={<Splash />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route element={<LoginCheckRoute />}>
-          <Route path="/more" element={<Outlet />}>
-            <Route path="list" element={<More />} />
-            <Route path="terms" element={<Outlet />}>
-              <Route path="" element={<Terms />} />
-              <Route path="services" element={<Contract type={"services"} />} />
-              <Route path="privacy" element={<Contract type={"privacy"} />} />
-              <Route
-                path="transportation"
-                element={<Contract type={"transportation"} />}
-              />
-              <Route path="location" element={<Contract type={"location"} />} />
+      <AnimatePresence>
+        <Routes>
+          <Route path="/" element={<Splash />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signUp" element={<SignUp />} />
+          <Route element={<LoginCheckRoute />}>
+            <Route path="/more" element={<Outlet />}>
+              <Route path="list" element={<More />} />
+              <Route path="terms" element={<Outlet />}>
+                <Route path="" element={<Terms />} />
+                <Route
+                  path="services"
+                  element={<Contract type={"services"} />}
+                />
+                <Route path="privacy" element={<Contract type={"privacy"} />} />
+                <Route
+                  path="transportation"
+                  element={<Contract type={"transportation"} />}
+                />
+                <Route
+                  path="location"
+                  element={<Contract type={"location"} />}
+                />
+              </Route>
+              <Route path="user-info" element={<UserInfo />} />
+              <Route path="user-payments" element={<UserPayments />} />
             </Route>
-            <Route path="user-info" element={<UserInfo />} />
-            <Route path="user-payments" element={<UserPayments />} />
+            <Route path="/request" element={<Outlet />}>
+              <Route path="type" element={<ChoiceTransport />} />
+              <Route path="date" element={<ChoiceDate />} />
+              <Route path="time" element={<ChoiceTime />} />
+              <Route path="source" element={<ChoiceSrc />} />
+              <Route path="destination" element={<ChoiceDst />} />
+              <Route path="loadInfo" element={<ChoiceLoadInfo />} />
+              <Route path="result" element={<Result />} />
+              <Route path="purchase" element={<Purchase />} />
+              <Route path="guestInfo" element={<GuestInfo />} />
+              <Route path="complete" element={<Complete />} />
+            </Route>
+            <Route path="/check" element={<Outlet />}>
+              <Route path="guest" element={<GuestCheck />} />
+              <Route path="list" element={<Check />} />
+              <Route
+                path="detail/:reservid"
+                element={<CheckDetail driver={null} car={null} map={null} />}
+              />
+            </Route>
           </Route>
-          <Route path="/request" element={<Outlet />}>
-            <Route path="type" element={<ChoiceTransport />} />
-            <Route path="date" element={<ChoiceDate />} />
-            <Route path="time" element={<ChoiceTime />} />
-            <Route path="source" element={<ChoiceSrc />} />
-            <Route path="destination" element={<ChoiceDst />} />
-            <Route path="loadInfo" element={<ChoiceLoadInfo />} />
-            <Route path="result" element={<Result />} />
-            <Route path="purchase" element={<Purchase />} />
-            <Route path="guestInfo" element={<GuestInfo />} />
-            <Route path="complete" element={<Complete />} />
-          </Route>
-          <Route path="/check" element={<Outlet />}>
-            <Route path="guest" element={<GuestCheck />} />
-            <Route path="list" element={<Check />} />
-            <Route
-              path="detail/:reservid"
-              element={<CheckDetail driver={null} car={null} map={null} />}
-            />
-          </Route>
-        </Route>
-      </Routes>
+        </Routes>
+      </AnimatePresence>
     </Suspense>
   </BrowserRouter>
 );

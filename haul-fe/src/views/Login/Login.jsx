@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
 import Typography from "../../components/Typhography/Typhography.jsx";
@@ -12,7 +12,6 @@ import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { UrlMap } from "../../data/GlobalVariable.js";
 import { setIsMember } from "../../utils/localStorage.js";
-import { isMemberLogin } from "../../utils/localStorage.js";
 import { checkLoginAbled, loginBtnFun } from "./index.jsx";
 
 const GoSignUpBtn = styled.button`
@@ -22,14 +21,6 @@ const GoSignUpBtn = styled.button`
 
 const Login = () => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // 로그인을 이미 했다면
-    if (isMemberLogin()) {
-      navigate(UrlMap.choiceTranportTypeUrl);
-    }
-  }, []);
-
   const tel = useRef("");
   const password = useRef("");
   const [isButtonDisabled, setButtonDisabled] = useState(true);

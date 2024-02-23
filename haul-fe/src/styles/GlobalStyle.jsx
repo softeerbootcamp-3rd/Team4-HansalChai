@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
   html, body, #root {
       width: 100vw;
       height: 100vh;
-      background-color: white;
+      background-color: #000000;
       font-family: "regular";
       ::-webkit-scrollbar {
         display: none;
