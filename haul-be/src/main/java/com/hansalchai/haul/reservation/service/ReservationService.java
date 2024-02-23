@@ -83,7 +83,7 @@ public class ReservationService{
 
 		//차량을 기반으로 금액 계산
 		CargoFeeTable.RequestedTruckInfo getTruck = CargoFeeTable.findCost(recommendedCars, distanceDurationInfo.getDistance(), cargo.getWeight());
-		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(), transportDuration);
+		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(), transportDuration, TransportStatus.NOT_RESERVATED);
 		//예약 번호
 		String reservationNumber = generateUniqueReservationNumber();
 
@@ -114,7 +114,7 @@ public class ReservationService{
 
 		//차량을 기반으로 금액 계산
 		CargoFeeTable.RequestedTruckInfo getTruck = CargoFeeTable.findCost(recommendedCars, distanceDurationInfo.getDistance(), cargo.getWeight());
-		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(), transportDuration);
+		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(), transportDuration, TransportStatus.NOT_RESERVATED);
 		//예약 번호
 		String reservationNumber = generateUniqueReservationNumber();
 
