@@ -74,13 +74,11 @@ const Splash = () => {
           },
           (error) => {
             ToastMaker({type:"error", children:"위치 정보를 허용해주세요."})
-            console.error("Error Code = " + error.code + " - " + error.message);
             reject(error);
           }
         );
       } else {
         ToastMaker({type:"error", children: "위치 정보를 허용할 수 없는 브라우저입니다."})
-        console.log("Geolocation is not supported by this browser.");
         reject(new Error("Geolocation is not supported by this browser."));
       }
     });
