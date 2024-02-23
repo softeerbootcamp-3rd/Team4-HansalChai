@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
 import Typography from "../../components/Typhography/Typhography.jsx";
@@ -10,16 +10,9 @@ import BottomButton from "../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { UrlMap, ErrorMessageMap } from "../../data/GlobalVariable.js";
-import { isPhoneNumber } from "../../utils/helper.js";
-import ToastMaker from "../../components/Toast/ToastMaker.jsx";
-import {
-  setIsMember,
-  setAccessToken,
-  setRefreshToken
-} from "../../utils/localStorage.js";
-import { loginFun } from "../../repository/userRepository.js";
-import { isMemberLogin } from "../../utils/localStorage.js";
+import { UrlMap } from "../../data/GlobalVariable.js";
+import { setIsMember } from "../../utils/localStorage.js";
+import { checkLoginAbled, loginBtnFun } from "./index.jsx";
 
 const GoSignUpBtn = styled.button`
   width: auto;
@@ -28,59 +21,13 @@ const GoSignUpBtn = styled.button`
 
 const Login = () => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // 로그인을 이미 했다면
-    if (isMemberLogin()) {
-      navigate(UrlMap.choiceTranportTypeUrl);
-    }
-  }, []);
-
   const tel = useRef("");
   const password = useRef("");
   const [isButtonDisabled, setButtonDisabled] = useState(true);
 
-  function checkLoginAbled() {
-    const checkIsButtonDisabled = !(
-      tel.current.trim() && password.current.trim()
-    );
-    if (checkIsButtonDisabled !== isButtonDisabled) {
-      setButtonDisabled(checkIsButtonDisabled);
-    }
-  }
-
   //회원가입 버튼 클릭 시 실행 함수
   function signUpBtnFun() {
     navigate(UrlMap.signUpPageUrl);
-  }
-
-  //로그인 버튼 클릭 시 실행 함수
-  async function loginBtnFun() {
-    //전화번호 형식 예외처리
-    if (!isPhoneNumber(tel.current)) {
-      ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
-      return;
-    }
-    const { success, data, code } = await loginFun({
-      tel: tel.current,
-      password: password.current
-    });
-    if (success) {
-      setIsMember(true);
-      setAccessToken(data.data.jwt.accessToken);
-      setRefreshToken(data.data.jwt.refreshToken);
-      navigate(UrlMap.choiceTranportTypeUrl);
-    } else {
-      if (code === 2005)
-        ToastMaker({ type: "error", children: ErrorMessageMap.NoneId });
-      else if (code === 2006)
-        ToastMaker({
-          type: "error",
-          children: ErrorMessageMap.NotSamePassword
-        });
-      else
-        ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
-    }
   }
 
   // 비회원으로 접속하기 버튼 클릭 시 실행 함수
@@ -126,7 +73,12 @@ const Login = () => {
           placeholder="Phone Number "
           onChange={({ target: { value } }) => {
             tel.current = value;
-            checkLoginAbled();
+            checkLoginAbled({
+              tel: tel,
+              password: password,
+              isButtonDisabled: isButtonDisabled,
+              setButtonDisabled: setButtonDisabled
+            });
           }}
         />
         <Margin height="20px" />
@@ -136,7 +88,12 @@ const Login = () => {
           placeholder="Password "
           onChange={({ target: { value } }) => {
             password.current = value;
-            checkLoginAbled();
+            checkLoginAbled({
+              tel: tel,
+              password: password,
+              isButtonDisabled: isButtonDisabled,
+              setButtonDisabled: setButtonDisabled
+            });
           }}
         />
       </form>
@@ -146,7 +103,7 @@ const Login = () => {
           role="main"
           disabled={isButtonDisabled}
           onClick={() => {
-            loginBtnFun();
+            loginBtnFun({ tel: tel, password: password, navigate: navigate });
           }}
         >
           로그인하기

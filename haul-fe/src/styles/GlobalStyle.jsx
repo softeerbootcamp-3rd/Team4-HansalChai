@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
   html, body, #root {
       width: 100vw;
       height: 100vh;
-      background-color: white;
+      background-color: #000000;
       font-family: "regular";
       ::-webkit-scrollbar {
         display: none;
@@ -29,6 +29,7 @@ const GlobalStyle = createGlobalStyle`
     ::-webkit-scrollbar {
       display: none; /* 크롬, 사파리, 오페라, 엣지 */
     }
+    -webkit-tap-highlight-color: transparent;
   }
 
   a {
@@ -53,7 +54,8 @@ const GlobalStyle = createGlobalStyle`
   button {
     border: none;
     outline: none;
-    background: none;
+    user-select: none;
+    background: white; 
   }
   
   img {
