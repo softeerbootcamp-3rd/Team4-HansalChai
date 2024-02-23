@@ -7,11 +7,11 @@ const pageEffect = {
   },
   in: {
     opacity: 1,
-    x: 0 ,
+    x: 0,
     transition: {
-        type: "spring",
-        damping: 12,
-      },
+      type: "spring",
+      damping: 12
+    }
   },
   out: {
     opacity: 0,
