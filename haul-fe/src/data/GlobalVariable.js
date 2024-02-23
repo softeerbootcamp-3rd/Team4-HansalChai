@@ -53,14 +53,14 @@ export const ErrorMessageMap = {
 export const TransportTypeArr = [
   {
     transportType: "일반 용달",
-    transportPlusInfo: "중고거래, 물품 운송",
+    transportPlusInfo: "중고, 물품 운송",
     maxLoad: 10,
     boxEachColor: "#d9c7e7",
     img: "transport1"
   },
   {
     transportType: "용달 이사",
-    transportPlusInfo: "원룸이사, 1인 가구 이사",
+    transportPlusInfo: "원룸, 다인 가구 이사",
     maxLoad: 5,
     boxEachColor: "#FF9A62",
     img: "transport2"
