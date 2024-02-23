@@ -11,17 +11,19 @@ export async function getDriverSummaryList({ page, sortBy = "default" }) {
   try {
     const { userLatitude: latitude, userLongitude: longitude } =
       getMockCoordinate();
+    //TODO: 수정 후 위경도 다시 바꿔넣을 것
     const response = await fetch(
-      `${apiKey}/api/v1/orders?sort=${sortBy}&page=${page}`,
+      `${apiKey}/api/v2/orders?sort=${sortBy}&page=${page}&latitude=${longitude}&longitude=${latitude}`,
       {
         method: "GET",
         headers: {
           Authorization: `Bearer ${getAccessToken()}`
-        },
-        body: JSON.stringify({ latitude, longitude })
+        }
       }
     );
+    console.log(response);
     const body = await response.json();
+    console.log(body);
     if (body.status === 200) {
       const list = body.data.orderSearchDtos.map(orderSummaryInfo => {
         return {
@@ -56,6 +58,7 @@ export async function getDriverSummaryList({ page, sortBy = "default" }) {
       }
     }
   } catch (error) {
+    console.log(error);
     return {
       success: false,
       error,
