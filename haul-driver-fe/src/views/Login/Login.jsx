@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
 import Typography from "../../components/Typhography/Typhography.jsx";
 import TypographySpan from "../../components/Typhography/TyphographySpan.jsx";
@@ -8,20 +8,11 @@ import Input from "../../components/Input/Input.jsx";
 import BottomButton from "../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
 import { checkLoginAbled, loginBtnFun } from "./index.jsx";
-import { isLoginFun } from "../../utils/localStorage.js";
-import { useNavigate } from "react-router-dom";
-import { UrlMap } from "../../data/GlobalVariable.js";
 
 const Login = () => {
-  const navigate = useNavigate();
   const tel = useRef("");
   const password = useRef("");
   const [isButtonDisabled, setButtonDisabled] = useState(true);
-
-  useEffect(() => {
-    const isLogin = isLoginFun();
-    if (isLogin) navigate(UrlMap.scheduleCreatePageUrl);
-  });
 
   return (
     <MobileLayout>

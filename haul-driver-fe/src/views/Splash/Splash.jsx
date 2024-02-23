@@ -6,6 +6,8 @@ import Typography from "../../components/Typhography/Typhography.jsx";
 import Loading from "../../assets/gifs/Loading.gif";
 import HaulCar from "../../assets/svgs/HaulCar.svg";
 import { UrlMap } from "../../data/GlobalVariable.js";
+import { setCoordinate } from "../../utils/localStorage.js";
+import ToastMaker from "../../components/Toast/ToastMaker.jsx";
 
 const SplashBox = styled.div`
   width: 100%;
@@ -63,10 +65,45 @@ const Splash = () => {
   };
 
   useEffect(() => {
-    animateText();
-    setTimeout(() => {
-      navigate(UrlMap.loginPageUrl);
-    }, animationDuration + delayTime);
+    const positionPromise = new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            setCoordinate({
+              userLatitude: position.coords.latitude,
+              userLongitude: position.coords.longitude
+            });
+            resolve();
+          },
+          error => {
+            ToastMaker({
+              type: "error",
+              children: "위치 정보를 허용해주세요."
+            });
+            reject(error);
+          }
+        );
+      } else {
+        ToastMaker({
+          type: "error",
+          children: "위치 정보를 허용할 수 없는 브라우저입니다."
+        });
+        reject(new Error("Geolocation is not supported by this browser."));
+      }
+    });
+
+    const timeoutPromise = new Promise(resolve => {
+      animateText();
+      setTimeout(resolve, animationDuration + delayTime);
+    });
+
+    Promise.all([positionPromise, timeoutPromise])
+      .then(() => {
+        navigate(UrlMap.loginPageUrl);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }, []);
 
   return (
