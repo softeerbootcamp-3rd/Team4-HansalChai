@@ -9,14 +9,7 @@ import BottomButton from "../../../components/Button/BottomButton.jsx";
 import { useContext } from "react";
 import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  CompanyCallNumber,
-  UrlMap,
-  ErrorMessageMap
-} from "../../../data/GlobalVariable.js";
-import { getIsMember } from "../../../utils/localStorage.js";
-import { guestReservationConfirmFun } from "../../../repository/reservationRepository.js";
-import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
+import { decideBtnFun, callCompany } from "./index.jsx";
 const Result = () => {
   const navigation = useNavigate();
   const {
@@ -33,42 +26,6 @@ const Result = () => {
 
   const location = useLocation();
   const { data } = location.state;
-  function callCompany() {
-    const phoneNumber = CompanyCallNumber;
-    window.location.href = `tel:${phoneNumber}`;
-  }
-  async function decideBtnFun() {
-    const isMember = getIsMember();
-    //비회원이라면 예약 확정 진행
-    if (isMember === "false") {
-      const { success, code } = await guestReservationConfirmFun({
-        reservationId: data.reservationId,
-        cost: data.cost
-      });
-      if (success) {
-        setInitialState();
-        navigation(UrlMap.completePageUrl);
-      } else {
-        if (code === 1103)
-          ToastMaker({
-            type: "error",
-            children: ErrorMessageMap.NotFindReservationError
-          });
-        else if (code === 3001) {
-          ToastMaker({
-            type: "error",
-            children: ErrorMessageMap.AlreadyReservationError
-          });
-          navigation(UrlMap.choiceTranportTypeUrl);
-        } else
-          ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
-      }
-      return;
-    }
-    navigation(UrlMap.choicePaymentPageUrl, {
-      state: { reservationId: data.reservationId, cost: data.cost }
-    });
-  }
 
   return (
     <MobileLayout>
@@ -113,7 +70,11 @@ const Result = () => {
       <BottomButton
         role="main"
         onClick={() => {
-          decideBtnFun();
+          decideBtnFun({
+            data: data,
+            navigation: navigation,
+            setInitialState: setInitialState
+          });
         }}
       >
         이걸로 결정할게요!

@@ -9,9 +9,9 @@ import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx"
 import Calendar from "./components/Calendar.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
+import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import { isEmptyString, stringToDateObject } from "../../../utils/helper.js";
 import { UrlMap } from "../../../data/GlobalVariable.js";
-import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 
 const ChoiceDate = () => {
   const navigation = useNavigate();

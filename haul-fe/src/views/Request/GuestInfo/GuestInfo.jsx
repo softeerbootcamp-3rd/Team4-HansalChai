@@ -9,11 +9,9 @@ import Header from "../../../components/Header/Header.jsx";
 import Input from "../../../components/Input/Input.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
-import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import Loading from "../../Loading/Loading.jsx";
-import { UrlMap, ErrorMessageMap } from "../../../data/GlobalVariable.js";
-import { isPhoneNumber } from "../../../utils/helper.js";
-import { guestReservationFun } from "../../../repository/reservationRepository.js";
+import { UrlMap } from "../../../data/GlobalVariable.js";
+import { checkGuestInfoAbled, guestInfoBtnFun } from "./index.jsx";
 
 const GuestInfo = () => {
   const navigate = useNavigate();
@@ -29,55 +27,16 @@ const GuestInfo = () => {
   const [resultLoading, setResultLoading] = useState(false);
 
   useEffect(() => {
-    if (cargoWeight === 0) {
+    if (!cargoWeight) {
       navigate(UrlMap.choiceLoadInfoPageUrl);
     }
-    checkGuestInfoAbled();
+    checkGuestInfoAbled({
+      inGuestName: inGuestName,
+      inGuestTel: inGuestTel,
+      isButtonDisabled: isButtonDisabled,
+      setButtonDisabled: setButtonDisabled
+    });
   }, []);
-
-  function checkGuestInfoAbled() {
-    const checkIsButtonDisabled = !(
-      inGuestName.current.trim() && inGuestTel.current.trim()
-    );
-    if (checkIsButtonDisabled !== isButtonDisabled) {
-      setButtonDisabled(checkIsButtonDisabled);
-    }
-  }
-
-  //비회원 로그인 버튼 클릭 시 함수 (정보 입력 완료 버튼)
-  async function guestInfoBtnFun() {
-    //전화번호 형식 예외처리
-    if (!isPhoneNumber(inGuestTel.current)) {
-      ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
-      return;
-    }
-
-    setGuestInfo({
-      guestName: inGuestName.current,
-      guestTel: inGuestTel.current
-    });
-
-    const reservationState = getReservationState();
-    setResultLoading(true);
-    const { success, data, code } = await guestReservationFun({
-      ...reservationState,
-      guestName: inGuestName.current,
-      guestTel: inGuestTel.current
-    });
-
-    if (success) {
-      navigate(UrlMap.resultPageUrl, { state: { data: data.data } });
-    } else {
-      if (code === 1104)
-        ToastMaker({
-          type: "error",
-          children: ErrorMessageMap.NoMatchingHaulCarError
-        });
-      else
-        ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
-    }
-    setResultLoading(false);
-  }
 
   if (resultLoading) return <Loading />;
 
@@ -107,7 +66,12 @@ const GuestInfo = () => {
           defaultValue={guestName}
           onChange={({ target: { value } }) => {
             inGuestName.current = value;
-            checkGuestInfoAbled();
+            checkGuestInfoAbled({
+              inGuestName: inGuestName,
+              inGuestTel: inGuestTel,
+              isButtonDisabled: isButtonDisabled,
+              setButtonDisabled: setButtonDisabled
+            });
           }}
         />
         <Margin height="20px" />
@@ -120,7 +84,12 @@ const GuestInfo = () => {
           placeholder="Phone Number"
           onChange={({ target: { value } }) => {
             inGuestTel.current = value;
-            checkGuestInfoAbled();
+            checkGuestInfoAbled({
+              inGuestName: inGuestName,
+              inGuestTel: inGuestTel,
+              isButtonDisabled: isButtonDisabled,
+              setButtonDisabled: setButtonDisabled
+            });
           }}
         />
       </form>
@@ -130,7 +99,14 @@ const GuestInfo = () => {
           role="main"
           disabled={isButtonDisabled}
           onClick={() => {
-            guestInfoBtnFun();
+            guestInfoBtnFun({
+              inGuestName: inGuestName,
+              inGuestTel: inGuestTel,
+              setGuestInfo: setGuestInfo,
+              getReservationState: getReservationState,
+              setResultLoading: setResultLoading,
+              navigate: navigate
+            });
           }}
         >
           정보 입력 완료

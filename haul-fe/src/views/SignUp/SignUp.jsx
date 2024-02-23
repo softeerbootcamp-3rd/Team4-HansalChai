@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
 import Header from "../../components/Header/Header.jsx";
 import Margin from "../../components/Margin/Margin.jsx";
@@ -7,15 +8,12 @@ import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
 import Input from "../../components/Input/Input.jsx";
 import Typography from "../../components/Typhography/Typhography.jsx";
 import Flex from "../../components/Flex/Flex.jsx";
-import { checkEmail, isPhoneNumber } from "../../utils/helper.js";
-import { useNavigate } from "react-router-dom";
+import { checkEmail } from "../../utils/helper.js";
 import {
   IoIosCheckmarkCircleOutline,
   IoIosCloseCircleOutline
 } from "react-icons/io";
-import ToastMaker from "../../components/Toast/ToastMaker.jsx";
-import { UrlMap, ErrorMessageMap } from "../../data/GlobalVariable.js";
-import { signUpFun } from "../../repository/userRepository.js";
+import { isAllWriteFun, SignUpBtnFun } from "./index.jsx";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -28,19 +26,6 @@ const SignUp = () => {
   const [isSamePassword, setSamePassword] = useState(false);
   const [isEmailForm, setEmailForm] = useState(false);
 
-  const isAllWriteFun = () => {
-    const checkIsButtonDisabled = !(
-      name.current.trim() &&
-      tel.current.trim() &&
-      email.current.trim() &&
-      password.current.trim() &&
-      checkPassword.current.trim()
-    );
-    if (checkIsButtonDisabled !== isButtonDisabled) {
-      setButtonDisabled(checkIsButtonDisabled);
-    }
-  };
-
   const checkSamePasswordFun = () => {
     const checkSamePassword = checkPassword.current === password.current;
     if (checkSamePassword !== isSamePassword) {
@@ -48,49 +33,17 @@ const SignUp = () => {
     }
   };
 
-  const SignUpBtnFun = async () => {
-    if (!isPhoneNumber(tel.current)) {
-      ToastMaker({ type: "error", children: ErrorMessageMap.InvalidTelformat });
-      return;
-    }
-    if (!isEmailForm) {
-      ToastMaker({
-        type: "error",
-        children: ErrorMessageMap.InvalidEmailformat
-      });
-      return;
-    }
-    if (password.current.length < 8) {
-      ToastMaker({
-        type: "error",
-        children: ErrorMessageMap.IsNotMinPasswordCount
-      });
-      return;
-    }
-    if (!isSamePassword) {
-      ToastMaker({ type: "error", children: ErrorMessageMap.NotSamePassword });
-      return;
-    }
-
-    const { success, code } = await signUpFun({
-      name: name.current,
-      tel: tel.current,
-      password: password.current,
-      email: email.current
+  function checkSubmit() {
+    isAllWriteFun({
+      name: name,
+      tel: tel,
+      email: email,
+      password: password,
+      checkPassword: checkPassword,
+      isButtonDisabled: isButtonDisabled,
+      setButtonDisabled: setButtonDisabled
     });
-
-    if (success) {
-      navigate(UrlMap.loginPageUrl);
-    } else {
-      if (code === 2004) {
-        ToastMaker({
-          type: "error",
-          children: ErrorMessageMap.ExistingPhoneNumberError
-        });
-      } else
-        ToastMaker({ type: "error", children: ErrorMessageMap.NetworkError });
-    }
-  };
+  }
 
   return (
     <MobileLayout>
@@ -106,7 +59,7 @@ const SignUp = () => {
           placeholder="Your Name"
           onChange={({ target: { value } }) => {
             name.current = value;
-            isAllWriteFun();
+            checkSubmit();
           }}
         />
         <Margin height="20px" />
@@ -118,7 +71,7 @@ const SignUp = () => {
           placeholder="Phone Number"
           onChange={({ target: { value } }) => {
             tel.current = value;
-            isAllWriteFun();
+            checkSubmit();
           }}
         />
 
@@ -135,7 +88,7 @@ const SignUp = () => {
             if (checkEmailForm !== isEmailForm) {
               setEmailForm(checkEmailForm);
             }
-            isAllWriteFun();
+            checkSubmit();
           }}
         />
 
@@ -174,7 +127,7 @@ const SignUp = () => {
           onChange={({ target: { value } }) => {
             password.current = value;
             checkSamePasswordFun();
-            isAllWriteFun();
+            checkSubmit();
           }}
         />
         <Margin height="10px" />
@@ -185,7 +138,7 @@ const SignUp = () => {
           onChange={({ target: { value } }) => {
             checkPassword.current = value;
             checkSamePasswordFun();
-            isAllWriteFun();
+            checkSubmit();
           }}
         />
         <Margin height="10px" />
@@ -220,7 +173,15 @@ const SignUp = () => {
           role="main"
           disabled={!isSamePassword || isButtonDisabled}
           onClick={() => {
-            SignUpBtnFun();
+            SignUpBtnFun({
+              tel: tel,
+              name: name,
+              password: password,
+              email: email,
+              isEmailForm: isEmailForm,
+              isSamePassword: isSamePassword,
+              navigate: navigate
+            });
           }}
         >
           가입하기
