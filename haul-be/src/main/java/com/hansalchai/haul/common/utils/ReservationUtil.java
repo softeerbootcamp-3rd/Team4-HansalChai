@@ -60,9 +60,17 @@ public class ReservationUtil {
 		if(cargoWeight < 100.0)
 			return 20.0;
 		else
-			return 500 * Math.log(90 * cargoWeight - 5500) - 4000;
+			return calculateTransportTime(cargoWeight);
 	}
-	
+	public static double calculateTransportTime(double weight) {
+		// 파라미터 값 설정
+		double a = 5.0;
+		double b = 1/100.0;
+		double c = 30.0; 
+
+		return a * Math.log(b * weight) + c;
+	}
+
 	public static String getCarEnumTypeToWeight(int type){
 		return (double)type / 1000 + "톤";
 	}
