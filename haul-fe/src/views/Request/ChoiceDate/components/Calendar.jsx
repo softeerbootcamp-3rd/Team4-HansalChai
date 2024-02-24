@@ -245,13 +245,13 @@ const Calendar = ({
   return (
     <CalendarContainer>
       <CalendarNav>
-        <CalendarButton onClick={prevCalendar}>
+        <CalendarButton onClick={prevCalendar} id="prevMonth">
           <IoIosArrowBack />
         </CalendarButton>
         <TypographySpan font="bold16" color="mainColor">
           {currentMonth.getFullYear()}년 {currentMonth.getMonth() + 1}월
         </TypographySpan>
-        <CalendarButton onClick={nextCalendar}>
+        <CalendarButton onClick={nextCalendar} id="nextMonth">
           <IoIosArrowForward />
         </CalendarButton>
       </CalendarNav>
