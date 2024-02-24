@@ -12,13 +12,14 @@ import { getNotInstall, setNotInstall } from "../../utils/localStorage.js";
 const MobileInstallPrompt = () => {
   const deviceInfo = useRef(getDeviceInfo());
 
-  const [showInstallModal, setShowInstallModal] = useState(true);
+  const [showInstallModal, setShowInstallModal] = useState(false);
   const modalRef = useRef();
   const [manual, setManual] = useState(false);
   const before = event => {
     if (getNotInstall() === "true") return;
     event.preventDefault();
     window.diferredPrompt = event;
+    console.log(window.diferredPrompt);
     setShowInstallModal(true);
   };
 
@@ -26,26 +27,36 @@ const MobileInstallPrompt = () => {
     ToastMaker({ type: "success", message: "앱이 설치되었습니다." });
     window.deferredPrompt = null;
   };
-  
+
   useEffect(() => {
     if (getNotInstall() === "true") return;
+    if (window.navigator.standalone) return;
+    window.addEventListener("beforeinstallprompt", before);
+    window.addEventListener("appinstalled", installed);
     if (
       deviceInfo.current.device === "iOS" ||
       (deviceInfo.current.device === "Android" &&
         deviceInfo.current.browser === "firefox")
     ) {
+      //iOS Browser or Android Firefox
       setManual(true);
       setShowInstallModal(true);
-      return;
+    } else if (deviceInfo.current.browser === "chrome") {
+      //Chrome
+      setManual(false);
+      setShowInstallModal(true);
+    } else {
+      // PWA Not Supported
+      setManual(false);
+      setShowInstallModal(false);
     }
-    window.addEventListener("beforeinstallprompt", before);
-    window.addEventListener("appinstalled", installed);
     return () => {
       window.removeEventListener("beforeinstallprompt", before);
       window.removeEventListener("appinstalled", installed);
     };
   }, []);
 
+  //Modal Animation
   useEffect(() => {
     console.log(modalRef);
     modalRef.current.style.transform = showInstallModal
@@ -59,12 +70,8 @@ const MobileInstallPrompt = () => {
 
     window.diferredPrompt.prompt();
     setShowInstallModal(false);
-    const result = await window.diferredPrompt.userChoice;
-    console.log(result);
-    if (result.outcome === "dismissed") {
-      setNotInstall();
-      window.diferredPrompt = null;
-    }
+    await window.diferredPrompt.userChoice;
+    setNotInstall();
     window.diferredPrompt = null;
   };
 
@@ -73,25 +80,18 @@ const MobileInstallPrompt = () => {
     setNotInstall();
   };
 
-  const NeedManual = () => {
+  const getMessage = () => {
     let message = "";
     if (deviceInfo.current.device === "iOS")
-      message = "iOS에서는 홈 화면에 추가 버튼을 눌러 설치할 수 있어요.";
+      message = "iOS에서는 홈 화면에 추가 버튼을 눌러 설치할 수 있어요";
     else if (
       deviceInfo.current.device === "Android" &&
       deviceInfo.current.browser === "firefox"
     )
-      message =
-        "Firefox에서는 브라우저의 메뉴에서 설치 버튼을 눌러 설치할 수 있어요.";
-    return (
-      <CustomFlex kind="flexColumnCenter">
-        <Typography font="semiBold14">{message}</Typography>
-        <Margin height="20px" />
-        <PromptButton onClick={handleClose} role="cancel" width="70px">
-          확인
-        </PromptButton>
-      </CustomFlex>
-    );
+      message = "Firefox에서는 메뉴에서 설치 버튼을 눌러 설치할 수 있어요";
+    else if (deviceInfo.current.browser === "chrome")
+      message = "Haul을 좀 더 빠르고 편하게 이용해보세요";
+    return message;
   };
 
   return (
@@ -99,16 +99,30 @@ const MobileInstallPrompt = () => {
       <Margin height="20px" />
       <CustomFlex kind="flexBetweenCenter" padding={"0 20px"}>
         <IconImage src="/icon_x192.png" width={72} alt="icon" />
-        <Typography color="black" font="bold20">
-          <TypographySpan color="mainColor" font="semiBold20">
-            Haul
-          </TypographySpan>
-          을 설치하시겠어요?
-        </Typography>
+        <CustomFlex kind="flexColumnCenter" just="end">
+          <Typography color="black" font="bold20">
+            <TypographySpan color="mainColor" font="semiBold20">
+              Haul
+            </TypographySpan>
+            을 설치하시겠어요?
+          </Typography>
+          <Margin height="4px" />
+          <Typography font="regular12" color="gray">
+            {getMessage()}
+          </Typography>
+        </CustomFlex>
       </CustomFlex>
       <Margin height="20px" />
       {manual ? (
-        <NeedManual />
+        <CustomFlex kind="flexColumnCenter">
+          <PromptButton
+            onClick={handleClose}
+            role="cancel"
+            width="calc(100% - 40px)"
+          >
+            확인
+          </PromptButton>
+        </CustomFlex>
       ) : (
         <CustomFlex kind="flexBetweenCenter" padding={"0 20px"} gap={"10px"}>
           <PromptButton
@@ -154,6 +168,7 @@ const IconImage = styled.img`
 const CustomFlex = styled(Flex)`
   padding: ${({ padding }) => padding};
   gap: ${({ gap }) => gap ?? "unset"};
+  align-items: ${({ just }) => just};
 `;
 
 const PromptButton = styled.button`
