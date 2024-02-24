@@ -8,7 +8,8 @@ import java.util.List;
 import static com.hansalchai.haul.common.utils.ErrorCode.*;
 import static com.hansalchai.haul.common.utils.OrderUtil.*;
 import static com.hansalchai.haul.common.utils.SidoGraph.*;
-import static com.hansalchai.haul.order.dto.OrderSearchResponse.*;
+import static com.hansalchai.haul.order.dto.OrderResponse.*;
+import static com.hansalchai.haul.order.dto.OrderResponse.OrderSearchResponseDto.*;
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
 import static com.hansalchai.haul.reservation.service.ReservationService.*;
 
@@ -41,7 +42,6 @@ import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO.OrderInfoDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDetailDTO;
 
 import com.hansalchai.haul.order.constants.OrderFilter;
-import com.hansalchai.haul.order.dto.OrderSearchResponse;
 import com.hansalchai.haul.order.dto.TransportStatusChange;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
@@ -69,7 +69,7 @@ public class OrderService {
 	private final CustomReservationRepositoryImpl customReservationRepository;
 
 	@Transactional(readOnly = true)
-	public OrderSearchResponse findAll(Long userId, String sort, int page) {
+	public OrderSearchResponseDto findAll(Long userId, String sort, int page) {
 
 		Owner owner = findOwner(userId);
 		Car car = owner.getCar();
@@ -79,10 +79,10 @@ public class OrderService {
 		OrderFilter orderFilter = OrderFilter.findFilter(sort);
 		Page<Reservation> pages = orderFilter.execute(reservationRepository, carId, pageRequest);
 
-		List<OrderSearchResponseDto> orders = pages.map(OrderSearchResponseDto::new).toList();
+		List<OrderSearchItem> orders = pages.map(OrderSearchItem::new).toList();
 		boolean isLastPage = pages.getNumberOfElements() < PAGECUT;
 
-		return new OrderSearchResponse(orders, isLastPage);
+		return new OrderSearchResponseDto(orders, isLastPage);
 	}
 
 	public void approve(Long userId, ApproveRequestDto approveRequestDto) {
@@ -206,7 +206,7 @@ public class OrderService {
 		return transportStatus.equals(DONE);
 	}
 
-	public OrderSearchResponse findAllV2(Long userId, String sort, int page, DriverPositionDto requestDto) {
+	public OrderSearchResponseDto findAllV2(Long userId, String sort, int page, DriverPositionDto requestDto) {
 
 		Owner owner = findOwner(userId);
 		Car car = owner.getCar();
@@ -230,12 +230,12 @@ public class OrderService {
 		OrderFilterV2 orderFilter = OrderFilterV2.findFilter(sort);
 		List<Reservation> pages = orderFilter.execute(customReservationRepository, carId, selectedSidoArray, pageRequest);
 
-		List<OrderSearchResponseDto> orders = pages.stream()
-			.map(OrderSearchResponseDto::new)
+		List<OrderSearchItem> orders = pages.stream()
+			.map(OrderSearchItem::new)
 			.toList();
 		boolean isLastPage = pages.size() < PAGECUT;
 
-		return new OrderSearchResponse(orders, isLastPage);
+		return new OrderSearchResponseDto(orders, isLastPage);
 	}
 
 	public TransportStatusChange.ResponseDtoV2 changeTransportStatusV2(Long userId, TransportStatusChange.RequestDtoV2 requestDto) {

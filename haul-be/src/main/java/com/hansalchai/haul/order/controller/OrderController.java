@@ -3,6 +3,7 @@ package com.hansalchai.haul.order.controller;
 import static com.hansalchai.haul.common.auth.jwt.JwtProvider.*;
 import static com.hansalchai.haul.common.utils.ApiResponse.*;
 import static com.hansalchai.haul.common.utils.SuccessCode.*;
+import static com.hansalchai.haul.order.dto.OrderResponse.*;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,6 @@ import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.DriverPositionDto;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDetailDTO;
-import com.hansalchai.haul.order.dto.OrderSearchResponse;
 import com.hansalchai.haul.order.dto.TransportStatusChange;
 import com.hansalchai.haul.order.service.OrderService;
 
@@ -36,12 +36,12 @@ public class OrderController {
 	private static final String V2_ORDERS_PATH = "/api/v2/orders";
 
 	@GetMapping(V1_ORDERS_PATH)
-	public ResponseEntity<ApiResponse<OrderSearchResponse>> findAll(
+	public ResponseEntity<ApiResponse<OrderSearchResponseDto>> findAll(
 			HttpServletRequest request,
 			@RequestParam(value = "sort", defaultValue = "default") String sort,
 			@PositiveOrZero @RequestParam(value = "page", defaultValue = "0") int page) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		OrderSearchResponse orders = orderService.findAll(auth.getUserId(), sort, page);
+		OrderSearchResponseDto orders = orderService.findAll(auth.getUserId(), sort, page);
 		return ResponseEntity.ok(success(GET_SUCCESS, orders));
 	}
 
@@ -87,13 +87,13 @@ public class OrderController {
 	}
 
 	@GetMapping(V2_ORDERS_PATH)
-	public ResponseEntity<ApiResponse<OrderSearchResponse>> findAllV2(
+	public ResponseEntity<ApiResponse<OrderSearchResponseDto>> findAllV2(
 		HttpServletRequest request,
 		@RequestParam(value = "sort", defaultValue = "default") String sort,
 		@PositiveOrZero @RequestParam(value = "page", defaultValue = "0") int page,
 		@Valid @RequestBody DriverPositionDto requestDto) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		OrderSearchResponse orders = orderService.findAllV2(auth.getUserId(), sort, page, requestDto);
+		OrderSearchResponseDto orders = orderService.findAllV2(auth.getUserId(), sort, page, requestDto);
 		return ResponseEntity.ok(success(GET_SUCCESS, orders));
 	}
 	

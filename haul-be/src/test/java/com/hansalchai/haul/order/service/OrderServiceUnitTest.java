@@ -1,6 +1,7 @@
 package com.hansalchai.haul.order.service;
 
-import static com.hansalchai.haul.order.dto.OrderSearchResponse.*;
+import static com.hansalchai.haul.order.dto.OrderResponse.*;
+import static com.hansalchai.haul.order.dto.OrderResponse.OrderSearchResponseDto.*;
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
 import static com.hansalchai.haul.reservation.service.ReservationService.*;
 import static org.assertj.core.api.Assertions.*;
@@ -30,7 +31,6 @@ import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.common.exceptions.ForbiddenException;
 import com.hansalchai.haul.order.constants.OrderFilter;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
-import com.hansalchai.haul.order.dto.OrderSearchResponse;
 import com.hansalchai.haul.order.dto.TransportStatusChange;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
@@ -80,11 +80,11 @@ class OrderServiceUnitTest {
 		given(OrderFilter.FEE.execute(reservationRepository, carId, pageRequest)).willReturn(reservationsPage);
 
 		//when
-		OrderSearchResponse result = orderService.findAll(userId, sort, page);
+		OrderSearchResponseDto result = orderService.findAll(userId, sort, page);
 
 		//then
-		OrderSearchResponseDto dto1 = result.getOrderSearchDtos().get(0);
-		assertThat(result.getOrderSearchDtos()).hasSize(3);
+		OrderSearchItem dto1 = result.getOrderSearchItems().get(0);
+		assertThat(result.getOrderSearchItems()).hasSize(3);
 		assertThat(dto1.getSrcSimpleAddress()).isEqualTo("인천 미추홀구");
 		assertThat(dto1.getDstSimpleAddress()).isEqualTo("부산 연제구");
 		assertThat(dto1.getTransportDatetime()).isEqualTo("2024.02.20 11:30");

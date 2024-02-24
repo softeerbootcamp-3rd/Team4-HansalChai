@@ -1,7 +1,8 @@
 package com.hansalchai.haul.order.service;
 
 import static com.hansalchai.haul.car.constants.CarCategory.*;
-import static com.hansalchai.haul.order.dto.OrderSearchResponse.*;
+import static com.hansalchai.haul.order.dto.OrderResponse.*;
+import static com.hansalchai.haul.order.dto.OrderResponse.OrderSearchResponseDto.*;
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
 import static com.hansalchai.haul.reservation.constants.TransportType.*;
 import static org.assertj.core.api.Assertions.*;
@@ -31,7 +32,6 @@ import com.hansalchai.haul.car.repository.CarRepository;
 import com.hansalchai.haul.common.auth.constants.Role;
 import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.order.dto.ApproveRequestDto;
-import com.hansalchai.haul.order.dto.OrderSearchResponse;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
 import com.hansalchai.haul.reservation.entity.Destination;
@@ -101,13 +101,13 @@ class OrderServiceIntegrationTest {
 		createReservationForFindAllTest(carId);
 
 		//when
-		OrderSearchResponse result = orderService.findAll(userId, sort, page);
+		OrderSearchResponseDto result = orderService.findAll(userId, sort, page);
 
 		//then
-		List<OrderSearchResponseDto> dtos = result.getOrderSearchDtos();
+		List<OrderSearchItem> dtos = result.getOrderSearchItems();
 		assertThat(dtos).hasSize(2);
 
-		List<Integer> actualFees = dtos.stream().map(OrderSearchResponseDto::getCost).toList();
+		List<Integer> actualFees = dtos.stream().map(OrderSearchItem::getCost).toList();
 		List<Integer> expectedFees = List.of(15, 10);
 		assertEquals(actualFees, expectedFees);
 
@@ -125,13 +125,13 @@ class OrderServiceIntegrationTest {
 		createReservationForFindAllTest(carId);
 
 		//when
-		OrderSearchResponse result = orderService.findAll(userId, sort, page);
+		OrderSearchResponseDto result = orderService.findAll(userId, sort, page);
 
 		//then
-		List<OrderSearchResponseDto> dtos = result.getOrderSearchDtos();
+		List<OrderSearchItem> dtos = result.getOrderSearchItems();
 		assertThat(dtos).hasSize(2);
 
-		List<String> actualDateTimes = dtos.stream().map(OrderSearchResponseDto::getTransportDatetime).toList();
+		List<String> actualDateTimes = dtos.stream().map(OrderSearchItem::getTransportDatetime).toList();
 		List<String> expectedDateTimes = List.of("2024.03.22 14:40", "2024.03.22 15:40");
 		assertEquals(actualDateTimes, expectedDateTimes);
 
