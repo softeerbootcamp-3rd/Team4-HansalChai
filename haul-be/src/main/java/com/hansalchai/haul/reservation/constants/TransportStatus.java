@@ -12,10 +12,10 @@ import com.hansalchai.haul.reservation.repository.ReservationRepository;
 
 public enum TransportStatus {
 	NOT_RESERVATED("예약 전", null),
-	PENDING("매칭 중", (id,pageable, repo) -> repo.findByUserIdPending(id, pageable)),
-	NOT_STARTED("운송 전", (id,pageable, repo) -> repo.findByUserIdNotStarted(id, pageable)),
-	IN_PROGRESS("운송 중", (id,pageable, repo) -> repo.findByUserIdInProgress(id, pageable)),
-	DONE("운송 완료", (id,pageable, repo) -> repo.findByUserIdDone(id, pageable));
+	PENDING("매칭 중", (id,pageable, repo) -> repo.findByUserId(id, "PENDING",pageable)),
+	NOT_STARTED("운송 전", (id,pageable, repo) -> repo.findByUserId(id, "NOT_STARTED",pageable)),
+	IN_PROGRESS("운송 중", (id,pageable, repo) -> repo.findByUserId(id, "IN_PROGRESS",pageable)),
+	DONE("운송 완료", (id,pageable, repo) -> repo.findByUserId(id, "DONE",pageable));
 
 	private final String code;
 	private final TriFunction<Long, Pageable, ReservationRepository, Page<Reservation>> function;

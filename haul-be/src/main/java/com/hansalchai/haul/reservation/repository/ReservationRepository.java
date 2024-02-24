@@ -17,35 +17,15 @@ import com.hansalchai.haul.reservation.entity.Reservation;
 import jakarta.persistence.LockModeType;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-	@Query(value = "select v from Reservation v where v.user.userId = :userId order by v.date, v.time")
-	Page<Reservation> findByUserId(@Param("userId") Long userId, Pageable pageable);
 
-	@Query(value = "select v from Reservation v where v.user.userId = :userId and v.transport.transportStatus = 'PENDING' order by v.date, v.time")
-	Page<Reservation> findByUserIdPending(@Param("userId") Long userId, Pageable pageable);
-
-	@Query(value = "select v from Reservation v where v.user.userId = :userId and v.transport.transportStatus = 'NOT_STARTED' order by v.date, v.time")
-	Page<Reservation> findByUserIdNotStarted(@Param("userId") Long userId, Pageable pageable);
-
-	@Query(value = "select v from Reservation v where v.user.userId = :userId and v.transport.transportStatus = 'IN_PROGRESS' order by v.date, v.time")
-	Page<Reservation> findByUserIdInProgress(@Param("userId") Long userId, Pageable pageable);
-
-	@Query(value = "select v from Reservation v where v.user.userId = :userId and v.transport.transportStatus = 'DONE' order by v.date, v.time")
-	Page<Reservation> findByUserIdDone(@Param("userId") Long userId, Pageable pageable);
-
-	@Query(value = "select v from Reservation v where v.owner.user.userId = :userId order by v.date, v.time")
-	Page<Reservation> findByDriverId(@Param("userId") Long userId, Pageable pageable);
+	@Query(value = "select v from Reservation v where v.user.userId = :userId and v.transport.transportStatus = :transportStatus order by v.date, v.time")
+	Page<Reservation> findByUserId(@Param("userId") Long userId,@Param("transportStatus")String transportStatus, Pageable pageable);
 
 	@Query(value = "select v from Reservation v where v.number = :number and v.transport.transportStatus != 'NOT_RESERVATED'")
 	Optional<Reservation> findByNumber(@Param("number") String number);
 
-	@Query(value = "select v from Reservation v where v.owner.user.userId = :userId and v.transport.transportStatus = 'NOT_STARTED' order by v.date, v.time")
-	Page<Reservation> findByDriverIdBeforeDelivery(@Param("userId")Long id, Pageable pageable);
-
-	@Query(value = "select v from Reservation v where v.owner.user.userId = :userId and v.transport.transportStatus = 'IN_PROGRESS' order by v.date, v.time")
-	Page<Reservation> findByDriverIdDuringDelivery(@Param("userId")Long id, Pageable pageable);
-
-	@Query(value = "select v from Reservation v where v.owner.user.userId = :userId and v.transport.transportStatus = 'DONE' order by v.date, v.time")
-	Page<Reservation> findByDriverIdAfterDelivery(@Param("userId")Long id, Pageable pageable);
+	@Query(value = "select v from Reservation v where v.owner.user.userId = :userId and v.transport.transportStatus = :transportStatus order by v.date, v.time")
+	Page<Reservation> findByDriverIdDelivery(@Param("userId")Long id,@Param("transportStatus")String transportStatus ,Pageable pageable);
 
 	@Query("select r "
 		+ "from Reservation r "
