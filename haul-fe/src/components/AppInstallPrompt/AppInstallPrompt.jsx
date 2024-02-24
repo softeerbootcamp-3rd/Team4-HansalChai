@@ -37,6 +37,7 @@ const MobileInstallPrompt = () => {
     if (deviceInfo.current.device === "iOS") {
       //iOS는 직접 설치해야 함
       setManual(true);
+      setShowInstallModal(true);
     }
     if (
       deviceInfo.current.device === "Android" &&
