@@ -12,7 +12,9 @@ import { getNotInstall, setNotInstall } from "../../utils/localStorage.js";
 const MobileInstallPrompt = () => {
   const deviceInfo = useRef(getDeviceInfo());
 
-  const [showInstallModal, setShowInstallModal] = useState(false);
+  const [showInstallModal, setShowInstallModal] = useState(
+    window.diferredPrompt ? true : false
+  );
   const modalRef = useRef();
   const [manual, setManual] = useState(false);
   const before = event => {
@@ -33,6 +35,7 @@ const MobileInstallPrompt = () => {
     if (window.navigator.standalone) return;
     window.addEventListener("beforeinstallprompt", before);
     window.addEventListener("appinstalled", installed);
+    setShowInstallModal(true);
     if (deviceInfo.current.device === "iOS") {
       //iOS는 직접 설치해야 함
       setManual(true);
@@ -61,11 +64,9 @@ const MobileInstallPrompt = () => {
 
   //Modal Animation
   useEffect(() => {
-    console.log(modalRef);
     modalRef.current.style.transform = showInstallModal
       ? "translate(-50%, 0%)"
       : "translate(-50%, 150%)";
-    console.log(modalRef.current.style.transform);
   }, [showInstallModal]);
 
   const handleInstall = async () => {
