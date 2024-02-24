@@ -6,6 +6,7 @@ import Typography from "../../components/Typhography/Typhography.jsx";
 import Loading from "../../assets/gifs/Loading.gif";
 import HaulCar from "../../assets/svgs/HaulCar.svg";
 import { UrlMap } from "../../data/GlobalVariable.js";
+import { logoutFun } from "../../utils/localStorage.js";
 
 const SplashBox = styled.div`
   width: 100%;
@@ -63,6 +64,7 @@ const Splash = () => {
   };
 
   useEffect(() => {
+    logoutFun();
     animateText();
     setTimeout(() => {
       navigate(UrlMap.loginPageUrl);

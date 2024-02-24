@@ -11,7 +11,6 @@ import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
 import { UrlMap, TransportTypeArr } from "../../../data/GlobalVariable.js";
 import TranportSvg from "./components/TrasportSvg.jsx";
-import MotionWrapper from "../../../components/MotionWrapper/MotionWrapper.jsx";
 
 const TransportBox = styled.div`
   width: 100%;
@@ -35,48 +34,46 @@ const ChoiceTransport = () => {
   };
 
   return (
-    <MotionWrapper>
-      <MobileLayout>
-        <Header back={false}>
-          HAUL
-          <TypographySpan color="subColor">.</TypographySpan>
-        </Header>
-        <Margin height="24px" />
-        <Typography font="bold24">운송의 종류를 선택해주세요.</Typography>
-        <Margin height="24px" />
-        {TransportTypeArr.map(
-          (
-            { transportType, transportPlusInfo, maxLoad, boxEachColor, img },
-            idx
-          ) => (
-            <TransportBox
-              key={idx}
-              boxeachcolor={boxEachColor}
-              onClick={() => {
-                ChoiceTransportBoxLogic(transportType);
-              }}
+    <MobileLayout>
+      <Header back={false}>
+        HAUL
+        <TypographySpan color="subColor">.</TypographySpan>
+      </Header>
+      <Margin height="24px" />
+      <Typography font="bold24">운송의 종류를 선택해주세요.</Typography>
+      <Margin height="24px" />
+      {TransportTypeArr.map(
+        (
+          { transportType, transportPlusInfo, maxLoad, boxEachColor, img },
+          idx
+        ) => (
+          <TransportBox
+            key={idx}
+            boxeachcolor={boxEachColor}
+            onClick={() => {
+              ChoiceTransportBoxLogic(transportType);
+            }}
+          >
+            <Flex
+              kind="flexColumnBetween"
+              style={{ paddingTop: "32px", paddingBottom: "25px" }}
             >
-              <Flex
-                kind="flexColumnBetween"
-                style={{ paddingTop: "32px", paddingBottom: "25px" }}
-              >
-                <Typography font="bold24">{transportType}</Typography>
-                <Flex>
-                  <Typography font="semiBold16" color="white">
-                    {transportPlusInfo}
-                  </Typography>
-                  <Margin height="5px" />
-                  <Typography font="bold16">최대 {maxLoad}톤</Typography>
-                </Flex>
+              <Typography font="bold24">{transportType}</Typography>
+              <Flex>
+                <Typography font="semiBold16" color="white">
+                  {transportPlusInfo}
+                </Typography>
+                <Margin height="5px" />
+                <Typography font="bold16">최대 {maxLoad}톤</Typography>
               </Flex>
-              <TranportSvg id={img} />
-            </TransportBox>
-          )
-        )}
-        <Margin height="90px" />
-        <NavigationBar />
-      </MobileLayout>
-    </MotionWrapper>
+            </Flex>
+            <TranportSvg id={img} />
+          </TransportBox>
+        )
+      )}
+      <Margin height="90px" />
+      <NavigationBar />
+    </MobileLayout>
   );
 };
 
