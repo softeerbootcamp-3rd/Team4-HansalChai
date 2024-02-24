@@ -80,9 +80,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
 	@Query("select r "
 		+ "from Reservation r "
+		+ "join fetch r.transport "
 		+ "where r.owner.ownerId = :driverId "
-		+ "and r.date between :prevDate and :today "
-		+ "and r.transport.transportStatus in ('NOT_STARTED', 'IN_PROGRESS')")
+			+ "and r.date between :prevDate and :today "
+			+ "and r.transport.transportStatus in ('NOT_STARTED', 'IN_PROGRESS')")
 	List<Reservation> findScheduleOfDriver(
 		@Param("driverId") Long driverId,
 		@Param("prevDate") LocalDate prevDate,
@@ -92,6 +93,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 	List<Reservation> findInProgressReservationByUserId(@Param("userId")Long id);
 
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
-	@Query("select r from Reservation r where r.id = :id")
+	@Query("select r "
+		+ "from Reservation r "
+		+ "join fetch r.transport "
+		+ "where r.id = :id")
 	Optional<Reservation> findByIdWithPessimisticLock(@Param("id") Long id);
 }
