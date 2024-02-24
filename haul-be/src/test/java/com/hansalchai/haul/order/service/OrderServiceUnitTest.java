@@ -76,7 +76,7 @@ class OrderServiceUnitTest {
 
 		PageRequest pageRequest = PageRequest.of(page, PAGECUT);
 		Page<Reservation> reservationsPage = createReservationsForFindAllTest();
-		given(ownerRepository.findByDriverId(userId)).willReturn(Optional.of(owner));
+		given(ownerRepository.findByUserId(userId)).willReturn(Optional.of(owner));
 		given(OrderFilter.FEE.execute(reservationRepository, carId, pageRequest)).willReturn(reservationsPage);
 
 		//when
@@ -172,7 +172,7 @@ class OrderServiceUnitTest {
 
 		List<Reservation> reservations = createReservationsForchangeTransportStatusV2(reservationId);
 		given(reservationRepository.findById(reservationId)).willReturn(Optional.of(reservation));
-		given(reservationRepository.findByDriverIdInProgress(userId)).willReturn(reservations);
+		given(reservationRepository.findInProgressReservationByUserId(userId)).willReturn(reservations);
 
 		//when
 		TransportStatusChange.RequestDtoV2 requestDto = TransportStatusChange.RequestDtoV2.builder()
@@ -224,7 +224,7 @@ class OrderServiceUnitTest {
 
 		List<Reservation> reservations = createReservationsForchangeTransportStatusV2SuccessTest3(reservationId);
 		given(reservationRepository.findById(reservationId)).willReturn(Optional.of(reservation));
-		given(reservationRepository.findByDriverIdInProgress(userId)).willReturn(reservations);
+		given(reservationRepository.findInProgressReservationByUserId(userId)).willReturn(reservations);
 
 		//when
 		TransportStatusChange.ResponseDtoV2 responseDto = orderService.changeTransportStatusV2(userId, requestDto);

@@ -63,5 +63,26 @@ public class TransportStatusChange {
 			this.hasInProgressOrder = hasInProgressOrder;
 			this.isDriverNearBy = isDriverNearBy;
 		}
+
+		public static ResponseDtoV2 ofInProgressOrderExist() {
+			return ResponseDtoV2.builder()
+				.hasInProgressOrder(true)
+				.isDriverNearBy(false)
+				.build();
+		}
+
+		public static ResponseDtoV2 ofRemoteLocation() {
+			return ResponseDtoV2.builder()
+				.hasInProgressOrder(false)
+				.isDriverNearBy(false)
+				.build();
+		}
+
+		public static ResponseDtoV2 ofStatusChangeAvailable() {
+			return ResponseDtoV2.builder()
+				.hasInProgressOrder(false)
+				.isDriverNearBy(true)
+				.build();
+		}
 	}
 }
