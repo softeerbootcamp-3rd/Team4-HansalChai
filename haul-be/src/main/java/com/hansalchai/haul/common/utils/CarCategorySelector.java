@@ -9,7 +9,7 @@ import com.hansalchai.haul.reservation.entity.CargoOption;
 public class CarCategorySelector {
 	public static CarCategory selectCarCategory(CargoOption cargoOption){
 		if(cargoOption.isFrozen() && cargoOption.isRefrigerated())
-			throw new BadRequestException(INVALID_STATUS);
+			return CarCategory.DEFAULT;
 
 		if(cargoOption.isFrozen())
 			return CarCategory.IS_FREEZABLE;

@@ -139,7 +139,7 @@ class OrderServiceIntegrationTest {
 
 		return reservationRepository.save(reservation).getReservationId();
 	}
-	
+
 	private ReservationRequest.CreateReservationDTO makeDummyReservationRequestDTO() {
 
 		ReservationRequest.CreateReservationDTO.SourceDTO src = ReservationRequest.CreateReservationDTO.SourceDTO.builder()
