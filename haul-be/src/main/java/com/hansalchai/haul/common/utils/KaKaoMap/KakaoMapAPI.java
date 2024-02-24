@@ -77,7 +77,7 @@ public class KakaoMapAPI {
 
 	public String searchRoadAddress(double latitude, double longitude) {
 		String apiUrl = "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json";
-		String queryString = String.format("x=%f&y=%f",latitude ,longitude );
+		String queryString = String.format("x=%f&y=%f", longitude, latitude );
 		String fullUrl = apiUrl + "?" + queryString;
 
 		HttpHeaders headers = new HttpHeaders();
