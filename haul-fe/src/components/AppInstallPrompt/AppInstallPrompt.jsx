@@ -24,7 +24,7 @@ const MobileInstallPrompt = () => {
   };
 
   const installed = () => {
-    ToastMaker({ type: "success", message: "앱이 설치되었습니다." });
+    ToastMaker({ type: "success", children: "앱이 설치되었습니다." });
     window.deferredPrompt = null;
   };
 
