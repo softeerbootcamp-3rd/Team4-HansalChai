@@ -16,8 +16,6 @@ import static com.hansalchai.haul.reservation.service.ReservationService.*;
 
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -58,7 +56,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class OrderService {
-	Logger logger = LoggerFactory.getLogger(OrderService.class);
 
 	private final UsersRepository usersRepository;
 	private final ReservationRepository reservationRepository;
@@ -124,7 +121,7 @@ public class OrderService {
 		}
 
 		Owner owner = findOwner(userId);
-		if (isScheduleOverlap(owner.getOwnerId(), reservation)) {
+		if (isScheduleOverlap(owner, reservation)) {
 			throw new ConflictException(SCHEDULE_CONFLICT);
 		}
 
@@ -136,14 +133,14 @@ public class OrderService {
 	* 기사 일정 중첩 확인
 	* 기사 스케줄과 승인하려는 오더의 시간이 겹치는지 확인한다
 	* */
-	private boolean isScheduleOverlap(Long ownerId, Reservation newOrder) {
+	private boolean isScheduleOverlap(Owner owner, Reservation newOrder) {
 
 		long requiredTime = (long)(newOrder.getTransport().getRequiredTime() * 60);
 		LocalDateTime newOrderStart = LocalDateTime.of(newOrder.getDate(), newOrder.getTime());
 		LocalDateTime newOrderEnd = newOrderStart.plusMinutes(requiredTime);
 
 		LocalDate today = newOrder.getDate();
-		List<Reservation> myOrders = reservationRepository.findScheduleOfDriver(ownerId, today.minusDays(1), today);
+		List<Reservation> myOrders = reservationRepository.findScheduleOfDriver(owner.getOwnerId(), today.minusDays(1), today);
 
 		for (Reservation myOrder : myOrders) {
 			if (isTimeOverlap(newOrderStart, newOrderEnd, myOrder)) {
@@ -276,7 +273,7 @@ public class OrderService {
 	 * 유저 검증
 	 * 요청한 유저 id가 예약 ownerId랑 같아야 운송 상태를 변경할 수 있다.
 	 **/
-	private static void validateUser(Long userId, Reservation reservation) {
+	private void validateUser(Long userId, Reservation reservation) {
 		Owner owner = reservation.getOwner();
 		if (!userId.equals(owner.getUser().getUserId())) {
 			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
