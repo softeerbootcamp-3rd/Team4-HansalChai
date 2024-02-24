@@ -1,19 +1,14 @@
 import { ErrorMessageMap } from "../data/GlobalVariable";
-import {
-  getAccessToken,
-  getMockCoordinate,
-  getCoordinate
-} from "../utils/localStorage";
+import { getAccessToken, getCoordinate } from "../utils/localStorage";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 
 export async function getDriverSummaryList({ page, sortBy = "default" }) {
   try {
     const { userLatitude: latitude, userLongitude: longitude } =
-      getMockCoordinate();
-    //TODO: 수정 후 위경도 다시 바꿔넣을 것
+      getCoordinate();
     const response = await fetch(
-      `${apiKey}/api/v2/orders?sort=${sortBy}&page=${page}&latitude=${longitude}&longitude=${latitude}`,
+      `${apiKey}/api/v2/orders?sort=${sortBy}&page=${page}&latitude=${latitude}&longitude=${longitude}`,
       {
         method: "GET",
         headers: {
