@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
 import com.hansalchai.haul.common.utils.ApiResponse;
-import com.hansalchai.haul.order.dto.DriverPositionDto;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDetailDTO;
 import com.hansalchai.haul.order.service.OrderService;
@@ -90,9 +89,10 @@ public class OrderController {
 		HttpServletRequest request,
 		@RequestParam(value = "sort", defaultValue = "default") String sort,
 		@PositiveOrZero @RequestParam(value = "page", defaultValue = "0") int page,
-		@Valid @RequestBody DriverPositionDto requestDto) {
+		@RequestParam(value = "latitude") double latitude,
+		@RequestParam(value = "longitude") double longitude) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		OrderSearchResponseDto orders = orderService.findAllV2(auth.getUserId(), sort, page, requestDto);
+		OrderSearchResponseDto orders = orderService.findAllV2(auth.getUserId(), sort, page, latitude, longitude);
 		return ResponseEntity.ok(success(GET_SUCCESS, orders));
 	}
 	

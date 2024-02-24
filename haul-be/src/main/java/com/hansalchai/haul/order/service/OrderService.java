@@ -34,7 +34,6 @@ import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
 import com.hansalchai.haul.common.utils.SidoGraph;
 import com.hansalchai.haul.order.constants.OrderFilterV2;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
-import com.hansalchai.haul.order.dto.DriverPositionDto;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO.OrderInfoDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDetailDTO;
@@ -202,13 +201,13 @@ public class OrderService {
 		return transportStatus.equals(DONE);
 	}
 
-	public OrderSearchResponseDto findAllV2(Long userId, String sort, int page, DriverPositionDto requestDto) {
+	public OrderSearchResponseDto findAllV2(Long userId, String sort, int page, double latitude, double longitude) {
 
 		Owner owner = findOwner(userId);
 		Car car = owner.getCar();
 		Long carId = car.getCarId();
 
-		String curRegion = AddressUtil.kakaoAdressToSrcAddress(kakaoMap.searchRoadAddress(requestDto.getLatitude(), requestDto.getLongitude()));
+		String curRegion = AddressUtil.kakaoAdressToSrcAddress(kakaoMap.searchRoadAddress(latitude, longitude));
 
 		ArrayList<String> selectedSidoArray = null;
 		int depthMAX = sidoSortedMap.get(curRegion).size();
