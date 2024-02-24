@@ -45,11 +45,7 @@ export function getCoordinate() {
   };
 }
 
-export function getMockCoordinate() {
-  return { userLatitude: 37.514236, userLongitude: 127.031593 };
-}
-
-export function removeCoordinates() {
+export function removeCoordinate() {
   localStorage.removeItem("userLatitude");
   localStorage.removeItem("userLongitude");
 }
