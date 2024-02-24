@@ -70,7 +70,7 @@ public class ReservationUtil {
 
 		// 로그 함수를 사용한 운송 시간 계산
 
-		return a * Math.log(b * weight) + c;
+		return (a * Math.log(b * weight) + c) / (double)60;
 	}
 
 	public static String getCarEnumTypeToWeight(int type){
