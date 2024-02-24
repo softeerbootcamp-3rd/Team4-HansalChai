@@ -16,9 +16,7 @@ export async function getDriverSummaryList({ page, sortBy = "default" }) {
         }
       }
     );
-    console.log(response);
     const body = await response.json();
-    console.log(body);
     if (body.status === 200) {
       const list = body.data.orderSearchDtos.map(orderSummaryInfo => {
         return {
@@ -53,7 +51,7 @@ export async function getDriverSummaryList({ page, sortBy = "default" }) {
       }
     }
   } catch (error) {
-    console.log(error);
+    console.err(error);
     return {
       success: false,
       error,

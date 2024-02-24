@@ -21,7 +21,6 @@ const MobileInstallPrompt = () => {
     if (getNotInstall() === "true") return;
     event.preventDefault();
     window.diferredPrompt = event;
-    console.log(window.diferredPrompt);
     setShowInstallModal(true);
   };
 
@@ -67,8 +66,6 @@ const MobileInstallPrompt = () => {
   }, [showInstallModal]);
 
   const handleInstall = async () => {
-    console.log(window.diferredPrompt);
-
     window.diferredPrompt.prompt();
     setShowInstallModal(false);
     await window.diferredPrompt.userChoice;
