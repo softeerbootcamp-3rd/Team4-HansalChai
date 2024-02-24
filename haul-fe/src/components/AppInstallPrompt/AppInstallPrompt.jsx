@@ -33,9 +33,7 @@ const MobileInstallPrompt = () => {
   useEffect(() => {
     if (getNotInstall() === "true") return;
     if (window.navigator.standalone) return;
-    window.addEventListener("beforeinstallprompt", before);
     window.addEventListener("appinstalled", installed);
-    setShowInstallModal(true);
     if (deviceInfo.current.device === "iOS") {
       //iOS는 직접 설치해야 함
       setManual(true);
@@ -53,8 +51,6 @@ const MobileInstallPrompt = () => {
       if (window.navigator.standalone) return;
     } else {
       // PWA Not Supported
-      setManual(false);
-      setShowInstallModal(false);
     }
     return () => {
       window.removeEventListener("beforeinstallprompt", before);
