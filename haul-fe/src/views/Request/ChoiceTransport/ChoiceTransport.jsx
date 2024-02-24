@@ -11,6 +11,7 @@ import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
 import { UrlMap, TransportTypeArr } from "../../../data/GlobalVariable.js";
 import TranportSvg from "./components/TrasportSvg.jsx";
+import MobileInstallPrompt from "../../../components/AppInstallPrompt/AppInstallPrompt.jsx";
 
 const TransportBox = styled.div`
   width: 100%;
@@ -73,6 +74,7 @@ const ChoiceTransport = () => {
       )}
       <Margin height="90px" />
       <NavigationBar />
+      <MobileInstallPrompt />
     </MobileLayout>
   );
 };
