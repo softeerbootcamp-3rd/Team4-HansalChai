@@ -61,5 +61,11 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        window.diferredPrompt = e;
+      })
+    </script>
   </body>
 </html>
