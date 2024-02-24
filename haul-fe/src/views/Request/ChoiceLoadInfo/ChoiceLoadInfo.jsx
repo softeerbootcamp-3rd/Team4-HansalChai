@@ -135,7 +135,7 @@ const ChoiceLoadInfo = () => {
           <InputWrapper>
             <Input
               size="small"
-              placeholder="짐의 너비를 알려주세요"
+              placeholder="최대 700cm까지 가능해요"
               defaultValue={cargoWidth}
               onChange={({ target: { value } }) => {
                 inCargoWidth.current = value;
@@ -160,7 +160,7 @@ const ChoiceLoadInfo = () => {
           <InputWrapper>
             <Input
               size="small"
-              placeholder="짐의 길이를 알려주세요"
+              placeholder="최대 240cm까지 가능해요"
               defaultValue={cargoLength}
               onChange={({ target: { value } }) => {
                 inCargoLength.current = value;
@@ -185,7 +185,7 @@ const ChoiceLoadInfo = () => {
           <InputWrapper>
             <Input
               size="small"
-              placeholder="짐의 높이를 알려주세요"
+              placeholder="최대 270cm까지 가능해요"
               defaultValue={cargoHeight}
               onChange={({ target: { value } }) => {
                 inCargoHeight.current = value;
