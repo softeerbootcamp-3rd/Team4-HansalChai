@@ -55,6 +55,7 @@ import com.hansalchai.haul.user.repository.UsersRepository;
 
 import lombok.RequiredArgsConstructor;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class OrderService {
@@ -85,7 +86,6 @@ public class OrderService {
 		return new OrderSearchResponse(orders, isLastPage);
 	}
 
-	@Transactional
 	public void approve(Long userId, ApproveRequestDto approveRequestDto) {
 
 		Reservation reservation = reservationRepository.findById(approveRequestDto.getId())
@@ -110,7 +110,6 @@ public class OrderService {
 		// smsUtil.send(customerTel, reservationNumber);
 	}
 
-	@Transactional
 	public void approveV2(Long userId, ApproveRequestDto approveRequestDto) {
 
 		Reservation reservation = reservationRepository.findByIdWithPessimisticLock(approveRequestDto.getId())
@@ -165,7 +164,6 @@ public class OrderService {
 		return false;
 	}
 
-	@Transactional
 	public OrderDTO getOrder(String keyword, int page, Long userId) {
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
@@ -179,7 +177,6 @@ public class OrderService {
 		return new OrderDTO(orderInfoDTOS, isLastPage);
 	}
 
-	@Transactional
 	public OrderDetailDTO getOrderDetail(Long id) {
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
@@ -187,7 +184,6 @@ public class OrderService {
 		return new OrderDetailDTO(reservation);
 	}
 
-	@Transactional
 	public OrderDetailDTO getOrderMineDetail(Long id, Long userId) {
 		Reservation reservation = reservationRepository.findById(id)
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
@@ -200,7 +196,6 @@ public class OrderService {
 		return new OrderDetailDTO(reservation);
 	}
 
-	@Transactional
 	public TransportStatusChange.ResponseDto changeTransportStatus(Long userId, TransportStatusChange.RequestDto requestDto) {
 
 		Reservation reservation = reservationRepository.findById(requestDto.getId())
@@ -226,7 +221,6 @@ public class OrderService {
 		return new TransportStatusChange.ResponseDto(reservation);
 	}
 
-	@Transactional
 	public OrderSearchResponse findAllV2(Long userId, String sort, int page, DriverPositionDto requestDto) {
 		// 오더 리스트 조회를 위해 기사(Owner)의 차 id 탐색
 		Owner owner = ownerRepository.findByUserId(userId)
@@ -265,8 +259,7 @@ public class OrderService {
 		// 응답 형태로 변환해서 반환
 		return new OrderSearchResponse(orders, isLastPage);
 	}
-	
-	@Transactional
+
 	public TransportStatusChange.ResponseDtoV2 changeTransportStatusV2(
 			Long userId,
 			TransportStatusChange.RequestDtoV2 requestDto) {
