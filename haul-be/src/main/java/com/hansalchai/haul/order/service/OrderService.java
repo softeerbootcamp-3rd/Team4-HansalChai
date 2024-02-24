@@ -279,7 +279,7 @@ public class OrderService {
 			throw new BadRequestException(ALREADY_DELIVERED);
 		}
 
-		if (hasInProgressOrder(userId, reservation.getReservationId())) {
+		if (hasInProgressOrder(reservation.getReservationId(), userId)) {
 			return TransportStatusChange.ResponseDtoV2.builder()
 				.hasInProgressOrder(true)
 				.isDriverNearBy(false)
