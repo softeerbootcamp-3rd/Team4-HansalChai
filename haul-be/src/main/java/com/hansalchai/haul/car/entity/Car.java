@@ -18,6 +18,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -65,8 +66,10 @@ public class Car extends BaseTime {
 	@Column(nullable = false)
 	private Boolean isboxtruck;
 
-	public Car(CarType type, String model, @Nullable String photo, int width, int length, int height, int weight,
+	@Builder
+	public Car(Long carId, CarType type, String model, @Nullable String photo, int width, int length, int height, int weight,
 		CarCategory category, Boolean isboxtruck) {
+		this.carId = carId;
 		this.type = type;
 		this.model = model;
 		this.photo = photo;
