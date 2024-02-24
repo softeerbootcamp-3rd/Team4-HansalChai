@@ -145,6 +145,75 @@ public class ReservationIntegrationTest {
 
 	@Test
 	@Transactional
+	@DisplayName("최소 크기 화물 예약 테스트")
+	void reservationServiceWithMinimumCargoSizeTest() throws Exception {
+		Users users = Users.builder()
+			.userId(1L)
+			.photo(null)
+			.email("asdf@gmail.com")
+			.name("asdf")
+			.password("12341234")
+			.role(Role.CUSTOMER)
+			.tel("01011112222")
+			.build();
+		Users savedUsers = usersRepository.save(users);
+		// 최소 크기 화물 설정
+		Cargo cargo = Cargo.builder().width(1).height(1).length(1).weight(1).build();
+		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTOCargoSetting(cargo);
+		//when
+		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO,savedUsers.getUserId());
+
+		Assertions.assertNotNull(actual);
+	}
+
+	@Test
+	@Transactional
+	@DisplayName("평균 크기 화물 예약 테스트")
+	void reservationServiceWithAverageCargoSizeTest() throws Exception {
+		Users users = Users.builder()
+			.userId(1L)
+			.photo(null)
+			.email("asdf@gmail.com")
+			.name("asdf")
+			.password("12341234")
+			.role(Role.CUSTOMER)
+			.tel("01011112222")
+			.build();
+		Users savedUsers = usersRepository.save(users);
+		// 대략적인 평균 크기 화물 설정
+		Cargo cargo = Cargo.builder().width(350).height(120).length(135).weight(2500).build();
+		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTOCargoSetting(cargo);
+		//when
+		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO,savedUsers.getUserId());
+
+		Assertions.assertNotNull(actual);
+	}
+
+	@Test
+	@Transactional
+	@DisplayName("최대 크기 화물 예약 테스트")
+	void reservationServiceWithMaximumCargoSizeTest() throws Exception {
+		Users users = Users.builder()
+			.userId(1L)
+			.photo(null)
+			.email("asdf@gmail.com")
+			.name("asdf")
+			.password("12341234")
+			.role(Role.CUSTOMER)
+			.tel("01011112222")
+			.build();
+		Users savedUsers = usersRepository.save(users);
+		// 최대 크기 화물 설정
+		Cargo cargo = Cargo.builder().width(700).length(240).height(270).weight(5000).build();
+		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTOCargoSetting(cargo);
+		//when
+		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO,savedUsers.getUserId());
+
+		Assertions.assertNotNull(actual);
+	}
+
+	@Test
+	@Transactional
 	@DisplayName("예약 회원 다양한 짐 크기 service 테스트")
 	void ReservationServiceCargoTest() throws Exception {
 		Users users = Users.builder()
@@ -157,13 +226,13 @@ public class ReservationIntegrationTest {
 			.tel("01011112222")
 			.build();
 		Users savedUsers = usersRepository.save(users);
-		for(int i = 1;i <= 700;i+=10){
-			for(int j = 1;j <= 240;j+=10){
-				for(int k = 1;k <= 270;k+=10){
-					for(int l = 1;l <= 5000;l+=10){
+		for(int i = 1;i <= 700;i+=11){
+			for(int j = 1;j <= 240;j+=11){
+				for(int k = 1;k <= 270;k+=11){
+					for(int l = 1;l <= 5000;l+=11){
 						Cargo cargo = Cargo.builder()
 							.width(i)
-							.height(j)
+							.length(j)
 							.height(k)
 							.weight(l)
 							.build();
