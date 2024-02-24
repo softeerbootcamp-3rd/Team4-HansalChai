@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const CarouselRadio = ({ carouselList, currentIndex, handleSwipe }) => {
+const CarouselRadio = ({ carouselList, currentCarouselIndex, handleSwipe }) => {
   return (
     <RadioContainer>
       {carouselList?.map((notUsedItem, carouselIndex) => {
@@ -11,9 +11,9 @@ const CarouselRadio = ({ carouselList, currentIndex, handleSwipe }) => {
             name="carousel"
             id={`radio${carouselIndex}`}
             value={carouselIndex + 1}
-            checked={carouselIndex === currentIndex % carouselList.length}
+            checked={carouselIndex === currentCarouselIndex % carouselList.length}
             onChange={() => {
-              handleSwipe(carouselIndex - (currentIndex % carouselList.length));
+              handleSwipe(carouselIndex - (currentCarouselIndex % carouselList.length));
             }}
           />
         );

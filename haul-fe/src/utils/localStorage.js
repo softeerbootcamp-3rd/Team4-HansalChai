@@ -14,6 +14,10 @@ export function setUserName(userName) {
   localStorage.setItem("userName", userName);
 }
 
+export function setNotInstall() {
+  return localStorage.setItem("notInstall", "true");
+}
+
 export function getIsMember() {
   return localStorage.getItem("isMember");
 }
@@ -28,6 +32,10 @@ export function getRefreshToken() {
 
 export function getUserName() {
   return localStorage.getItem("userName");
+}
+
+export function getNotInstall() {
+  return localStorage.getItem("notInstall");
 }
 
 export function isLoginFun() {

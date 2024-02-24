@@ -1,15 +1,16 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
+import { FaArrowRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import MobileLayout from "../../components/MobileLayout/MobileLayout.jsx";
 import Typography from "../../components/Typhography/Typhography.jsx";
 import TypographySpan from "../../components/Typhography/TyphographySpan.jsx";
 import Flex from "../../components/Flex/Flex.jsx";
 import Margin from "../../components/Margin/Margin.jsx";
 import Input from "../../components/Input/Input.jsx";
+import MobileInstallPrompt from "../../components/AppInstallPrompt/AppInstallPrompt.jsx";
 import BottomButton from "../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
-import { FaArrowRight } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import { UrlMap } from "../../data/GlobalVariable.js";
 import { setIsMember } from "../../utils/localStorage.js";
 import { checkLoginAbled, loginBtnFun } from "./index.jsx";
@@ -66,7 +67,7 @@ const Login = () => {
         />
       </GoSignUpBtn>
       <Margin height="36px" />
-      <form>
+      <form id="loginForm">
         <Input
           size="big"
           type="tel"
@@ -110,6 +111,7 @@ const Login = () => {
         </BottomButton>
         <Margin height="10px" />
         <BottomButton
+          form={"loginForm"}
           role="sub"
           disabled={false}
           onClick={() => {
@@ -119,6 +121,7 @@ const Login = () => {
           비회원으로 접속하기
         </BottomButton>
       </FixedCenterBox>
+      <MobileInstallPrompt />
     </MobileLayout>
   );
 };
