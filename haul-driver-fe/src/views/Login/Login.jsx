@@ -8,6 +8,7 @@ import Input from "../../components/Input/Input.jsx";
 import BottomButton from "../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
 import { checkLoginAbled, loginBtnFun } from "./index.jsx";
+import MobileInstallPrompt from "../../components/AppInstallPrompt/AppInstallPrompt.jsx";
 
 const Login = () => {
   const tel = useRef("");
@@ -75,6 +76,7 @@ const Login = () => {
           로그인하기
         </BottomButton>
       </FixedCenterBox>
+      <MobileInstallPrompt />
     </MobileLayout>
   );
 };
