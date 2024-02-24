@@ -24,7 +24,7 @@ const MobileInstallPrompt = () => {
   };
 
   const installed = () => {
-    ToastMaker({ type: "success", children: "앱이 설치되었습니다." });
+    ToastMaker({ type: "success", message: "앱이 설치되었습니다." });
     window.deferredPrompt = null;
   };
 
@@ -33,18 +33,21 @@ const MobileInstallPrompt = () => {
     if (window.navigator.standalone) return;
     window.addEventListener("beforeinstallprompt", before);
     window.addEventListener("appinstalled", installed);
+    if (deviceInfo.current.device === "iOS") {
+      //iOS는 직접 설치해야 함
+      setManual(true);
+    }
     if (
-      deviceInfo.current.device === "iOS" ||
-      (deviceInfo.current.device === "Android" &&
-        deviceInfo.current.browser === "firefox")
+      deviceInfo.current.device === "Android" &&
+      deviceInfo.current.browser === "firefox"
     ) {
-      //iOS Browser or Android Firefox
+      //Android Firefox는 beforeinstallprompt 이벤트가 발생하지 않음
+      if (window.navigator.standalone) return;
       setManual(true);
       setShowInstallModal(true);
     } else if (deviceInfo.current.browser === "chrome") {
       //Chrome
-      setManual(false);
-      setShowInstallModal(true);
+      if (window.navigator.standalone) return;
     } else {
       // PWA Not Supported
       setManual(false);
