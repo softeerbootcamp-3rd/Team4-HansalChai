@@ -26,9 +26,9 @@ const MobileInstallPrompt = () => {
     ToastMaker({ type: "success", message: "앱이 설치되었습니다." });
     window.deferredPrompt = null;
   };
-  //FIXME: 주석처리 했던 getNotInstall() === "true" 부분을 다시 주석처리 해제
+  
   useEffect(() => {
-    //if (getNotInstall() === "true") return;
+    if (getNotInstall() === "true") return;
     if (
       deviceInfo.current.device === "iOS" ||
       (deviceInfo.current.device === "Android" &&
@@ -57,7 +57,6 @@ const MobileInstallPrompt = () => {
   const handleInstall = async () => {
     console.log(window.diferredPrompt);
 
-    // PWA 설치 로직
     window.diferredPrompt.prompt();
     setShowInstallModal(false);
     const result = await window.diferredPrompt.userChoice;
