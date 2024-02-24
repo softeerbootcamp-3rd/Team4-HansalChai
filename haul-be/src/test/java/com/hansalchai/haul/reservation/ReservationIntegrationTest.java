@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -63,8 +64,8 @@ public class ReservationIntegrationTest {
 	}
 
 	@Test
-	@DisplayName("고객은 화물차를 예약할 수 있습니다.")
-	void ReservationMVCTest() throws Exception {
+	@DisplayName("MVC - 고객은 화물차를 예약할 수 있습니다.")
+	void reservationMVCTest() throws Exception {
 		// given
 		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTO();
 
@@ -87,8 +88,8 @@ public class ReservationIntegrationTest {
 	}
 
 	@Test
-	@DisplayName("비회원은 화물차를 예약할 수 있습니다.")
-	void GuestReservationMVCTest() throws Exception {
+	@DisplayName("MVC - 비회원은 화물차를 예약할 수 있습니다.")
+	void guestReservationMVCTest() throws Exception {
 		// given
 		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTO();
 
@@ -110,8 +111,8 @@ public class ReservationIntegrationTest {
 	}
 
 	@Test
-	@DisplayName("예약 회원 service 테스트")
-	void ReservationServiceTest() throws Exception {
+	@DisplayName("회원은 화물을 예약할 수 있습니다.")
+	void reservationServiceTest() throws Exception {
 		Users users = Users.builder()
 			.userId(1L)
 			.photo(null)
@@ -133,7 +134,7 @@ public class ReservationIntegrationTest {
 
 	@Test
 	@DisplayName("예약 비회원 service 테스트")
-	void ReservationGuestServiceTest() throws Exception {
+	void reservationGuestServiceTest() throws Exception {
 		// given
 		ReservationRequest.CreateReservationGuestDTO createReservationDTO = makeDummyReservationRequestGuestDTO();
 		//when
@@ -145,7 +146,7 @@ public class ReservationIntegrationTest {
 
 	@Test
 	@Transactional
-	@DisplayName("최소 크기 화물 예약 테스트")
+	@DisplayName("회원은 최소 단위의 화물을 예약할 수 있습니다.")
 	void reservationServiceWithMinimumCargoSizeTest() throws Exception {
 		Users users = Users.builder()
 			.userId(1L)
@@ -168,7 +169,7 @@ public class ReservationIntegrationTest {
 
 	@Test
 	@Transactional
-	@DisplayName("평균 크기 화물 예약 테스트")
+	@DisplayName("회원은 평균 단위의 화물을 예약할 수 있습니다.")
 	void reservationServiceWithAverageCargoSizeTest() throws Exception {
 		Users users = Users.builder()
 			.userId(1L)
@@ -191,7 +192,7 @@ public class ReservationIntegrationTest {
 
 	@Test
 	@Transactional
-	@DisplayName("최대 크기 화물 예약 테스트")
+	@DisplayName("회원은 최대 크기 단위의 화물을 예약할 수 있습니다.")
 	void reservationServiceWithMaximumCargoSizeTest() throws Exception {
 		Users users = Users.builder()
 			.userId(1L)
@@ -214,8 +215,8 @@ public class ReservationIntegrationTest {
 
 	@Test
 	@Transactional
-	@DisplayName("예약 회원 다양한 짐 크기 service 테스트")
-	void ReservationServiceCargoTest() throws Exception {
+	@DisplayName("예약 회원 다양한 짐의 크기의 화물을 예약할 수 있습니다.")
+	void reservationServiceCargoTest() throws Exception {
 		Users users = Users.builder()
 			.userId(1L)
 			.photo(null)
@@ -246,6 +247,42 @@ public class ReservationIntegrationTest {
 				}
 			}
 		}
+	}
+
+	@Test
+	@Transactional
+	@DisplayName("회원은 예약한 화물을 확인할 수 있습니다.")
+	void getReservationServiceTest() throws Exception {
+		//given
+		Users users = Users.builder()
+			.userId(1L)
+			.photo(null)
+			.email("asdf@gmail.com")
+			.name("asdf")
+			.password("12341234")
+			.role(Role.CUSTOMER)
+			.tel("01011112222")
+			.build();
+		Users savedUsers = usersRepository.save(users);
+		int saveNum = 14;
+		for(int i = 0;i < saveNum;i++){
+			ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTO();
+			ReservationResponse.ReservationRecommendationDTO reservationRecommendationDTO= reservationService.createReservation(createReservationDTO,savedUsers.getUserId());
+			reservationService.patchReservation(reservationRecommendationDTO.getReservationId(), savedUsers.getUserId());
+		}
+		List<String> keywords = Arrays.asList("매칭 중", "운송 전", "운송 중", "운송 완료");
+		int page = 0;
+
+		ReservationResponse.ReservationDTO reservationDTO = reservationService.getReservation(keywords.get(0), page,
+			savedUsers.getUserId());
+
+		Assertions.assertFalse(reservationDTO.isLastPage());
+
+		page = 1;
+		reservationDTO = reservationService.getReservation(keywords.get(0), page,
+			savedUsers.getUserId());
+
+		Assertions.assertTrue(reservationDTO.isLastPage());
 	}
 
 	private ReservationRequest.CreateReservationDTO makeDummyReservationRequestDTO() {
