@@ -1,6 +1,7 @@
 package com.hansalchai.haul.order.service;
 
 import static com.hansalchai.haul.car.constants.CarCategory.*;
+import static com.hansalchai.haul.order.dto.OrderRequest.*;
 import static com.hansalchai.haul.order.dto.OrderResponse.*;
 import static com.hansalchai.haul.order.dto.OrderResponse.OrderSearchResponseDto.*;
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
@@ -31,7 +32,6 @@ import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.car.repository.CarRepository;
 import com.hansalchai.haul.common.auth.constants.Role;
 import com.hansalchai.haul.common.exceptions.ConflictException;
-import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
 import com.hansalchai.haul.reservation.entity.Destination;

@@ -8,6 +8,7 @@ import java.util.List;
 import static com.hansalchai.haul.common.utils.ErrorCode.*;
 import static com.hansalchai.haul.common.utils.OrderUtil.*;
 import static com.hansalchai.haul.common.utils.SidoGraph.*;
+import static com.hansalchai.haul.order.dto.OrderRequest.*;
 import static com.hansalchai.haul.order.dto.OrderResponse.*;
 import static com.hansalchai.haul.order.dto.OrderResponse.OrderSearchResponseDto.*;
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
@@ -35,14 +36,12 @@ import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
 import com.hansalchai.haul.common.utils.SidoGraph;
 import com.hansalchai.haul.order.constants.OrderFilterV2;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
-import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.DriverPositionDto;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO.OrderInfoDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDetailDTO;
 
 import com.hansalchai.haul.order.constants.OrderFilter;
-import com.hansalchai.haul.order.dto.TransportStatusChange;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
 import com.hansalchai.haul.reservation.constants.TransportStatus;
@@ -187,7 +186,7 @@ public class OrderService {
 		return new OrderDetailDTO(reservation);
 	}
 
-	public TransportStatusChange.ResponseDto changeTransportStatus(Long userId, TransportStatusChange.RequestDto requestDto) {
+	public TransportStatusChangeResponseDto changeTransportStatus(Long userId, TransportStatusChangeRequestDto requestDto) {
 
 		Reservation reservation = findReservation(requestDto.getId());
 		validateUser(userId, reservation);
@@ -199,7 +198,7 @@ public class OrderService {
 		}
 
 		transport.updateTransportStatus(TransportStatus.getNextStatus(transportStatus));
-		return new TransportStatusChange.ResponseDto(reservation);
+		return new TransportStatusChangeResponseDto(reservation);
 	}
 
 	private static boolean isDone(TransportStatus transportStatus) {
@@ -238,7 +237,7 @@ public class OrderService {
 		return new OrderSearchResponseDto(orders, isLastPage);
 	}
 
-	public TransportStatusChange.ResponseDtoV2 changeTransportStatusV2(Long userId, TransportStatusChange.RequestDtoV2 requestDto) {
+	public TransportStatusChangeResponseDtoV2 changeTransportStatusV2(Long userId, TransportStatusChangeRequestDtoV2 requestDto) {
 
 		Reservation reservation = findReservation(requestDto.getId());
 		validateUser(userId, reservation);
@@ -251,16 +250,16 @@ public class OrderService {
 		}
 
 		if (hasInProgressOrder(reservation.getReservationId(), userId)) {
-			return TransportStatusChange.ResponseDtoV2.ofInProgressOrderExist();
+			return TransportStatusChangeResponseDtoV2.ofInProgressOrderExist();
 		}
 
 		if (!isNearPoint(requestDto, reservation, transportStatus)) {
-			return TransportStatusChange.ResponseDtoV2.ofRemoteLocation();
+			return TransportStatusChangeResponseDtoV2.ofRemoteLocation();
 		}
 
 		TransportStatus nextStatus = TransportStatus.getNextStatus(transportStatus);
 		transport.updateTransportStatus(nextStatus);
-		return TransportStatusChange.ResponseDtoV2.ofStatusChangeAvailable();
+		return TransportStatusChangeResponseDtoV2.ofStatusChangeAvailable();
 	}
 
 	private Reservation findReservation(Long id) {

@@ -1,5 +1,6 @@
 package com.hansalchai.haul.order.service;
 
+import static com.hansalchai.haul.order.dto.OrderRequest.*;
 import static com.hansalchai.haul.order.dto.OrderResponse.*;
 import static com.hansalchai.haul.order.dto.OrderResponse.OrderSearchResponseDto.*;
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
@@ -30,8 +31,6 @@ import com.hansalchai.haul.common.exceptions.BadRequestException;
 import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.common.exceptions.ForbiddenException;
 import com.hansalchai.haul.order.constants.OrderFilter;
-import com.hansalchai.haul.order.dto.ApproveRequestDto;
-import com.hansalchai.haul.order.dto.TransportStatusChange;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
 import com.hansalchai.haul.reservation.constants.TransportStatus;
@@ -175,12 +174,12 @@ class OrderServiceUnitTest {
 		given(reservationRepository.findInProgressReservationByUserId(userId)).willReturn(reservations);
 
 		//when
-		TransportStatusChange.RequestDtoV2 requestDto = TransportStatusChange.RequestDtoV2.builder()
+		TransportStatusChangeRequestDtoV2 requestDto = TransportStatusChangeRequestDtoV2.builder()
 			.id(reservationId)
 			.latitude(37.5138649)  //학동 에티버스
 			.longitude(127.0295296)
 			.build();
-		TransportStatusChange.ResponseDtoV2 responseDto = orderService.changeTransportStatusV2(userId, requestDto);
+		TransportStatusChangeResponseDtoV2 responseDto = orderService.changeTransportStatusV2(userId, requestDto);
 
 		//then
 		assertThat(responseDto.isDriverNearBy()).isTrue();
@@ -198,12 +197,12 @@ class OrderServiceUnitTest {
 		given(reservationRepository.findById(reservationId)).willReturn(Optional.of(reservation));
 
 		//when
-		TransportStatusChange.RequestDtoV2 requestDto = TransportStatusChange.RequestDtoV2.builder()
+		TransportStatusChangeRequestDtoV2 requestDto = TransportStatusChangeRequestDtoV2.builder()
 			.id(reservationId)
 			.latitude(37.445620228619)  //인천 미추홀구
 			.longitude(126.65182310263)
 			.build();
-		TransportStatusChange.ResponseDtoV2 responseDto = orderService.changeTransportStatusV2(userId, requestDto);
+		TransportStatusChangeResponseDtoV2 responseDto = orderService.changeTransportStatusV2(userId, requestDto);
 
 		//then
 		assertThat(responseDto.isDriverNearBy()).isFalse();
@@ -218,7 +217,7 @@ class OrderServiceUnitTest {
 		Long reservationId = 123L;
 		Reservation reservation = createReservationForChaneStatusV2Test(userId, ownerId, reservationId, NOT_STARTED);
 
-		TransportStatusChange.RequestDtoV2 requestDto = TransportStatusChange.RequestDtoV2.builder()
+		TransportStatusChangeRequestDtoV2 requestDto = TransportStatusChangeRequestDtoV2.builder()
 			.id(reservationId)
 			.build();
 
@@ -227,7 +226,7 @@ class OrderServiceUnitTest {
 		given(reservationRepository.findInProgressReservationByUserId(userId)).willReturn(reservations);
 
 		//when
-		TransportStatusChange.ResponseDtoV2 responseDto = orderService.changeTransportStatusV2(userId, requestDto);
+		TransportStatusChangeResponseDtoV2 responseDto = orderService.changeTransportStatusV2(userId, requestDto);
 
 		//then
 		assertThat(responseDto.isHasInProgressOrder()).isTrue();
@@ -242,7 +241,7 @@ class OrderServiceUnitTest {
 		Long reservationId = 123L;
 		Reservation reservation = createReservationForChaneStatusV2Test(userId, ownerId, reservationId, NOT_STARTED);
 
-		TransportStatusChange.RequestDtoV2 requestDto = TransportStatusChange.RequestDtoV2.builder()
+		TransportStatusChangeRequestDtoV2 requestDto = TransportStatusChangeRequestDtoV2.builder()
 			.id(reservationId)
 			.build();
 
@@ -263,7 +262,7 @@ class OrderServiceUnitTest {
 		Long reservationId = 123L;
 		Reservation reservation = createReservationForChaneStatusV2Test(userId, ownerId, reservationId, DONE);
 
-		TransportStatusChange.RequestDtoV2 requestDto = TransportStatusChange.RequestDtoV2.builder()
+		TransportStatusChangeRequestDtoV2 requestDto = TransportStatusChangeRequestDtoV2.builder()
 			.id(reservationId)
 			.build();
 

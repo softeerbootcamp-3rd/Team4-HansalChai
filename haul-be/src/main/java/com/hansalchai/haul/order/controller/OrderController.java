@@ -3,6 +3,7 @@ package com.hansalchai.haul.order.controller;
 import static com.hansalchai.haul.common.auth.jwt.JwtProvider.*;
 import static com.hansalchai.haul.common.utils.ApiResponse.*;
 import static com.hansalchai.haul.common.utils.SuccessCode.*;
+import static com.hansalchai.haul.order.dto.OrderRequest.*;
 import static com.hansalchai.haul.order.dto.OrderResponse.*;
 
 import org.springframework.http.ResponseEntity;
@@ -15,11 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
 import com.hansalchai.haul.common.utils.ApiResponse;
-import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.DriverPositionDto;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDetailDTO;
-import com.hansalchai.haul.order.dto.TransportStatusChange;
 import com.hansalchai.haul.order.service.OrderService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -78,11 +77,11 @@ public class OrderController {
 	}
 
 	@PatchMapping(V1_ORDERS_PATH + "/status")
-	public ResponseEntity<ApiResponse<TransportStatusChange.ResponseDto>> changeTransportStatus(
+	public ResponseEntity<ApiResponse<TransportStatusChangeResponseDto>> changeTransportStatus(
 			HttpServletRequest request,
-			@Valid @RequestBody TransportStatusChange.RequestDto requestDto) {
+			@Valid @RequestBody TransportStatusChangeRequestDto requestDto) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		TransportStatusChange.ResponseDto responseDto = orderService.changeTransportStatus(auth.getUserId(), requestDto);
+		TransportStatusChangeResponseDto responseDto = orderService.changeTransportStatus(auth.getUserId(), requestDto);
 		return ResponseEntity.ok(success(GET_SUCCESS, responseDto));
 	}
 
@@ -107,11 +106,11 @@ public class OrderController {
 	}
 
 	@PatchMapping(V2_ORDERS_PATH + "/status")
-	public ResponseEntity<ApiResponse<TransportStatusChange.ResponseDtoV2>> changeTransportStatusV2(
+	public ResponseEntity<ApiResponse<TransportStatusChangeResponseDtoV2>> changeTransportStatusV2(
 			HttpServletRequest request,
-			@Valid @RequestBody TransportStatusChange.RequestDtoV2 requestDto) {
+			@Valid @RequestBody TransportStatusChangeRequestDtoV2 requestDto) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		TransportStatusChange.ResponseDtoV2 responseDto = orderService.changeTransportStatusV2(auth.getUserId(), requestDto);
+		TransportStatusChangeResponseDtoV2 responseDto = orderService.changeTransportStatusV2(auth.getUserId(), requestDto);
 		return ResponseEntity.ok(success(GET_SUCCESS, responseDto));
 	}
 }

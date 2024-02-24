@@ -14,10 +14,12 @@ import com.hansalchai.haul.reservation.entity.Source;
 import com.hansalchai.haul.reservation.entity.Transport;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderResponse {
 	
 	@Getter
@@ -206,6 +208,53 @@ public class OrderResponse {
 				transportDatetime = dateTimeToString(reservation.getDate(), reservation.getTime());
 				cost = cutCost(transport.getFee());
 			}
+		}
+	}
+
+	/**
+	 * 운송 상태 변경 응답 dto
+	 * */
+	@Getter
+	public static class TransportStatusChangeResponseDto {
+
+		private Long id; //오더 id
+
+		public TransportStatusChangeResponseDto(Reservation reservation) {
+			this.id = reservation.getReservationId();
+		}
+	}
+
+	@Getter
+	public static class TransportStatusChangeResponseDtoV2 {
+
+		private boolean hasInProgressOrder;
+		private boolean isDriverNearBy;
+
+		@Builder
+		public TransportStatusChangeResponseDtoV2(boolean hasInProgressOrder, boolean isDriverNearBy) {
+			this.hasInProgressOrder = hasInProgressOrder;
+			this.isDriverNearBy = isDriverNearBy;
+		}
+
+		public static TransportStatusChangeResponseDtoV2 ofInProgressOrderExist() {
+			return TransportStatusChangeResponseDtoV2.builder()
+				.hasInProgressOrder(true)
+				.isDriverNearBy(false)
+				.build();
+		}
+
+		public static TransportStatusChangeResponseDtoV2 ofRemoteLocation() {
+			return TransportStatusChangeResponseDtoV2.builder()
+				.hasInProgressOrder(false)
+				.isDriverNearBy(false)
+				.build();
+		}
+
+		public static TransportStatusChangeResponseDtoV2 ofStatusChangeAvailable() {
+			return TransportStatusChangeResponseDtoV2.builder()
+				.hasInProgressOrder(false)
+				.isDriverNearBy(true)
+				.build();
 		}
 	}
 }
