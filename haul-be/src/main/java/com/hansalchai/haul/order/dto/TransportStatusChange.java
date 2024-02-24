@@ -32,6 +32,13 @@ public class TransportStatusChange {
 
 		@NotNull(message = "경도는 null이 될 수 없습니다.")
 		double longitude;
+
+		@Builder
+		public RequestDtoV2(Long id, double latitude, double longitude) {
+			this.id = id;
+			this.latitude = latitude;
+			this.longitude = longitude;
+		}
 	}
 
 	// 운송 상태 변경 응답 dto
