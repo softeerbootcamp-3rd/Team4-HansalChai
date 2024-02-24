@@ -17,7 +17,6 @@ import com.hansalchai.haul.reservation.dto.ReservationResponse;
 import com.hansalchai.haul.reservation.service.ReservationService;
 import com.hansalchai.haul.user.entity.Users;
 import com.hansalchai.haul.user.repository.UsersRepository;
-import com.hansalchai.haul.user.service.UsersService;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,8 +38,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @SpringBootTest
 @ActiveProfiles("test")
 @Sql("classpath:db/teardown.sql")
-public class ReservationTest {
-	Logger logger = LoggerFactory.getLogger(ReservationTest.class);
+public class ReservationUnitTest {
+	Logger logger = LoggerFactory.getLogger(ReservationUnitTest.class);
 
 	@Autowired
 	private ObjectMapper om;
@@ -132,14 +131,6 @@ public class ReservationTest {
 
 		// verify
 		resultActions.andExpect(jsonPath("$.status").value(200));
-	}
-
-	@Test
-	@DisplayName("번호 생성테스트")
-	void GenerateNumberTest() throws Exception {
-		for(int i = 0;i<30;i++){
-			logger.info(ReservationNumberGenerator.generateUniqueId());
-		}
 	}
 
 	private ReservationRequest.CreateReservationDTO makeDummyReservationRequestDTO() {
