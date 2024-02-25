@@ -8,6 +8,7 @@ import Input from "../../components/Input/Input.jsx";
 import BottomButton from "../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../components/FixedBox/FixedCenterBox.jsx";
 import { checkLoginAbled, loginBtnFun } from "./index.jsx";
+import MobileInstallPrompt from "../../components/AppInstallPrompt/AppInstallPrompt.jsx";
 
 const Login = () => {
   const tel = useRef("");
@@ -30,7 +31,7 @@ const Login = () => {
         안녕하세요 기사님. 좋은 하루입니다.
       </Typography>
       <Margin height="36px" />
-      <form>
+      <form id="loginForm">
         <Input
           size="big"
           type="tel"
@@ -65,14 +66,17 @@ const Login = () => {
         <BottomButton
           type="submit"
           role="main"
+          form="loginForm"
           disabled={isButtonDisabled}
-          onClick={() => {
+          onClick={e => {
+            e.preventDefault();
             loginBtnFun({ tel: tel.current, password: password.current });
           }}
         >
           로그인하기
         </BottomButton>
       </FixedCenterBox>
+      <MobileInstallPrompt />
     </MobileLayout>
   );
 };

@@ -10,7 +10,7 @@
     />
     <meta name="HandheldFriendly" content="true" />
     <meta name="theme-color" content="#000B49" />
-    <meta name="description" content="쉽고 빠른 배달일 찾기" />
+    <meta name="description" content="쉽고 빠른 운송일 찾기" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Haul" />
@@ -56,10 +56,16 @@
       href="/apple-touch-icon-180x180.png"
     />
 
-    <title>Haul - 쉽고 빠른 배달일 찾기</title>
+    <title>Haul - 쉽고 빠른 운송일 찾기</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        window.diferredPrompt = e;
+      })
+    </script>
   </body>
 </html>

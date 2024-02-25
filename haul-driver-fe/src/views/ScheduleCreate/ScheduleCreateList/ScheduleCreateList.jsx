@@ -38,12 +38,11 @@ let lastTabbar = 0;
 const ScheduleCreateList = () => {
   const [selectedStatus, setSelectedStatus] = useState(lastTabbar);
   const driverName = getUserName();
-  const statusList = ["추천", "가격", "날짜", "거리"];
+  const statusList = ["추천", "가격", "날짜"];
   const fetcherList = [
     functionBinder(getDriverSummaryList, { sortBy: "default" }),
     functionBinder(getDriverSummaryList, { sortBy: "fee" }),
-    functionBinder(getDriverSummaryList, { sortBy: "datetime" }),
-    functionBinder(getDriverSummaryList, { sortBy: "distance" })
+    functionBinder(getDriverSummaryList, { sortBy: "datetime" })
   ];
 
   useEffect(() => {

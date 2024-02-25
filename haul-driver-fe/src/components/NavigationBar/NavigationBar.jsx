@@ -37,29 +37,30 @@ const ItemFrame = styled.div`
   align-items: center;
   gap: 4px;
   flex-grow: 1;
-  color: ${props =>
-    props.selected
-      ? props.theme.colors.mainColor
-      : props.theme.colors.unselectedGray};
+  color: ${({ selected, theme }) =>
+    selected ? theme.colors.mainColor : theme.colors.unselectedGray};
 `;
 
 const TruckImg = styled.img`
   width: 42px;
-  height: 23px;
+  height: 30px;
   border: none;
-  fill: ${props => props.theme.colors[props.fill]};
-  color: red;
+  fill: ${({ fill, theme }) => theme.colors[fill]};
+  object-fit: scale-down;
+  object-position: center;
 `;
 
 const IconFrame = styled.div`
-  color: ${props => props.theme.colors[props.fill]};
+  color: ${({ theme, fill }) => theme.colors[fill]};
+  height: 30px;
+  object-fit: scale-down;
+  object-position: center;
 `;
 
 const SelectedCircleImg = styled.img`
   width: 6px;
   height: 6px;
-  fill: ${props => props.theme.colors[props.fill]};
-  color: red;
+  fill: ${({ theme, fill }) => theme.colors[fill]};
 `;
 
 const NavigationBar = ({ selected = "create" }) => {
@@ -89,7 +90,7 @@ const NavigationBar = ({ selected = "create" }) => {
           }
         />
         <IconFrame fill={selected === "check" ? "mainColor" : "unselectedGray"}>
-          <CheckSvg size={27} />
+          <CheckSvg size={30} />
         </IconFrame>
         <Typography
           color={selected === "check" ? "mainColor" : "unselectedGray"}
@@ -135,7 +136,7 @@ const NavigationBar = ({ selected = "create" }) => {
           }
         />
         <IconFrame fill={selected === "more" ? "mainColor" : "unselectedGray"}>
-          <MoreSvg size={28} />
+          <MoreSvg size={30} />
         </IconFrame>
         <Typography
           color={selected === "more" ? "mainColor" : "unselectedGray"}

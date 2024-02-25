@@ -49,3 +49,11 @@ export function removeCoordinate() {
   localStorage.removeItem("userLatitude");
   localStorage.removeItem("userLongitude");
 }
+
+export function getNotInstall() {
+  return localStorage.getItem("notInstall");
+}
+
+export function setNotInstall() {
+  return localStorage.setItem("notInstall", "true");
+}

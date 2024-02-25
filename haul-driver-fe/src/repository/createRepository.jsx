@@ -1,9 +1,67 @@
 import { ErrorMessageMap } from "../data/GlobalVariable";
-import { getAccessToken } from "../utils/localStorage";
+import { getAccessToken, getCoordinate } from "../utils/localStorage";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 
 export async function getDriverSummaryList({ page, sortBy = "default" }) {
+  try {
+    const { userLatitude: latitude, userLongitude: longitude } =
+      getCoordinate();
+    const response = await fetch(
+      `${apiKey}/api/v2/orders?sort=${sortBy}&page=${page}&latitude=${latitude}&longitude=${longitude}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`
+        }
+      }
+    );
+    const body = await response.json();
+    if (body.status === 200) {
+      const list = body.data.orderSearchDtos.map(orderSummaryInfo => {
+        return {
+          orderId: orderSummaryInfo.id,
+          src: orderSummaryInfo.srcSimpleAddress,
+          dst: orderSummaryInfo.dstSimpleAddress,
+          time: orderSummaryInfo.transportDatetime,
+          cost: orderSummaryInfo.cost
+        };
+      });
+      return {
+        success: true,
+        data: {
+          list,
+          lastPage: body.data.lastPage
+        }
+      };
+    } else {
+      switch (body.code) {
+        case 1003:
+          return {
+            success: false,
+            code: body.code,
+            message: ErrorMessageMap.NotAllowedQuery
+          };
+        default:
+          return {
+            success: false,
+            code: body.code,
+            message: ErrorMessageMap.UnknownError
+          };
+      }
+    }
+  } catch (error) {
+    console.err(error);
+    return {
+      success: false,
+      error,
+      code: 0,
+      message: ErrorMessageMap.UnknownError
+    };
+  }
+}
+
+export async function getDriverSummaryListV1({ page, sortBy = "default" }) {
   try {
     const response = await fetch(
       `${apiKey}/api/v1/orders?sort=${sortBy}&page=${page}`,

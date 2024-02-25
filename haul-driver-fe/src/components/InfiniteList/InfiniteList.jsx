@@ -9,6 +9,7 @@ import Flex from "../Flex/Flex.jsx";
 import ToastMaker from "../Toast/ToastMaker.jsx";
 import { isTokenInvalid } from "../../repository/userRepository.jsx";
 import { UrlMap } from "../../data/GlobalVariable.js";
+import UnderBar from "../UnderBar/UnderBar.jsx";
 
 // eslint-disable-next-line react/display-name
 const LoadingSkeleton = forwardRef((props, ref) => {
@@ -17,6 +18,11 @@ const LoadingSkeleton = forwardRef((props, ref) => {
       <Skeleton />
     </div>
   );
+});
+
+// eslint-disable-next-line react/display-name
+const Loader = forwardRef((props, ref) => {
+  return <UnderBar ref={ref} />;
 });
 
 const ListFrame = styled.div`
@@ -168,8 +174,9 @@ const InfiniteList = ({
           <Margin height="20px" />
         </div>
       ))}
+      <Loader ref={endRef}/>
+      {!isEnd && <LoadingSkeleton />}
       <ListTail />
-      <LoadingSkeleton ref={endRef} />
     </ListFrame>
   );
 };
