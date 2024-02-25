@@ -2,13 +2,12 @@ import { getIsMember } from "../../../utils/localStorage";
 import { guestReservationConfirmFun } from "../../../repository/reservationRepository";
 import ToastMaker from "../../../components/Toast/ToastMaker.jsx";
 import {
-  CompanyCallNumber,
   UrlMap,
   ErrorMessageMap
 } from "../../../data/GlobalVariable.js";
 
 export function callCompany() {
-  const phoneNumber = CompanyCallNumber;
+  const phoneNumber = import.meta.env.VITE_CAMPANY_CALLNUMBER;
   window.location.href = `tel:${phoneNumber}`;
 }
 
