@@ -60,7 +60,7 @@ public class ReservationService{
 	 */
 	public ReservationRecommendationDTO createReservation(CreateReservationDTO reservationDTO,
 		Long userId) {
-		Users user = exceptionUserNotFound(userId);
+		Users user = findUser(userId);
 
 		Source source = reservationDTO.getSrc().build();
 		Destination destination = reservationDTO.getDst().build();
@@ -127,7 +127,7 @@ public class ReservationService{
 	}
 
 	public ReservationDTO getReservation(String keyword, int page, Long userId) {
-		Users user = exceptionUserNotFound(userId);
+		Users user = findUser(userId);
 
 		Pageable pageable = PageRequest.of(page,PAGECUT);
 		Page<Reservation> pageContent = TransportStatus.findStatusByCode(keyword).execute(user.getUserId(), pageable, reservationRepository);
@@ -138,7 +138,7 @@ public class ReservationService{
 	}
 
 	public ReservationDTO getGuestReservation(String number) {
-		Reservation reservation = exceptionReservationNotFound(number);
+		Reservation reservation = findReservation(number);
 
 		ReservationInfoDTO reservationInfoDTO = new ReservationInfoDTO(reservation);
 		List<ReservationInfoDTO> reservationInfoDTOS = new ArrayList<>();
@@ -147,7 +147,7 @@ public class ReservationService{
 	}
 
 	public ReservationDetailDTO getReservationDetail(Long id, Long userId) {
-		Reservation reservation = exceptionReservationNotFound(id);
+		Reservation reservation = findReservation(id);
 
 		exceptionForbiddenUser(reservation, userId);
 
@@ -155,7 +155,7 @@ public class ReservationService{
 	}
 
 	public ReservationDetailDTO getGuestReservationDetail(Long id) {
-		Reservation reservation = exceptionReservationNotFound(id);
+		Reservation reservation = findReservation(id);
 
 		exceptionForbiddenGuest(reservation);
 
@@ -163,7 +163,7 @@ public class ReservationService{
 	}
 
 	public void patchReservation(Long id, Long userId) {
-		Reservation reservation = exceptionReservationNotFound(id);
+		Reservation reservation = findReservation(id);
 
 		exceptionForbiddenUser(reservation, userId);
 		exceptionInvalidReservationStateChange(reservation);
@@ -172,7 +172,7 @@ public class ReservationService{
 	}
 
 	public void patchGuestReservation(Long id) {
-		Reservation reservation = exceptionReservationNotFound(id);
+		Reservation reservation = findReservation(id);
 
 		exceptionForbiddenGuest(reservation);
 		exceptionInvalidReservationStateChange(reservation);
@@ -193,7 +193,7 @@ public class ReservationService{
 		reservation.getTransport().changeStatusReserved();
 	}
 
-	private Users exceptionUserNotFound(long userId){
+	private Users findUser(long userId){
 		return usersRepository.findById(userId)
 			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 	}
@@ -204,12 +204,12 @@ public class ReservationService{
 		}
 	}
 
-	private Reservation exceptionReservationNotFound(long id){
+	private Reservation findReservation(long id){
 		return reservationRepository.findById(id)
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
 	}
 
-	private Reservation exceptionReservationNotFound(String number){
+	private Reservation findReservation(String number){
 		return reservationRepository.findByNumber(number)
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
 	}
