@@ -1,21 +1,27 @@
 package com.hansalchai.haul.order.dto;
 
 import static com.hansalchai.haul.common.utils.AddressUtil.*;
+import static com.hansalchai.haul.common.utils.ReservationUtil.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import org.hibernate.validator.constraints.Range;
-
 import com.hansalchai.haul.reservation.constants.TransportStatus;
+import com.hansalchai.haul.reservation.entity.Destination;
 import com.hansalchai.haul.reservation.entity.Reservation;
+import com.hansalchai.haul.reservation.entity.Source;
+import com.hansalchai.haul.reservation.entity.Transport;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderResponse {
+	
 	@Getter
 	public static class OrderDTO{
 		List<OrderInfoDTO> orderInfoDTOS;
@@ -165,6 +171,90 @@ public class OrderResponse {
 
 		public String getDateTimeString(LocalDate date, LocalTime time) {
 			return date.toString() + " " + time.toString();
+		}
+	}
+
+	@Getter
+	@NoArgsConstructor
+	public static class OrderSearchResponseDto {
+
+		private List<OrderSearchItem> orderSearchItems;
+		private boolean isLastPage;
+
+		public OrderSearchResponseDto(List<OrderSearchItem> orderSearchDtos, boolean isLastPage) {
+			this.orderSearchItems = orderSearchDtos;
+			this.isLastPage = isLastPage;
+		}
+
+		@Getter
+		@NoArgsConstructor
+		public static class OrderSearchItem {
+
+			private Long id;
+			private String srcSimpleAddress;
+			private String dstSimpleAddress;
+			private String transportDatetime;
+			private int cost;
+
+			public OrderSearchItem(Reservation reservation) {
+
+				Source source = reservation.getSource();
+				Destination destination = reservation.getDestination();
+				Transport transport = reservation.getTransport();
+
+				id = reservation.getReservationId();
+				srcSimpleAddress = toSimpleAddress(source.getAddress());
+				dstSimpleAddress = toSimpleAddress(destination.getAddress());
+				transportDatetime = dateTimeToString(reservation.getDate(), reservation.getTime());
+				cost = cutCost(transport.getFee());
+			}
+		}
+	}
+
+	/**
+	 * 운송 상태 변경 응답 dto
+	 * */
+	@Getter
+	public static class TransportStatusChangeResponseDto {
+
+		private Long id; //오더 id
+
+		public TransportStatusChangeResponseDto(Reservation reservation) {
+			this.id = reservation.getReservationId();
+		}
+	}
+
+	@Getter
+	public static class TransportStatusChangeResponseDtoV2 {
+
+		private boolean hasInProgressOrder;
+		private boolean isDriverNearBy;
+
+		@Builder
+		public TransportStatusChangeResponseDtoV2(boolean hasInProgressOrder, boolean isDriverNearBy) {
+			this.hasInProgressOrder = hasInProgressOrder;
+			this.isDriverNearBy = isDriverNearBy;
+		}
+
+		public static TransportStatusChangeResponseDtoV2 ofInProgressOrderExist() {
+			return TransportStatusChangeResponseDtoV2.builder()
+				.hasInProgressOrder(true)
+				.isDriverNearBy(false)
+				.build();
+		}
+
+		public static TransportStatusChangeResponseDtoV2 ofRemoteLocation() {
+			return TransportStatusChangeResponseDtoV2.builder()
+				.hasInProgressOrder(false)
+				.isDriverNearBy(false)
+				.build();
+		}
+
+		public static TransportStatusChangeResponseDtoV2 ofStatusChangeAvailable() {
+			return TransportStatusChangeResponseDtoV2.builder()
+				.hasInProgressOrder(false)
+				.isDriverNearBy(true)
+				.build();
 		}
 	}
 }

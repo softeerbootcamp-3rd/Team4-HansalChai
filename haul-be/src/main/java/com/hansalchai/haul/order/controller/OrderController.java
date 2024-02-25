@@ -3,6 +3,8 @@ package com.hansalchai.haul.order.controller;
 import static com.hansalchai.haul.common.auth.jwt.JwtProvider.*;
 import static com.hansalchai.haul.common.utils.ApiResponse.*;
 import static com.hansalchai.haul.common.utils.SuccessCode.*;
+import static com.hansalchai.haul.order.dto.OrderRequest.*;
+import static com.hansalchai.haul.order.dto.OrderResponse.*;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
 import com.hansalchai.haul.common.utils.ApiResponse;
-import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDetailDTO;
-import com.hansalchai.haul.order.dto.OrderSearchResponse;
-import com.hansalchai.haul.order.dto.TransportStatusChange;
 import com.hansalchai.haul.order.service.OrderService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,12 +34,12 @@ public class OrderController {
 	private static final String V2_ORDERS_PATH = "/api/v2/orders";
 
 	@GetMapping(V1_ORDERS_PATH)
-	public ResponseEntity<ApiResponse<OrderSearchResponse>> findAll(
+	public ResponseEntity<ApiResponse<OrderSearchResponseDto>> findAll(
 			HttpServletRequest request,
 			@RequestParam(value = "sort", defaultValue = "default") String sort,
 			@PositiveOrZero @RequestParam(value = "page", defaultValue = "0") int page) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		OrderSearchResponse orders = orderService.findAll(auth.getUserId(), sort, page);
+		OrderSearchResponseDto orders = orderService.findAll(auth.getUserId(), sort, page);
 		return ResponseEntity.ok(success(GET_SUCCESS, orders));
 	}
 
@@ -77,23 +76,23 @@ public class OrderController {
 	}
 
 	@PatchMapping(V1_ORDERS_PATH + "/status")
-	public ResponseEntity<ApiResponse<TransportStatusChange.ResponseDto>> changeTransportStatus(
+	public ResponseEntity<ApiResponse<TransportStatusChangeResponseDto>> changeTransportStatus(
 			HttpServletRequest request,
-			@Valid @RequestBody TransportStatusChange.RequestDto requestDto) {
+			@Valid @RequestBody TransportStatusChangeRequestDto requestDto) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		TransportStatusChange.ResponseDto responseDto = orderService.changeTransportStatus(auth.getUserId(), requestDto);
+		TransportStatusChangeResponseDto responseDto = orderService.changeTransportStatus(auth.getUserId(), requestDto);
 		return ResponseEntity.ok(success(GET_SUCCESS, responseDto));
 	}
 
 	@GetMapping(V2_ORDERS_PATH)
-	public ResponseEntity<ApiResponse<OrderSearchResponse>> findAllV2(
+	public ResponseEntity<ApiResponse<OrderSearchResponseDto>> findAllV2(
 		HttpServletRequest request,
 		@RequestParam(value = "sort", defaultValue = "default") String sort,
 		@PositiveOrZero @RequestParam(value = "page", defaultValue = "0") int page,
 		@RequestParam(value = "latitude") double latitude,
 		@RequestParam(value = "longitude") double longitude) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		OrderSearchResponse orders = orderService.findAllV2(auth.getUserId(), sort, page, latitude, longitude );
+		OrderSearchResponseDto orders = orderService.findAllV2(auth.getUserId(), sort, page, latitude, longitude);
 		return ResponseEntity.ok(success(GET_SUCCESS, orders));
 	}
 	
@@ -107,11 +106,11 @@ public class OrderController {
 	}
 
 	@PatchMapping(V2_ORDERS_PATH + "/status")
-	public ResponseEntity<ApiResponse<TransportStatusChange.ResponseDtoV2>> changeTransportStatusV2(
+	public ResponseEntity<ApiResponse<TransportStatusChangeResponseDtoV2>> changeTransportStatusV2(
 			HttpServletRequest request,
-			@Valid @RequestBody TransportStatusChange.RequestDtoV2 requestDto) {
+			@Valid @RequestBody TransportStatusChangeRequestDtoV2 requestDto) {
 		AuthenticatedUser auth = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
-		TransportStatusChange.ResponseDtoV2 responseDto = orderService.changeTransportStatusV2(auth.getUserId(), requestDto);
+		TransportStatusChangeResponseDtoV2 responseDto = orderService.changeTransportStatusV2(auth.getUserId(), requestDto);
 		return ResponseEntity.ok(success(GET_SUCCESS, responseDto));
 	}
 }
