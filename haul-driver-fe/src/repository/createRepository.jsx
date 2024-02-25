@@ -18,7 +18,7 @@ export async function getDriverSummaryList({ page, sortBy = "default" }) {
     );
     const body = await response.json();
     if (body.status === 200) {
-      const list = body.data.orderSearchDtos.map(orderSummaryInfo => {
+      const list = body.data.orderSearchItems.map(orderSummaryInfo => {
         return {
           orderId: orderSummaryInfo.id,
           src: orderSummaryInfo.srcSimpleAddress,
