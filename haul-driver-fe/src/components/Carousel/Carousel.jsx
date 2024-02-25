@@ -136,7 +136,7 @@ const Carousel = ({ carouselList, setSelectedIndex, initialIndex = 0 }) => {
       if (carouselRef.current !== null) {
         carouselRef.current.style.transition = "";
       }
-    }, 500);
+    }, 200);
   };
 
   //화살표 클릭 이벤트 처리 - 이전, 다음 이미지로 이동
@@ -144,7 +144,7 @@ const Carousel = ({ carouselList, setSelectedIndex, initialIndex = 0 }) => {
     setDisabled(true);
     setTimeout(() => {
       setDisabled(false);
-    }, 500);
+    }, 200);
     const newIndex = currentIndex + direction;
 
     if (newIndex === carouselList.length * 3 - 1) {
@@ -155,7 +155,7 @@ const Carousel = ({ carouselList, setSelectedIndex, initialIndex = 0 }) => {
 
     setCurrentIndex(prev => prev + direction);
     if (carouselRef.current !== null) {
-      carouselRef.current.style.transition = "all 0.5s ease-in-out";
+      carouselRef.current.style.transition = "all 0.2s ease-in-out";
     }
   };
 
