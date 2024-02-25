@@ -8,7 +8,7 @@ import Skeleton from "./Skeleton.jsx";
 import Flex from "../../../../components/Flex/Flex.jsx";
 import ToastMaker from "../../../../components/Toast/ToastMaker.jsx";
 import { UrlMap } from "../../../../data/GlobalVariable.js";
-import UnderBar from "../UnderBar/UnderBar.jsx";
+import UnderBar from "../../../../components/UnderBar/UnderBar.jsx";
 
 const LoadingSkeleton = forwardRef((props, ref) => {
   return (
