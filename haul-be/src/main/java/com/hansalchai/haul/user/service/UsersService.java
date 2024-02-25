@@ -58,16 +58,18 @@ public class UsersService {
 
 		return new UserLogin.ResponseDto(jwt, user.getName());
 	}
+
 	@Transactional
 	public ProfileDTO getProfile(Long userId) {
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 		return new ProfileDTO(user);
 	}
+
 	@Transactional
 	public void putProfile(ProfileUpdateDTO profileUpdateDTO, Long userId) {
 		Users user = usersRepository.findById(userId)
-			.orElseThrow(() ->  new NotFoundException(USER_NOT_FOUND));
+			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 		user.update(profileUpdateDTO.getPassword());
 	}
 

@@ -18,7 +18,7 @@ public class ProfileDTO {
 	private String tel;
 
 	@Builder
-	public ProfileDTO(Users user){
+	public ProfileDTO(Users user) {
 		this.name = user.getName();
 		this.email = user.getEmail();
 		this.tel = user.getTel();

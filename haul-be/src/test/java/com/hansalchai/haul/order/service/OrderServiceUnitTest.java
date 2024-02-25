@@ -273,7 +273,6 @@ class OrderServiceUnitTest {
 			() -> orderService.changeTransportStatusV2(userId, requestDto));
 	}
 
-
 	/* ---------------- 예약 데이터 생성 메서드 ---------------- */
 	private Page<Reservation> createReservationsForFindAllTest() {
 
@@ -290,8 +289,8 @@ class OrderServiceUnitTest {
 			.source(source1)
 			.destination(destination1)
 			.transport(transport1)
-			.date(LocalDate.of(2024,2,20))
-			.time(LocalTime.of(11,30))
+			.date(LocalDate.of(2024, 2, 20))
+			.time(LocalTime.of(11, 30))
 			.build();
 
 		Source source2 = Source.builder()
@@ -307,8 +306,8 @@ class OrderServiceUnitTest {
 			.source(source2)
 			.destination(destination2)
 			.transport(transport2)
-			.date(LocalDate.of(2024,2,20))
-			.time(LocalTime.of(11,30))
+			.date(LocalDate.of(2024, 2, 20))
+			.time(LocalTime.of(11, 30))
 			.build();
 
 		Source source3 = Source.builder()
@@ -324,8 +323,8 @@ class OrderServiceUnitTest {
 			.source(source3)
 			.destination(destination3)
 			.transport(transport3)
-			.date(LocalDate.of(2024,2,20))
-			.time(LocalTime.of(11,30))
+			.date(LocalDate.of(2024, 2, 20))
+			.time(LocalTime.of(11, 30))
 			.build();
 
 		List<Reservation> reservations = List.of(reservation1, reservation2, reservation3);

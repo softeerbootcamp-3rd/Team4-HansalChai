@@ -21,9 +21,9 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderResponse {
-	
+
 	@Getter
-	public static class OrderDTO{
+	public static class OrderDTO {
 		List<OrderInfoDTO> orderInfoDTOS;
 		boolean isLastPage;
 
@@ -33,12 +33,13 @@ public class OrderResponse {
 		}
 
 		@Getter
-		public static class OrderInfoDTO{
+		public static class OrderInfoDTO {
 			private final Long id;
 			private final String src;
 			private final String dst;
 			private final String datetime;
 			private final int cost;
+
 			@Builder
 			public OrderInfoDTO(Reservation reservation) {
 				this.id = reservation.getReservationId();
@@ -48,10 +49,10 @@ public class OrderResponse {
 				this.cost = costCut(reservation.getTransport().getFee());
 			}
 
-			public int costCut(int fee){
-				if(fee < 10000)
+			public int costCut(int fee) {
+				if (fee < 10000)
 					return 1;
-				return fee/10000;
+				return fee / 10000;
 			}
 
 			public String getDateTimeString(LocalDate date, LocalTime time) {
@@ -61,7 +62,7 @@ public class OrderResponse {
 	}
 
 	@Getter
-	public static class OrderDetailDTO{
+	public static class OrderDetailDTO {
 		private final UserDTO user;
 		private final SourceDTO src;
 		private final DestinationDTO dst;
@@ -77,14 +78,14 @@ public class OrderResponse {
 
 		@Getter
 		@Builder
-		public static class UserDTO{
+		public static class UserDTO {
 			private String name;
 			private String tel;
 		}
 
 		@Getter
 		@Builder
-		public static class SourceDTO{
+		public static class SourceDTO {
 			@NotNull(message = "출발지 이름은 Null 일 수 없다.")
 			private String name;
 			@NotNull(message = "출발지 주소는 Null 일 수 없다.")
@@ -101,7 +102,7 @@ public class OrderResponse {
 
 		@Getter
 		@Builder
-		public static class DestinationDTO{
+		public static class DestinationDTO {
 			@NotNull(message = "도착지 이름은 Null 일 수 없다.")
 			private String name;
 			@NotNull(message = "도착지 주소는 Null 일 수 없다.")
@@ -118,7 +119,7 @@ public class OrderResponse {
 
 		@Getter
 		@Builder
-		public static class CargoDTO{
+		public static class CargoDTO {
 			@NotNull(message = "화물 가로는 Null 일 수 없다.")
 			private int width;
 			@NotNull(message = "화물 세로는 Null 일 수 없다.")
@@ -162,12 +163,12 @@ public class OrderResponse {
 			this.transportStatus = TransportStatus.getCode(reservation.getTransport().getTransportStatus());
 			this.datetime = getDateTimeString(reservation.getDate(), reservation.getTime());
 		}
-		public int costCut(int fee){
-			if(fee < 10000)
-				return 1;
-			return fee/10000;
-		}
 
+		public int costCut(int fee) {
+			if (fee < 10000)
+				return 1;
+			return fee / 10000;
+		}
 
 		public String getDateTimeString(LocalDate date, LocalTime time) {
 			return date.toString() + " " + time.toString();

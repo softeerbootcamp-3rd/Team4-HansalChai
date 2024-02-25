@@ -21,14 +21,16 @@ import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @Repository
-public class CustomReservationRepositoryImpl  implements CustomReservationRepository{
+public class CustomReservationRepositoryImpl implements CustomReservationRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 
 	private OrderSpecifier<?> customSidoOrder(ArrayList<String> sidoArray) {
 		NumberExpression<Integer> caseExpression = new CaseBuilder()
 			.when(source.sido.eq(sidoArray.get(0))).then(1).otherwise(sidoArray.size() + 1);
 		for (int i = 1; i < sidoArray.size(); i++) {
-			caseExpression = new CaseBuilder().when(source.sido.eq(sidoArray.get(i))).then(i + 1).otherwise(caseExpression);
+			caseExpression = new CaseBuilder().when(source.sido.eq(sidoArray.get(i)))
+				.then(i + 1)
+				.otherwise(caseExpression);
 		}
 		return new OrderSpecifier<>(Order.ASC, caseExpression);
 	}
@@ -36,6 +38,7 @@ public class CustomReservationRepositoryImpl  implements CustomReservationReposi
 	public CustomReservationRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
 		this.jpaQueryFactory = jpaQueryFactory;
 	}
+
 	LocalDateTime now = LocalDateTime.now();
 	BooleanExpression isAfterCurrentTimestamp =
 		reservation.date.after(now.toLocalDate())

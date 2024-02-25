@@ -36,14 +36,14 @@ public class AddressUtil {
 		return simpleAddress.toString();
 	}
 
-	public static String kakaoAdressToSrcAddress(String address){
-		if(Objects.equals(address, "경기도"))
+	public static String kakaoAdressToSrcAddress(String address) {
+		if (Objects.equals(address, "경기도"))
 			return "경기";
 
-		if(address.length() >= 7 )
+		if (address.length() >= 7)
 			return address;
 
-		if(address.contains("특별시") || address.contains("광역시")) {
+		if (address.contains("특별시") || address.contains("광역시")) {
 			address = address.replace("특별시", "");
 			address = address.replace("광역시", "");
 			return address;

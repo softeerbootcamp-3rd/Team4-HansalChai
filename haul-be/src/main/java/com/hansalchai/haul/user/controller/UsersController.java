@@ -33,43 +33,43 @@ public class UsersController {
 
 	@PostMapping(V1_USERS_PATH + "/sign-up")
 	public ResponseEntity<ApiResponse<Object>> signUp(
-			@Valid @RequestBody CustomerSignUpDto signUpDto) {
+		@Valid @RequestBody CustomerSignUpDto signUpDto) {
 		usersService.signUp(signUpDto);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, null));
 	}
 
 	@PostMapping(V1_USERS_PATH + "/sign-in")
 	public ResponseEntity<ApiResponse<UserLogin.ResponseDto>> signIn(
-			@Valid @RequestBody UserLogin.RequestDto requestDto) throws JsonProcessingException {
+		@Valid @RequestBody UserLogin.RequestDto requestDto) throws JsonProcessingException {
 		UserLogin.ResponseDto responseDto = usersService.signIn(requestDto);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, responseDto));
 	}
 
 	@GetMapping(V1_USERS_PATH + "/profile")
 	public ResponseEntity<ApiResponse<ProfileDTO>> getProfile(
-			@LoggedInUser AuthenticatedUser authenticatedUser) {
+		@LoggedInUser AuthenticatedUser authenticatedUser) {
 		ProfileDTO profileDTO = usersService.getProfile(authenticatedUser.getUserId());
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, profileDTO));
 	}
 
 	@PutMapping(V1_USERS_PATH + "/profile")
 	public ResponseEntity<ApiResponse<String>> putProfile(
-			@LoggedInUser AuthenticatedUser authenticatedUser,
-			@Valid @RequestBody ProfileUpdateDTO profileUpdateDTO) {
+		@LoggedInUser AuthenticatedUser authenticatedUser,
+		@Valid @RequestBody ProfileUpdateDTO profileUpdateDTO) {
 		usersService.putProfile(profileUpdateDTO, authenticatedUser.getUserId());
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, null));
 	}
 
 	@PostMapping(V2_USERS_PATH + "/customers/sign-in")
 	public ResponseEntity<ApiResponse<UserLogin.ResponseDto>> customerSignInV2(
-			@Valid @RequestBody UserLogin.RequestDto requestDto) throws JsonProcessingException {
+		@Valid @RequestBody UserLogin.RequestDto requestDto) throws JsonProcessingException {
 		UserLogin.ResponseDto responseDto = usersService.customerSignInV2(requestDto);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, responseDto));
 	}
 
 	@PostMapping(V2_USERS_PATH + "/drivers/sign-in")
 	public ResponseEntity<ApiResponse<UserLogin.ResponseDto>> driverSignInV2(
-			@Valid @RequestBody UserLogin.RequestDto requestDto) throws JsonProcessingException {
+		@Valid @RequestBody UserLogin.RequestDto requestDto) throws JsonProcessingException {
 		UserLogin.ResponseDto responseDto = usersService.driverSignInV2(requestDto);
 		return ResponseEntity.ok(success(SuccessCode.GET_SUCCESS, responseDto));
 	}

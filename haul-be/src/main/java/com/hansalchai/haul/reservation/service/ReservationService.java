@@ -44,7 +44,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class ReservationService{
+public class ReservationService {
 	private final S3Util s3Util;
 	private final KakaoMap kakaoMap;
 	private final ReservationRepository reservationRepository;
@@ -53,6 +53,7 @@ public class ReservationService{
 	//querydsl
 	private final CustomCarRepositoryImpl customCarRepository;
 	public static final int PAGECUT = 10;
+
 	/*
 	1. 예약 dto에서 받아온 데이터로
 	2. 트럭을 선택
@@ -71,20 +72,24 @@ public class ReservationService{
 		MapUtils.Location dstLocation = new MapUtils.Location(destination.getLatitude(), destination.getLongitude());
 		MapUtils.DistanceDurationInfo distanceDurationInfo = kakaoMap.carPathFind(srcLocation, dstLocation);
 		//추천차량 계산
-		List<Car> recommendedCars = customCarRepository.findProperCar(CarCategorySelector.selectCarCategory(cargoOption), cargo);
+		List<Car> recommendedCars = customCarRepository.findProperCar(
+			CarCategorySelector.selectCarCategory(cargoOption), cargo);
 		//추천된 차량이 없을 때 예외처리 가격을 예상할 수 없음.
 		carNotFound(recommendedCars);
 
-		double transportDuration =  distanceDurationInfo.getDuration() + calculateLoadTime(cargo.getWeight());
+		double transportDuration = distanceDurationInfo.getDuration() + calculateLoadTime(cargo.getWeight());
 
 		//차량을 기반으로 금액 계산
-		CargoFeeTable.RequestedTruckInfo getTruck = CargoFeeTable.findCost(recommendedCars, distanceDurationInfo.getDistance(), cargo.getWeight());
-		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(), transportDuration, TransportStatus.NOT_RESERVATED);
+		CargoFeeTable.RequestedTruckInfo getTruck = CargoFeeTable.findCost(recommendedCars,
+			distanceDurationInfo.getDistance(), cargo.getWeight());
+		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()),
+			getTruck.getCost(), transportDuration, TransportStatus.NOT_RESERVATED);
 		//예약 번호
 		String reservationNumber = generateUniqueReservationNumber();
 
 		Reservation reservation = Reservation.toEntity(user, null, cargo, cargoOption,
-			source, destination, transport, getTruck.getCar(), reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
+			source, destination, transport, getTruck.getCar(), reservationNumber, reservationDTO.getDate(),
+			reservationDTO.getTime(),
 			distanceDurationInfo.getDistance(), getTruck.getNumber());
 
 		Reservation saved = reservationRepository.save(reservation);
@@ -103,21 +108,26 @@ public class ReservationService{
 		MapUtils.Location dstLocation = new MapUtils.Location(destination.getLatitude(), destination.getLongitude());
 		MapUtils.DistanceDurationInfo distanceDurationInfo = kakaoMap.carPathFind(srcLocation, dstLocation);
 		//추천차량 계산
-		List<Car> recommendedCars = customCarRepository.findProperCar(CarCategorySelector.selectCarCategory(cargoOption), cargo);
+		List<Car> recommendedCars = customCarRepository.findProperCar(
+			CarCategorySelector.selectCarCategory(cargoOption), cargo);
 		//추천된 차량이 없을 때 예외처리 가격을 예상할 수 없음.
 		carNotFound(recommendedCars);
 
-		double transportDuration =  distanceDurationInfo.getDuration() + calculateLoadTime(cargo.getWeight());
+		double transportDuration = distanceDurationInfo.getDuration() + calculateLoadTime(cargo.getWeight());
 		//차량을 기반으로 금액 계산
-		CargoFeeTable.RequestedTruckInfo getTruck = CargoFeeTable.findCost(recommendedCars, distanceDurationInfo.getDistance(), cargo.getWeight());
-		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()), getTruck.getCost(), transportDuration, TransportStatus.NOT_RESERVATED);
+		CargoFeeTable.RequestedTruckInfo getTruck = CargoFeeTable.findCost(recommendedCars,
+			distanceDurationInfo.getDistance(), cargo.getWeight());
+		Transport transport = Transport.toEntity(TransportType.stringToEnum(reservationDTO.getTransportType()),
+			getTruck.getCost(), transportDuration, TransportStatus.NOT_RESERVATED);
 		//예약 번호
 		String reservationNumber = generateUniqueReservationNumber();
 
-		Users guest = Users.toEntity(reservationDTO.getUserInfo().getName(),reservationDTO.getUserInfo().getTel(),reservationNumber, null, null, Role.GUEST);
+		Users guest = Users.toEntity(reservationDTO.getUserInfo().getName(), reservationDTO.getUserInfo().getTel(),
+			reservationNumber, null, null, Role.GUEST);
 
 		Reservation reservation = Reservation.toEntity(guest, null, cargo, cargoOption,
-			source, destination, transport, getTruck.getCar(), reservationNumber, reservationDTO.getDate(),reservationDTO.getTime(),
+			source, destination, transport, getTruck.getCar(), reservationNumber, reservationDTO.getDate(),
+			reservationDTO.getTime(),
 			distanceDurationInfo.getDistance(), getTruck.getNumber());
 
 		usersRepository.save(guest);
@@ -129,9 +139,13 @@ public class ReservationService{
 	public ReservationDTO getReservation(String keyword, int page, Long userId) {
 		Users user = findUser(userId);
 
-		Pageable pageable = PageRequest.of(page,PAGECUT);
-		Page<Reservation> pageContent = TransportStatus.findStatusByCode(keyword).execute(user.getUserId(), pageable, reservationRepository);
-		List<ReservationInfoDTO> reservationInfoDTOS = pageContent.getContent().stream().map(ReservationInfoDTO::new).collect(Collectors.toList());
+		Pageable pageable = PageRequest.of(page, PAGECUT);
+		Page<Reservation> pageContent = TransportStatus.findStatusByCode(keyword)
+			.execute(user.getUserId(), pageable, reservationRepository);
+		List<ReservationInfoDTO> reservationInfoDTOS = pageContent.getContent()
+			.stream()
+			.map(ReservationInfoDTO::new)
+			.collect(Collectors.toList());
 
 		boolean isLastPage = pageContent.getNumberOfElements() < PAGECUT;
 		return new ReservationDTO(reservationInfoDTOS, isLastPage);
@@ -189,45 +203,45 @@ public class ReservationService{
 		}
 	}
 
-	private void changeReservationStatus(Reservation reservation){
+	private void changeReservationStatus(Reservation reservation) {
 		reservation.getTransport().changeStatusReserved();
 	}
 
-	private Users findUser(long userId){
+	private Users findUser(long userId) {
 		return usersRepository.findById(userId)
 			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 	}
 
-	private void carNotFound(List<Car> recommendedCars){
-		if(recommendedCars.isEmpty()){
+	private void carNotFound(List<Car> recommendedCars) {
+		if (recommendedCars.isEmpty()) {
 			throw new NotFoundException(CAR_NOT_FOUND);
 		}
 	}
 
-	private Reservation findReservation(long id){
+	private Reservation findReservation(long id) {
 		return reservationRepository.findById(id)
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
 	}
 
-	private Reservation findReservation(String number){
+	private Reservation findReservation(String number) {
 		return reservationRepository.findByNumber(number)
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
 	}
 
-	private void exceptionForbiddenUser(Reservation reservation, Long userId){
-		if(!userId.equals(reservation.getUser().getUserId())){
+	private void exceptionForbiddenUser(Reservation reservation, Long userId) {
+		if (!userId.equals(reservation.getUser().getUserId())) {
 			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
 		}
 	}
 
-	private void exceptionForbiddenGuest(Reservation reservation){
-		if(!reservation.getUser().getRole().equals(Role.GUEST)){
+	private void exceptionForbiddenGuest(Reservation reservation) {
+		if (!reservation.getUser().getRole().equals(Role.GUEST)) {
 			throw new ForbiddenException(UNAUTHORIZED_ACCESS);
 		}
 	}
 
-	private void exceptionInvalidReservationStateChange(Reservation reservation){
-		if(!reservation.getTransport().getTransportStatus().equals(TransportStatus.NOT_RESERVATED)){
+	private void exceptionInvalidReservationStateChange(Reservation reservation) {
+		if (!reservation.getTransport().getTransportStatus().equals(TransportStatus.NOT_RESERVATED)) {
 			throw new ForbiddenException(INVALID_RESERVATION_STATE_CHANGE);
 		}
 	}

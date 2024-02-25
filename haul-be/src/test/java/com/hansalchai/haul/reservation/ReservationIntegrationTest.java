@@ -11,19 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hansalchai.haul.car.constants.CarCategory;
-import com.hansalchai.haul.car.constants.CarType;
-import com.hansalchai.haul.car.entity.Car;
-import com.hansalchai.haul.common.auth.constants.Role;
-import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
-import com.hansalchai.haul.reservation.dto.ReservationRequest;
-import com.hansalchai.haul.reservation.dto.ReservationResponse;
-import com.hansalchai.haul.reservation.entity.Cargo;
-import com.hansalchai.haul.reservation.service.ReservationService;
-import com.hansalchai.haul.user.entity.Users;
-import com.hansalchai.haul.user.repository.UsersRepository;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,6 +26,19 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hansalchai.haul.car.constants.CarCategory;
+import com.hansalchai.haul.car.constants.CarType;
+import com.hansalchai.haul.car.entity.Car;
+import com.hansalchai.haul.common.auth.constants.Role;
+import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
+import com.hansalchai.haul.reservation.dto.ReservationRequest;
+import com.hansalchai.haul.reservation.dto.ReservationResponse;
+import com.hansalchai.haul.reservation.entity.Cargo;
+import com.hansalchai.haul.reservation.service.ReservationService;
+import com.hansalchai.haul.user.entity.Users;
+import com.hansalchai.haul.user.repository.UsersRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -81,7 +81,7 @@ public class ReservationIntegrationTest {
 
 		// console
 		String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-		logger.info("테스트 정보 확인: "+responseBody);
+		logger.info("테스트 정보 확인: " + responseBody);
 
 		// verify
 		resultActions.andExpect(jsonPath("$.status").value(200));
@@ -104,7 +104,7 @@ public class ReservationIntegrationTest {
 
 		// console
 		String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-		logger.info("테스트 정보 확인: "+responseBody);
+		logger.info("테스트 정보 확인: " + responseBody);
 
 		// verify
 		resultActions.andExpect(jsonPath("$.status").value(200));
@@ -126,7 +126,8 @@ public class ReservationIntegrationTest {
 		// given
 		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTO();
 		//when
-		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO,savedUsers.getUserId());
+		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(
+			createReservationDTO, savedUsers.getUserId());
 		//then
 		Assertions.assertEquals(1, actual.getCar().getCount());
 		Assertions.assertEquals("포터2", actual.getCar().getModel());
@@ -138,7 +139,8 @@ public class ReservationIntegrationTest {
 		// given
 		ReservationRequest.CreateReservationGuestDTO createReservationDTO = makeDummyReservationRequestGuestDTO();
 		//when
-		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createGuestReservation(createReservationDTO);
+		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createGuestReservation(
+			createReservationDTO);
 		//then
 		Assertions.assertEquals(1, actual.getCar().getCount());
 		Assertions.assertEquals("포터2", actual.getCar().getModel());
@@ -160,9 +162,11 @@ public class ReservationIntegrationTest {
 		Users savedUsers = usersRepository.save(users);
 		// 최소 크기 화물 설정
 		Cargo cargo = Cargo.builder().width(1).height(1).length(1).weight(1).build();
-		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTOCargoSetting(cargo);
+		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTOCargoSetting(
+			cargo);
 		//when
-		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO,savedUsers.getUserId());
+		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(
+			createReservationDTO, savedUsers.getUserId());
 
 		Assertions.assertNotNull(actual);
 	}
@@ -183,9 +187,11 @@ public class ReservationIntegrationTest {
 		Users savedUsers = usersRepository.save(users);
 		// 대략적인 평균 크기 화물 설정
 		Cargo cargo = Cargo.builder().width(350).height(120).length(135).weight(2500).build();
-		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTOCargoSetting(cargo);
+		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTOCargoSetting(
+			cargo);
 		//when
-		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO,savedUsers.getUserId());
+		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(
+			createReservationDTO, savedUsers.getUserId());
 
 		Assertions.assertNotNull(actual);
 	}
@@ -206,9 +212,11 @@ public class ReservationIntegrationTest {
 		Users savedUsers = usersRepository.save(users);
 		// 최대 크기 화물 설정
 		Cargo cargo = Cargo.builder().width(700).length(240).height(270).weight(5000).build();
-		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTOCargoSetting(cargo);
+		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTOCargoSetting(
+			cargo);
 		//when
-		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO,savedUsers.getUserId());
+		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(
+			createReservationDTO, savedUsers.getUserId());
 
 		Assertions.assertNotNull(actual);
 	}
@@ -227,10 +235,10 @@ public class ReservationIntegrationTest {
 			.tel("01011112222")
 			.build();
 		Users savedUsers = usersRepository.save(users);
-		for(int i = 1;i <= 700;i+=11){
-			for(int j = 1;j <= 240;j+=11){
-				for(int k = 1;k <= 270;k+=11){
-					for(int l = 1;l <= 5000;l+=11){
+		for (int i = 1; i <= 700; i += 11) {
+			for (int j = 1; j <= 240; j += 11) {
+				for (int k = 1; k <= 270; k += 11) {
+					for (int l = 1; l <= 5000; l += 11) {
 						Cargo cargo = Cargo.builder()
 							.width(i)
 							.length(j)
@@ -238,9 +246,11 @@ public class ReservationIntegrationTest {
 							.weight(l)
 							.build();
 						// given
-						ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTOCargoSetting(cargo);
+						ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTOCargoSetting(
+							cargo);
 						//when
-						ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO,savedUsers.getUserId());
+						ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(
+							createReservationDTO, savedUsers.getUserId());
 
 						Assertions.assertNotNull(actual);
 					}
@@ -265,10 +275,12 @@ public class ReservationIntegrationTest {
 			.build();
 		Users savedUsers = usersRepository.save(users);
 		int saveNum = 14;
-		for(int i = 0;i < saveNum;i++){
+		for (int i = 0; i < saveNum; i++) {
 			ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTO();
-			ReservationResponse.ReservationRecommendationDTO reservationRecommendationDTO= reservationService.createReservation(createReservationDTO,savedUsers.getUserId());
-			reservationService.patchReservation(reservationRecommendationDTO.getReservationId(), savedUsers.getUserId());
+			ReservationResponse.ReservationRecommendationDTO reservationRecommendationDTO = reservationService.createReservation(
+				createReservationDTO, savedUsers.getUserId());
+			reservationService.patchReservation(reservationRecommendationDTO.getReservationId(),
+				savedUsers.getUserId());
 		}
 		List<String> keywords = Arrays.asList("매칭 중", "운송 전", "운송 중", "운송 완료");
 		int page = 0;
@@ -364,7 +376,7 @@ public class ReservationIntegrationTest {
 			.isFrozen(false)
 			.build();
 
-		ReservationRequest.CreateReservationGuestDTO.UserInfoDTO userInfoDTO=  ReservationRequest.CreateReservationGuestDTO.UserInfoDTO.builder()
+		ReservationRequest.CreateReservationGuestDTO.UserInfoDTO userInfoDTO = ReservationRequest.CreateReservationGuestDTO.UserInfoDTO.builder()
 			.name("철수")
 			.tel("01012344321")
 			.build();

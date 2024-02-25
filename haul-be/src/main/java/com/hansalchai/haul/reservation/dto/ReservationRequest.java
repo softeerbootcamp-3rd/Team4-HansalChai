@@ -401,7 +401,7 @@ public class ReservationRequest {
 			private String tel;
 
 			@Builder
-			public UserInfoDTO(String name, String tel){
+			public UserInfoDTO(String name, String tel) {
 				this.name = name;
 				this.tel = tel;
 			}

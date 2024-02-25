@@ -18,28 +18,27 @@ public enum TransportStatus {
 	PENDING("매칭 중") {
 		@Override
 		public Page<Reservation> execute(Long id, Pageable pageable, ReservationRepository reservationRepository) {
-			return reservationRepository.findByUserIdAndTransportStatus(id, TransportStatus.PENDING,pageable);
+			return reservationRepository.findByUserIdAndTransportStatus(id, TransportStatus.PENDING, pageable);
 		}
 	},
-	NOT_STARTED("운송 전"){
+	NOT_STARTED("운송 전") {
 		@Override
 		public Page<Reservation> execute(Long id, Pageable pageable, ReservationRepository reservationRepository) {
-			return reservationRepository.findByUserIdAndTransportStatus(id, TransportStatus.NOT_STARTED,pageable);
+			return reservationRepository.findByUserIdAndTransportStatus(id, TransportStatus.NOT_STARTED, pageable);
 		}
 	},
-	IN_PROGRESS("운송 중"){
+	IN_PROGRESS("운송 중") {
 		@Override
 		public Page<Reservation> execute(Long id, Pageable pageable, ReservationRepository reservationRepository) {
-			return reservationRepository.findByUserIdAndTransportStatus(id, TransportStatus.IN_PROGRESS,pageable);
+			return reservationRepository.findByUserIdAndTransportStatus(id, TransportStatus.IN_PROGRESS, pageable);
 		}
 	},
-	DONE("운송 완료"){
+	DONE("운송 완료") {
 		@Override
 		public Page<Reservation> execute(Long id, Pageable pageable, ReservationRepository reservationRepository) {
-			return reservationRepository.findByUserIdAndTransportStatus(id, TransportStatus.DONE,pageable);
+			return reservationRepository.findByUserIdAndTransportStatus(id, TransportStatus.DONE, pageable);
 		}
 	};
-
 
 	private final String code;
 
@@ -51,7 +50,8 @@ public enum TransportStatus {
 		return code;
 	}
 
-	public abstract Page<Reservation> execute( Long carId, Pageable pageable, ReservationRepository reservationRepository);
+	public abstract Page<Reservation> execute(Long carId, Pageable pageable,
+		ReservationRepository reservationRepository);
 
 	public static String getCode(TransportStatus status) {
 		return status.getCode();

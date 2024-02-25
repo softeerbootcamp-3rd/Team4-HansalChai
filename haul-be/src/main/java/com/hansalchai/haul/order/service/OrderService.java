@@ -1,10 +1,5 @@
 package com.hansalchai.haul.order.service;
 
-import java.util.ArrayList;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-
 import static com.hansalchai.haul.common.utils.ErrorCode.*;
 import static com.hansalchai.haul.common.utils.OrderUtil.*;
 import static com.hansalchai.haul.common.utils.SidoGraph.*;
@@ -14,6 +9,10 @@ import static com.hansalchai.haul.order.dto.OrderResponse.OrderSearchResponseDto
 import static com.hansalchai.haul.reservation.constants.TransportStatus.*;
 import static com.hansalchai.haul.reservation.service.ReservationService.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -24,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.config.SmsUtil;
-
 import com.hansalchai.haul.common.exceptions.BadRequestException;
 import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.common.exceptions.ForbiddenException;
@@ -32,13 +30,11 @@ import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.common.utils.AddressUtil;
 import com.hansalchai.haul.common.utils.KaKaoMap.KakaoMap;
 import com.hansalchai.haul.common.utils.SidoGraph;
+import com.hansalchai.haul.order.constants.OrderFilter;
 import com.hansalchai.haul.order.constants.OrderFilterV2;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
-import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
+import com.hansalchai.haul.order.dto.OrderResponse.*;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO.OrderInfoDTO;
-import com.hansalchai.haul.order.dto.OrderResponse.OrderDetailDTO;
-
-import com.hansalchai.haul.order.constants.OrderFilter;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
 import com.hansalchai.haul.reservation.constants.TransportStatus;
@@ -129,9 +125,9 @@ public class OrderService {
 	}
 
 	/*
-	* 기사 일정 중첩 확인
-	* 기사 스케줄과 승인하려는 오더의 시간이 겹치는지 확인한다
-	* */
+	 * 기사 일정 중첩 확인
+	 * 기사 스케줄과 승인하려는 오더의 시간이 겹치는지 확인한다
+	 * */
 	private boolean isScheduleOverlap(Owner owner, Reservation newOrder) {
 
 		long requiredTime = (long)(newOrder.getTransport().getRequiredTime() * 60);
@@ -139,7 +135,8 @@ public class OrderService {
 		LocalDateTime newOrderEnd = newOrderStart.plusMinutes(requiredTime);
 
 		LocalDate today = newOrder.getDate();
-		List<Reservation> myOrders = reservationRepository.findScheduleOfDriver(owner.getOwnerId(), today.minusDays(1), today);
+		List<Reservation> myOrders = reservationRepository.findScheduleOfDriver(owner.getOwnerId(), today.minusDays(1),
+			today);
 
 		for (Reservation myOrder : myOrders) {
 			if (isTimeOverlap(newOrderStart, newOrderEnd, myOrder)) {
@@ -162,8 +159,9 @@ public class OrderService {
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 
-		Pageable pageable = PageRequest.of(page,PAGECUT);
-		Page<Reservation> pageContent = OrderStatusCategory.findOrderByCode(keyword).execute(user.getUserId(), pageable, reservationRepository);
+		Pageable pageable = PageRequest.of(page, PAGECUT);
+		Page<Reservation> pageContent = OrderStatusCategory.findOrderByCode(keyword)
+			.execute(user.getUserId(), pageable, reservationRepository);
 		List<OrderInfoDTO> orderInfoDTOS = pageContent.getContent().stream().map(
 			OrderInfoDTO::new).collect(Collectors.toList());
 
@@ -182,7 +180,8 @@ public class OrderService {
 		return new OrderDetailDTO(reservation);
 	}
 
-	public TransportStatusChangeResponseDto changeTransportStatus(Long userId, TransportStatusChangeRequestDto requestDto) {
+	public TransportStatusChangeResponseDto changeTransportStatus(Long userId,
+		TransportStatusChangeRequestDto requestDto) {
 
 		Reservation reservation = findReservation(requestDto.getId());
 		validateUser(userId, reservation);
@@ -211,19 +210,20 @@ public class OrderService {
 
 		ArrayList<String> selectedSidoArray = null;
 		int depthMAX = sidoSortedMap.get(curRegion).size();
-		for(int i = 1;i <= depthMAX;i++){
+		for (int i = 1; i <= depthMAX; i++) {
 			ArrayList<String> sidoArray = SidoGraph.getSidoByDepth(curRegion, i);
 			Long count = customReservationRepository.countAllOrdersQdsl(carId, sidoArray);
 			selectedSidoArray = sidoArray;
 
-			if(count >= (long)PAGECUT * (page + 1)){
+			if (count >= (long)PAGECUT * (page + 1)) {
 				break;
 			}
 		}
 
 		PageRequest pageRequest = PageRequest.of(page, PAGECUT);
 		OrderFilterV2 orderFilter = OrderFilterV2.findFilter(sort);
-		List<Reservation> pages = orderFilter.execute(customReservationRepository, carId, selectedSidoArray, pageRequest);
+		List<Reservation> pages = orderFilter.execute(customReservationRepository, carId, selectedSidoArray,
+			pageRequest);
 
 		List<OrderSearchItem> orders = pages.stream()
 			.map(OrderSearchItem::new)
@@ -233,7 +233,8 @@ public class OrderService {
 		return new OrderSearchResponseDto(orders, isLastPage);
 	}
 
-	public TransportStatusChangeResponseDtoV2 changeTransportStatusV2(Long userId, TransportStatusChangeRequestDtoV2 requestDto) {
+	public TransportStatusChangeResponseDtoV2 changeTransportStatusV2(Long userId,
+		TransportStatusChangeRequestDtoV2 requestDto) {
 
 		Reservation reservation = findReservation(requestDto.getId());
 		validateUser(userId, reservation);

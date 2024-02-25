@@ -21,8 +21,10 @@ import jakarta.transaction.Transactional;
 @SpringBootTest
 class UsersServiceTest {
 
-	@Autowired UsersService usersService;
-	@Autowired UsersRepository usersRepository;
+	@Autowired
+	UsersService usersService;
+	@Autowired
+	UsersRepository usersRepository;
 
 	@Test
 	@DisplayName("회원가입 성공")

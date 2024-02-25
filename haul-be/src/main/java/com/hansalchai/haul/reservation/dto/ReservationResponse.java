@@ -24,7 +24,6 @@ public class ReservationResponse {
 		private final int cost;
 		@NotNull(message = "걸리는시간은 Null 일 수 없다.")
 		private final double requiredTime;
-		//TODO 제거하기
 		private final String number;
 
 		@Getter

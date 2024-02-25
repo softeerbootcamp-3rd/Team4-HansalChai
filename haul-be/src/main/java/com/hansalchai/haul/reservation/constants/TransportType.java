@@ -10,11 +10,10 @@ public enum TransportType {
 	BUSINESS("비즈니스 운송");
 
 	private final String code;
+
 	TransportType(String code) {
 		this.code = code;
 	}
-
-
 
 	public static TransportType stringToEnum(String text) {
 		for (TransportType status : TransportType.values()) {

@@ -26,7 +26,8 @@ public class GlobalExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	protected ApiResponse<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception, HttpServletRequest request) {
+	protected ApiResponse<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception,
+		HttpServletRequest request) {
 		exception.printStackTrace();
 		ErrorCode errorCode = ErrorCode.INVALID_DATA;
 		logInfo(request, BAD_REQUEST, errorCode.getMessage());
@@ -42,8 +43,8 @@ public class GlobalExceptionHandler {
 	//401 Unauthorized
 	@ExceptionHandler(UnauthorizedException.class)
 	protected ApiResponse<Object> handleUnauthorizedException(
-			UnauthorizedException exception,
-			HttpServletRequest request) {
+		UnauthorizedException exception,
+		HttpServletRequest request) {
 		logInfo(request, UNAUTHORIZED, exception.getMessage());
 		return ApiResponse.error(exception.getCode());
 	}
@@ -60,8 +61,8 @@ public class GlobalExceptionHandler {
 	//404 Not Found
 	@ExceptionHandler(NotFoundException.class)
 	protected ApiResponse<Object> handleNotFoundException(
-			NotFoundException exception,
-			HttpServletRequest request) {
+		NotFoundException exception,
+		HttpServletRequest request) {
 		logInfo(request, NOT_FOUND, exception.getMessage());
 		return ApiResponse.error(exception.getCode());
 	}
@@ -69,8 +70,8 @@ public class GlobalExceptionHandler {
 	// 409 Conflict
 	@ExceptionHandler(ConflictException.class)
 	protected ApiResponse<Object> handleConflictException(
-			ConflictException exception,
-			HttpServletRequest request) {
+		ConflictException exception,
+		HttpServletRequest request) {
 		logInfo(request, CONFLICT, exception.getMessage());
 		return ApiResponse.error(exception.getCode());
 	}
@@ -85,7 +86,8 @@ public class GlobalExceptionHandler {
 	}
 
 	private void logInfo(HttpServletRequest request, HttpStatus status, String message) {
-		String logMessage = String.format("%s %s : %s - %s", request.getMethod(), request.getRequestURI(), status, message);
+		String logMessage = String.format("%s %s : %s - %s", request.getMethod(), request.getRequestURI(), status,
+			message);
 		logger.info(logMessage);
 	}
 }

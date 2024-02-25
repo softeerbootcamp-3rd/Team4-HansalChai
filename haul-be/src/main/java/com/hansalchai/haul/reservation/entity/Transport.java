@@ -55,7 +55,8 @@ public class Transport extends BaseTime {
 		this.transportStatus = transportStatus;
 	}
 
-	public static Transport toEntity(TransportType type, int fee, double requiredTime, TransportStatus transportStatus) {
+	public static Transport toEntity(TransportType type, int fee, double requiredTime,
+		TransportStatus transportStatus) {
 		return Transport.builder()
 			.type(type)
 			.fee(fee)
