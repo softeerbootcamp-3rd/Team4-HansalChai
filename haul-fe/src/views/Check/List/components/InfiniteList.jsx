@@ -8,6 +8,7 @@ import Skeleton from "./Skeleton.jsx";
 import Flex from "../../../../components/Flex/Flex.jsx";
 import ToastMaker from "../../../../components/Toast/ToastMaker.jsx";
 import { UrlMap } from "../../../../data/GlobalVariable.js";
+import UnderBar from "../UnderBar/UnderBar.jsx";
 
 const LoadingSkeleton = forwardRef((props, ref) => {
   return (
@@ -18,6 +19,11 @@ const LoadingSkeleton = forwardRef((props, ref) => {
 });
 
 LoadingSkeleton.displayName = "LoadingSkeleton";
+
+// eslint-disable-next-line react/display-name
+const Loader = forwardRef((props, ref) => {
+  return <UnderBar ref={ref} />;
+});
 
 const ListFrame = styled.div`
   width: 100%;
@@ -164,8 +170,9 @@ const InfiniteList = ({ fetcher, listStatus, emptyListView = <></> }) => {
           <Margin height="20px" />
         </div>
       ))}
+      <Loader ref={endRef} />
+      {!isEnd && <LoadingSkeleton />}
       <ListTail />
-      <LoadingSkeleton ref={endRef} />
     </ListFrame>
   );
 };
