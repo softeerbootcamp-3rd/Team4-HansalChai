@@ -16,7 +16,7 @@ public enum OrderStatusCategory {
 	BEFORE_DELIVERY("운송 전") {
 		@Override
 		public Page<Reservation> execute(Long id, Pageable pageable, ReservationRepository reservationRepository) {
-			return reservationRepository.findByDriverIdDelivery(id, TransportStatus.PENDING, pageable);
+			return reservationRepository.findByDriverIdDelivery(id, TransportStatus.NOT_STARTED, pageable);
 		}
 	},
 	DURING_DELIVERY("운송 중") {
