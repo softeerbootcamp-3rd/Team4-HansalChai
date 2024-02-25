@@ -100,10 +100,12 @@ const Login = () => {
       </form>
       <FixedCenterBox bottom="30px">
         <BottomButton
+          form={"loginForm"}
           type="submit"
           role="main"
           disabled={isButtonDisabled}
-          onClick={() => {
+          onClick={e => {
+            e.preventDefault();
             loginBtnFun({ tel: tel, password: password, navigate: navigate });
           }}
         >
@@ -111,7 +113,6 @@ const Login = () => {
         </BottomButton>
         <Margin height="10px" />
         <BottomButton
-          form={"loginForm"}
           role="sub"
           disabled={false}
           onClick={() => {
