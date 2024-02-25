@@ -37,7 +37,8 @@ const colors = {
   radioUnchecked: "#89939e33",
   tabBarEntry: "#00000033",
   goButton: "#d9d9d94c",
-  halfGray: "#0000007F"
+  halfGray: "#0000007F",
+  completeGray: "#FCFCFC"
 };
 
 const font = {

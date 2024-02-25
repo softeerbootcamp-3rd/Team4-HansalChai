@@ -91,7 +91,12 @@ export async function getGuestReservationDetails({ reservationID }) {
     }
   } catch (error) {
     console.error("Get Guest Reservation Detail error:", error);
-    return { success: false, message: error.toString() };
+    throw {
+      success: false,
+      code: 0,
+      message: ErrorMessageMap.UnknownError,
+      error
+    };
   }
 }
 
@@ -123,6 +128,11 @@ export async function getUserReservationDetails({ reservationID }) {
     }
   } catch (error) {
     console.error("Get User Reservation Detail error:", error);
-    return { success: false, code: 1103, message: error.toString() };
+    throw {
+      success: false,
+      code: 0,
+      message: ErrorMessageMap.UnknownError,
+      error
+    };
   }
 }

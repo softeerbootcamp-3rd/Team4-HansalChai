@@ -4,11 +4,11 @@ import Margin from "../../../../components/Margin/Margin";
 import TypographySpan from "../../../../components/Typhography/TyphographySpan";
 import Checkmark from "../../../../components/CheckMark/CheckMark";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { MaxDeviceWidth } from "../../../../data/GlobalVariable";
 
 const CalendarContainer = styled.div`
-  width: ${MaxDeviceWidth};
+  width: calc(100% + 40px);
   height: calc(100vh - 250px);
+  min-height: 500px;
   background-color: ${props => props.theme.colors.white};
   border-radius: 10px;
   padding: 20px;
@@ -245,13 +245,13 @@ const Calendar = ({
   return (
     <CalendarContainer>
       <CalendarNav>
-        <CalendarButton onClick={prevCalendar}>
+        <CalendarButton onClick={prevCalendar} id="prevMonth">
           <IoIosArrowBack />
         </CalendarButton>
         <TypographySpan font="bold16" color="mainColor">
           {currentMonth.getFullYear()}년 {currentMonth.getMonth() + 1}월
         </TypographySpan>
-        <CalendarButton onClick={nextCalendar}>
+        <CalendarButton onClick={nextCalendar} id="nextMonth">
           <IoIosArrowForward />
         </CalendarButton>
       </CalendarNav>

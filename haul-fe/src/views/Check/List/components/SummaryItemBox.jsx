@@ -68,7 +68,6 @@ const IconedCaption = styled.div`
   gap: 4px;
 `;
 
-//API에 맞게 인자 이름을 고쳐야 하나?
 const SummaryItemBox = ({ model, status, time, fee }) => {
   return (
     <ReservItemFrame status={status}>

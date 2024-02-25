@@ -9,7 +9,6 @@ import Flex from "../../../../components/Flex/Flex.jsx";
 import ToastMaker from "../../../../components/Toast/ToastMaker.jsx";
 import { UrlMap } from "../../../../data/GlobalVariable.js";
 
-// eslint-disable-next-line react/display-name
 const LoadingSkeleton = forwardRef((props, ref) => {
   return (
     <div ref={ref} id="loadingskeleton">
@@ -17,6 +16,8 @@ const LoadingSkeleton = forwardRef((props, ref) => {
     </div>
   );
 });
+
+LoadingSkeleton.displayName = "LoadingSkeleton";
 
 const ListFrame = styled.div`
   width: 100%;
@@ -43,7 +44,7 @@ function useIntersectionObserver(callback) {
   const observer = useRef();
   useEffect(() => {
     observer.current = new IntersectionObserver(
-      (entries) => {
+      entries => {
         entries.forEach(entry => {
           if (!entry.isIntersecting) return;
           entry.target.style.display = "none";
@@ -81,7 +82,6 @@ const InfiniteList = ({ fetcher, listStatus, emptyListView = <></> }) => {
   const endRef = useRef(null); //마지막 요소를 참조하기 위한 ref
   const page = useRef(0); //현재 불러와진 최종 페이지
   const isLoading = useRef(false); //데이터를 불러오는 중이면 True
-  //const [isLoading, setIsLoading] = useState(true); //데이터를 불러오는 중이면 True
   const [reservationList, setReservationList] = useState([]); //현재 불러와진 예약 리스트
   const lastStatus = useRef(listStatus); //마지막으로 불러온 리스트의 상태
 

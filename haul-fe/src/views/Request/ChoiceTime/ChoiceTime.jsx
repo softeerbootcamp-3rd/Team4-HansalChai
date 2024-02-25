@@ -9,11 +9,12 @@ import Typography from "../../../components/Typhography/Typhography.jsx";
 import TypographySpan from "../../../components/Typhography/TyphographySpan.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
+import Flex from "../../../components/Flex/Flex.jsx";
+import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
+import MotionWrapper from "../../../components/MotionWrapper/MotionWrapper.jsx";
 import { isEmptyString } from "../../../utils/helper.js";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 import { LuClock9 } from "react-icons/lu";
-import Flex from "../../../components/Flex/Flex.jsx";
-import NavigationBar from "../../../components/NavigationBar/NavigationBar.jsx";
 
 const TimeWrapper = styled.div`
   ${props => props.theme.flex.flexRow}
@@ -92,71 +93,73 @@ const ChoiceTime = () => {
   }
 
   return (
-    <MobileLayout>
-      <Header>
-        HAUL<TypographySpan color="subColor">.</TypographySpan>
-      </Header>
-      <Margin height="24px" />
-      <Typography font="bold24">
-        <TypographySpan color="subColor" style={{ marginRight: "2px" }}>
-          {formatDateString(reservationDate)}
-        </TypographySpan>
-        에 뵈러 갈게요.
-      </Typography>
-      <Margin height="4px" />
-      <Typography font="bold24">몇시에 찾아뵈면 될까요?</Typography>
-      <Margin height="40px" />
-      <Flex kind="flexRowAlignCenter">
-        <LuClock9 size={"20px"} style={{ marginRight: "3px" }} />
-        <Typography font="bold20">오전</Typography>
-      </Flex>
-      <Margin height="14px" />
-      <TimeWrapper>
-        {morningTimes.map(time => (
-          <SmallBtn
-            key={time}
-            isClick={selectedTime === time}
-            onClick={() => {
-              clickDateFun(time);
-            }}
-          >
-            {time}
-          </SmallBtn>
-        ))}
-      </TimeWrapper>
-      <Margin height="40px" />
-      <Flex kind="flexRowAlignCenter">
-        <LuClock9 size={"20px"} style={{ marginRight: "3px" }} />
-        <Typography font="bold20">오후</Typography>
-      </Flex>
-      <Margin height="14px" />
-      <TimeWrapper>
-        {afternoonTimes.map(time => (
-          <SmallBtn
-            key={time}
-            isClick={selectedTime === time}
-            onClick={() => {
-              clickDateFun(time);
-            }}
-          >
-            {time}
-          </SmallBtn>
-        ))}
-      </TimeWrapper>
+    <MotionWrapper>
+      <MobileLayout>
+        <Header>
+          HAUL<TypographySpan color="subColor">.</TypographySpan>
+        </Header>
+        <Margin height="24px" />
+        <Typography font="bold24">
+          <TypographySpan color="subColor" style={{ marginRight: "2px" }}>
+            {formatDateString(reservationDate)}
+          </TypographySpan>
+          에 뵈러 갈게요.
+        </Typography>
+        <Margin height="4px" />
+        <Typography font="bold24">몇시에 찾아뵈면 될까요?</Typography>
+        <Margin height="40px" />
+        <Flex kind="flexRowAlignCenter">
+          <LuClock9 size={"20px"} style={{ marginRight: "3px" }} />
+          <Typography font="bold20">오전</Typography>
+        </Flex>
+        <Margin height="14px" />
+        <TimeWrapper>
+          {morningTimes.map(time => (
+            <SmallBtn
+              key={time}
+              isClick={selectedTime === time}
+              onClick={() => {
+                clickDateFun(time);
+              }}
+            >
+              {time}
+            </SmallBtn>
+          ))}
+        </TimeWrapper>
+        <Margin height="40px" />
+        <Flex kind="flexRowAlignCenter">
+          <LuClock9 size={"20px"} style={{ marginRight: "3px" }} />
+          <Typography font="bold20">오후</Typography>
+        </Flex>
+        <Margin height="14px" />
+        <TimeWrapper>
+          {afternoonTimes.map(time => (
+            <SmallBtn
+              key={time}
+              isClick={selectedTime === time}
+              onClick={() => {
+                clickDateFun(time);
+              }}
+            >
+              {time}
+            </SmallBtn>
+          ))}
+        </TimeWrapper>
 
-      <FixedCenterBox bottom="100px">
-        <BottomButton
-          role="main"
-          disabled={isEmptyString(selectedTime)}
-          onClick={() => {
-            sumbitTimeFun();
-          }}
-        >
-          선택 완료
-        </BottomButton>
-      </FixedCenterBox>
-      <NavigationBar />
-    </MobileLayout>
+        <FixedCenterBox bottom="100px">
+          <BottomButton
+            role="main"
+            disabled={isEmptyString(selectedTime)}
+            onClick={() => {
+              sumbitTimeFun();
+            }}
+          >
+            선택 완료
+          </BottomButton>
+        </FixedCenterBox>
+        <NavigationBar />
+      </MobileLayout>
+    </MotionWrapper>
   );
 };
 

@@ -1,14 +1,18 @@
 import MobileLayout from "../../../components/MobileLayout/MobileLayout.jsx";
 import Typography from "../../../components/Typhography/Typhography.jsx";
 import Margin from "../../../components/Margin/Margin.jsx";
-import Lottie from "lottie-react";
-import Loading_Truck from "../../../assets/gifs/LoadingTruck.json";
+import Loading_Truck from "../../../assets/gifs/Haul_Complete_Loading.gif";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
 import FixedCenterBox from "../../../components/FixedBox/FixedCenterBox.jsx";
 import Flex from "../../../components/Flex/Flex.jsx";
 import { UrlMap } from "../../../data/GlobalVariable.js";
 import { useNavigate } from "react-router-dom";
 import { getIsMember } from "../../../utils/localStorage.js";
+import styled from "styled-components";
+
+const LoadingImg = styled.img`
+  width: 95%;
+`;
 
 const Complete = () => {
   const navigation = useNavigate();
@@ -24,12 +28,14 @@ const Complete = () => {
   }
 
   return (
-    <MobileLayout>
+    <MobileLayout color="completeGray">
       <Margin height="60px" />
       <Typography font="bold24">예약을 완료했어요.</Typography>
+      <Margin height="80px" />
       <Flex kind="flexCenter">
-        <Lottie animationData={Loading_Truck} style={{ maxWidth: "500px" }} />
+        <LoadingImg src={Loading_Truck} />
       </Flex>
+      <Margin height="30px" />
       <Typography font="bold24">잠시 후에 기사가</Typography>
       <Margin height="4px" />
       <Typography font="bold24">배정되는대로 알려드릴게요.</Typography>

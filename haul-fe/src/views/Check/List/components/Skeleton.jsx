@@ -3,6 +3,18 @@ import { MaxDeviceWidth } from "../../../../data/GlobalVariable.js";
 import UnderBar from "../../../../components/UnderBar/UnderBar.jsx";
 import Margin from "../../../../components/Margin/Margin.jsx";
 
+const Skeleton = () => {
+  return (
+    <CardSkeletonFrame>
+      <CardSkeletonUpperLine />
+      <Margin height="24px" />
+      <UnderBar />
+      <Margin height="24px" />
+      <CardSkeletonLowerLine />
+    </CardSkeletonFrame>
+  );
+};
+
 const LoadingAnimation = keyframes`
   0% {
     transform: translateX(calc(-10%));
@@ -60,17 +72,5 @@ const CardSkeletonLowerLine = styled.div`
     animation: ${LoadingAnimation} 2s infinite linear;
   }
 `;
-
-const Skeleton = () => {
-  return (
-    <CardSkeletonFrame>
-      <CardSkeletonUpperLine />
-      <Margin height="24px" />
-      <UnderBar />
-      <Margin height="24px" />
-      <CardSkeletonLowerLine />
-    </CardSkeletonFrame>
-  );
-};
 
 export default Skeleton;

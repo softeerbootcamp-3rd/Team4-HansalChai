@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Typography from "../../../../components/Typhography/Typhography.jsx";
 import Margin from "../../../../components/Margin/Margin.jsx";
 import UnderBar from "../../../../components/UnderBar/UnderBar.jsx";
-import DummyDriverImg from "../../../../assets/pngs/dummy.png";
+import DummyDriverImg from "../../../../assets/svgs/BasicDriverIcon.svg";
 
 const DriverInfoDescription = {
   before: "차를 운전하실 기사님을 구하고 있어요.",
