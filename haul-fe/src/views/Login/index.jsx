@@ -30,7 +30,7 @@ export async function loginBtnFun({ tel, password, navigate }) {
     return;
   }
   const { success, data, code } = await loginFun({
-    tel: tel.current,
+    tel: isPhoneNumber(tel.current),
     password: password.current
   });
   if (success) {
