@@ -1,4 +1,4 @@
-export const MaxDeviceWidth = "400px";
+export const MaxDeviceWidth = "440px";
 export const MinDeviceWidth = "315px";
 
 export const UrlMap = {
@@ -23,8 +23,6 @@ export const UrlMap = {
   checkReservationDetailPageUrl: "/check/detail",
   checkReservationGuestPageUrl: "/check/guest"
 };
-
-export const CompanyCallNumber = "01000000000";
 
 export const ErrorMessageMap = {
   NoneId: "존재하지 않는 아이디입니다.",

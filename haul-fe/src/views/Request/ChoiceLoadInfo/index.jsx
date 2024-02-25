@@ -49,7 +49,6 @@ export async function SumbitStore({
   const cargoWidthNum = Number(inCargoWidth.current);
   const cargoLengthNum = Number(inCargoLength.current);
   const cargoHeightNum = Number(inCargoHeight.current);
-
   if (
     !isNumber(inCargoWeight.current) ||
     !isNumber(inCargoWidth.current) ||
@@ -94,15 +93,28 @@ export async function SumbitStore({
     });
     return;
   }
-
-  //최대 너비, 높이, 길이에 대한 분류
-  if (cargoWidthNum > 1000 || cargoLengthNum > 1000 || cargoHeightNum > 1000) {
+  if(cargoWidthNum>700){
     ToastMaker({
       type: "info",
-      children: `Haul은 1000cm미만의 크기를 지원합니다.`
+      children: `Haul은 700cm이하의 너비를 지원합니다.`
     });
     return;
   }
+  if(cargoLengthNum> 240){
+    ToastMaker({
+      type: "info",
+      children: `Haul은 240cm미만의 길이를 지원합니다.`
+    });
+    return;
+  }
+  if(cargoHeightNum>270){
+    ToastMaker({
+      type: "info",
+      children: `Haul은 270cm미만의 높이를 지원합니다.`
+    });
+    return;
+  }
+
 
   setRoadInfo({
     cargoWeight: cargoWeightNum,

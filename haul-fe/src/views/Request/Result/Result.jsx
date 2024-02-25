@@ -6,10 +6,11 @@ import Margin from "../../../components/Margin/Margin.jsx";
 import CarInfoBox from "../../../components/CarInfoBox/CarInfoBox.jsx";
 import DetailInfo from "../../../components/DetailInfo/DetailInfo.jsx";
 import BottomButton from "../../../components/Button/BottomButton.jsx";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { reservationStore } from "../../../store/reservationStore.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
 import { decideBtnFun, callCompany } from "./index.jsx";
+import { UrlMap } from "../../../data/GlobalVariable.js";
 const Result = () => {
   const navigation = useNavigate();
   const {
@@ -23,6 +24,11 @@ const Result = () => {
     },
     setInitialState
   } = useContext(reservationStore);
+
+
+  useEffect(()=>{
+    if(!srcCoordinate) navigation(UrlMap.choiceTranportTypeUrl);
+  })
 
   const location = useLocation();
   const { data } = location.state;

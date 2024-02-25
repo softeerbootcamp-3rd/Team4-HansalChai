@@ -58,7 +58,7 @@ export const SignUpBtnFun = async ({
 
   const { success, code } = await signUpFun({
     name: name.current,
-    tel: tel.current,
+    tel: isPhoneNumber(tel.current),
     password: password.current,
     email: email.current
   });
