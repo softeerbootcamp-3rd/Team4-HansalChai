@@ -1,8 +1,11 @@
 package com.hansalchai.haul.common.auth.config;
 
+import java.util.List;
+
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,4 +30,9 @@ public class WebAuthConfig implements WebMvcConfigurer {
 	// 		.order(1)
 	// 		.excludePathPatterns("/api/v1/users/**", "*/h2-console*", "/css/**", "/*.ico", "/error", "/api/v1/reservations**");
 	// }
+
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+		resolvers.add(new LoggedInUserArgumentResolver());
+	}
 }
