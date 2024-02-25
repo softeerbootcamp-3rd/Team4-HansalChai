@@ -23,7 +23,6 @@ const MobileInstallPrompt = () => {
     window.diferredPrompt = event;
     setShowInstallModal(true);
   };
-  console.log(showInstallModal);
 
   const installed = () => {
     ToastMaker({ type: "success", children: "앱이 설치되었습니다." });
