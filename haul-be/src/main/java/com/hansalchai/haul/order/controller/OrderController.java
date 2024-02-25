@@ -2,6 +2,8 @@ package com.hansalchai.haul.order.controller;
 
 import static com.hansalchai.haul.common.utils.ApiResponse.*;
 import static com.hansalchai.haul.common.utils.SuccessCode.*;
+import static com.hansalchai.haul.order.dto.OrderRequest.*;
+import static com.hansalchai.haul.order.dto.OrderResponse.*;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hansalchai.haul.common.auth.anotation.LoggedInUser;
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
 import com.hansalchai.haul.common.utils.ApiResponse;
-import com.hansalchai.haul.order.dto.ApproveRequestDto;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDetailDTO;
-import com.hansalchai.haul.order.dto.OrderSearchResponse;
-import com.hansalchai.haul.order.dto.TransportStatusChange;
 import com.hansalchai.haul.order.service.OrderService;
 
 import jakarta.validation.Valid;
@@ -34,11 +33,11 @@ public class OrderController {
 	private static final String V2_ORDERS_PATH = "/api/v2/orders";
 
 	@GetMapping(V1_ORDERS_PATH)
-	public ResponseEntity<ApiResponse<OrderSearchResponse>> findAll(
+	public ResponseEntity<ApiResponse<OrderSearchResponseDto>> findAll(
 			@LoggedInUser AuthenticatedUser authenticatedUser,
 			@RequestParam(value = "sort", defaultValue = "default") String sort,
 			@PositiveOrZero @RequestParam(value = "page", defaultValue = "0") int page) {
-		OrderSearchResponse orders = orderService.findAll(authenticatedUser.getUserId(), sort, page);
+		OrderSearchResponseDto orders = orderService.findAll(authenticatedUser.getUserId(), sort, page);
 		return ResponseEntity.ok(success(GET_SUCCESS, orders));
 	}
 
@@ -75,23 +74,22 @@ public class OrderController {
 	}
 
 	@PatchMapping(V1_ORDERS_PATH + "/status")
-	public ResponseEntity<ApiResponse<TransportStatusChange.ResponseDto>> changeTransportStatus(
+	public ResponseEntity<ApiResponse<TransportStatusChangeResponseDto>> changeTransportStatus(
 			@LoggedInUser AuthenticatedUser authenticatedUser,
-			@Valid @RequestBody TransportStatusChange.RequestDto requestDto) {
-		TransportStatusChange.ResponseDto responseDto
+			@Valid @RequestBody TransportStatusChangeRequestDto requestDto) {
+		TransportStatusChangeResponseDto responseDto
 			= orderService.changeTransportStatus(authenticatedUser.getUserId(), requestDto);
 		return ResponseEntity.ok(success(GET_SUCCESS, responseDto));
 	}
 
 	@GetMapping(V2_ORDERS_PATH)
-	public ResponseEntity<ApiResponse<OrderSearchResponse>> findAllV2(
+	public ResponseEntity<ApiResponse<OrderSearchResponseDto>> findAllV2(
 			@LoggedInUser AuthenticatedUser authenticatedUser,
 			@RequestParam(value = "sort", defaultValue = "default") String sort,
 			@PositiveOrZero @RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "latitude") double latitude,
 			@RequestParam(value = "longitude") double longitude) {
-		OrderSearchResponse orders
-			= orderService.findAllV2(authenticatedUser.getUserId(), sort, page, latitude, longitude);
+		OrderSearchResponseDto orders = orderService.findAllV2(authenticatedUser.getUserId(), sort, page, latitude, longitude);
 		return ResponseEntity.ok(success(GET_SUCCESS, orders));
 	}
 	
@@ -104,11 +102,10 @@ public class OrderController {
 	}
 
 	@PatchMapping(V2_ORDERS_PATH + "/status")
-	public ResponseEntity<ApiResponse<TransportStatusChange.ResponseDtoV2>> changeTransportStatusV2(
+	public ResponseEntity<ApiResponse<TransportStatusChangeResponseDtoV2>> changeTransportStatusV2(
 			@LoggedInUser AuthenticatedUser authenticatedUser,
-			@Valid @RequestBody TransportStatusChange.RequestDtoV2 requestDto) {
-		TransportStatusChange.ResponseDtoV2 responseDto
-			= orderService.changeTransportStatusV2(authenticatedUser.getUserId(), requestDto);
+			@Valid @RequestBody TransportStatusChangeRequestDtoV2 requestDto) {
+		TransportStatusChangeResponseDtoV2 responseDto = orderService.changeTransportStatusV2(authenticatedUser.getUserId(), requestDto);
 		return ResponseEntity.ok(success(GET_SUCCESS, responseDto));
 	}
 }

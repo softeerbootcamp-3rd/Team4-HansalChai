@@ -10,6 +10,6 @@ import com.hansalchai.haul.owner.entity.Owner;
 
 public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
-	@Query("select o from Owner o where o.user.userId = :driverId")
-	Optional<Owner> findByDriverId(@Param("driverId") Long driverId);
+	@Query("select o from Owner o where o.user.userId = :userId")
+	Optional<Owner> findByUserId(@Param("userId") Long userId);
 }
