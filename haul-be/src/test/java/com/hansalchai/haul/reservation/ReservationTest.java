@@ -81,7 +81,7 @@ public class ReservationTest {
 		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTO();
 		//when
 		ReservationResponse.ReservationRecommendationDTO actual = reservationService.createReservation(createReservationDTO,
-			saved.getUserId());
+			saved.getUserId());;
 		//then
 		Assertions.assertEquals(1, actual.getCar().getCount());
 		Assertions.assertEquals("포터2", actual.getCar().getModel());

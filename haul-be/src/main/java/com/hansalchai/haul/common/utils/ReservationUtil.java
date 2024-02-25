@@ -64,9 +64,11 @@ public class ReservationUtil {
 	}
 	public static double calculateTransportTime(double weight) {
 		// 파라미터 값 설정
-		double a = 5.0;
-		double b = 1/100.0;
-		double c = 30.0; 
+		double a = 37.15;
+		double b = 0.01365;
+		double c = 22.68;
+
+		// 로그 함수를 사용한 운송 시간 계산
 
 		return a * Math.log(b * weight) + c;
 	}
