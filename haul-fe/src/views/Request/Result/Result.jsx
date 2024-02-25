@@ -27,7 +27,7 @@ const Result = () => {
 
 
   useEffect(()=>{
-    if(!srcName) navigation(UrlMap.choiceTranportTypeUrl);
+    if(!srcCoordinate) navigation(UrlMap.choiceTranportTypeUrl);
   })
 
   const location = useLocation();
