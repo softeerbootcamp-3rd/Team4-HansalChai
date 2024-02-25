@@ -1,12 +1,10 @@
 package com.hansalchai.haul.reservation.constants;
 
-import org.apache.commons.lang3.function.TriFunction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.hansalchai.haul.common.exceptions.BadRequestException;
 import com.hansalchai.haul.common.utils.ErrorCode;
-import com.hansalchai.haul.order.constants.OrderStatusCategory;
 import com.hansalchai.haul.reservation.entity.Reservation;
 import com.hansalchai.haul.reservation.repository.ReservationRepository;
 
@@ -20,25 +18,25 @@ public enum TransportStatus {
 	PENDING("매칭 중") {
 		@Override
 		public Page<Reservation> execute(Long id, Pageable pageable, ReservationRepository reservationRepository) {
-			return reservationRepository.findByUserIdPending(id, TransportStatus.PENDING,pageable);
+			return reservationRepository.findByUserIdAndTransportStatus(id, TransportStatus.PENDING,pageable);
 		}
 	},
 	NOT_STARTED("운송 전"){
 		@Override
 		public Page<Reservation> execute(Long id, Pageable pageable, ReservationRepository reservationRepository) {
-			return reservationRepository.findByUserIdPending(id, TransportStatus.NOT_STARTED,pageable);
+			return reservationRepository.findByUserIdAndTransportStatus(id, TransportStatus.NOT_STARTED,pageable);
 		}
 	},
 	IN_PROGRESS("운송 중"){
 		@Override
 		public Page<Reservation> execute(Long id, Pageable pageable, ReservationRepository reservationRepository) {
-			return reservationRepository.findByUserIdPending(id, TransportStatus.IN_PROGRESS,pageable);
+			return reservationRepository.findByUserIdAndTransportStatus(id, TransportStatus.IN_PROGRESS,pageable);
 		}
 	},
 	DONE("운송 완료"){
 		@Override
 		public Page<Reservation> execute(Long id, Pageable pageable, ReservationRepository reservationRepository) {
-			return reservationRepository.findByUserIdPending(id, TransportStatus.DONE,pageable);
+			return reservationRepository.findByUserIdAndTransportStatus(id, TransportStatus.DONE,pageable);
 		}
 	};
 
