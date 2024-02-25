@@ -51,10 +51,8 @@ export async function getDriverSummaryList({ page, sortBy = "default" }) {
       }
     }
   } catch (error) {
-    console.err(error);
     return {
       success: false,
-      error,
       code: 0,
       message: ErrorMessageMap.UnknownError
     };
