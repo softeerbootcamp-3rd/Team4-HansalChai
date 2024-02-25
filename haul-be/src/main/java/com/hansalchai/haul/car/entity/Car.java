@@ -80,4 +80,16 @@ public class Car extends BaseTime {
 		this.category = category;
 		this.isboxtruck = isboxtruck;
 	}
+
+	public Car(CarType carType, String model, String photo, int width, int legnth, int height, int weight, CarCategory carCategory, boolean b) {
+		this.type = carType;
+		this.model = model;
+		this.photo = photo;
+		this.width = width;
+		this.length = legnth;
+		this.height = height;
+		this.weight = weight;
+		this.category = carCategory;
+		this.isboxtruck = b;
+	}
 }

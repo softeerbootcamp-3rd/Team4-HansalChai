@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.hansalchai.haul.car.constants.CarType;
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.car.constants.CarCategory;
 import com.hansalchai.haul.reservation.entity.Cargo;
