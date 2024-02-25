@@ -50,7 +50,7 @@ const SignUp = () => {
       <Margin height="10px" />
       <Header>회원가입</Header>
       <Margin height="38px" />
-      <form>
+      <form id="signupForm">
         <Typography font="semiBold20">이름</Typography>
         <Margin height="10px" />
         <Input
@@ -171,8 +171,10 @@ const SignUp = () => {
         <BottomButton
           type="submit"
           role="main"
+          form={"signupForm"}
           disabled={!isSamePassword || isButtonDisabled}
-          onClick={() => {
+          onClick={e => {
+            e.preventDefault();
             SignUpBtnFun({
               tel: tel,
               name: name,
