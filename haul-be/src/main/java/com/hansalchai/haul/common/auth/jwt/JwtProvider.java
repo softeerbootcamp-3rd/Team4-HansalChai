@@ -91,7 +91,8 @@ public class JwtProvider {
 		try {
 			getClaims(token);
 			return null;
-		} catch (MalformedJwtException | SignatureException | UnsupportedJwtException | IllegalArgumentException exception) {
+		} catch (MalformedJwtException | SignatureException | UnsupportedJwtException |
+				 IllegalArgumentException exception) {
 			exception.printStackTrace();
 			return INVALID_TOKEN;
 		} catch (ExpiredJwtException exception) {

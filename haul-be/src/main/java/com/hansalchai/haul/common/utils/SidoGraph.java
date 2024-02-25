@@ -21,25 +21,26 @@ import lombok.Getter;
 
 @Getter
 public class SidoGraph {
-	static{
+	static {
 		dataStructureInitialize();
 		nameInitialize();
 		graphInitialize();
 		sidoSortInitialize();
 	}
+
 	//code table
 	public static List<ArrayList<Integer>> graph;
 	public static List<String> sidoNames;
 	public static Map<String, Integer> index;
 	public static Map<String, Map<Integer, ArrayList<String>>> sidoSortedMap;
 
-	private static  void dataStructureInitialize(){
+	private static void dataStructureInitialize() {
 		graph = new ArrayList<>();
 		sidoNames = new ArrayList<>();
 		index = new HashMap<>();
 	}
 
-	private static void nameInitialize(){
+	private static void nameInitialize() {
 		sidoNames.add("세종특별자치시"); //0
 		sidoNames.add("제주특별자치도"); //1
 		sidoNames.add("경남"); //2
@@ -62,7 +63,7 @@ public class SidoGraph {
 			.collect(Collectors.toMap(sidoNames::get, i -> i));
 	}
 
-	private static void graphInitialize(){
+	private static void graphInitialize() {
 		ArrayList<Integer> inner = new ArrayList<>(); // 0. 세종
 		inner.add(5); //충청남도
 		inner.add(6); //충청북도
@@ -167,7 +168,7 @@ public class SidoGraph {
 		graph.add(inner);
 	}
 
-	private static Map<Integer, ArrayList<String>> sidoSort(String key){
+	private static Map<Integer, ArrayList<String>> sidoSort(String key) {
 		if (sidoNames.stream().noneMatch(name -> name.equals(key))) {
 			throw new NotFoundException(SIDO_NOT_FOUND);
 		}
@@ -181,7 +182,7 @@ public class SidoGraph {
 		queue.offer(Pair.of(index.get(key), 1));
 		visited.set(index.get(key), true);
 
-		while(!queue.isEmpty()) {
+		while (!queue.isEmpty()) {
 			Pair<Integer, Integer> front = queue.poll();
 			int nodeIndex = front.getFirst();
 			int depth = front.getSecond();
@@ -190,9 +191,9 @@ public class SidoGraph {
 			depthList.add(sidoNames.get(nodeIndex));
 			depthSorted.put(depth, depthList);
 
-			for(int i=0; i < graph.get(nodeIndex).size(); i++) {
+			for (int i = 0; i < graph.get(nodeIndex).size(); i++) {
 				int temp = graph.get(nodeIndex).get(i);
-				if(!visited.get(temp)) {
+				if (!visited.get(temp)) {
 					visited.set(temp, true);
 					queue.offer(Pair.of(temp, depth + 1));
 				}
@@ -224,7 +225,7 @@ public class SidoGraph {
 			));
 	}
 
-	public static ArrayList<String> getSidoByDepth(String key, int depth){
+	public static ArrayList<String> getSidoByDepth(String key, int depth) {
 		if (sidoNames.stream().noneMatch(name -> name.equals(key))) {
 			throw new NotFoundException(SIDO_NOT_FOUND);
 		}

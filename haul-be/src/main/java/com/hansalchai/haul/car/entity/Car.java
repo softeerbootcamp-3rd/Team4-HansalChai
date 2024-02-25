@@ -67,7 +67,8 @@ public class Car extends BaseTime {
 	private Boolean isboxtruck;
 
 	@Builder
-	public Car(Long carId, CarType type, String model, @Nullable String photo, int width, int length, int height, int weight,
+	public Car(Long carId, CarType type, String model, @Nullable String photo, int width, int length, int height,
+		int weight,
 		CarCategory category, Boolean isboxtruck) {
 		this.carId = carId;
 		this.type = type;
@@ -81,7 +82,8 @@ public class Car extends BaseTime {
 		this.isboxtruck = isboxtruck;
 	}
 
-	public Car(CarType carType, String model, String photo, int width, int legnth, int height, int weight, CarCategory carCategory, boolean b) {
+	public Car(CarType carType, String model, String photo, int width, int legnth, int height, int weight,
+		CarCategory carCategory, boolean b) {
 		this.type = carType;
 		this.model = model;
 		this.photo = photo;

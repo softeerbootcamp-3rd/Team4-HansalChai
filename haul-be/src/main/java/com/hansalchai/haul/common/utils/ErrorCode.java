@@ -36,16 +36,14 @@ public enum ErrorCode {
 	INCORRECT_PASSWORD(UNAUTHORIZED, 2006, "비밀번호가 일치하지 않습니다."),
 
 	//예약
-	INVALID_RESERVATION_STATE_CHANGE (FORBIDDEN, 3001, "관리자 권한이 아닐 경우 예약 전 상태에서만 상태를 변경할 수 있습니다."),
-	KAKAO_MAP_ERROR(INTERNAL_SERVER_ERROR,3002, "카카오 지도에 오류가 있습니다."),
-	INVALID_STATUS(BAD_REQUEST,3003, "냉장 냉동은 동시에 선택할 수 없습니다."),
+	INVALID_RESERVATION_STATE_CHANGE(FORBIDDEN, 3001, "관리자 권한이 아닐 경우 예약 전 상태에서만 상태를 변경할 수 있습니다."),
+	KAKAO_MAP_ERROR(INTERNAL_SERVER_ERROR, 3002, "카카오 지도에 오류가 있습니다."),
+	INVALID_STATUS(BAD_REQUEST, 3003, "냉장 냉동은 동시에 선택할 수 없습니다."),
 
 	// 오더
 	ALREADY_ASSIGNED_DRIVER(CONFLICT, 4001, "이미 드라이버가 배정된 예약입니다."),
 	ALREADY_DELIVERED(CONFLICT, 4002, "이미 운송 완료된 오더입니다."),
 	SCHEDULE_CONFLICT(CONFLICT, 4003, "해당 오더와 시간이 겹치는 다른 오더가 있습니다.");
-
-
 
 	private final HttpStatus status;
 	private final int code;

@@ -28,7 +28,7 @@ public class SmsUtil {
 	private DefaultMessageService messageService;
 
 	@PostConstruct
-	private void init(){
+	private void init() {
 		messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecretKey, "https://api.coolsms.co.kr");
 	}
 

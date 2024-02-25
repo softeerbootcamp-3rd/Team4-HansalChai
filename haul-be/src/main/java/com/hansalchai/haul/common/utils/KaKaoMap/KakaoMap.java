@@ -3,8 +3,8 @@ package com.hansalchai.haul.common.utils.KaKaoMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.hansalchai.haul.common.utils.MapUtils.Location;
 import com.hansalchai.haul.common.utils.MapUtils.DistanceDurationInfo;
+import com.hansalchai.haul.common.utils.MapUtils.Location;
 
 @Component
 public class KakaoMap {
@@ -14,6 +14,7 @@ public class KakaoMap {
 	public KakaoMap(KakaoMapAPI kakaoMapAPI) {
 		this.kakaoMapAPI = kakaoMapAPI;
 	}
+
 	/*
 	Name     |  Type |  Description        |  Required
 	distance	Int	   전체 검색 결과 거리(미터)	   필수
@@ -24,13 +25,13 @@ public class KakaoMap {
 	}
 
 	/*
-	* 거리 m -> km
-	* 시간 sec -> min
-	* */
-	private DistanceDurationInfo convertUnit(DistanceDurationInfo info){
+	 * 거리 m -> km
+	 * 시간 sec -> min
+	 * */
+	private DistanceDurationInfo convertUnit(DistanceDurationInfo info) {
 		double distance = info.getDistance() / (double)1000;
 		double duration = info.getDuration() / (double)3600;
-		return new DistanceDurationInfo(distance,duration);
+		return new DistanceDurationInfo(distance, duration);
 	}
 
 	/*

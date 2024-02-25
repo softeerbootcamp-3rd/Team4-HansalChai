@@ -1,8 +1,6 @@
 package com.hansalchai.haul.order.constants;
 
-import org.apache.commons.lang3.function.TriFunction;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.hansalchai.haul.common.exceptions.BadRequestException;
@@ -40,7 +38,8 @@ public enum OrderStatusCategory {
 		this.code = code;
 	}
 
-	public abstract Page<Reservation> execute( Long carId, Pageable pageable, ReservationRepository reservationRepository);
+	public abstract Page<Reservation> execute(Long carId, Pageable pageable,
+		ReservationRepository reservationRepository);
 
 	public static OrderStatusCategory findOrderByCode(String code) {
 		for (OrderStatusCategory category : OrderStatusCategory.values()) {

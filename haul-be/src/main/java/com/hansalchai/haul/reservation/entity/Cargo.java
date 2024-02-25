@@ -39,7 +39,7 @@ public class Cargo extends BaseTime {
 	@Range(min = 0, max = 1000, message = "화물 높이는 10m를 넘을 수 없다.")
 	@Column(nullable = false)
 	private int height;
-	
+
 	@Range(min = 0, max = 1000000, message = "화물 무게는 1000T를 넘을 수 없다.")
 	@Column(nullable = false)
 	private int weight;

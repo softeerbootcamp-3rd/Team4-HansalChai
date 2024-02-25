@@ -1,8 +1,6 @@
 package com.hansalchai.haul.common.utils;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.hansalchai.haul.car.constants.CarCategory;
 import com.hansalchai.haul.car.constants.CarType;
 import com.hansalchai.haul.car.entity.Car;
-import com.hansalchai.haul.common.utils.CargoFeeTable;
 import com.hansalchai.haul.reservation.entity.Cargo;
 
 @SpringBootTest
@@ -21,11 +18,11 @@ class CargoFeeTableTest {
 
 	@Test
 	@DisplayName("사용자가 무게와 거리를 입력하면 정상적으로 요금을 불러온다.")
-	void FindCostTest(){
+	void FindCostTest() {
 		//distance
-		for(int i = 1;i <= 500;i++){
+		for (int i = 1; i <= 500; i++) {
 			// cargo Weight
-			for(int j = 1;j <= 50000;j++){
+			for (int j = 1; j <= 50000; j++) {
 				Cargo cargo = Cargo.builder()
 					.width(10)
 					.length(10)

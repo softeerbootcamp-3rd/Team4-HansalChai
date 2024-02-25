@@ -25,28 +25,28 @@ public class ReservationUtil {
 	}
 
 	public static int cutCost(int fee) {
-		if(fee < 10000)
+		if (fee < 10000)
 			return 1;
 		return fee / 10000;
 	}
 
-	public static String makeUserUrl(String photo){
+	public static String makeUserUrl(String photo) {
 		return "driver-profile/" + photo;
 	}
 
-	public static String makeCarUrl(String photo){
+	public static String makeCarUrl(String photo) {
 		return "car/" + photo;
 	}
 
-	public static String getSizeToString(Reservation reservation){
+	public static String getSizeToString(Reservation reservation) {
 		Car car = reservation.getCar();
 		return String.format("%.1f X %.1f X %.1f",
 			car.getWidth() / 100.0,
 			car.getHeight() / 100.0,
-			car.getLength()/ 100.0);
+			car.getLength() / 100.0);
 	}
 
-	public static String getCarToString(Car car){
+	public static String getCarToString(Car car) {
 		return String.format("%s(%s)",
 			car.getType().getCode(),
 			car.getModel());
@@ -56,12 +56,13 @@ public class ReservationUtil {
 		return date.toString() + " " + time.toString();
 	}
 
-	public static double calculateLoadTime(double cargoWeight){
-		if(cargoWeight < 100.0)
+	public static double calculateLoadTime(double cargoWeight) {
+		if (cargoWeight < 100.0)
 			return 20.0;
 		else
 			return calculateTransportTime(cargoWeight);
 	}
+
 	public static double calculateTransportTime(double weight) {
 		// 파라미터 값 설정
 		double a = 37.15;
@@ -73,7 +74,7 @@ public class ReservationUtil {
 		return (a * Math.log(b * weight) + c) / (double)60;
 	}
 
-	public static String getCarEnumTypeToWeight(int type){
+	public static String getCarEnumTypeToWeight(int type) {
 		return (double)type / 1000 + "톤";
 	}
 }

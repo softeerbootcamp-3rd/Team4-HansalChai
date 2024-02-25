@@ -40,8 +40,8 @@ public class JwtValidationFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws
 		IOException, ServletException {
 
-		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+		HttpServletRequest httpServletRequest = (HttpServletRequest)request;
+		HttpServletResponse httpServletResponse = (HttpServletResponse)response;
 
 		//http method가 preflight이면 토큰 유효성을 검증하지 않는다
 		if (isPrefilghtRequest(httpServletRequest)) {

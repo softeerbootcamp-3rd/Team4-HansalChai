@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -20,7 +19,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -29,19 +27,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import com.hansalchai.haul.car.constants.CarType;
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.car.repository.CarRepository;
 import com.hansalchai.haul.common.auth.constants.Role;
-
 import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
-import com.hansalchai.haul.reservation.constants.TransportStatus;
 import com.hansalchai.haul.reservation.dto.ReservationRequest;
-import com.hansalchai.haul.reservation.dto.ReservationResponse;
-
 import com.hansalchai.haul.reservation.entity.Destination;
 import com.hansalchai.haul.reservation.entity.Reservation;
 import com.hansalchai.haul.reservation.entity.Source;
@@ -56,12 +49,18 @@ import jakarta.annotation.PostConstruct;
 @SpringBootTest
 class OrderServiceIntegrationTest {
 
-	@Autowired OrderService orderService;
-	@Autowired UsersRepository usersRepository;
-	@Autowired OwnerRepository ownerRepository;
-	@Autowired ReservationRepository reservationRepository;
-	@Autowired ReservationService reservationService;
-	@Autowired CarRepository carRepository;
+	@Autowired
+	OrderService orderService;
+	@Autowired
+	UsersRepository usersRepository;
+	@Autowired
+	OwnerRepository ownerRepository;
+	@Autowired
+	ReservationRepository reservationRepository;
+	@Autowired
+	ReservationService reservationService;
+	@Autowired
+	CarRepository carRepository;
 
 	Long userId;
 	Long ownerId;
