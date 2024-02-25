@@ -58,7 +58,7 @@ public class ReservationUtil {
 
 	public static double calculateLoadTime(double cargoWeight) {
 		if (cargoWeight < 100.0)
-			return 20.0;
+			return (20.0) / (double)60 ;
 		else
 			return calculateTransportTime(cargoWeight);
 	}
