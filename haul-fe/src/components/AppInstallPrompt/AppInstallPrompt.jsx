@@ -13,7 +13,7 @@ const MobileInstallPrompt = () => {
   const deviceInfo = useRef(getDeviceInfo());
 
   const [showInstallModal, setShowInstallModal] = useState(
-    window.diferredPrompt ? true : false
+    getNotInstall() !== "true" && window.diferredPrompt
   );
   const modalRef = useRef();
   const [manual, setManual] = useState(false);
@@ -21,9 +21,9 @@ const MobileInstallPrompt = () => {
     if (getNotInstall() === "true") return;
     event.preventDefault();
     window.diferredPrompt = event;
-    console.log(window.diferredPrompt);
     setShowInstallModal(true);
   };
+  console.log(showInstallModal);
 
   const installed = () => {
     ToastMaker({ type: "success", children: "앱이 설치되었습니다." });
@@ -67,8 +67,6 @@ const MobileInstallPrompt = () => {
   }, [showInstallModal]);
 
   const handleInstall = async () => {
-    console.log(window.diferredPrompt);
-
     window.diferredPrompt.prompt();
     setShowInstallModal(false);
     await window.diferredPrompt.userChoice;
@@ -96,7 +94,7 @@ const MobileInstallPrompt = () => {
   };
 
   return (
-    <InstallPrompt ref={modalRef}>
+    <InstallPrompt ref={modalRef} display={showInstallModal ? "" : "none"}>
       <Margin height="20px" />
       <CustomFlex kind="flexBetweenCenter" padding={"0 20px"}>
         <IconImage src="/icon_x192.png" width={72} alt="icon" />
@@ -158,6 +156,7 @@ const InstallPrompt = styled.div`
   background-color: #fff;
   z-index: 100;
   box-shadow: 0 -10px 10px 1px rgba(0, 0, 0, 0.1);
+
 `;
 
 const IconImage = styled.img`
