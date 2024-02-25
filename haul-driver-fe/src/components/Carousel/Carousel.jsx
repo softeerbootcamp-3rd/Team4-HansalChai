@@ -147,8 +147,8 @@ const Carousel = ({ carouselList, setSelectedIndex, initialIndex = 0 }) => {
     }, 500);
     const newIndex = currentIndex + direction;
 
-    if (newIndex === carouselList.length * 2 + 1) {
-      moveToNthSlide(carouselList.length + 1);
+    if (newIndex === carouselList.length * 3 - 1) {
+      moveToNthSlide(carouselList.length * 2 - 1);
     } else if (newIndex === carouselList.length) {
       moveToNthSlide(carouselList.length * 2);
     }
