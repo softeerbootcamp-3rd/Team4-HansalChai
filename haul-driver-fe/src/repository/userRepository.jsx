@@ -6,7 +6,7 @@ const apiKey = import.meta.env.VITE_API_KEY;
 
 export async function loginFun({ tel, password }) {
   try {
-    const response = await fetch(`${apiKey}/api/v1/users/sign-in`, {
+    const response = await fetch(`${apiKey}/api/v2/users/drivers/sign-in`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

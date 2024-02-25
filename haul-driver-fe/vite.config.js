@@ -41,7 +41,7 @@ export default defineConfig({
         theme_color: "#000B49",
         start_url: "/",
         display: "standalone",
-        name: "Haul - 쉽고 빠른 배달일 찾기",
+        name: "Haul - 쉽고 빠른 운송일 찾기",
         short_name: "Haul Driver"
       }
     })

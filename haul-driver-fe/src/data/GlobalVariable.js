@@ -24,7 +24,9 @@ export const ErrorMessageMap = {
   NetworkError: "현재 네트워크 상태가 불안정합니다.",
   TokenExpired: "로그인 정보가 만료되었습니다. 다시 로그인 해주세요.",
   UnAuthorizedAccessError: "잘못된 접근입니다.",
-  OrderAlreadyFulfilledMessage: "이미 운송이 내역입니다.",
-  UnknownError: "알 수 없는 오류가 발생했어요.",
+  OrderAlreadyFulfilledMessage: "이미 운송 완료된 내역입니다.",
+  OrderAlreadyCatchedMessage: "이미 배차가 된 내역입니다.",
+  UnknownError: "네트워크 오류가 발생했어요.",
+  NotCompletedOrder: "기존 운송을 완료한 후에 진행 해주세요.",
   NotAllowedQuery: "사용할 수 없는 기능입니다."
 };

@@ -40,3 +40,41 @@ export function functionBinder(func, bindargs) {
     return func({ ...bindargs, ...args });
   };
 }
+
+export const getDeviceInfo = () => {
+  const { userAgent } = window.navigator;
+  const isIOS = !!userAgent.match(/iPad|iPhone|iPod/i);
+  const isAndroid = !!userAgent.match(/Android/i);
+  const isComputer =
+    !isIOS && !isAndroid && /^(Win|Mac|Linux)/.test(navigator.platform);
+  const browser =
+    userAgent.match(
+      /(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i
+    ) || [];
+
+  if (isIOS) {
+    return {
+      device: "iOS",
+      browser: "Safari",
+      version: browser[2]
+    };
+  } else if (isAndroid) {
+    return {
+      device: "Android",
+      browser: browser[1].toLowerCase(),
+      version: browser[2]
+    };
+  } else if (isComputer) {
+    return {
+      device: "Computer",
+      browser: browser[1].toLowerCase(),
+      version: browser[2]
+    };
+  } else {
+    return {
+      device: "Unknown",
+      browser: "Unknown",
+      version: "Unknown"
+    };
+  }
+};

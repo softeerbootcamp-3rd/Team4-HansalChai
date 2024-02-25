@@ -1,5 +1,5 @@
 import { ErrorMessageMap } from "../data/GlobalVariable";
-import { getAccessToken } from "../utils/localStorage";
+import { getAccessToken, getCoordinate } from "../utils/localStorage";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 
@@ -61,13 +61,19 @@ export async function getDriverSummaryList({ page, keyword = "운송 전" }) {
 // 운송 상태 변경
 export async function orderStatusChage({ orderId }) {
   try {
-    const response = await fetch(`${apiKey}/api/v1/orders/status`, {
+    const userCoordinate = getCoordinate();
+    if (!userCoordinate.userLatitude) return { success: false, code: 99 };
+    const response = await fetch(`${apiKey}/api/v2/orders/status`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${getAccessToken()}`
       },
-      body: JSON.stringify({ id: orderId })
+      body: JSON.stringify({
+        id: orderId,
+        latitude: userCoordinate.userLatitude,
+        longitude: userCoordinate.userLongitude
+      })
     });
     const data = await response.json();
     if (data.status === 200)

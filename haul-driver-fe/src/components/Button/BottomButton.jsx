@@ -32,10 +32,18 @@ const BottomButton = ({
   role,
   disabled = false,
   onClick = undefined,
+  form = undefined,
+  type = "submit",
   children
 }) => {
   return (
-    <ButtonStyle role={role} onClick={onClick} disabled={disabled}>
+    <ButtonStyle
+      role={role}
+      onClick={onClick}
+      disabled={disabled}
+      form={form}
+      type={type}
+    >
       {children}
     </ButtonStyle>
   );

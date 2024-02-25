@@ -32,3 +32,28 @@ export function logoutFun() {
   localStorage.removeItem("refreshToken");
   localStorage.removeItem("userName");
 }
+
+export function setCoordinate({ userLatitude, userLongitude }) {
+  localStorage.setItem("userLatitude", userLatitude);
+  localStorage.setItem("userLongitude", userLongitude);
+}
+
+export function getCoordinate() {
+  return {
+    userLatitude: localStorage.getItem("userLatitude"),
+    userLongitude: localStorage.getItem("userLongitude")
+  };
+}
+
+export function removeCoordinate() {
+  localStorage.removeItem("userLatitude");
+  localStorage.removeItem("userLongitude");
+}
+
+export function getNotInstall() {
+  return localStorage.getItem("notInstall");
+}
+
+export function setNotInstall() {
+  return localStorage.setItem("notInstall", "true");
+}
