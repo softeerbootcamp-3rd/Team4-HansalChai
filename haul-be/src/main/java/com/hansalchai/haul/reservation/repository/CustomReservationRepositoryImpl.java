@@ -86,7 +86,7 @@ public class CustomReservationRepositoryImpl implements CustomReservationReposit
 				reservation.car.carId.eq(carId),
 				isAfterCurrentTimestamp,
 				source.sido.in(sidoArray))
-			.orderBy(customSidoOrder(sidoArray), transport.fee.desc())
+			.orderBy(transport.fee.desc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
@@ -102,7 +102,7 @@ public class CustomReservationRepositoryImpl implements CustomReservationReposit
 				reservation.car.carId.eq(carId),
 				isAfterCurrentTimestamp,
 				source.sido.in(sidoArray))
-			.orderBy(customSidoOrder(sidoArray), reservation.date.asc(), reservation.time.asc())
+			.orderBy(reservation.date.asc(), reservation.time.asc())
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
