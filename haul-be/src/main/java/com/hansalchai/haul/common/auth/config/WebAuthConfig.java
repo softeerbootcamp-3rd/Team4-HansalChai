@@ -29,8 +29,8 @@ public class WebAuthConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new UserAuthorizationInterceptor())
 			.order(1)
-			.excludePathPatterns("/api/v1/users/sign-in, /api/v1/users/sign-up", "/api/v2/users/customers/sign-in",
-				"/api/v2/users/drivers/sign-in", "/api/v1/reservations/guest*")
+			.excludePathPatterns("/api/v1/users/sign-in", "/api/v1/users/sign-up", "/api/v2/users/customers/sign-in",
+				"/api/v2/users/drivers/sign-in", "/api/v1/reservations/guest", "/api/v1/reservations/guest/**")
 			.excludePathPatterns("*/h2-console*", "/css/**", "/*.ico", "/error");
 	}
 
