@@ -1,19 +1,27 @@
-# data
+# GlobalVariable
+
+전역적으로 사용되는 상수 값을 모아두었습니다.
+
+## data
 
 이 폴더에서는 글로벌 상수와 같이 많이 쓰이는 변수를 미리 정의해둡니다.
 
-# MaxDeviceWidth
+## MaxDeviceWidth
 
 최대로 지원할 디바이스의 크기 입니다.
 
-# UrlMap
+## UrlMap
 
 프로젝트에서 사용하는 페이지 URL을 저장해두는 배열입니다. Url을 직접 문자열로 입력하지 않고 한 곳에서 관리하여 에러를 줄입니다.
 
-# ErrorMessageMap
+## ErrorMessageMap
 
 프로젝트에서 사용하는 에러메시지 종류를 이곳에서 저장합니다. 이를 통해 같은 에러는 같은 메시지를 출력하게 합니다.
 
-# TransportTypeArr
+## TransportTypeArr
 
 서비스에서 제공되는 운송 종류에 대해 이름을 포함하여 기타 정보를 가지고 있는 배열입니다. 운송종류 추가 시 컴포넌트에 직접 수정이 아니라 이곳에 값만 추가하면 됩니다.
+
+# Contracts
+
+Haul 서비스의 약관입니다.
