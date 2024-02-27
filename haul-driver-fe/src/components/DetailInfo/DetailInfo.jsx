@@ -61,7 +61,7 @@ const DetailInfo = ({
   function changeTime(time) {
     if (time >= 1) {
       // 1시간 이상일 경우 소수점을 다 짤라서 반환
-      return Math.floor(time);
+      return time.toFixed(1);
     } else {
       // 1시간 미만일 경우 분으로 변환하여 소수점을 다 짤라서 반환
       return Math.floor(time * 60);
@@ -103,8 +103,8 @@ const DetailInfo = ({
                 {dstName}
               </Typography>
               <Margin height="4px" />
-
               <Typography font="semiBold12">{dstAddress}</Typography>
+              {!dstName && <Margin height="8px" />}
             </PlaceInfo>
           </Flex>
         </Flex>

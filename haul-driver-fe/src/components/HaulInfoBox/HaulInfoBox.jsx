@@ -80,7 +80,7 @@ const HaulInfoBox = ({
             <Margin height="4px" />
             <Typography font="medium12">{srcAddres}</Typography>
             <Typography font="medium12" color="grayText">
-              {srcName}, {srcDetailAddress}
+              {srcName && `${srcName}, `} {srcDetailAddress}
             </Typography>
           </Flex>
         </Flex>
@@ -95,7 +95,7 @@ const HaulInfoBox = ({
             <Margin height="4px" />
             <Typography font="medium12">{dstAddress}</Typography>
             <Typography font="medium12" color="grayText">
-              {dstName}, {dstDetailAddress}
+              {dstName && `${dstName}, `} {dstDetailAddress}
             </Typography>
           </Flex>
         </Flex>
