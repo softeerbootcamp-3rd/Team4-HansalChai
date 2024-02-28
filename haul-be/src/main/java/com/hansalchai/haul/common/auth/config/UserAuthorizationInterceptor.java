@@ -32,6 +32,11 @@ public class UserAuthorizationInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler)
 		throws IOException {
+
+		if (isPrefilghtRequest(request)) {
+			return true;
+		}
+
 		if (request.getAttribute(AUTHENTICATE_USER) != null) {
 			AuthenticatedUser authenticateUser = (AuthenticatedUser)request.getAttribute(AUTHENTICATE_USER);
 			Role role = authenticateUser.getRole();
@@ -77,5 +82,12 @@ public class UserAuthorizationInterceptor implements HandlerInterceptor {
 			return false;
 		}
 		return true;
+	}
+
+	private boolean isPrefilghtRequest(HttpServletRequest request) {
+		if (request.getMethod().equals("OPTIONS")) {
+			return true;
+		}
+		return false;
 	}
 }
