@@ -79,14 +79,14 @@
 
 | 문서 종류          | 링크                                                                               |
 | ------------------ | ---------------------------------------------------------------------------------- |
-| API 문서           |  |
-| ERD                |  |
-| 에러코드 정의서    |  |
-| 코딩 컨벤션        |  |
-| Git 작업 단위      |  |
+| API 문서           | [API 문서](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/API-%EA%B5%AC%EC%84%B1%EB%8F%84) |
+| ERD                | [ERD](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/ERD) |
+| 에러코드 정의서    | [에러코드 정의서](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/Error-Convention) |
+| 코딩 컨벤션        | [코딩 컨벤션](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/Error-%EC%BB%A8%EB%B2%A4%EC%85%98) |
+| 그라운드 룰       | [그라운드 룰](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/%EA%B7%B8%EB%9D%BC%EC%9A%B4%EB%93%9C-%EB%A3%B0) |
 | Git 컨벤션        | [Git 컨벤션](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/Git-%EC%BB%A8%EB%B2%A4%EC%85%98)        |
-| 테스트 시나리오    | |
-| 테스트 결과 보고서 |  |
+| 용어사전         | [용어사전](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/%EC%9A%A9%EC%96%B4%EC%82%AC%EC%A0%84)  |
+| 인프라 구성도   | [인프라구성도](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B5%AC%EC%84%B1%EB%8F%84)  |
 
 <br/>
 
