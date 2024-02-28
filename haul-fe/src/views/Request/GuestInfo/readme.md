@@ -12,3 +12,29 @@
 1. 이름을 입력받습니다. 이름은 빈 문자열인지 검사합니다.
 2. 전화번호를 입력받습니다. 입력된 값이 전화번호 양식을 따르는지 감사합니다.
 3. 이름과 전화번호가 모두 입력되었고, 두 정보 모두 검사를 통과했다면 다음 단계로 진행할 수 있습니다.
+
+
+## index.jsx
+
+### checkGuestInfoAbled
+비회원 정보 폼의 모든 입력창에 입력 값이 있는지 검사하는 함수입니다.
+
+| 파라미터 | 타입 | 설명 |
+|-------|-----|-----|
+| inGuestName | Ref\<string\> | 비회원 이용자의 이름입니다. |
+| inGuestTel | Ref\<string\> | 비회원 이용자의 전화번호입니다. |
+| isButtonDisabled | boolean | 현재 버튼의 활성화 여부를 나타내는 값입니다. |
+| setButtonDisabled | Dispatch\<SetState\<boolean\>\> | 버튼의 활셩화 여부를 변경하는 dispatcher입니다. |
+
+### async guestInfoBtnFun
+정보 입력 완료 버튼을 누를 시 실행되는 핸들러 함수입니다.
+서버와 통신을 하여 예약이 가능한지 여부를 받아옵니다.
+
+| 파라미터 | 타입 | 설명 |
+|-------|-----|-----|
+| inGuestName | Ref\<string\> | 비회원 이용자의 이름입니다. |
+| inGuestTel | Ref\<string\> | 비회원 이용자의 전화번호입니다. |
+| setGuestInfo | Dispatch | store에 비회원 이용자의 정보를 설정하는 dispatcher입니다. |
+| getReservationState | getter | store에서 예약 정보를 불러오는 getter입니다. |
+| setResultLoading | Dispatch\<SetState\<boolean\>\> | 현재 데이터 로딩 여부를 나타내는 값입니다. |
+| navigate | NavigateFunction | 페이지 이동 시 사용되는 네비게이터입니다. |

@@ -93,6 +93,37 @@
   - 반환값
     - Date : str에 해당하는 날짜를 가진 Date 객체입니다. 유효하지 않은 날짜라면 Invaild Date 값을 가집니다.
 
+---
+
+### functionBinder(function, Object) : function() : any
+
+  함수에 일부 인자를 고정시켜줍니다.
+  함수는 모든 인자를 하나의 Object를 통해 받아야 합니다.
+
+- 반환값
+  - function(Object) : any
+
+---
+
+### makeNavigator(NavigateFunction, string) : function() : void
+
+  useNavigate를 통해 string으로 들어온 링크로 이동하는 함수를 만들어 반환합니다.
+
+- 반환값
+  - function() : void
+
+---
+
+### getDeviceInfo() : Object
+
+  현재 디바이스 정보와 브라우저 정보를 반환합니다.
+
+- 반환값
+  - Object<
+      device: string,
+      browser: string,
+      version: string
+      >
 
 ## localStorage.js
 
@@ -131,6 +162,20 @@ local storage 조작과 관련한 함수입니다.
 
 ---
 
+### setUserName
+  사용자의 이름을 localStorage에 저장합니다.
+
+| 파라미터 | 타입 | 설명 |
+|------|------|------|
+| userName | string | 저장할 사용자의 이름입니다. |
+
+---
+
+### setNotInstall
+  PWA의 설치 안내 여부를 true로 하여 localStorage에 저장합니다.
+
+---
+
 ### getIsMember() : string
 
   localStorage에서 회원 여부를 나타내는 isMember 값을 가져오는 함수입니다.
@@ -155,6 +200,22 @@ local storage 조작과 관련한 함수입니다.
 
 - 반환값
   - string : localStorage에 저장된 refreshToken입니다.
+  
+---
+
+### getUserName
+  localStorage에서 사용자의 이름을 가져오는 함수입니다.
+
+- 반환값
+  - string : localStorage에 저장된 사용자의 이름입니다.
+
+---
+
+### setNotInstall
+  localStorage에서 PWA의 설치 안내 여부를 가져오는 함수입니다.
+
+- 반환값
+  - string : localStorage에 저장된 PWA의 설치 안내 여부입니다.
 
 ---
 
@@ -181,3 +242,9 @@ local storage 조작과 관련한 함수입니다.
 ### logoutFun() : void
 
   localStorage에서 모든 로그인 정보를 삭제하는 함수입니다.
+
+---
+
+### logoutFun() : void
+
+  localStorage에서 비회원 로그인 정보를 삭제하는 함수입니다.

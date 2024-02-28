@@ -7,10 +7,12 @@
    요청이 성공인지, 실패인지를 의미합니다. => true or false
 2. `data`
    요청에서 받아온 데이터를 저장합니다.
-3. `message`
+3. `code`
+   요청에 대한 응답이 에러일 때의 에러코드입니다.
+4. `message`
    요청에서 보내온 데이터나 API함수가 전달하고 싶은 Message를 string형태로 제공합니다.
 
-API 함수 사용 후에 이 3개를 가지고 사용하시면 됩니다.
+API 함수 사용 후에 이 4개를 가지고 사용하시면 됩니다.
 
 ---
 
@@ -30,7 +32,7 @@ API 함수 사용 후에 이 3개를 가지고 사용하시면 됩니다.
 ### 사용법
 
 ```js
-const { success, data, message } = await loginFun({
+const { success, data, code, message } = await loginFun({
   tel: "01012341234",
   password: "12341234"
 });
@@ -52,12 +54,68 @@ const { success, data, message } = await loginFun({
 ### 사용법
 
 ```js
-const { success, data, message } = await signUpFun({
+const { success, data, code, message } = await signUpFun({
   name: "김철수",
   tel: "01012341234",
   password: "12341234",
   email: "haul1234@ddd.com"
 });
+```
+
+## 3. getUserProfile
+
+사용자의 프로필을 가져오는 API 함수입니다.
+
+### 사용법
+
+```js
+const { success, data, code, message } = await getUserProfile()
+const newData = {
+  name: data.name,
+  tel: data.tel,
+  email: data.email
+};
+```
+
+## 4. putPassword
+
+비밀번호 변경을 위한 API 함수입니다.
+
+### parameter
+
+사용자가 원하는 비밀번호를 전달하면 됩니다.
+
+1. password
+
+### 사용법
+
+```js
+const { success, data, code, message } = await putPassword({
+  password: "12341234"
+});
+```
+
+## 5. isTokenInvalid
+
+토큰 검증을 위한 함수입니다.
+
+### parameter
+
+API 반환값 중 code를 전달하면 됩니다.
+
+1. code
+
+### 사용법
+
+```js
+const { success, data, code, message } = await signUpFun({
+  name: "김철수",
+  tel: "01012341234",
+  password: "12341234",
+  email: "haul1234@ddd.com"
+});
+if(!isTokenInvalid(code))
+//에러처리
 ```
 
 ---
@@ -168,4 +226,82 @@ const { success, data, message } = await guestReservationConfirmFun({
 const { success, data, message } = await guestReservationConfirmFun({
   reservationId: 1
 });
+```
+
+ ---
+
+ # checkRepository
+
+## 1. getGuestSummaryList
+
+비회원의 예약 리스트 조회를 위한 API 함수입니다.
+
+### parameter
+
+비회원 예약 후 문자로 받은 예약번호를 입력하면 됩니다.
+
+1. reservationSerial
+
+### 사용법
+
+```js
+const { success, data, code, message } = await getGuestSummaryList({
+  reservationSerial: "123456789012",
+});
+```
+
+## 2. getUserSummaryList
+
+회원의 예약 리스트 조회를 위한 API 함수입니다.
+
+### parameter
+
+조회할 예약의 상태와 페이지를 전달하면 됩니다.
+
+1. page
+2. keyword (기본값: "매칭 중")
+
+### 사용법
+
+```js
+const { success, data, code, message } = await getUserSummaryList({
+  page: 0,
+  keyword: "매칭 중",
+});
+```
+
+## 3. getGuestReservationDetails
+
+비회원 사용자의 예약 상세 정보를 가져오는 API 함수입니다.
+
+### parameter
+
+조회할 예약의 예약ID를 전달하면 됩니다.
+
+1. reservationID
+
+### 사용법
+
+```js
+const { success, data, code, message } = await getGuestReservationDetails({
+  reservationID: 213
+})
+```
+
+## 4. getUserReservationDetails
+
+회원의 예약 상세 정보를 가져오는 API 함수입니다.
+
+### parameter
+
+조회할 예약의 예약ID를 전달하면 됩니다.
+
+1. reservationID
+
+### 사용법
+
+```js
+const { success, data, code, message } = await getUserReservationDetails({
+  reservationID: 213
+})
 ```
