@@ -31,7 +31,7 @@ public class WebAuthConfig implements WebMvcConfigurer {
 			.order(1)
 			.excludePathPatterns("/api/v1/users/sign-in, /api/v1/users/sign-up", "/api/v2/users/customers/sign-in",
 				"/api/v2/users/drivers/sign-in", "/api/v1/reservations/guest*")
-			.excludePathPatterns("*/h2-console*", "/css/**", "/*.ico", "/error");
+			.excludePathPatterns("*/h2-console*", "/swagger-ui/**", "*/api-docs*", "/css/**", "/*.ico", "/error");
 	}
 
 	@Override
