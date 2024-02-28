@@ -1,6 +1,7 @@
 # CheckDetail
 
 <img width="200" alt="image" src="https://github.com/softeerbootcamp-3rd/Team4-HansalChai/assets/37495809/49d97ece-e0dc-4de8-8716-96ca87075d98">
+<img width="200" alt="image" src="https://github.com/softeerbootcamp-3rd/Team4-HansalChai/assets/37495809/b43eb532-b17c-462f-92d9-8010fd17ea0a">
 
 ## 페이지 설명
 예약 상세정보를 확인할 수 있는 페이지입니다.<br/>

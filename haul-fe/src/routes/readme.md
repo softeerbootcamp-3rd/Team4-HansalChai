@@ -12,15 +12,14 @@
 
 **`/signUp`**
 
-**`/more`
+**`/more/list`
 `/more/terms`
 `/more/terms/services`
 `/more/terms/privacy`
 `/more/terms/transportation`
 `/more/terms/location`
 `/more/user-info`
-`/more/user-payments/Test/request`
-`/request`**
+`/more/user-payments`**
 
 **`/request/type`
 `/request/date`
@@ -28,11 +27,14 @@
 `/request/source`
 `/request/destination`
 `/request/loadInfo`
-`/request/result`**
+`/request/guestInfo`
+`/request/result`
+`/request/purchase`
+`/request/complete`**
 
-**`/request/guestInfo`
-`/request/complete/check`
-`/check/list`**
+**`/check/list`
+`/check/guest`
+`/check/detail/:id`**
 
 ## 사용 방법
 

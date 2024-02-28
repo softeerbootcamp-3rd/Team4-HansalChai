@@ -1,6 +1,6 @@
 # ChoiceTransport
 
-<img width="200" src="https://github.com/softeerbootcamp-3rd/Team4-HansalChai/assets/37495809/e7ce7339-b106-4422-a151-a36507afc294">
+<img width="200" src="https://github.com/softeerbootcamp-3rd/Team4-HansalChai/assets/37495809/49135280-c6a9-499c-a86a-24c8f0c15c71">
 
 ## 페이지 설명
 운송 종류를 선택하는 화면입니다.<br/>
@@ -11,3 +11,15 @@
 ## 기능 설명
 1. 운송 종류를 선택하면 날자 선택으로 넘어갑니다.
 2. 네비게이션 바의 더보기를 누르면 더보기 메뉴 페이지로,<br/>예약 확인을 누르면 예약 확인 페이지로 넘어갈 수 있습니다.
+
+
+## TransportSvg
+
+### 컴포넌트 설명
+스프라이트화 된 SVG 이미지를 설정할 수 있는 컴포넌트입니다.
+
+| 파라미터 | 타입 | 설명 |
+|-------|-----|-----|
+| id | number | 스프라이트화 된 이미지를 가리키기 위한 id입니다. |
+| color | string | svg의 fill 속성을 설정하는 값입니다. |
+| size | number | svg의 크기를 설정하는 값으로 width와 height에 모두 적용됩니다. 기본 값은 140 입니다. |

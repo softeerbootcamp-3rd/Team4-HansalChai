@@ -45,7 +45,11 @@ root이하 모든 view에서 props.theme.(css유형).(key)의 형태로 사용 �
 | infoColor          | #afafaf      |
 | subButtonBackground| #F3EDC8      |
 | upperTextColor     | #10101080    |
-| radioUnchecked    | #89939e33    |
+| radioUnchecked     | #89939e33    |
+| tabBarEntry        | #00000033    |
+| goButton           | #d9d9d94c    |
+| halfGray           | #0000007F    |
+| completeGray       | #FCFCFC      |
 
 ---
 
@@ -57,7 +61,7 @@ root이하 모든 view에서 props.theme.(css유형).(key)의 형태로 사용 �
 |-----|-----|
 |bold|12, 14, 16, 20, 24, 32, 36|
 |semiBold|12, 14, 16, 18, 20|
-|medium|10|
+|medium|10, 12, 16|
 |regular|12, 14, 16|
 
 bold12나 semiBold20 의 형태로 key를 이루어 사용할 수 있습니다.
