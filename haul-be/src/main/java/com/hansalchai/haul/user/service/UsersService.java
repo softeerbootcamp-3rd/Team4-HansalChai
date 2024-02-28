@@ -8,7 +8,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hansalchai.haul.common.auth.jwt.Jwt;
 import com.hansalchai.haul.common.auth.service.AuthService;
 import com.hansalchai.haul.common.exceptions.ConflictException;
-import com.hansalchai.haul.common.exceptions.ForbiddenException;
 import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.common.exceptions.UnauthorizedException;
 import com.hansalchai.haul.user.dto.CustomerSignUpDto;
@@ -59,16 +58,46 @@ public class UsersService {
 
 		return new UserLogin.ResponseDto(jwt, user.getName());
 	}
+
 	@Transactional
 	public ProfileDTO getProfile(Long userId) {
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 		return new ProfileDTO(user);
 	}
+
 	@Transactional
 	public void putProfile(ProfileUpdateDTO profileUpdateDTO, Long userId) {
 		Users user = usersRepository.findById(userId)
-			.orElseThrow(() ->  new NotFoundException(USER_NOT_FOUND));
+			.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 		user.update(profileUpdateDTO.getPassword());
+	}
+
+	public UserLogin.ResponseDto customerSignInV2(UserLogin.RequestDto requestDto) throws JsonProcessingException {
+
+		Users user = usersRepository.findCustomerByTel(requestDto.getTel())
+			.orElseThrow(() -> new UnauthorizedException(UNREGISTERED_USER_ID));
+
+		if (!requestDto.getPassword().equals(user.getPassword())) {
+			throw new UnauthorizedException(INCORRECT_PASSWORD);
+		}
+
+		Jwt jwt = authService.createJwt(user);
+		user.updateRefreshToken(jwt.getRefreshToken());
+		return new UserLogin.ResponseDto(jwt, user.getName());
+	}
+
+	public UserLogin.ResponseDto driverSignInV2(UserLogin.RequestDto requestDto) throws JsonProcessingException {
+
+		Users user = usersRepository.findDriverByTel(requestDto.getTel())
+			.orElseThrow(() -> new UnauthorizedException(UNREGISTERED_USER_ID));
+
+		if (!requestDto.getPassword().equals(user.getPassword())) {
+			throw new UnauthorizedException(INCORRECT_PASSWORD);
+		}
+
+		Jwt jwt = authService.createJwt(user);
+		user.updateRefreshToken(jwt.getRefreshToken());
+		return new UserLogin.ResponseDto(jwt, user.getName());
 	}
 }

@@ -23,4 +23,5 @@ class ReservationUtilTest {
 		//then
 		Assertions.assertThat(result).isEqualTo("2024.02.12 11:30");
 	}
+
 }

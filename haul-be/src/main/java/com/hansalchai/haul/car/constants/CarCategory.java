@@ -6,6 +6,7 @@ public enum CarCategory {
 	DEFAULT("내장 여부");
 
 	private final String code;
+
 	CarCategory(String code) {
 		this.code = code;
 	}

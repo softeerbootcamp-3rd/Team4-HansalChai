@@ -26,10 +26,13 @@ import jakarta.transaction.Transactional;
 @Transactional
 class UsersControllerTest {
 
-	@Autowired MockMvc mockMvc;
-	@Autowired ObjectMapper objectMapper;
+	@Autowired
+	MockMvc mockMvc;
+	@Autowired
+	ObjectMapper objectMapper;
 
-	@Autowired UsersRepository usersRepository;
+	@Autowired
+	UsersRepository usersRepository;
 
 	@Test
 	@DisplayName("회원가입 테스트")

@@ -32,14 +32,16 @@ public class JwtValidationFilter implements Filter {
 	private final ObjectMapper objectMapper;
 
 	private final String[] whiteListUris
-		= new String[] {"/api/v1/users/sign-in", "/api/v1/users/sign-up", "/auth/refresh/token", "*/h2-console*", "/swagger-ui/**", "*/api-docs*", "/api/v1/reservations/guest*"};
+		= new String[] {"/api/v1/users/sign-in", "/api/v1/users/sign-up", "/auth/refresh/token",
+		"/api/v2/users/customers/sign-in", "/api/v2/users/drivers/sign-in",
+		"*/h2-console*", "/swagger-ui/**", "*/api-docs*", "/api/v1/reservations/guest", "/api/v1/reservations/guest/**"};
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws
 		IOException, ServletException {
 
-		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+		HttpServletRequest httpServletRequest = (HttpServletRequest)request;
+		HttpServletResponse httpServletResponse = (HttpServletResponse)response;
 
 		//http method가 preflight이면 토큰 유효성을 검증하지 않는다
 		if (isPrefilghtRequest(httpServletRequest)) {

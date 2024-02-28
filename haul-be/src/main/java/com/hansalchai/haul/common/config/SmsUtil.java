@@ -28,12 +28,24 @@ public class SmsUtil {
 	private DefaultMessageService messageService;
 
 	@PostConstruct
-	private void init(){
+	private void init() {
 		messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecretKey, "https://api.coolsms.co.kr");
 	}
 
-	// 단일 메시지 발송
-	public SingleMessageSentResponse send(String to, String reservationNumber) {
+	// 비회원 예약 확정 메시지 발송
+	public SingleMessageSentResponse sendReservationConfirmNotification(String to, String reservationNumber) {
+		Message message = new Message();
+		message.setFrom(from);
+		message.setTo(to);
+		message.setText("예약이 확정되었습니다.\n" + "예약번호 : " + reservationNumber);
+
+		SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
+		log.info("sms 전송 내역 : {}", response);
+		return response;
+	}
+
+	// 기사 배정 메시지 발송
+	public SingleMessageSentResponse sendAssignNotification(String to, String reservationNumber) {
 		Message message = new Message();
 		message.setFrom(from);
 		message.setTo(to);

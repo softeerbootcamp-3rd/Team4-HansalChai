@@ -245,6 +245,17 @@ public class ReservationRequest {
 			@NotNull(message = "출발지 전화번호는 Null 일 수 없다.")
 			private String tel;
 
+			@Builder
+			public SourceDTO(String name, String address, String detailAddress, double latitude, double longitude,
+				String tel) {
+				this.name = name;
+				this.address = address;
+				this.detailAddress = detailAddress;
+				this.latitude = latitude;
+				this.longitude = longitude;
+				this.tel = tel;
+			}
+
 			public Source build() {
 				return Source.builder()
 					.name(name)
@@ -279,6 +290,17 @@ public class ReservationRequest {
 			@NotNull(message = "도착지 전화번호는 Null 일 수 없다.")
 			private String tel;
 
+			@Builder
+			public DestinationDTO(String name, String address, String detailAddress, double latitude, double longitude,
+				String tel) {
+				this.name = name;
+				this.address = address;
+				this.detailAddress = detailAddress;
+				this.latitude = latitude;
+				this.longitude = longitude;
+				this.tel = tel;
+			}
+
 			public Destination build() {
 				return Destination.builder()
 					.name(name)
@@ -311,6 +333,14 @@ public class ReservationRequest {
 			@Range(min = 0, max = 1000000, message = "화물 무게는 1000T를 넘을 수 없다.")
 			private int weight;
 
+			@Builder
+			public CargoDTO(int width, int length, int height, int weight) {
+				this.width = width;
+				this.length = length;
+				this.height = height;
+				this.weight = weight;
+			}
+
 			public Cargo build() {
 				return Cargo.builder()
 					.width(width)
@@ -341,6 +371,15 @@ public class ReservationRequest {
 			@NotNull(message = "리프트필요여부는 Null 일 수 없다.")
 			private boolean isLiftRequired;
 
+			@Builder
+			public CargoOptionDTO(boolean isRefrigerated, boolean isFrozen, boolean isFurniture,
+				boolean isLiftRequired) {
+				this.isRefrigerated = isRefrigerated;
+				this.isFrozen = isFrozen;
+				this.isFurniture = isFurniture;
+				this.isLiftRequired = isLiftRequired;
+			}
+
 			public CargoOption build() {
 				return CargoOption.builder()
 					.isRefrigerated(isRefrigerated)
@@ -360,6 +399,12 @@ public class ReservationRequest {
 
 			@NotNull(message = "비회원 유저 번호는 Null일 수 없다.")
 			private String tel;
+
+			@Builder
+			public UserInfoDTO(String name, String tel) {
+				this.name = name;
+				this.tel = tel;
+			}
 		}
 
 	}

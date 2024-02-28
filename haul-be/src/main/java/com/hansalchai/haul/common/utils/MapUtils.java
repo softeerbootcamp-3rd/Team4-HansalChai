@@ -1,10 +1,8 @@
 package com.hansalchai.haul.common.utils;
 
-import java.math.BigDecimal;
-
 import lombok.Getter;
 
-public class MapUtils{
+public class MapUtils {
 	@Getter
 	public static class Location {
 		private final double latitude;

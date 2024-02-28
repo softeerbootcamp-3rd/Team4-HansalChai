@@ -1,23 +1,29 @@
 package com.hansalchai.haul.order.dto;
 
 import static com.hansalchai.haul.common.utils.AddressUtil.*;
+import static com.hansalchai.haul.common.utils.ReservationUtil.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import org.hibernate.validator.constraints.Range;
-
 import com.hansalchai.haul.reservation.constants.TransportStatus;
+import com.hansalchai.haul.reservation.entity.Destination;
 import com.hansalchai.haul.reservation.entity.Reservation;
+import com.hansalchai.haul.reservation.entity.Source;
+import com.hansalchai.haul.reservation.entity.Transport;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderResponse {
+
 	@Getter
-	public static class OrderDTO{
+	public static class OrderDTO {
 		List<OrderInfoDTO> orderInfoDTOS;
 		boolean isLastPage;
 
@@ -27,12 +33,13 @@ public class OrderResponse {
 		}
 
 		@Getter
-		public static class OrderInfoDTO{
+		public static class OrderInfoDTO {
 			private final Long id;
 			private final String src;
 			private final String dst;
 			private final String datetime;
 			private final int cost;
+
 			@Builder
 			public OrderInfoDTO(Reservation reservation) {
 				this.id = reservation.getReservationId();
@@ -42,10 +49,10 @@ public class OrderResponse {
 				this.cost = costCut(reservation.getTransport().getFee());
 			}
 
-			public int costCut(int fee){
-				if(fee < 10000)
+			public int costCut(int fee) {
+				if (fee < 10000)
 					return 1;
-				return fee/10000;
+				return fee / 10000;
 			}
 
 			public String getDateTimeString(LocalDate date, LocalTime time) {
@@ -55,7 +62,7 @@ public class OrderResponse {
 	}
 
 	@Getter
-	public static class OrderDetailDTO{
+	public static class OrderDetailDTO {
 		private final UserDTO user;
 		private final SourceDTO src;
 		private final DestinationDTO dst;
@@ -71,14 +78,14 @@ public class OrderResponse {
 
 		@Getter
 		@Builder
-		public static class UserDTO{
+		public static class UserDTO {
 			private String name;
 			private String tel;
 		}
 
 		@Getter
 		@Builder
-		public static class SourceDTO{
+		public static class SourceDTO {
 			@NotNull(message = "출발지 이름은 Null 일 수 없다.")
 			private String name;
 			@NotNull(message = "출발지 주소는 Null 일 수 없다.")
@@ -95,7 +102,7 @@ public class OrderResponse {
 
 		@Getter
 		@Builder
-		public static class DestinationDTO{
+		public static class DestinationDTO {
 			@NotNull(message = "도착지 이름은 Null 일 수 없다.")
 			private String name;
 			@NotNull(message = "도착지 주소는 Null 일 수 없다.")
@@ -112,7 +119,7 @@ public class OrderResponse {
 
 		@Getter
 		@Builder
-		public static class CargoDTO{
+		public static class CargoDTO {
 			@NotNull(message = "화물 가로는 Null 일 수 없다.")
 			private int width;
 			@NotNull(message = "화물 세로는 Null 일 수 없다.")
@@ -156,15 +163,99 @@ public class OrderResponse {
 			this.transportStatus = TransportStatus.getCode(reservation.getTransport().getTransportStatus());
 			this.datetime = getDateTimeString(reservation.getDate(), reservation.getTime());
 		}
-		public int costCut(int fee){
-			if(fee < 10000)
-				return 1;
-			return fee/10000;
-		}
 
+		public int costCut(int fee) {
+			if (fee < 10000)
+				return 1;
+			return fee / 10000;
+		}
 
 		public String getDateTimeString(LocalDate date, LocalTime time) {
 			return date.toString() + " " + time.toString();
+		}
+	}
+
+	@Getter
+	@NoArgsConstructor
+	public static class OrderSearchResponseDto {
+
+		private List<OrderSearchItem> orderSearchItems;
+		private boolean isLastPage;
+
+		public OrderSearchResponseDto(List<OrderSearchItem> orderSearchDtos, boolean isLastPage) {
+			this.orderSearchItems = orderSearchDtos;
+			this.isLastPage = isLastPage;
+		}
+
+		@Getter
+		@NoArgsConstructor
+		public static class OrderSearchItem {
+
+			private Long id;
+			private String srcSimpleAddress;
+			private String dstSimpleAddress;
+			private String transportDatetime;
+			private int cost;
+
+			public OrderSearchItem(Reservation reservation) {
+
+				Source source = reservation.getSource();
+				Destination destination = reservation.getDestination();
+				Transport transport = reservation.getTransport();
+
+				id = reservation.getReservationId();
+				srcSimpleAddress = toSimpleAddress(source.getAddress());
+				dstSimpleAddress = toSimpleAddress(destination.getAddress());
+				transportDatetime = dateTimeToString(reservation.getDate(), reservation.getTime());
+				cost = cutCost(transport.getFee());
+			}
+		}
+	}
+
+	/**
+	 * 운송 상태 변경 응답 dto
+	 * */
+	@Getter
+	public static class TransportStatusChangeResponseDto {
+
+		private Long id; //오더 id
+
+		public TransportStatusChangeResponseDto(Reservation reservation) {
+			this.id = reservation.getReservationId();
+		}
+	}
+
+	@Getter
+	public static class TransportStatusChangeResponseDtoV2 {
+
+		private boolean hasInProgressOrder;
+		private boolean isDriverNearBy;
+
+		@Builder
+		public TransportStatusChangeResponseDtoV2(boolean hasInProgressOrder, boolean isDriverNearBy) {
+			this.hasInProgressOrder = hasInProgressOrder;
+			this.isDriverNearBy = isDriverNearBy;
+		}
+
+		public static TransportStatusChangeResponseDtoV2 ofInProgressOrderExist() {
+			return TransportStatusChangeResponseDtoV2.builder()
+				.hasInProgressOrder(true)
+				.isDriverNearBy(false)
+				.build();
+		}
+
+		public static TransportStatusChangeResponseDtoV2 ofRemoteLocation() {
+			return TransportStatusChangeResponseDtoV2.builder()
+				.hasInProgressOrder(false)
+				.isDriverNearBy(false)
+				.build();
+		}
+
+		public static TransportStatusChangeResponseDtoV2 ofStatusChangeAvailable() {
+			return TransportStatusChangeResponseDtoV2.builder()
+				.hasInProgressOrder(false)
+				.isDriverNearBy(true)
+				.build();
 		}
 	}
 }

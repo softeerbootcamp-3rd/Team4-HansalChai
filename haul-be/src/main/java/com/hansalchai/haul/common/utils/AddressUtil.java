@@ -1,5 +1,7 @@
 package com.hansalchai.haul.common.utils;
 
+import java.util.Objects;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -32,5 +34,21 @@ public class AddressUtil {
 		}
 
 		return simpleAddress.toString();
+	}
+
+	public static String kakaoAdressToSrcAddress(String address) {
+		if (Objects.equals(address, "경기도"))
+			return "경기";
+
+		if (address.length() >= 7)
+			return address;
+
+		if (address.contains("특별시") || address.contains("광역시")) {
+			address = address.replace("특별시", "");
+			address = address.replace("광역시", "");
+			return address;
+		}
+
+		return String.valueOf(address.charAt(0)) + String.valueOf(address.charAt(2));
 	}
 }

@@ -14,24 +14,28 @@ public enum OrderFilter {
 
 	DEFAULT {
 		@Override
-		public Page<Reservation> execute(ReservationRepository reservationRepository, Long carId, PageRequest pageRequest) {
+		public Page<Reservation> execute(ReservationRepository reservationRepository, Long carId,
+			PageRequest pageRequest) {
 			return reservationRepository.findAllOrders(carId, pageRequest);
 		}
 	},
 	FEE {
 		@Override
-		public Page<Reservation> execute(ReservationRepository reservationRepository, Long carId, PageRequest pageRequest) {
+		public Page<Reservation> execute(ReservationRepository reservationRepository, Long carId,
+			PageRequest pageRequest) {
 			return reservationRepository.findAllOrderByFee(carId, pageRequest);
 		}
 	},
 	DATETIME {
 		@Override
-		public Page<Reservation> execute(ReservationRepository reservationRepository, Long carId, PageRequest pageRequest) {
+		public Page<Reservation> execute(ReservationRepository reservationRepository, Long carId,
+			PageRequest pageRequest) {
 			return reservationRepository.findAllOrderByDateTime(carId, pageRequest);
 		}
 	};
 
-	public abstract Page<Reservation> execute(ReservationRepository reservationRepository, Long carId, PageRequest pageRequest);
+	public abstract Page<Reservation> execute(ReservationRepository reservationRepository, Long carId,
+		PageRequest pageRequest);
 
 	public static OrderFilter findFilter(String sort) {
 		sort = sort.toUpperCase();

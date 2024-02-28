@@ -1,7 +1,5 @@
 package com.hansalchai.haul.user.dto;
 
-import com.hansalchai.haul.user.entity.Users;
-
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

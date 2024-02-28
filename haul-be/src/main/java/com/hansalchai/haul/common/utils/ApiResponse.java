@@ -11,7 +11,7 @@ public class ApiResponse<T> {
 
 	private static final int SUCCESS_CODE = 200;
 
-	private ApiResponse(int status, int code, String message, T data){
+	private ApiResponse(int status, int code, String message, T data) {
 		this.status = status;
 		this.code = code;
 		this.message = message;
@@ -22,7 +22,7 @@ public class ApiResponse<T> {
 		return new ApiResponse<>(status, SUCCESS_CODE, message, data);
 	}
 
-	private static <T> ApiResponse<T> ApiResponseError(int status, int code ,String message) {
+	private static <T> ApiResponse<T> ApiResponseError(int status, int code, String message) {
 		return new ApiResponse<>(status, code, message, null);
 	}
 
@@ -31,6 +31,6 @@ public class ApiResponse<T> {
 	}
 
 	public static <T> ApiResponse<T> error(ErrorCode code) {
-		return ApiResponseError(code.getStatus().value(), code.getCode() ,code.getMessage());
+		return ApiResponseError(code.getStatus().value(), code.getCode(), code.getMessage());
 	}
 }

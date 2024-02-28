@@ -45,20 +45,23 @@ public class Transport extends BaseTime {
 	private double requiredTime;
 
 	@Enumerated(EnumType.STRING)
-	private TransportStatus transportStatus = TransportStatus.NOT_RESERVATED;
+	private TransportStatus transportStatus;
 
 	@Builder
-	public Transport(TransportType type, int fee, double requiredTime) {
+	public Transport(TransportType type, int fee, double requiredTime, TransportStatus transportStatus) {
 		this.type = type;
 		this.fee = fee;
 		this.requiredTime = requiredTime;
+		this.transportStatus = transportStatus;
 	}
 
-	public static Transport toEntity(TransportType type, int fee, double requiredTime) {
+	public static Transport toEntity(TransportType type, int fee, double requiredTime,
+		TransportStatus transportStatus) {
 		return Transport.builder()
 			.type(type)
 			.fee(fee)
 			.requiredTime(requiredTime)
+			.transportStatus(transportStatus)
 			.build();
 	}
 
