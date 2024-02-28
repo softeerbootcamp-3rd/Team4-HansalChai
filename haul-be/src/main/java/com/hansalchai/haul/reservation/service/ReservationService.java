@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.common.auth.constants.Role;
+import com.hansalchai.haul.common.config.SmsUtil;
 import com.hansalchai.haul.common.exceptions.ForbiddenException;
 import com.hansalchai.haul.common.exceptions.NotFoundException;
 import com.hansalchai.haul.common.utils.CarCategorySelector;
@@ -45,7 +46,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class ReservationService {
+
 	private final S3Util s3Util;
+	private final SmsUtil smsUtil;
 	private final KakaoMap kakaoMap;
 	private final ReservationRepository reservationRepository;
 	private final UsersRepository usersRepository;
@@ -192,6 +195,7 @@ public class ReservationService {
 		exceptionInvalidReservationStateChange(reservation);
 
 		changeReservationStatus(reservation);
+		smsUtil.sendReservationConfirmNotification(reservation.getUser().getTel(), reservation.getNumber());
 	}
 
 	private String generateUniqueReservationNumber() {
