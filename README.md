@@ -81,7 +81,7 @@
 | ------------------ | ---------------------------------------------------------------------------------- |
 | API 문서           | [API 문서](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/API-%EA%B5%AC%EC%84%B1%EB%8F%84) |
 | ERD                | [ERD](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/ERD) |
-| 에러코드 정의서    | [에러코드 정의서](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/Error-Convention) |
+| 에러코드 정의서    | [에러코드 정의서](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/Error-%EC%BB%A8%EB%B2%A4%EC%85%98) |
 | 코딩 컨벤션        | [코딩 컨벤션](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/Error-%EC%BB%A8%EB%B2%A4%EC%85%98) |
 | 그라운드 룰       | [그라운드 룰](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/%EA%B7%B8%EB%9D%BC%EC%9A%B4%EB%93%9C-%EB%A3%B0) |
 | Git 컨벤션        | [Git 컨벤션](https://github.com/softeerbootcamp-3rd/Team4-HansalChai/wiki/Git-%EC%BB%A8%EB%B2%A4%EC%85%98)        |
