@@ -33,7 +33,6 @@ import com.hansalchai.haul.common.utils.SidoGraph;
 import com.hansalchai.haul.order.constants.OrderFilter;
 import com.hansalchai.haul.order.constants.OrderFilterV2;
 import com.hansalchai.haul.order.constants.OrderStatusCategory;
-import com.hansalchai.haul.order.dto.OrderResponse.*;
 import com.hansalchai.haul.order.dto.OrderResponse.OrderDTO.OrderInfoDTO;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
@@ -87,7 +86,7 @@ public class OrderService {
 		// 예약에 기사 배정 정보 저장, 운송 상태를 '운송 전'으로 변경
 		Owner owner = findOwner(userId);
 		assignDriverToReservation(reservation, owner);
-		// sendAssignNotificationToCustomer(reservation);
+		sendAssignNotificationToCustomer(reservation);
 	}
 
 	private static boolean isAlreadyAssignedDriverExist(Reservation reservation) {
@@ -108,7 +107,7 @@ public class OrderService {
 
 	public void approveV2(Long userId, ApproveRequestDto approveRequestDto) {
 
-		Reservation reservation = reservationRepository.findByIdWithPessimisticLock(approveRequestDto.getId())
+		Reservation reservation = reservationRepository.findByIdWithOptimisticLock(approveRequestDto.getId())
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
 
 		if (isAlreadyAssignedDriverExist(reservation)) {
@@ -121,7 +120,7 @@ public class OrderService {
 		}
 
 		assignDriverToReservation(reservation, owner);
-		// sendAssignNotificationToCustomer(reservation);
+		sendAssignNotificationToCustomer(reservation);
 	}
 
 	/*

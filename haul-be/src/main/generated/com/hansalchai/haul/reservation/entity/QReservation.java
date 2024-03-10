@@ -67,6 +67,8 @@ public class QReservation extends EntityPathBase<Reservation> {
 
     public final com.hansalchai.haul.user.entity.QUsers user;
 
+    public final NumberPath<Long> version = createNumber("version", Long.class);
+
     public QReservation(String variable) {
         this(Reservation.class, forVariable(variable), INITS);
     }

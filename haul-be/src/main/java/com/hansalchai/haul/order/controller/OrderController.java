@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hansalchai.haul.common.auth.anotation.LoggedInUser;
 import com.hansalchai.haul.common.auth.dto.AuthenticatedUser;
 import com.hansalchai.haul.common.utils.ApiResponse;
-import com.hansalchai.haul.order.dto.OrderResponse.*;
+import com.hansalchai.haul.order.facade.OptimisticLockOrderFacade;
 import com.hansalchai.haul.order.service.OrderService;
 
 import jakarta.validation.Valid;
@@ -28,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class OrderController {
 
 	private final OrderService orderService;
+	private final OptimisticLockOrderFacade optimisticLockOrderFacade;
 	private static final String V1_ORDERS_PATH = "/api/v1/orders";
 	private static final String V2_ORDERS_PATH = "/api/v2/orders";
 
@@ -96,8 +97,8 @@ public class OrderController {
 	@PatchMapping(V2_ORDERS_PATH + "/approve")
 	public ResponseEntity<ApiResponse<Object>> approveOrderV2(
 		@LoggedInUser AuthenticatedUser authenticatedUser,
-		@Valid @RequestBody ApproveRequestDto approveRequestDto) {
-		orderService.approveV2(authenticatedUser.getUserId(), approveRequestDto);
+		@Valid @RequestBody ApproveRequestDto approveRequestDto) throws InterruptedException {
+		optimisticLockOrderFacade.approveV2(authenticatedUser.getUserId(), approveRequestDto);
 		return ResponseEntity.ok(success(GET_SUCCESS, null));
 	}
 
