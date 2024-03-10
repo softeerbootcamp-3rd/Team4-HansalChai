@@ -86,17 +86,17 @@ public class OrderService {
 		// 예약에 기사 배정 정보 저장, 운송 상태를 '운송 전'으로 변경
 		Owner owner = findOwner(userId);
 		assignDriverToReservation(reservation, owner);
-		sendAssignNotificationToCustomer(reservation);
+		sendAssignNotification(reservation);
 	}
 
 	private static boolean isAlreadyAssignedDriverExist(Reservation reservation) {
 		return reservation.getOwner() != null;
 	}
 
-	private void sendAssignNotificationToCustomer(Reservation reservation) {
+	private void sendAssignNotification(Reservation reservation) {
 		String customerTel = reservation.getUser().getTel();
 		String reservationNumber = reservation.getNumber();
-		smsUtil.send(customerTel, reservationNumber);
+		smsUtil.sendAssignNotification(customerTel, reservationNumber);
 	}
 
 	private static void assignDriverToReservation(Reservation reservation, Owner owner) {
@@ -120,7 +120,7 @@ public class OrderService {
 		}
 
 		assignDriverToReservation(reservation, owner);
-		sendAssignNotificationToCustomer(reservation);
+		sendAssignNotification(reservation);
 	}
 
 	/*
