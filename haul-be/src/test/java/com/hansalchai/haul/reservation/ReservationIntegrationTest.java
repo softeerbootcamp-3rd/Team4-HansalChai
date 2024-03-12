@@ -52,8 +52,10 @@ public class ReservationIntegrationTest {
 
 	@Autowired
 	private ReservationService reservationService;
+
 	@Autowired
 	private UsersRepository usersRepository;
+
 	private MockMvc mvc;
 
 	@BeforeEach
@@ -91,7 +93,7 @@ public class ReservationIntegrationTest {
 	@DisplayName("MVC - 비회원은 화물차를 예약할 수 있습니다.")
 	void guestReservationMVCTest() throws Exception {
 		// given
-		ReservationRequest.CreateReservationDTO createReservationDTO = makeDummyReservationRequestDTO();
+		ReservationRequest.CreateReservationGuestDTO createReservationDTO = makeDummyReservationRequestGuestDTO();
 
 		String jsonContent = om.writeValueAsString(createReservationDTO);
 		logger.info(jsonContent);

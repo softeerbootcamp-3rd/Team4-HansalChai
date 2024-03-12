@@ -8,7 +8,9 @@ import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Range;
 
 import com.hansalchai.haul.car.entity.Car;
+import com.hansalchai.haul.common.exceptions.ConflictException;
 import com.hansalchai.haul.common.utils.BaseTime;
+import com.hansalchai.haul.common.utils.ErrorCode;
 import com.hansalchai.haul.common.utils.ReservationNumberGenerator;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.user.entity.Users;
@@ -23,6 +25,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -81,6 +84,9 @@ public class Reservation extends BaseTime {
 	@Column(nullable = false)
 	private double distance;
 
+	@Version
+	private Long version;
+
 	@Builder
 	public Reservation(Long reservationId, Users user, Owner owner, Cargo cargo, CargoOption cargoOption, Source source,
 		Destination destination, Transport transport, Car car, String number, LocalDate date, LocalTime time, int count,
@@ -122,6 +128,10 @@ public class Reservation extends BaseTime {
 	}
 
 	public void setDriver(Owner owner) {
-		this.owner = owner;
+		if (this.owner == null) {
+			this.owner = owner;
+			return;
+		}
+		throw new ConflictException(ErrorCode.ALREADY_ASSIGNED_DRIVER);
 	}
 }

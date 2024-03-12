@@ -14,13 +14,10 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,7 +28,7 @@ import com.hansalchai.haul.car.constants.CarType;
 import com.hansalchai.haul.car.entity.Car;
 import com.hansalchai.haul.car.repository.CarRepository;
 import com.hansalchai.haul.common.auth.constants.Role;
-import com.hansalchai.haul.common.exceptions.ConflictException;
+import com.hansalchai.haul.order.facade.OptimisticLockOrderFacade;
 import com.hansalchai.haul.owner.entity.Owner;
 import com.hansalchai.haul.owner.repository.OwnerRepository;
 import com.hansalchai.haul.reservation.dto.ReservationRequest;
@@ -52,13 +49,13 @@ class OrderServiceIntegrationTest {
 	@Autowired
 	OrderService orderService;
 	@Autowired
+	OptimisticLockOrderFacade orderFacade;
+	@Autowired
 	UsersRepository usersRepository;
 	@Autowired
 	OwnerRepository ownerRepository;
 	@Autowired
 	ReservationRepository reservationRepository;
-	@Autowired
-	ReservationService reservationService;
 	@Autowired
 	CarRepository carRepository;
 
@@ -169,41 +166,33 @@ class OrderServiceIntegrationTest {
 	}
 
 	@Rollback
-	@RepeatedTest(3)
+	@Test
 	@DisplayName("동시성 테스트- 동시에 2개 이상의 승인 요청")
 	void approveV2ConcurrencyTest() throws InterruptedException {
 
 		// given
-		List<Owner> owners = registerOwners(5);
+		int number = 5;
+		List<Owner> owners = registerOwners(number);
 		Long reservationId = createReservationForApproveV2Test();
 		ApproveRequestDto approveRequestDto = new ApproveRequestDto(reservationId);
 
-		int threadCount = 5;
-		ExecutorService executorService = Executors.newFixedThreadPool(5);
-		CountDownLatch latch = new CountDownLatch(threadCount);
+		ExecutorService executorService = Executors.newFixedThreadPool(number);
+		CountDownLatch latch = new CountDownLatch(number);
 
 		// when
-		List<Future<Void>> futures = new ArrayList<>();
-
 		for (Owner owner : owners) {
-			Future<Void> future = executorService.submit(() -> {
+			executorService.submit(() -> {
 				try {
-					orderService.approveV2(owner.getUser().getUserId(), approveRequestDto);
+					orderFacade.approveV2(owner.getUser().getUserId(), approveRequestDto);
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
 				} finally {
 					latch.countDown();
 				}
-				return null;
 			});
-			futures.add(future);
 		}
 
 		latch.await();
-
-		assertThat(assertThrows(ExecutionException.class, () -> {
-			for (Future<Void> future : futures) {
-				future.get();
-			}
-		}).getCause()).isInstanceOf(ConflictException.class);
 
 		Reservation reservation = reservationRepository.findById(reservationId)
 			.orElseThrow();

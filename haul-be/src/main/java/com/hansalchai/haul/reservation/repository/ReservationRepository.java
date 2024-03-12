@@ -75,10 +75,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 	@Query(value = "select r from Reservation r where r.owner.user.userId = :userId and r.transport.transportStatus = 'IN_PROGRESS'")
 	List<Reservation> findInProgressReservationByUserId(@Param("userId") Long id);
 
-	@Lock(LockModeType.PESSIMISTIC_WRITE)
+	@Lock(LockModeType.OPTIMISTIC)
 	@Query("select r "
 		+ "from Reservation r "
-		+ "join fetch r.transport "
 		+ "where r.id = :id")
-	Optional<Reservation> findByIdWithPessimisticLock(@Param("id") Long id);
+	Optional<Reservation> findByIdWithOptimisticLock(@Param("id") Long id);
 }

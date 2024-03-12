@@ -226,6 +226,7 @@ public class ReservationRequest {
 		@Getter
 		@Setter
 		@ToString
+		@NoArgsConstructor
 		public static class SourceDTO {
 			@NotNull(message = "출발지 이름은 Null 일 수 없다.")
 			private String name;
@@ -271,6 +272,7 @@ public class ReservationRequest {
 		@Getter
 		@Setter
 		@ToString
+		@NoArgsConstructor
 		public static class DestinationDTO {
 			@NotNull(message = "도착지 이름은 Null 일 수 없다.")
 			private String name;
@@ -316,6 +318,7 @@ public class ReservationRequest {
 		@Getter
 		@Setter
 		@ToString
+		@NoArgsConstructor
 		public static class CargoDTO {
 			@NotNull(message = "화물 가로는 Null 일 수 없다.")
 			@Range(min = 0, max = 1000, message = "화물 가로는 10m를 넘을 수 없다.")
@@ -354,6 +357,7 @@ public class ReservationRequest {
 		@Getter
 		@Setter
 		@ToString
+		@NoArgsConstructor
 		public static class CargoOptionDTO {
 			@JsonProperty("refrigerated")
 			@NotNull(message = "냉장여부는 Null 일 수 없다.")
@@ -393,6 +397,7 @@ public class ReservationRequest {
 		@Getter
 		@Setter
 		@ToString
+		@NoArgsConstructor
 		public static class UserInfoDTO {
 			@NotNull(message = "비회원 유저 이름은 Null일 수 없다.")
 			private String name;
@@ -406,6 +411,5 @@ public class ReservationRequest {
 				this.tel = tel;
 			}
 		}
-
 	}
 }

@@ -107,7 +107,7 @@ public class OrderService {
 
 	public void approveV2(Long userId, ApproveRequestDto approveRequestDto) {
 
-		Reservation reservation = reservationRepository.findByIdWithPessimisticLock(approveRequestDto.getId())
+		Reservation reservation = reservationRepository.findByIdWithOptimisticLock(approveRequestDto.getId())
 			.orElseThrow(() -> new NotFoundException(RESERVATION_NOT_FOUND));
 
 		if (isAlreadyAssignedDriverExist(reservation)) {
